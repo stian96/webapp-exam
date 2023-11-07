@@ -26,7 +26,7 @@ export default function Tasks({ children }: { children: ReactNode }) {
   return (
     <section>
       {tasks.map((task) => (
-        <article key="task.id">
+        <article key={task.id}>
           <p>{task.type}</p>
           <h3>{task.text}</h3>
           <p>{task.data}</p>

@@ -1,15 +1,26 @@
+"use client"
+import { useEffect, useState } from "react"
 import Answer from "@/components/Answer"
 import Header from "@/components/Header"
 import Progress from "@/components/Progress"
-import Task from "@/components/Task"
+import TaskComponent from "@/components/Task"
 import Tasks from "@/components/Tasks"
 import TaskText from "@/components/Text"
+import { type Task } from "@/types"
 
-export default async function Home() {
-  const response = await fetch("http://localhost:3002/api/restapi", {
-    method: "get",
-  })
-  const result = await response.json()
+const Home = () => {
+  const [result, setResult] = useState<Task[]>([]);
+
+  useEffect(() => {
+    const fetchTask = async () => {
+      const response = await fetch("http://localhost:3000/api/restapi", { method: "get" });
+      const result = await response.json()
+      setResult(result as Task[])
+    }
+    fetchTask();
+  }, [])
+    
+  
 
   return (
     <main>
@@ -18,9 +29,11 @@ export default async function Home() {
       <Tasks>
         <Answer />
       </Tasks>
-      <Task />
+      <TaskComponent />
       <TaskText text={"Hva blir resultatet av regneoperasjonen?"} />
-      <Progress />
+      {result && <Progress tasks={result} />}
     </main>
   )
 }
+
+export default Home

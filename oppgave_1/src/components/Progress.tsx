@@ -9,6 +9,8 @@ export default function Progress(props: { tasks: Task[] }) {
   const [state, setState] = useState(0)
   const currentTask = props.tasks[state]
 
+  console.log("Logging props.tasks:", props.tasks)
+
   const next = (event: MouseEvent<HTMLButtonElement>) => {
     console.log(event)
     setState(state + 1)
