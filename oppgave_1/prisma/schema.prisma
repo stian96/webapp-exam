@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Task {
+  id      String   @id @default(uuid())
+  text    String
+  type    String
+  data    String
+  answers Answer[]
+}
+
+model Answer {
+  id       String  @id @default(uuid())
+  attempts Int
+  task     Task?   @relation(fields: [taskId], references: [id])
+  taskId   String?
+}
