@@ -11,12 +11,12 @@ const Home = async () => {
   const fetchTask = async () => {
     const response = await fetch("http://localhost:3000/api/restapi", { method: "get" })
 
-    if (!response.ok) 
+    if (!response.ok)
       throw new Error("Failed to fetch data.")
 
-      return response.json()
+    return response.json()
   }
-    
+
   const response = await fetchTask()
   const result = response as { success: boolean, data: Task[] }
 

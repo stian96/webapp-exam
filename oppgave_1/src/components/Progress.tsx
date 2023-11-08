@@ -21,7 +21,7 @@ export default function Progress(props: { tasks: Task[] }) {
 
   return (
     <footer className="mt-4 border-t-slate-300">
-      <p>{ currentTask ? currentTask.id : "No ID"}</p>
+      <p>{currentTask ? currentTask.id : "No ID"}</p>
       <button onClick={next} className="bg-purple-700 text-white">
         Forrige
       </button>

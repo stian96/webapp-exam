@@ -1,0 +1,16 @@
+
+/*@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';*/
+
+/*Skriv kommandoen: npm run css:build (denne kompilerer sass til css) 
+Skriv kommandoen: npm run css:watch (kompilerer også sass til css, men gjør det automatisk når du lagrer main.scss fila)*/
+
+body {
+    color: black;
+    
+}
+button{
+    background-color: bisque;
+}
+.container{justify-content: center;}
