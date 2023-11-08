@@ -1,21 +1,25 @@
+@charset "UTF-8";
 /*@import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';*/
-body {
-  color: black;
+/*Skriv kommandoen: npm run css:build (denne kompilerer sass til css) 
+Skriv kommandoen: npm run css:watch (kompilerer også sass til css, men gjør det automatisk når du lagrer main.scss fila)*/
+main {
+  color: rgb(16, 16, 89);
 }
 
-button {
-  background-color: bisque;
+h3 {
+  color: rgb(12, 70, 52);
+  font-style: italic;
 }
 
 .container {
   justify-content: center;
 }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -44,7 +48,6 @@ button {
     --radius: 0.5rem;
     --monochrome-color: 0 0% 0%;
   }
-
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -72,20 +75,19 @@ button {
     --monochrome-color: 0 0% 100%;
   }
 }
-
 @layer base {
   * {
     @apply border-border;
   }
-
   body {
     @apply bg-background text-foreground;
   }
-
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
 }
+
+
 /*# sourceMappingURL=globals.css.map */
