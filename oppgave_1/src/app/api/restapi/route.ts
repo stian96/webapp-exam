@@ -139,10 +139,15 @@ export function PUT(request: NextRequest) {
 
 export function GET(request: NextRequest) {
   const taskType = request.nextUrl.searchParams.get("type");
+  const count = parseInt(request.nextUrl.searchParams.get("count") ?? '0', 10)
   if (!taskType) {
     return NextResponse.json({ success: false, error: "Task type is not specified" }, { status: 400 });
   }
-  const filteredTasks = tasks.filter(task => task.type === taskType);
+  /*if (isNaN(count) || count < 1) {
+    return NextResponse.json({ success: false, error: "Count value is not specified" }, { status: 400 });
+
+  }*/
+  const filteredTasks = tasks.filter(task => task.type === taskType).slice(0, count);
 
   return NextResponse.json({ success: true, data: filteredTasks });
 }

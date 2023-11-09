@@ -13,6 +13,11 @@ h3 {
   font-style: italic;
 }
 
+.count-error-msg {
+  color: red;
+  font-weight: bolder;
+}
+
 .container {
   justify-content: center;
 }
