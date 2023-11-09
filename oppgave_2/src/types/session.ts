@@ -1,3 +1,5 @@
+import { Question } from "./question"
+
 export type Session = {
     id: string,
     name: string,
