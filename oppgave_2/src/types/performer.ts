@@ -11,9 +11,9 @@ export type Performer = {
 // Intensity zones in percentages. 
 const intensityZones = [50, 60, 70, 80, 90]
 
-// Returns an overview of the number of heartbeats per minute for the 5 intensity zones.
-export const calculateHeartRateZone = (maxHeartRate: number) => {
-    return intensityZones.map(zone => maxHeartRate * (zone / 100))
+// Can be used to calculate intensisty zones for heartrate, watt and speed. 
+export const calculateIntensityZones = (threshold: number): number[] => {
+    return intensityZones.map(zone => threshold * (zone / 100))
 }
 
 
