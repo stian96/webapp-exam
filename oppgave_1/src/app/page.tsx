@@ -6,6 +6,8 @@ import DropdownTaskFilter from "@/components/DropdownTaskFilter"
 import { type Task } from "@/types"
 import React, { useState, useEffect } from 'react'
 import TaskCount from "@/components/TaskCount"
+import { cn } from "@/lib/utils"
+
 //import Progress from "@/components/Progress"
 //import TaskText from "@/components/Text"
 
@@ -56,12 +58,35 @@ const Home = () => {
     }
   };
 
+  const fetchRandomTasks = async (taskType: string, count: number) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/restapi?type=${taskType}&count=${count}`, { method: "GET" });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch tasks. Status: ${response.status}`);
+      }
+
+      const result = await response.json() as { success: boolean; data: Task[] };
+      setTasks(result.data);
+    } catch (error) {
+      console.error(`Error fetching tasks: `, error);
+    }
+  };
+
+
+  const handleRandomTaskFetch = () => {
+    const randomCount = Math.floor(Math.random() * 10) + 1;
+    void fetchRandomTasks(selectedType, randomCount);
+  };
+
+
   return (
     <main>
       <Header />
       <TaskCount taskCount={taskCount} onTaskCountChange={handleCountChange}></TaskCount>
       {error && <p className="count-error-msg">{error}</p>}
       <DropdownTaskFilter selectedType={selectedType} handleTypeChange={handleTypeChange} />
+      <button type="button" onClick={handleRandomTaskFetch} className={cn("bg-slate-200 px-2 py-1")}>Hent et antall tilfeldige oppgaver</button>
       <Tasks tasks={tasks}>
         <Answer />
       </Tasks>
