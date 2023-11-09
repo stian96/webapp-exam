@@ -1,3 +1,5 @@
+import { SessionActivity } from "./sessionActivity"
+
 export type Performer = {
     id: string,
     userId: string,
@@ -6,7 +8,7 @@ export type Performer = {
     heartRate: number,
     watt: number,
     speed: number,
-    activity: Array<SessionActivity?>
+    activity?: Array<SessionActivity>
 }
 
 // Intensity zones in percentages. 
