@@ -2,27 +2,8 @@ import { type ReactNode } from "react"
 
 import { type Task } from "@/types"
 
-export default function Tasks({ children }: { children: ReactNode }) {
-  const tasks: Task[] = [
-    {
-      id: "123",
-      text: "Skriv resultatet av regneoperasjonen",
-      data: "9|2",
-      type: "add",
-    },
-    {
-      id: "234",
-      text: "Skriv resultatet av regneoperasjonen",
-      data: "3|2",
-      type: "add",
-    },
-    {
-      id: "356",
-      text: "Skriv resultatet av regneoperasjonen",
-      data: "3|2",
-      type: "multiply",
-    },
-  ]
+export default function Tasks({ tasks, children }: { tasks: Task[], children: ReactNode }) {
+
   return (
     <section>
       {tasks.map((task) => (

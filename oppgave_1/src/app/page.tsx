@@ -9,29 +9,35 @@ import { type Task } from "@/types"
 const Home = async () => {
 
   const fetchTask = async () => {
-    const response = await fetch("http://localhost:3000/api/restapi", { method: "get" })
+    const response = await fetch("http://localhost:3000/api/restapi", { method: "GET" });
 
-    if (!response.ok)
-      throw new Error("Failed to fetch data.")
+    if (!response.ok) {
+      throw new Error("Failed to fetch data.");
+    }
 
-    return response.json()
-  }
+    const data = await response.json();
+    //console.log(data)
+    return data;
+
+  };
 
   const response = await fetchTask()
   const result = response as { success: boolean, data: Task[] }
+  //console.log(result.data)
 
   return (
     <main>
-      {JSON.stringify(result)}
+      {/*{JSON.stringify(result)}*/}
       <Header />
-      <Tasks>
+      <Tasks tasks={result.data}>
         <Answer />
       </Tasks>
-      <TaskComponent />
-      <TaskText text={"Hva blir resultatet av regneoperasjonen?"} />
-      {result && <Progress tasks={result.data} />}
+      {/*<TaskComponent />*/}
+      {/*<TaskText text={"Hva blir resultatet av regneoperasjonen?"} >*/}
+      {/*{result && <Progress tasks={result.data} />}*/}
     </main>
-  )
+  );
+
 }
 
 export default Home

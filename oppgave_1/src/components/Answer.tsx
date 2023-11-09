@@ -19,6 +19,7 @@ export default function Answer() {
     <div>
       <label htmlFor="answer">Svar</label>
       <input
+        id="answer"
         name="answer"
         type="text"
         placeholder="Sett svar her"
