@@ -1,6 +1,9 @@
 export type Performer = {
-    id: String,
-    userId: String,
-    gender: String,
-    sport: String
+    id: string,
+    userId: string,
+    gender: string,
+    sport: string,
+    heartRate: number,
+    watt: number,
+    speed: number,
 }

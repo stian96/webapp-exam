@@ -8,7 +8,10 @@ describe("Performer type", () => {
             id: "123",
             userId: "abc-123-979",
             gender: "male",
-            sport: "running"
+            sport: "running",
+            heartRate: 80,
+            watt: 70,
+            speed: 80
         }
 
         // Verify that the object matches the Performer type.
