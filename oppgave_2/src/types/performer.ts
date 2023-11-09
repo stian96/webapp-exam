@@ -1,4 +1,4 @@
-import { SessionActivity } from "./sessionActivity"
+import { SessionActivity } from "./sessions/sessionActivity"
 
 export type Performer = {
     id: string,
