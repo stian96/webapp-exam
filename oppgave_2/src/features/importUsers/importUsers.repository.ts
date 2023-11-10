@@ -1,6 +1,7 @@
 //TODO refactor these types into a single file.
 
-import { prisma } from "@/lib/prisma"
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 type Response<T> = {
     success: boolean
