@@ -8,7 +8,7 @@ export type Performer = {
     heartRate: number,
     watt: number,
     speed: number,
-    activity?: Array<SessionActivity>
+    activity?: SessionActivity[]
 }
 
 // Intensity zones in percentages. 
