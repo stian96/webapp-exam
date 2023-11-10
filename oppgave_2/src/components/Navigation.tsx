@@ -2,6 +2,7 @@ import Link from "next/link"
 import "../style/navigation.scss"
 
 const Navigation = () => {
+
     const navElements = [
         { name: "Home", path:"/" },
         { name: "Create Template", path: "/create-template" },
