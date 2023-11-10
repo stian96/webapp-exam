@@ -4,16 +4,19 @@
     padding-right: 1rem;
 
     &__list {
-        gap: 2rem;
+        gap: 1.5rem;
 
         &-item {
-            background: $nav-element-bg;
             color: #fff;
-            border-radius: 0.3rem;
-            padding: 0.2rem 0.8rem 0.2rem 0.8rem;
+            border-radius: 0.8rem;
 
+            padding: 0.2rem 0.3rem 0.2rem 0.3rem;
             font-weight: 500;
+            transition: background-color 0.3s ease;
 
+            &:hover {
+                background: $red-text-color;
+            }
         }
     }
 }
