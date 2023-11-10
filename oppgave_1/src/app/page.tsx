@@ -7,7 +7,7 @@ import { type Task } from "@/types"
 import React, { useState, useEffect } from 'react'
 import TaskCount from "@/components/TaskCount"
 import { cn } from "@/lib/utils"
-import apiController from '../features/task/task.controller'
+//import apiController from '../features/task/task.controller'
 import { fetchTasks, fetchRandomTasks } from '../features/task/task.controller'
 
 import Progress from "@/components/Progress"
