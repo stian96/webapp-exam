@@ -143,10 +143,10 @@ export function GET(request: NextRequest) {
   if (!taskType) {
     return NextResponse.json({ success: false, error: "Task type is not specified" }, { status: 400 });
   }
-  /*if (isNaN(count) || count < 1) {
+  if (isNaN(count) || count < 1) {
     return NextResponse.json({ success: false, error: "Count value is not specified" }, { status: 400 });
 
-  }*/
+  }
   const filteredTasks = tasks.filter(task => task.type === taskType).slice(0, count);
 
   return NextResponse.json({ success: true, data: filteredTasks });

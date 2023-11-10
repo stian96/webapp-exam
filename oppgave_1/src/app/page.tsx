@@ -7,6 +7,8 @@ import { type Task } from "@/types"
 import React, { useState, useEffect } from 'react'
 import TaskCount from "@/components/TaskCount"
 import { cn } from "@/lib/utils"
+import apiController from '../features/task/task.controller'
+import { fetchTasks, fetchRandomTasks } from '../features/task/task.controller'
 
 //import Progress from "@/components/Progress"
 //import TaskText from "@/components/Text"
@@ -16,29 +18,32 @@ const Home = () => {
   const [selectedType, setSelectedType] = useState<string>('add')
   const [tasks, setTasks] = useState<Task[]>([])
   const [taskCount, setTaskCount] = useState<string>('5');
-  const [error, setError] = useState('');
-
+  const [errorRandom, setErrorRandom] = useState('');
 
   useEffect(() => {
-    const fetchTasks = async () => {
+    const getTasks = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/restapi?type=${selectedType}&count=${taskCount}`, { method: "GET" })
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch tasks.Status:${response.status}`)
-        }
-
-        const result = await response.json() as { success: boolean; data: Task[] }
-        console.log(`Tasks fetched successfully: `, result.data);
-        setTasks(result.data)
-      } catch (error) {
-        console.error(`Error fetching tasks: `, error)
+        const fetchedTasks = await fetchTasks(selectedType, taskCount);
+        setTasks(fetchedTasks);
+      } catch (errorFetchingTasks) {
+        console.error(`Error fetching tasks: `, errorFetchingTasks);
+        //setError('En feil oppstod under henting av oppgaver.');
       }
     };
 
-    fetchTasks().catch(error => { console.log(error); })
-  }, [selectedType, taskCount])
+    void getTasks();
+  }, [selectedType, taskCount]);
 
+  const handleRandomTaskFetch = async () => {
+    try {
+      const randomCount = Math.floor(Math.random() * 10) + 1;
+      const randomTasks = await fetchRandomTasks(selectedType, randomCount);
+      setTasks(randomTasks);
+    } catch (errorRandomTaskFetch) {
+      console.error(`Error fetching random tasks: `, errorRandomTaskFetch);
+      //setError('En feil oppstod under henting av tilfeldige oppgaver.');
+    }
+  };
 
   const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     console.log(`Selected task type changed to: ${event.target.value}`);
@@ -52,31 +57,10 @@ const Home = () => {
     const numberValue = value ? Number(value) : 0;
     if (numberValue >= 1 && numberValue <= 10) {
       setTaskCount(String(numberValue));
-      setError('');
+      setErrorRandom('');
     } else {
-      setError('Skriv inn et antall oppgaver fra 1 til 10.');
+      setErrorRandom('Skriv inn et antall oppgaver fra 1 til 10, eller velg et tilfeldig antall oppgaver.');
     }
-  };
-
-  const fetchRandomTasks = async (taskType: string, count: number) => {
-    try {
-      const response = await fetch(`http://localhost:3000/api/restapi?type=${taskType}&count=${count}`, { method: "GET" });
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch tasks. Status: ${response.status}`);
-      }
-
-      const result = await response.json() as { success: boolean; data: Task[] };
-      setTasks(result.data);
-    } catch (error) {
-      console.error(`Error fetching tasks: `, error);
-    }
-  };
-
-
-  const handleRandomTaskFetch = () => {
-    const randomCount = Math.floor(Math.random() * 10) + 1;
-    void fetchRandomTasks(selectedType, randomCount);
   };
 
 
@@ -84,7 +68,7 @@ const Home = () => {
     <main>
       <Header />
       <TaskCount taskCount={taskCount} onTaskCountChange={handleCountChange}></TaskCount>
-      {error && <p className="count-error-msg">{error}</p>}
+      {errorRandom && <p className="count-error-msg">{errorRandom}</p>}
       <DropdownTaskFilter selectedType={selectedType} handleTypeChange={handleTypeChange} />
       <button type="button" onClick={handleRandomTaskFetch} className={cn("bg-slate-200 px-2 py-1")}>Hent et antall tilfeldige oppgaver</button>
       <Tasks tasks={tasks}>
