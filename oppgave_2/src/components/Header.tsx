@@ -4,10 +4,8 @@ import "../style/header.scss"
 
 const Header = () => {
     return(
-    <div className="container flex flex-col gap-7">
-        <div className="container__header">
-            <h1 className="container__header-title">Dashboard</h1>
-        </div>
+    <div className="container flex justify-between items-center gap-7">
+        <h1 className="container__title">Dashboard</h1>
         <Navigation />
     </div>
     )

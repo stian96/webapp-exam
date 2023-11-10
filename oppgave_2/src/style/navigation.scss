@@ -1,15 +1,18 @@
+$nav-element-bg: #d75b48;
+
 .navigation {
+    padding-right: 1rem;
 
     &__list {
         gap: 2rem;
 
         &-item {
-            background: #ffc107d6;
-            color: #212529;
-            border-radius: 0.4rem;
-            padding: 0.5rem 2rem 0.5rem 2rem;
+            background: $nav-element-bg;
+            color: #fff;
+            border-radius: 0.3rem;
+            padding: 0.2rem 0.8rem 0.2rem 0.8rem;
 
-            font-weight: 400;
+            font-weight: 500;
 
         }
     }

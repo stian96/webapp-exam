@@ -1,19 +1,15 @@
-$header-bg-color: #0d6dfde3;
-$header-text-color: #212529;
+$header-bg-color: #01070fd2;
+$header-text-color: #e66f5c;
 
 .container {
+    background: $header-bg-color;
     max-width: 100%;
-    padding: 0 0 1.5rem 0;
+    padding: 1rem;
 
-    &__header {
-        background: $header-bg-color;
-        max-width: 100%;
-        padding: 1rem;
-
-        &-title {
-            color: $header-text-color;
-            font-weight: 600;
-            font-size: 1.15rem;
-        }
+    &__title {
+        padding-left: 1rem;
+        color: $header-text-color;
+        font-weight: 600;
+        font-size: 1.15rem;
     }
 }
