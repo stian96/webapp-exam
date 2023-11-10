@@ -10,15 +10,15 @@ import { cn } from "@/lib/utils"
 import apiController from '../features/task/task.controller'
 import { fetchTasks, fetchRandomTasks } from '../features/task/task.controller'
 
-//import Progress from "@/components/Progress"
-//import TaskText from "@/components/Text"
+import Progress from "@/components/Progress"
 
 const Home = () => {
 
   const [selectedType, setSelectedType] = useState<string>('add')
   const [tasks, setTasks] = useState<Task[]>([])
-  const [taskCount, setTaskCount] = useState<string>('5');
-  const [errorRandom, setErrorRandom] = useState('');
+  const [taskCount, setTaskCount] = useState<string>('5')
+  const [errorRandom, setErrorRandom] = useState('')
+  const [currentTaskIndex, setCurrentTaskIndex] = useState(0); // Legg til denne tilstanden
 
   useEffect(() => {
     const getTasks = async () => {
@@ -30,6 +30,7 @@ const Home = () => {
         //setError('En feil oppstod under henting av oppgaver.');
       }
     };
+
 
     void getTasks();
   }, [selectedType, taskCount]);
@@ -62,7 +63,9 @@ const Home = () => {
       setErrorRandom('Skriv inn et antall oppgaver fra 1 til 10, eller velg et tilfeldig antall oppgaver.');
     }
   };
-
+  const handleCorrectAnswer = () => {
+    setCurrentTaskIndex((prevIndex) => prevIndex + 1);
+  };
 
   return (
     <main>
@@ -72,10 +75,13 @@ const Home = () => {
       <DropdownTaskFilter selectedType={selectedType} handleTypeChange={handleTypeChange} />
       <button type="button" onClick={handleRandomTaskFetch} className={cn("bg-slate-200 px-2 py-1")}>Hent et antall tilfeldige oppgaver</button>
       <Tasks tasks={tasks}>
-        <Answer />
+        {tasks.length > 0 && currentTaskIndex < tasks.length && (
+          <>
+            <Answer task={tasks[currentTaskIndex]} onCorrectAnswer={handleCorrectAnswer} />
+            <Progress tasks={tasks} isCorrectAnswer={currentTaskIndex > 0} />
+          </>
+        )}
       </Tasks>
-      {/*<TaskText text={"Hva blir resultatet av regneoperasjonen?"} >*/}
-      {/*{result && <Progress tasks={result.data} />}*/}
 
     </main>
   );

@@ -5,7 +5,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 
-// TODO: Denne skal brukes til å "samle" svarene (om du ikke bruker database)-Vi bruker db!
+// Denne skal brukes til å "samle" svarene (om du ikke bruker database)-Vi bruker db!
 /*
 const answers = new Map<Task["id"], { attempts: number }>()
 

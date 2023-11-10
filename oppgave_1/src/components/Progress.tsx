@@ -5,7 +5,7 @@ import type { MouseEvent } from "react"
 
 import { type Task } from "../types/index"
 
-export default function Progress(props: { tasks: Task[] }) {
+export default function Progress(props: { tasks: Task[]; isCorrectAnswer: boolean }) {
   const [state, setState] = useState(0)
   const currentTask = props.tasks[state]
 
@@ -21,13 +21,14 @@ export default function Progress(props: { tasks: Task[] }) {
 
   return (
     <footer className="mt-4 border-t-slate-300">
-      <p>{currentTask ? currentTask.id : "No ID"}</p>
-      <button onClick={next} className="bg-purple-700 text-white">
-        Forrige
-      </button>
+      {/*<p>{currentTask ? currentTask.id : "No ID"}</p>*/}
       <button onClick={prev} className="bg-teal-700 text-white">
-        Neste
+        Vis forrige oppgave
       </button>
+      {props.isCorrectAnswer && (
+        <button onClick={next} className="bg-purple-700 text-white">
+          Vis neste oppgave oppgave
+        </button>)}
     </footer>
   )
 }

@@ -2,31 +2,79 @@
 
 import { useState } from "react"
 import type { FormEvent, MouseEvent } from "react"
+import { type Task } from "@/types"
 
-export default function Answer() {
-  const [answer, setAnswer] = useState(0)
+type AnswerProps = {
+  task: Task;
+  onCorrectAnswer: () => void;
+
+}
+export default function Answer({ task, onCorrectAnswer }: AnswerProps) {
+  const [answer, setAnswer] = useState('');
+  const [message, setMessage] = useState<string | null>(null);
+  const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
+
+  const calculateCorrectAnswer = (task: Task): number | null => {
+    const [num1, num2] = task.data.split('|').map(Number);
+
+    switch (task.type) {
+      case 'add':
+        return num1 + num2;
+      case 'subtract':
+        return num1 - num2;
+      case 'multiply':
+        return num1 * num2;
+      case 'divide':
+        return num1 / num2;
+      default:
+        return null;
+    }
+  };
+
+  const correctAnswer = calculateCorrectAnswer(task);
 
   const send = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-    console.log(answer)
-  }
+    event.preventDefault();
+    const userAnswer = Number(answer);
+    const correctAnswerNumber = Number(correctAnswer);
+
+    if (userAnswer === correctAnswerNumber) {
+      setMessage('Bra jobbet!');
+      setIsCorrectAnswer(true);
+      onCorrectAnswer();
+
+    } else {
+      setMessage('Prøv igjen!');
+    }
+  };
 
   const update = (event: FormEvent<HTMLInputElement>) => {
-    setAnswer(event.currentTarget.valueAsNumber)
+    const value = event.currentTarget.value;
+    const number = value === "" ? NaN : Number(value);
+    if (!isNaN(number)) {
+      setAnswer(number.toString());
+    } else {
+      setAnswer('');
+    }
+    setMessage(null);
   }
 
+  const inputId = `answer-${task.id}`;
   return (
     <div>
-      <label htmlFor="answer">Svar</label>
+      <label htmlFor={inputId}>Svar</label>
       <input
-        id="answer"
-        name="answer"
+        id={inputId}
+        name={"answer"}
         type="text"
         placeholder="Sett svar her"
-        onInput={update}
+        onChange={update}
+        value={answer}
       />
-      {9 + 2 === answer ? "Bra jobbet!" : null}
+      {/*{9 + 2 === answer ? "Bra jobbet!" : null}*/}
+      {/*{correctAnswer === answer ? <div>Bra jobbet!</div> : null}*/}
       <button onClick={send}>Send</button>
+      {isCorrectAnswer && message && <div>{message}</div>}
     </div>
   )
 }
