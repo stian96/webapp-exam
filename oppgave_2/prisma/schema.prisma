@@ -7,9 +7,171 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-// TODO: Delete
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model Performers {
+  id                     String            @id @default(cuid())
+  userId                 String            @unique
+  gender                 String
+  sport                  String
+  heartRate              Int
+  watt                   Int
+  speed                  Int
+  uniqueSessionTemplates Sessions[]
+  sessionActivities      SessionActivity[]
+  performerGoals         PerformerGoals[]
+}
+
+model Goals {
+  id                 String            @id @default(cuid())
+  name               String
+  date               DateTime
+  comments           String
+  isCompetition      Boolean
+  goalCompetition    String?
+  goalNotCompetition Int?
+  location           String?
+  type               String?
+  priority           Int?
+  sessionActivities  SessionActivity[]
+  performerGoals     PerformerGoals[]
+}
+
+model Questions {
+  id               String             @id @default(cuid())
+  question         String
+  type             String
+  answers          Answers[]
+  sessionQuestions SessionQuestions[]
+}
+
+model Answers {
+  id            String          @id @default(cuid())
+  question      Questions       @relation(fields: [questionId], references: [id])
+  questionId    String
+  answerText    String?
+  answerNumber  Int?
+  answerEmoji   String?
+  reportAnswers ReportAnswers[]
+}
+
+model Intervals {
+  id                    String                  @id @default(cuid())
+  duration              Int
+  intensity             Int
+  intervalResults       IntervalResults[]
+  sessionQuestions      SessionQuestions[]
+  sessionIntervals      SessionIntervals[]
+  reportIntervalResults ReportIntervalResults[]
+}
+
+model IntervalResults {
+  id           String    @id @default(cuid())
+  interval     Intervals @relation(fields: [intervalId], references: [id])
+  intervalId   String
+  duration     Int
+  intensityMin Int
+  intensityMax Int
+  intensityAvg Int
+  pulseMin     Int
+  pulseMax     Int
+  pulseAvg     Int
+  speedMin     Int
+  speedMax     Int
+  speedAvg     Int
+  wattMin      Int
+  wattMax      Int
+  wattAvg      Int
+}
+
+model Sessions {
+  id                String             @id @default(cuid())
+  name              String
+  type              String
+  isTemplate        Boolean
+  uniqueToPerformer Performers?        @relation(fields: [performerId], references: [id])
+  performerId       String?
+  slug              String?            @unique
+  intensityParam    Int
+  wattParam         Int
+  speedParam        Int
+  pulseParam        Int
+  sessionActivities SessionActivity[]
+  sessionQuestions  SessionQuestions[]
+  SessionIntervals  SessionIntervals[]
+  sessionTags       SessionTags[]
+}
+
+model SessionActivity {
+  id          String     @id @default(cuid())
+  date        DateTime
+  session     Sessions   @relation(fields: [sessionId], references: [id])
+  sessionId   String
+  goal        Goals      @relation(fields: [goalId], references: [id])
+  goalId      String
+  performer   Performers @relation(fields: [performerId], references: [id])
+  performerId String
+  report      Reports?
+}
+
+model Reports {
+  id                    String                  @id @default(cuid())
+  sessionActivity       SessionActivity         @relation(fields: [sessionActivityId], references: [id])
+  sessionActivityId     String                  @unique
+  reportIntervalResults ReportIntervalResults[]
+  reportAnswers         ReportAnswers[]
+}
+
+model PerformerGoals {
+  performer   Performers @relation(fields: [performerId], references: [id])
+  performerId String
+  goal        Goals      @relation(fields: [goalId], references: [id])
+  goalId      String
+  year        Int
+
+  @@id([performerId, goalId, year])
+}
+
+model SessionQuestions {
+  session    Sessions   @relation(fields: [sessionId], references: [id])
+  sessionId  String
+  question   Questions  @relation(fields: [questionId], references: [id])
+  questionId String
+  Interval   Intervals? @relation(fields: [intervalId], references: [id])
+  intervalId String?
+
+  @@id([sessionId, questionId])
+}
+
+model SessionIntervals {
+  session    Sessions  @relation(fields: [sessionId], references: [id])
+  sessionId  String
+  interval   Intervals @relation(fields: [intervalId], references: [id])
+  intervalId String
+
+  @@id([sessionId, intervalId])
+}
+
+model SessionTags {
+  session   Sessions @relation(fields: [sessionId], references: [id])
+  sessionId String
+  tag       String
+
+  @@id([sessionId, tag])
+}
+
+model ReportIntervalResults {
+  report     Reports   @relation(fields: [reportId], references: [id])
+  reportId   String
+  interval   Intervals @relation(fields: [intervalId], references: [id])
+  intervalId String
+
+  @@id([reportId, intervalId])
+}
+
+model ReportAnswers {
+  report   Reports @relation(fields: [reportId], references: [id])
+  reportId String
+  answer   Answers @relation(fields: [answerId], references: [id])
+  answerId String
+
+  @@id([reportId, answerId])
 }
