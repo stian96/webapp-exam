@@ -1,3 +1,7 @@
-export default function Home() {
+
+
+const Dashboard = () => {
   return <div>Kode her</div>
 }
+
+export default Dashboard
