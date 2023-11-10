@@ -1,0 +1,16 @@
+.navigation {
+
+    &__list {
+        gap: 2rem;
+
+        &-item {
+            background: #ffc107d6;
+            color: #212529;
+            border-radius: 0.4rem;
+            padding: 0.5rem 2rem 0.5rem 2rem;
+
+            font-weight: 400;
+
+        }
+    }
+}

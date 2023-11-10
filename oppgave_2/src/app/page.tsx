@@ -1,7 +1,11 @@
-
+import Header from "@/components/Header"
 
 const Dashboard = () => {
-  return <div>Kode her</div>
+  return(
+    <>
+      <Header />
+    </>
+  )
 }
 
 export default Dashboard

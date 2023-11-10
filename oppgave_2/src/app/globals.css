@@ -90,6 +90,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    background: #F0F2F5;
   }
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
