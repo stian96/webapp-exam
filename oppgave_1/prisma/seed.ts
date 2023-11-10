@@ -3,133 +3,141 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 const taskData = [
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "add", data: "9|4",
+    id: "1", text: "Skriv resultatet av regneoperasjonen", type: "add", data: "9|4",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "10|2",
+    id: "2", text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "10|2",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "8|7",
+    id: "3", text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "8|7",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "9|5",
+    id: "4", text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "9|5",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "add", data: "5|9",
+    id: "5", text: "Skriv resultatet av regneoperasjonen", type: "add", data: "5|9",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "12|3",
+    id: "6", text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "12|3",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "5|5",
+    id: "7", text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "5|5",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "10|8",
+    id: "8", text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "10|3",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "add", data: "4|6",
+    id: "9", text: "Skriv resultatet av regneoperasjonen", type: "add", data: "4|14",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "9|3",
+    id: "10", text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "24|6",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "4|2",
+    id: "11", text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "4|2",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "50|8",
+    id: "12", text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "50|3",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "add", data: "4|6",
+    id: "13", text: "Skriv resultatet av regneoperasjonen", type: "add", data: "4|6",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "9|3",
+    id: "14", text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "9|3",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "4|2",
+    id: "15", text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "12|4",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "50|8",
+    id: "16", text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "18|4",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "add", data: "3|6",
+    id: "17", text: "Skriv resultatet av regneoperasjonen", type: "add", data: "3|6",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "4|3",
+    id: "18", text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "30|6",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "5|2",
+    id: "19", text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "5|2",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "56|8",
+    id: "20", text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "16|7",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "add", data: "43|6",
+    id: "21", text: "Skriv resultatet av regneoperasjonen", type: "add", data: "43|4",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "40|4",
+    id: "22", text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "40|4",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "44|2",
+    id: "23", text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "44|2",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "6|8",
+    id: "24", text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "6|8",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "add", data: "6|6",
+    id: "25", text: "Skriv resultatet av regneoperasjonen", type: "add", data: "6|12",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "70|3",
+    id: "26", text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "36|3",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "7|2",
+    id: "27", text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "7|2",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "8|8",
+    id: "28", text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "8|8",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "add", data: "9|6",
+    id: "29", text: "Skriv resultatet av regneoperasjonen", type: "add", data: "9|6",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "3|3",
+    id: "30", text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "3|3",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "23|2",
+    id: "31", text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "23|8",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "45|8",
+    id: "32", text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "45|8",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "add", data: "45|6",
+    id: "33", text: "Skriv resultatet av regneoperasjonen", type: "add", data: "45|6",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "55|3",
+    id: "34", text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "56|7",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "46|2",
+    id: "35", text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "46|2",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "65|8",
+    id: "36", text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "65|8",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "add", data: "67|6",
+    id: "37", text: "Skriv resultatet av regneoperasjonen", type: "add", data: "67|6",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "67|3",
+    id: "38", text: "Skriv resultatet av regneoperasjonen", type: "divide", data: "63|7",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "6|2",
+    id: "39", text: "Skriv resultatet av regneoperasjonen", type: "multiply", data: "6|2",
   },
   {
-    text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "90|8",
+    id: "40", text: "Skriv resultatet av regneoperasjonen", type: "subtract", data: "90|8",
   },
 ]
 
 async function main() {
-  for (const task of taskData) {
-    await prisma.task.create({
+
+  // Sletter alle eksisterende oppgaver først
+  await prisma.task.deleteMany();
+
+  // Oppretter nye oppgaver
+  const taskPromises = taskData.map((task) => {
+    return prisma.task.create({
       data: task,
     });
-  }
+  });
+
+  // Venter på at alle oppgavene skal bli opprettet
+  await Promise.all(taskPromises);
 }
 
 main()
