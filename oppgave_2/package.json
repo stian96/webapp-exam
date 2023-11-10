@@ -8,6 +8,7 @@
     "predev": "prisma generate && prisma db push && pnpm run seed",
     "db:generate": "prisma generate",
     "dev": "next dev",
+    "dev:withprisma": "start npx prisma studio & next dev",
     "e2e": "playwright test",
     "e2e:debug": "playwright test --debug",
     "e2e:report": "playwright show-report",
