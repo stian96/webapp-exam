@@ -124,6 +124,7 @@ const taskData = [
   },
 ]
 
+//TODO: Use .upsert instead of .create, and remove .deleteMany().
 async function main() {
 
   // Sletter alle eksisterende oppgaver først
