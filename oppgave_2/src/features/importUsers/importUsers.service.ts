@@ -1,40 +1,7 @@
+import { type PerformerDto } from "@/types/DTO/importUsers";
 import { isPerformerExist, writePerformers } from "./importUsers.repository"
+import { Performer } from "@/types/performer";
 
-type Interval = {
-    id: string
-    duration: number
-    intensity: number
-}
-
-type Question = {
-    id: string
-    question: string
-    type: string
-}
-
-type Activity = {
-    date: string
-    name?: string
-    tags?: string[]
-    goalId?: string
-    questions?: Question[]
-    intervals: Interval[]
-}
-
-type Meta = {
-    heartrate: number
-    watt: number
-    speed: number
-}
-
-type Performer = {
-    id: string
-    userId: string
-    gender: string
-    sport: string
-    meta: Meta
-    activities: Activity[]
-}
 
 export const writePerformersFromImport = async (jsonString: string): Promise<Result<string>> => {
   
@@ -45,7 +12,7 @@ export const writePerformersFromImport = async (jsonString: string): Promise<Res
     try {
 
 
-        const performers: Performer[] = JSON.parse(jsonString) as Performer[];
+        const performers: PerformerDto[] = JSON.parse(jsonString) as PerformerDto[];
 
         // For loop instead of for each here - for each isn't great with async.
         for (const performer of performers) {
@@ -70,5 +37,16 @@ export const writePerformersFromImport = async (jsonString: string): Promise<Res
     return { status: true, data: `New users written to database: ${newUsersWrittenToDatabase}. Users already existing in database: ${usersExistingInDatabase}` }
 }
 
+export const createPerformerFromDto = (performerDto: PerformerDto): Performer => {
+    const performer: Performer = {
+        id: performerDto.id,
+        userId: performerDto.userId,
+        gender: performerDto.gender,
+        sport: performerDto.sport,
+        heartRate: performerDto.meta.heartrate,
+        watt: performerDto.meta.watt,
+        speed: performerDto.meta.speed
+    }
 
-
+    return performer
+}

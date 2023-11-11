@@ -1,50 +1,17 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import result from "postcss/lib/result"
 
 import importAllUsers from "@/features/importUsers/importUsers.controller"
-import { writePerformersFromImport } from "@/features/importUsers/importUsers.service"
+import {
+  createPerformerFromDto,
+  writePerformersFromImport,
+} from "@/features/importUsers/importUsers.service"
+import { type PerformerDto } from "@/types/DTO/importUsers"
 
 type ApiResponse<T> = {
   status: number
   message: T
-}
-
-type Interval = {
-  id: string
-  duration: number
-  intensity: number
-}
-
-type Question = {
-  id: string
-  question: string
-  type: string
-}
-
-type Activity = {
-  date: string
-  name?: string
-  tags?: string[]
-  goalId?: string
-  questions?: Question[]
-  intervals: Interval[]
-}
-
-type Meta = {
-  heartrate: number
-  watt: number
-  speed: number
-}
-
-type Performer = {
-  id: string
-  userId: string
-  gender: string
-  sport: string
-  meta: Meta
-  activities: Activity[]
 }
 
 const dummyData =
@@ -77,7 +44,8 @@ const TestPage = () => {
   }
 
   const handleClickFromApiMap = async () => {
-    const performers: Performer[] = JSON.parse(dummyData) as Performer[]
+    const performers: PerformerDto[] = JSON.parse(dummyData) as PerformerDto[]
+    const performerFromDto = createPerformerFromDto(performers[0])
 
     try {
       const response = await fetch("/api/users/createUser", {
@@ -85,7 +53,7 @@ const TestPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(performers),
+        body: JSON.stringify(performerFromDto),
       })
 
       console.log(response)

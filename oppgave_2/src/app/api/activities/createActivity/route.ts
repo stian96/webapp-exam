@@ -1,26 +1,25 @@
 import { prisma } from "@/lib/prisma"
-import { type Performer } from "@/types/performer";
-import { NextResponse, type NextRequest } from "next/server";
+import { type PerformerDto } from "@/types/DTO/importUsers";
+import { type NextRequest, type NextResponse } from "next/server";
+
 
 export const PUT = async (request: NextRequest) => {
 
   try {
     console.log("Deserialising user.")
-    
     const data = await request.json()
-    const performer: Performer = data as Performer;
-
+    const performer: PerformerDto[] = data as PerformerDto[];
     console.log("Deserialised user.")
     
     const newPerformer = await prisma.performers.create({
       data: {
-          id: performer.id,
-          userId: performer.userId,
-          gender: performer.gender,
-          sport: performer.sport,
-          heartRate: performer.heartRate,
-          watt: performer.watt,
-          speed: performer.speed
+          id: performer[0].id,
+          userId: performer[0].userId,
+          gender: performer[0].gender,
+          sport: performer[0].sport,
+          heartRate: performer[0].meta.heartrate,
+          watt: performer[0].meta.watt,
+          speed: performer[0].meta.speed
       }
   });
   
