@@ -23,6 +23,9 @@ export const PUT = async (request: NextRequest) => {
       }
     });
 
+    console.log("newPerformer")
+    console.log(newPerformer)
+
     for (const activity of performer.activities) {
 
       const newSession = await prisma.sessions.create({
@@ -32,6 +35,9 @@ export const PUT = async (request: NextRequest) => {
         }
       });
 
+      console.log("newSession")
+      console.log(newSession)
+
       if (activity.tags != null) {
         for (const tag of activity.tags) {
           const newTag = await prisma.sessionTags.create({
@@ -40,16 +46,22 @@ export const PUT = async (request: NextRequest) => {
               tag: tag
             }
           });
+
+          console.log("newTag")
+          console.log(newTag)
         }
       }
       
-      if (activity.goalId != null) {
+      if (activity.goalId && activity.goalId.length > 0) {
         const newGoal = await prisma.goals.create({
           data: {
             id: activity.goalId,
             isCompetition: false
           }
         });
+
+        console.log("newGoal")
+        console.log(newGoal)
 
         const performerGoal = await prisma.performerGoals.create({
           data: {
@@ -59,6 +71,9 @@ export const PUT = async (request: NextRequest) => {
           }
         });
 
+        console.log("performerGoal")
+        console.log(performerGoal)
+
         const newActivity = await prisma.sessionActivity.create({
           data: {
             date: activity.date,
@@ -67,6 +82,9 @@ export const PUT = async (request: NextRequest) => {
             performerId: performer.id
           }
         });
+
+        console.log("newActivity")
+        console.log(newActivity)
       } else {
         const newActivity = await prisma.sessionActivity.create({
           data: {
@@ -75,9 +93,13 @@ export const PUT = async (request: NextRequest) => {
             performerId: performer.id
           }
         });
+
+        console.log("newActivity")
+        console.log(newActivity)
       }
 
-      if (activity.questions != null) {
+      if (activity.questions && activity.questions.length > 0) {
+        console.log("newQuestion")
         for (const question of activity.questions) {
           const newQuestion = await prisma.questions.create({
             data: {
@@ -86,29 +108,41 @@ export const PUT = async (request: NextRequest) => {
                 type: question.type
             }
           });
+
+          console.log("newQuestion")
+          console.log(newQuestion)
         }
       }
 
-      for (const interval of activity.intervals) {
-        const newIntervals = await prisma.intervals.create({
-          data: {
-              id: interval.id,
-              duration: interval.duration,
-              intensity: interval.intensity
-          }
-        });
+      if (activity.intervals && activity.intervals.length > 0) {
+        for (const interval of activity.intervals) {
+          const newIntervals = await prisma.intervals.create({
+            data: {
+                id: interval.id,
+                duration: interval.duration,
+                intensity: interval.intensity
+            }
+          });
 
-      const newIntervalSessions = await prisma.sessionIntervals.create({
-        data: {
-            sessionId: newSession.id,
-            intervalId: interval.id
+          console.log("newIntervals")
+          console.log(newIntervals)
+
+          const newIntervalSessions = await prisma.sessionIntervals.create({
+            data: {
+                sessionId: newSession.id,
+                intervalId: interval.id
+            }
+          });
+
+          console.log("newIntervalSessions")
+          console.log(newIntervalSessions)
         }
-      });
-    }
+      }
     
     console.log("Written user to database.")
-    return NextResponse.json({ success: true, message: "Success writing user to database." })
   }
+  
+  return NextResponse.json({ success: true, message: "Success writing user to database." })
   } catch (error) {
     console.log(error)
     return NextResponse.json({ success: false, message: "Failed writing user to database." })
