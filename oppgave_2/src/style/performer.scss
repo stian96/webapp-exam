@@ -1,0 +1,13 @@
+@import "colors";
+
+.performer {
+    background: $dark-bg-color;
+    box-shadow: 0px 0px 2px 0.5px $red-text-color;
+    height: 500px;
+
+    &__name {
+        padding: 1rem;
+        color: #fff;
+    }
+    
+}
