@@ -17,7 +17,7 @@ export type ActivityDto = {
     tags?: string[]
     goalId?: string
     questions?: QuestionDto[]
-    intervals: IntervalDto[]
+    intervals?: IntervalDto[]
   }
   
 export type MetaDto = {
