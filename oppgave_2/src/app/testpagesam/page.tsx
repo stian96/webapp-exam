@@ -42,13 +42,25 @@ const TestPage = () => {
 
   const handleClickFromApiMap = async () => {
     try {
-      const response = await fetch("/api/importUsers", {
+      const response = await fetch("/api/users/createUser", {
         method: "post",
       })
 
       console.log(response)
     } catch (error) {
-      // Handle errors
+      // Do something here.
+    }
+  }
+
+  const handleClickUserExists = async () => {
+    try {
+      const response = await fetch("/api/users/getUserById", {
+        method: "get",
+      })
+
+      console.log(response)
+    } catch (error) {
+      // Do something here.
     }
   }
 
@@ -63,6 +75,9 @@ const TestPage = () => {
         message is "{responses.message}"
       </div>
       <button onClick={handleClickFromApiMap}>Click to import data</button>
+      <button onClick={handleClickUserExists}>
+        Click to see if user exists
+      </button>
     </main>
   )
 }

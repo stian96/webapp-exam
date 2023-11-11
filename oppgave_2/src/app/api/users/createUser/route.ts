@@ -1,16 +1,20 @@
 import { prisma } from "@/lib/prisma"
 import { NextResponse } from "next/server";
 
-export const POST = async () => {
+export const POST = async (request: NextRequest) => {
     try {
         console.log("writing")
-        const newEntry = await prisma.exampleTable.create({
-            data: {
-                col1: "yes",
-                col2: "it",
-                col3: "works"
-            }
-        });
+        const newPerformer = await prisma.performers.create({
+          data: {
+              id: "blah",
+              userId: "blah",
+              gender: "male",
+              sport: "egg tossing",
+              heartRate: 4,
+              watt: 15,
+              speed: 5
+          }
+      });
     
         console.log("written")
         return NextResponse.json({ success: true, message: "Success writing user to database." })
