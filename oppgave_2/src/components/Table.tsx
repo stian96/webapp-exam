@@ -37,11 +37,11 @@ const Table = () => {
                             </td>
                         </tr>
                         {editMode === index && (
-                            <tr>
-                                <td colSpan={1}>
-                                    <Performer performer={performer} />
-                                </td>
-                            </tr>
+                        <tr>
+                            <td colSpan={1}>
+                                <Performer performer={performer} />
+                            </td>
+                        </tr>
                         )}
                     </React.Fragment>
                 ))}
