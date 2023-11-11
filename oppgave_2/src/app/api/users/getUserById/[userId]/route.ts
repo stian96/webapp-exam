@@ -1,14 +1,12 @@
 import { prisma } from "@/lib/prisma"
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (request: Request, { params }: { params: { userId: string } }) => {
+export const GET = async (request: NextRequest, { params }: { params: { userId: string } }) => {
 
   const userId = params.userId
   console.log(`Checking to see if Id '${userId}' exists`)
 
   try {
-      
-
       const performer = await prisma.performers.findUnique({
           where: {
             id: userId,
