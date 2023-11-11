@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { NextResponse } from "next/server"
 
 import importAllUsers from "@/features/importUsers/importUsers.controller"
 import {
@@ -62,18 +63,52 @@ const TestPage = () => {
     }
   }
 
-  const handleClickUserExists = async () => {
+  const handleClickFromApiDto = async () => {
+    //TODO Read from actual API and not just dummy data.
+    const performers: PerformerDto[] = JSON.parse(
+      dummyDataExpanded,
+    ) as PerformerDto[]
+
+    for (const performer of performers) {
+      const data = await isUserExists(performer.id)
+      const isSuccess = data.success
+
+      if (!isSuccess) {
+        try {
+          const response = await fetch("/api/users/importUser", {
+            method: "put",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(performer),
+          })
+
+          console.log(response)
+        } catch (error) {
+          // Do something here.
+        }
+      }
+    }
+  }
+
+  const isUserExists = async (userId: string) => {
     try {
-      const response = await fetch("/api/users/getUserById/blah", {
+      const response = await fetch(`/api/users/getUserById/${userId}`, {
         method: "get",
       })
 
       const data = await response.json()
       const isSuccess = data.success
 
-      console.log(isSuccess)
+      if (isSuccess) {
+        console.log(`${userId} exists.`)
+        return { success: true, message: `${userId} exists.` }
+      } else {
+        console.log(`${userId} does not exist.`)
+        return { success: false, message: `${userId} does not exist.` }
+      }
     } catch (error) {
-      // Do something here.
+      return { success: false, message: error }
     }
   }
 
@@ -87,10 +122,7 @@ const TestPage = () => {
         The API GET request finished with status code {responses.status}. The
         message is "{responses.message}"
       </div>
-      <button onClick={handleClickFromApiMap}>Click to import data</button>
-      <button onClick={handleClickUserExists}>
-        Click to see if user exists
-      </button>
+      <button onClick={handleClickFromApiDto}>Click to import data</button>
     </main>
   )
 }
