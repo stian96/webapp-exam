@@ -1,14 +1,24 @@
+import Goals from "../components/Goals"
 import "../style/performer.scss"
 
 type PerformerProps = {
-    name: string
+    performer: {
+        name: string,
+        gender: string,
+        sport: string
+    }
 }
 
-const Performer = ({ name }: PerformerProps) => {
+const Performer = ({ performer }: PerformerProps) => {
     return(
+    <>
         <div className="performer w-full">
-            <p className="performer__name">{name}</p>
+            <p className="performer__name">Name: {performer.name}</p>
+            <p className="performer__gender">Gender: {performer.gender}</p>
+            <p className="performer__sport">Sport: {performer.sport}</p>
+            <Goals />
         </div>
+    </>
     )
 }
 

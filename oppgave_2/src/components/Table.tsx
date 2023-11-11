@@ -12,11 +12,12 @@ const Table = () => {
         setEditMode(editMode === index ? null : index)
     }
 
+    // TODO: Replace dummy data.
     const performers = [
-        { name: "Performer A", gender: "Male", sport: "Running" },
-        { name: "Performer B", gender: "Female", sport: "Crossfit" },
-        { name: "Performer C", gender: "Male", sport: "Football" },
-        { name: "Performer D", gender: "Female", sport: "Handball" }
+        { id: "Performer A", name: "Jake", gender: "Male", sport: "Running" },
+        { id: "Performer B", name: "Karen", gender: "Female", sport: "Crossfit" },
+        { id: "Performer C", name: "Josh", gender: "Male", sport: "Football" },
+        { id: "Performer D", name: "Betty", gender: "Female", sport: "Handball" }
     ]
 
     return(
@@ -26,7 +27,7 @@ const Table = () => {
                     <React.Fragment key={`performer-fragment-${index}`}>
                         <tr>
                             <td className="table__body-data flex justify-between p-4">
-                                {performer.name}
+                                {performer.id}
                                 <Link className="table__body-link" href="/sessions">Sessions</Link>
                                 <Link className="table__body-link" href="/reports">Reports</Link>
                                 <button 
@@ -38,7 +39,7 @@ const Table = () => {
                         {editMode === index && (
                             <tr>
                                 <td colSpan={1}>
-                                    <Performer name={performer.name} />
+                                    <Performer performer={performer} />
                                 </td>
                             </tr>
                         )}
