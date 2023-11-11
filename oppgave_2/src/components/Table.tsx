@@ -1,3 +1,4 @@
+import "../style/table.scss"
 
 const Table = () => {
 
@@ -9,20 +10,14 @@ const Table = () => {
     ]
 
     return(
-        <table className="table">
-            <thead className="table__head">
-                <tr className="table__head-row">
-                    <th className="table__head-cell">Name</th>
-                    <th className="table__head-cell">Gender</th>
-                    <th className="table__head-cell">Sport</th>
-                </tr>
-            </thead>
+        <table className="table w-full max-w-7xl mx-auto border">
             <tbody className="table__body">
                 {performers.map((performer, index) => (
                     <tr key={index}>
-                        <td>{performer.name}</td>
-                        <td>{performer.gender}</td>
-                        <td>{performer.sport}</td>
+                        <td className="table__body-data flex justify-between p-4">
+                            {performer.name}
+                            <button className="table__body-button" type="button">Edit</button>
+                        </td>
                     </tr>
                 ))}
             </tbody>

@@ -19,7 +19,7 @@
     }
 
     &__button {
-        background-image: linear-gradient(to right, $red-text-color 0%, #bf4b59 51%, $red-text-color 100%);
+        background-image: $red-gradient;
         background-size: 200% auto;
         transition: 0.5s ease;
         color: #fff;
