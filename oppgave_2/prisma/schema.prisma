@@ -29,9 +29,9 @@ model Performers {
 
 model Goals {
   id                 String            @id @default(cuid())
-  name               String
-  date               DateTime
-  comments           String
+  name               String?
+  date               DateTime?
+  comments           String?
   isCompetition      Boolean
   goalCompetition    String?
   goalNotCompetition Int?
@@ -91,16 +91,16 @@ model IntervalResults {
 
 model Sessions {
   id                String             @id @default(cuid())
-  name              String
-  type              String
+  name              String?
+  type              String?
   isTemplate        Boolean
   uniqueToPerformer Performers?        @relation(fields: [performerId], references: [id])
   performerId       String?
   slug              String?            @unique
-  intensityParam    Int
-  wattParam         Int
-  speedParam        Int
-  pulseParam        Int
+  intensityParam    Int?
+  wattParam         Int?
+  speedParam        Int?
+  pulseParam        Int?
   sessionActivities SessionActivity[]
   sessionQuestions  SessionQuestions[]
   SessionIntervals  SessionIntervals[]
@@ -112,8 +112,8 @@ model SessionActivity {
   date        DateTime
   session     Sessions   @relation(fields: [sessionId], references: [id])
   sessionId   String
-  goal        Goals      @relation(fields: [goalId], references: [id])
-  goalId      String
+  goal        Goals?     @relation(fields: [goalId], references: [id])
+  goalId      String?
   performer   Performers @relation(fields: [performerId], references: [id])
   performerId String
   report      Reports?
