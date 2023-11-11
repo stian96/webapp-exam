@@ -54,7 +54,7 @@ const TestPage = () => {
 
   const handleClickUserExists = async () => {
     try {
-      const response = await fetch("/api/users/getUserById", {
+      const response = await fetch("/api/users/getUserById/blah", {
         method: "get",
       })
 
