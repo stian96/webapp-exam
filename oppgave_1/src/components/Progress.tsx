@@ -5,18 +5,18 @@ import type { MouseEvent } from "react"
 
 import { type Task } from "../types/index"
 
-export default function Progress(props: { tasks: Task[]; isCorrectAnswer: boolean }) {
-  const [state, setState] = useState(0)
-  const currentTask = props.tasks[state]
+export default function Progress({ tasks, isCorrectAnswer, currentTaskIndex, setCurrentTaskIndex }:
+  { tasks: Task[], isCorrectAnswer: boolean, currentTaskIndex: number, setCurrentTaskIndex: (index: number) => void; }) {
+
 
   const next = (event: MouseEvent<HTMLButtonElement>) => {
     console.log(event)
-    setState(state + 1)
+    setCurrentTaskIndex(currentTaskIndex + 1)
   }
 
   const prev = (event: MouseEvent<HTMLButtonElement>) => {
     console.log(event)
-    setState(state - 1)
+    setCurrentTaskIndex(currentTaskIndex - 1)
   }
 
   return (
@@ -25,7 +25,7 @@ export default function Progress(props: { tasks: Task[]; isCorrectAnswer: boolea
       <button onClick={prev} className="bg-teal-700 text-white">
         Vis forrige oppgave
       </button>
-      {props.isCorrectAnswer && (
+      {isCorrectAnswer && (
         <button onClick={next} className="bg-purple-700 text-white">
           Vis neste oppgave oppgave
         </button>)}

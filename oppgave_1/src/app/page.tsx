@@ -18,31 +18,43 @@ const Home = () => {
   const [tasks, setTasks] = useState<Task[]>([])
   const [taskCount, setTaskCount] = useState<string>('5')
   const [errorRandom, setErrorRandom] = useState('')
-  const [currentTaskIndex, setCurrentTaskIndex] = useState(0); // Legg til denne tilstanden
+  const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
+  const [randomTaskCount, setRandomTaskCount] = useState<number | null>(null);
+  const [lastRandomCount, setLastRandomCount] = useState<number | null>(null);
 
   useEffect(() => {
     const getTasks = async () => {
       try {
         const fetchedTasks = await fetchTasks(selectedType, taskCount);
         setTasks(fetchedTasks);
+
       } catch (errorFetchingTasks) {
         console.error(`Error fetching tasks: `, errorFetchingTasks);
         //setError('En feil oppstod under henting av oppgaver.');
       }
     };
 
-
     void getTasks();
   }, [selectedType, taskCount]);
 
+
   const handleRandomTaskFetch = async () => {
     try {
-      const randomCount = Math.floor(Math.random() * 10) + 1;
+      let randomCount;
+      do {
+        randomCount = Math.floor(Math.random() * 10) + 1;
+      } while (randomCount === lastRandomCount)
+
+      setLastRandomCount(randomCount)
+
       const randomTasks = await fetchRandomTasks(selectedType, randomCount);
       setTasks(randomTasks);
+      setRandomTaskCount(randomTasks.length);
+      console.log(`Antall tilfeldige oppgaver hentet: ${randomTasks.length}`);
+
     } catch (errorRandomTaskFetch) {
       console.error(`Error fetching random tasks: `, errorRandomTaskFetch);
-      //setError('En feil oppstod under henting av tilfeldige oppgaver.');
+      setRandomTaskCount(0);
     }
   };
 
@@ -74,11 +86,15 @@ const Home = () => {
       {errorRandom && <p className="count-error-msg">{errorRandom}</p>}
       <DropdownTaskFilter selectedType={selectedType} handleTypeChange={handleTypeChange} />
       <button type="button" onClick={handleRandomTaskFetch} className={cn("bg-slate-200 px-2 py-1")}>Hent et antall tilfeldige oppgaver</button>
-      <Tasks tasks={tasks}>
+      {randomTaskCount !== null && (
+        <p>{`Antall oppgaver hentet: ${randomTaskCount}`}</p>
+      )}
+      <Tasks tasks={tasks} currentTaskIndex={currentTaskIndex}>
         {tasks.length > 0 && currentTaskIndex < tasks.length && (
           <>
             <Answer task={tasks[currentTaskIndex]} onCorrectAnswer={handleCorrectAnswer} />
-            <Progress tasks={tasks} isCorrectAnswer={currentTaskIndex > 0} />
+            <Progress tasks={tasks} isCorrectAnswer={currentTaskIndex > 0} currentTaskIndex={currentTaskIndex}
+              setCurrentTaskIndex={setCurrentTaskIndex} />
           </>
         )}
       </Tasks>
