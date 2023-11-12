@@ -1,16 +1,13 @@
 "use client"
-import Answer from "@/components/Answer"
-import Header from "@/components/Header"
-import Tasks from "@/components/Tasks"
-import DropdownTaskFilter from "@/components/DropdownTaskFilter"
+
+import { Answer, Header, Tasks, TaskCount, Progress, DropdownTaskFilter } from "@/components";
 import { type Task } from "@/types"
 import React, { useState, useEffect } from 'react'
-import TaskCount from "@/components/TaskCount"
 import { cn } from "@/lib/utils"
 //import apiController from '../features/task/task.controller'
 import { fetchTasks, fetchRandomTasks } from '../features/task/task.controller'
 
-import Progress from "@/components/Progress"
+
 
 const Home = () => {
 

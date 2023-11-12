@@ -55,7 +55,9 @@ describe("Progress Component", () => {
   ]
   //TODO: Make this test pass
   it("renders with default state and buttons", () => {
-    render(<Progress tasks={tasks} isCorrectAnswer={false} />)
+    render(<Progress tasks={tasks} isCorrectAnswer={false} currentTaskIndex={0} setCurrentTaskIndex={function (index: number): void {
+      throw new Error("Function not implemented.")
+    }} />)
 
     const currentTask = screen.getByText("123")
     expect(currentTask).toBeInTheDocument()
@@ -68,7 +70,9 @@ describe("Progress Component", () => {
   })
   //TODO: Make this test pass
   it('increments the state when "Neste" is clicked', () => {
-    render(<Progress tasks={tasks} isCorrectAnswer={false} />)
+    render(<Progress tasks={tasks} isCorrectAnswer={false} currentTaskIndex={0} setCurrentTaskIndex={function (index: number): void {
+      throw new Error("Function not implemented.")
+    }} />)
     const nextButton = screen.getByText("Vis neste oppgave oppgave")
 
     fireEvent.click(nextButton)
@@ -78,7 +82,9 @@ describe("Progress Component", () => {
   })
   //TODO: Make this test pass
   it('decrements the state when "Forrige" is clicked', () => {
-    render(<Progress tasks={tasks} isCorrectAnswer={false} />)
+    render(<Progress tasks={tasks} isCorrectAnswer={false} currentTaskIndex={0} setCurrentTaskIndex={function (index: number): void {
+      throw new Error("Function not implemented.")
+    }} />)
     const nextButton = screen.getByText("Vis neste oppgave oppgave")
     const prevButton = screen.getByText("Vis forrige oppgave")
 
@@ -146,22 +152,24 @@ describe("Progress Component", () => {
     const successMessage = screen.getByText("Bra jobbet!")
     expect(successMessage).toBeInTheDocument()
   })
-  it("renders a list of tasks correctly", () => {
+  it("renders a the current task correctly", () => {
     const tasks: Task[] = [
       { id: '1', type: 'add', text: '1 + 1', data: '2|3' },
       { id: '2', type: 'subtract', text: '3 - 1', data: '5|3' },
     ];
-    render(<Tasks tasks={tasks}>{null}</Tasks>)
+    render(<Tasks tasks={tasks} currentTaskIndex={0}>{null}</Tasks>)
 
-    for (const task of tasks) {
-      const taskElement = screen.getByText(task.text)
-      const typeElement = screen.getByText(task.type)
-      const dataElement = screen.getByText(task.data)
 
-      expect(taskElement).toBeInTheDocument()
-      expect(typeElement).toBeInTheDocument()
-      expect(dataElement).toBeInTheDocument()
-    }
+    const taskElement = screen.getByText(tasks[0].text)
+    const typeElement = screen.getByText(tasks[0].type)
+    const dataElement = screen.getByText(tasks[0].data)
+
+    expect(taskElement).toBeInTheDocument()
+    expect(typeElement).toBeInTheDocument()
+    expect(dataElement).toBeInTheDocument()
+
+    expect(screen.queryByText(tasks[1].text)).not.toBeInTheDocument()
+
   })
   it("initializes with count as 0 and returns the current task", () => {
     const { result } = renderHook(() => useProgress({ tasks }))

@@ -21,7 +21,7 @@ export default function Progress({ tasks, isCorrectAnswer, currentTaskIndex, set
 
   return (
     <footer className="mt-4 border-t-slate-300">
-      {/*<p>{currentTask ? currentTask.id : "No ID"}</p>*/}
+      {/*<p>Task ID: {tasks[currentTaskIndex]?.id ?? 'No ID'}</p>*/}
       <button onClick={prev} className="bg-teal-700 text-white">
         Vis forrige oppgave
       </button>
