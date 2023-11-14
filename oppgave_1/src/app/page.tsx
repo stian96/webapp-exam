@@ -27,11 +27,11 @@ const Home = () => {
         const fetchedTasks = await fetchTasks(selectedType, taskCount);
         setTasks(fetchedTasks);
 
-        const initialAttempts = fetchedTasks.reduce((acc: Attempts, task: Task) =>{
+        const initialAttempts = fetchedTasks.reduce((acc: Attempts, task: Task) => {
           acc[task.id] = 3;
           return acc;
         }, {});
-        
+
 
         setAttempts(initialAttempts);
         console.log(initialAttempts)
@@ -41,7 +41,7 @@ const Home = () => {
         //setError('En feil oppstod under henting av oppgaver.');
       }
 
-      
+
     };
 
     void getTasks();
@@ -95,7 +95,7 @@ const Home = () => {
       [taskId]: prevAttempts[taskId] > 0 ? prevAttempts[taskId] - 1 : 0
     }));
   };
-  
+
 
   return (
     <main>
@@ -110,14 +110,14 @@ const Home = () => {
       <Tasks tasks={tasks} currentTaskIndex={currentTaskIndex}>
         {tasks.length > 0 && currentTaskIndex < tasks.length && (
           <>
-            <Answer 
-              task={tasks[currentTaskIndex]} 
-              onCorrectAnswer={handleCorrectAnswer} 
+            <Answer
+              task={tasks[currentTaskIndex]}
+              onCorrectAnswer={handleCorrectAnswer}
               onIncorrectAnswer={() => { decrementAttempt(tasks[currentTaskIndex].id); }}
               remainingAttempts={attempts[tasks[currentTaskIndex].id]}
               totalAttempts={3} //TODO add attempts to the db. Right now it is hard coded
 
-             />
+            />
             <Progress tasks={tasks} isCorrectAnswer={currentTaskIndex > 0} currentTaskIndex={currentTaskIndex}
               setCurrentTaskIndex={setCurrentTaskIndex} />
           </>

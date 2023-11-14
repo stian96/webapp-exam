@@ -1,8 +1,7 @@
-import * as taskService from "./task.service"
-import { type Task, type QueryParams } from "@/types"
-import { NextResponse } from "next/server"
-
 //import * as taskService from "./task.service";
+
+
+import { type Task } from "@/types"
 
 const API_URL = 'http://localhost:3000/api/restapi';
 
@@ -36,19 +35,3 @@ export default {
     fetchRandomTasks
 }
 
-//TODO: Find out how to solve error msg using this:
-/*
-export const fetchRandomTasks = async (
-    params: QueryParams = {},
-): Promise<NextResponse<{ success: boolean; data?: Task[]; error?: string }>> => {
-    try {
-        const tasks = await taskService.getTasks(params);
-        return NextResponse.json({ success: true, data: tasks }, { status: 200 });
-    } catch (error) {
-        return NextResponse.json({ success: false, error: "error.message" }, { status: 500 });
-    }
-};
-
-export default {
-    fetchTasks
-}*/

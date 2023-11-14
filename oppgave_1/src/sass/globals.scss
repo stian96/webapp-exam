@@ -9,23 +9,13 @@ Skriv kommandoen: npm run css:watch (kompilerer også sass til css, men gjør de
 build: nice to use if you are only going to change one small thing.
 watch: nice to use if you need to change several things.
 */
-main {
-    color: rgb(16, 16, 89);
-    
-}
-h3{
-    color: rgb(12, 70, 52);
-    font-style: italic;
-
-}
-
-.count-error-msg {
-    color: red;
-    font-weight: bolder;
-}
 
 
-.container{justify-content: center;}
+
+
+
+
+//.container{justify-content: center;}
 
 @tailwind base;
 @tailwind components;
@@ -89,18 +79,89 @@ h3{
 }
 
 @layer base {
-    * {
+    /** {
         @apply border-border;
-    }
+    }*/
 
     body {
-        @apply bg-background text-foreground;
+        @apply flex flex-col;
+        //padding: 2rem;
+        margin: 1rem;
+        //justify-content: center;
+        @apply bg-background text-foreground justify-center items-center min-h-screen;
+    }
+    .count-error-msg {
+        color: red;
+        font-weight: bolder;
+    }
+    
+    main {
+        @apply mt-[-10%];
+    }
+    h1 {
+        font-weight: bold;
+        font-size: 24px;
     }
 
     input[type="number"]::-webkit-inner-spin-button,
     input[type="number"]::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
+    }
+         
+    @media only screen and (max-width: 640px) {
+        body {
+            @apply p-4;
+            @apply mt-[-10%];
+        }
+        main {
+            @apply items-center justify-center;      
+        }
+        .container {
+            @apply mx-auto;
+        }
+    }
+    
+    @media only screen and (min-width: 768px) and (max-width: 1024px){
+        body {
+            @apply p-8;
+        }
+        main {
+            @apply items-center justify-center;
+        }
+        
+        .container {
+            @apply mx-auto;
+        }
+                
+    }
+    @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+        body {
+            @apply p-6;
+        }
+        main {
+            @apply mt-[-10%];
+            @apply flex-row justify-center;
+        }
+        
+        .container {
+            @apply max-w-full;
+        }
+       
+    }
+    
+    @media (max-width: 640px) and (orientation: landscape) {
+        body {
+            @apply p-2;     
+        }
+    
+        main {
+            @apply flex-row items-center;     
+        }
+    
+        .container {
+            @apply max-w-full;       
+        }
     }
 }
 

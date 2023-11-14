@@ -1,7 +1,6 @@
 import type { NextRequest } from "next/server"
 import { NextResponse } from "next/server"
 import { PrismaClient } from '@prisma/client';
-import * as taskController from "@/features/task/task.controller"
 const prisma = new PrismaClient();
 
 
