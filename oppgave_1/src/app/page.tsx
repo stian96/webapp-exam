@@ -6,7 +6,8 @@ import React, { useState, useEffect } from 'react'
 import { cn } from "@/lib/utils"
 import { fetchTasks, fetchRandomTasks } from '../features/task/task.controller'
 
-
+//TODO: Show button next task when clicking Button : Show answers
+//TODO: Not show next task when clicking Send btn.
 
 const Home = () => {
 
