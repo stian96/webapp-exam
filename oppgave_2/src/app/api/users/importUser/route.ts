@@ -2,7 +2,80 @@ import { prisma } from "@/lib/prisma"
 import { type PerformerDto } from "@/types/DTO/importUsers";
 import { NextResponse, type NextRequest } from "next/server";
 
-
+/**
+ * @swagger
+ * /api/users/importUser:
+ *   put:
+ *     summary: Saves an imported user to the database.
+ *     description: Imports user from a DTO retrieved from /api/users/getImportedUsers and writes it to the database, as well as all activities, goals, etc are connected to said user. The write is a transaction.
+ *     requestBody:
+ *       description: Serialized Performer object.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *               userId:
+ *                 type: string
+ *               gender:
+ *                 type: string
+ *               sport:
+ *                 type: string
+ *               meta:
+ *                 type: object
+ *                 properties:
+ *                   heartrate:
+ *                     type: number
+ *                   watt:
+ *                     type: number
+ *                   speed:
+ *                     type: number
+ *               activities:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     date:
+ *                       type: string
+ *                     name:
+ *                       type: string
+ *                     tags:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                     goalId:
+ *                       type: string
+ *                     questions:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                           question:
+ *                             type: string
+ *                           type:
+ *                             type: string
+ *                     intervals:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                           duration:
+ *                             type: number
+ *                           intensity:
+ *                             type: number
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved users.
+  *       500:
+ *         description: Internal server error.
+ */
 export const PUT = async (request: NextRequest) => {
 
   try {
@@ -123,9 +196,9 @@ export const PUT = async (request: NextRequest) => {
   });
   
   console.log("Successfully wrote all users to database.")
-  return NextResponse.json({ success: true, message: "Success writing user to database." })
+  return NextResponse.json({ status: 200, message: "Success writing user to database." })
   } catch (error) {
     console.log(error)
-    return NextResponse.json({ success: false, message: "Failed writing user to database." })
+    return NextResponse.json({ status: 500, message: "Failed writing user to database." })
   }
 }

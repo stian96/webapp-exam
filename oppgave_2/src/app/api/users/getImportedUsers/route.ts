@@ -1,6 +1,25 @@
 import { prisma } from "@/lib/prisma"
 import { NextRequest, NextResponse } from "next/server";
 
+/**
+ * @swagger
+ * /api/users/getImportedUsers:
+ *   put:
+ *     summary: Retrieves users to be imported.
+ *     description: Sends a fetch request to an API endpoint to retrieve all users to be imported in the database.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved users.
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: 200
+ *               message: { "pages": 3, "success": true, "hasMore": true, "page": 1, "data": [ { "id": "ada2ffa1-f880-45a7-91ba-c502891fb523", "userId": "benigne-vita-spes", "gender": "female", "sport": "cycling", "meta": {"heartrate": 170, "watt": 391, "speed": 17}, "activities": [ {"date": "2023-11-26T21:46:08.452Z", "goalId": "a70f36ec-493e-4c75-ad25-502577fed49a"}, {"date": "2023-11-12T04:20:09.771Z", "name": "velit quas comburo", "tags": ["run", "hard", "gravel"]}, // Additional activity entries ] }, // Additional user data ] }
+ *       429:
+ *         description: Timeout when retrieving users.
+ *       500:
+ *         description: Internal server error retrieving users.
+ */
 export const GET = async () => {
 
   try {

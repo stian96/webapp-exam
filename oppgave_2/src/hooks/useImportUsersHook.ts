@@ -25,7 +25,7 @@ const useImportUsersHook = () => {
       const data = await response.json()
       const isSuccess = data.success
 
-      if (isSuccess) {
+      if (isSuccess == 200) {
         console.log(`${userId} exists.`)
         return { success: true, message: `${userId} exists.` }
       } else {
