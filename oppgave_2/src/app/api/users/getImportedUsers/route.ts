@@ -39,7 +39,7 @@ export const GET = async () => {
         }
     }
 
-    console.log(`Fetched ${pageCounter} pages of users in JSON format to be imported.`)
+    console.log(`Fetched ${pageCounter - 1} pages of users in JSON format to be imported.`)
 
     return NextResponse.json({ status: 200, message: JSON.stringify(userData) })
   } catch (error: unknown) {

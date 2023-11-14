@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { type PerformerDto } from '@/types/DTO/importUsers';
 
 const useImportUsersHook = () => {
@@ -37,11 +37,9 @@ const useImportUsersHook = () => {
     }
   }
 
-  const handleClickFromApiDto = async () => {
-    void getApiResponse()
-    
+  const writeToDatabase = async () => {
     const performers: PerformerDto[] = JSON.parse(
-      responseBody,
+      responseBody
     ) as PerformerDto[]
 
     for (const performer of performers) {
@@ -64,9 +62,19 @@ const useImportUsersHook = () => {
         }
       }
     }
+  }
+
+  const importAllUsers = async () => {
+    console.log(`responseBody is "${responseBody}"`)
+    await writeToDatabase()
   };
 
-  return { responseCode, responseBody, getApiResponse, handleClickFromApiDto };
+  useEffect(() => {
+    void getApiResponse();
+  }, []);
+
+
+  return { responseCode, responseBody, getApiResponse, importAllUsers };
 };
 
 export default useImportUsersHook;

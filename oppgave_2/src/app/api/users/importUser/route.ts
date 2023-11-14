@@ -11,6 +11,8 @@ export const PUT = async (request: NextRequest) => {
       const data = await request.json()
       const performer: PerformerDto = data as PerformerDto;
       console.log("Deserialised user.")
+
+      console.log("Attempting to write user to database.")
       
       const newPerformer = await prisma.performers.create({
         data: {
@@ -24,9 +26,6 @@ export const PUT = async (request: NextRequest) => {
         }
       });
 
-      console.log("newPerformer")
-      console.log(newPerformer)
-
       for (const activity of performer.activities) {
 
         const newSession = await prisma.sessions.create({
@@ -35,9 +34,6 @@ export const PUT = async (request: NextRequest) => {
             isTemplate: false
           }
         });
-
-        console.log("newSession")
-        console.log(newSession)
 
         if (activity.tags != null) {
           for (const tag of activity.tags) {
@@ -48,8 +44,6 @@ export const PUT = async (request: NextRequest) => {
               }
             });
 
-            console.log("newTag")
-            console.log(newTag)
           }
         }
         
@@ -61,9 +55,6 @@ export const PUT = async (request: NextRequest) => {
             }
           });
 
-          console.log("newGoal")
-          console.log(newGoal)
-
           const performerGoal = await prisma.performerGoals.create({
             data: {
               performerId: performer.id,
@@ -71,9 +62,6 @@ export const PUT = async (request: NextRequest) => {
               year: 2023
             }
           });
-
-          console.log("performerGoal")
-          console.log(performerGoal)
 
           const newActivity = await prisma.sessionActivity.create({
             data: {
@@ -84,8 +72,6 @@ export const PUT = async (request: NextRequest) => {
             }
           });
 
-          console.log("newActivity")
-          console.log(newActivity)
         } else {
           const newActivity = await prisma.sessionActivity.create({
             data: {
@@ -95,8 +81,6 @@ export const PUT = async (request: NextRequest) => {
             }
           });
 
-          console.log("newActivity")
-          console.log(newActivity)
         }
 
         if (activity.questions && activity.questions.length > 0) {
@@ -110,8 +94,6 @@ export const PUT = async (request: NextRequest) => {
               }
             });
 
-            console.log("newQuestion")
-            console.log(newQuestion)
           }
         }
 
@@ -125,8 +107,6 @@ export const PUT = async (request: NextRequest) => {
               }
             });
 
-            console.log("newIntervals")
-            console.log(newIntervals)
 
             const newIntervalSessions = await prisma.sessionIntervals.create({
               data: {
@@ -135,15 +115,14 @@ export const PUT = async (request: NextRequest) => {
               }
             });
 
-            console.log("newIntervalSessions")
-            console.log(newIntervalSessions)
           }
         }
       
-      console.log("Written user to database.")
+      console.log("Successfully wrote user to database.")
     }
   });
   
+  console.log("Successfully wrote all users to database.")
   return NextResponse.json({ success: true, message: "Success writing user to database." })
   } catch (error) {
     console.log(error)
