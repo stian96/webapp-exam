@@ -3,6 +3,8 @@ import { fetchTasks } from "@/features/task/task.controller"
 import { setupServer } from 'msw/node'
 import { rest } from 'msw'
 
+// Reference: https://vitest.dev/guide/mocking.html 
+
 // Setup of mock service worker.
 const api = setupServer(
   rest.get("http://localhost:3000/api/restapi", (reqest, response, context) => {
