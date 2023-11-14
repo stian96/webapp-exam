@@ -1,4 +1,4 @@
-"use client"
+//"use client"
 
 import { useState } from "react"
 import type { FormEvent, MouseEvent } from "react"
@@ -78,3 +78,4 @@ export default function Answer({ task, onCorrectAnswer }: AnswerProps) {
     </div>
   )
 }
+

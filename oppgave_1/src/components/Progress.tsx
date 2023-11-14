@@ -1,11 +1,10 @@
 "use client"
 
-import { useState } from "react"
 import type { MouseEvent } from "react"
 
 import { type Task } from "../types/index"
 
-export default function Progress({ tasks, isCorrectAnswer, currentTaskIndex, setCurrentTaskIndex }:
+export default function Progress({ isCorrectAnswer, currentTaskIndex, setCurrentTaskIndex }:
   { tasks: Task[], isCorrectAnswer: boolean, currentTaskIndex: number, setCurrentTaskIndex: (index: number) => void; }) {
 
 
