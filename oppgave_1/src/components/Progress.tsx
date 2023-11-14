@@ -21,12 +21,12 @@ export default function Progress({ isCorrectAnswer, currentTaskIndex, setCurrent
   return (
     <footer className="mt-4 border-t-slate-300">
       {/*<p>Task ID: {tasks[currentTaskIndex]?.id ?? 'No ID'}</p>*/}
-      <button onClick={prev} className="bg-teal-700 text-white">
+      <button onClick={prev} className="btn-prev">
         Vis forrige oppgave
       </button>
       {isCorrectAnswer && (
-        <button onClick={next} className="bg-purple-700 text-white">
-          Vis neste oppgave oppgave
+        <button onClick={next} className="btn-next">
+          Vis neste oppgave
         </button>)}
     </footer>
   )

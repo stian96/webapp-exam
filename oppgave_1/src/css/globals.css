@@ -67,6 +67,39 @@ watch: nice to use if you need to change several things.
   }
 }
 @layer base {
+  button {
+    @apply text-white font-bold py-2 px-4 rounded;
+  }
+  button.btn-prev {
+    background-color: #38b2ac;
+  }
+  button.btn-prev:hover {
+    background-color: #5ad3d1;
+  }
+  button.btn-random {
+    background-color: #38b2ac;
+  }
+  button.btn-random:hover {
+    background-color: #5ad3d1;
+  }
+  button.btn-next {
+    background-color: #6b46c1;
+  }
+  button.btn-next:hover {
+    background-color: #9b59b6;
+  }
+  button.btn-send {
+    @apply bg-gray-500;
+  }
+  button.btn-send:hover {
+    @apply bg-gray-600;
+  }
+  button.btn-show-answer {
+    @apply bg-blue-500;
+  }
+  button.btn-show-answer:hover {
+    @apply bg-blue-600;
+  }
   /** {
       @apply border-border;
   }*/
@@ -81,6 +114,10 @@ watch: nice to use if you need to change several things.
   }
   main {
     @apply mt-[-10%];
+  }
+  h3 {
+    color: rgb(35, 132, 104);
+    font-style: italic;
   }
   h1 {
     font-weight: bold;

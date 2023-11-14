@@ -79,15 +79,63 @@ watch: nice to use if you need to change several things.
 }
 
 @layer base {
+    $hover-bg-teal: #5ad3d1; 
+    $hover-bg-purple: #9b59b6; 
+    
+        
+        button {
+            @apply text-white font-bold py-2 px-4 rounded;
+    
+           
+            &.btn-prev {
+                background-color: #38b2ac; 
+    
+                &:hover {
+                    background-color: $hover-bg-teal;
+                }
+            }
+            &.btn-random {
+                background-color: #38b2ac;
+            
+                &:hover {
+                    background-color: $hover-bg-teal;
+                }
+            }
+    
+            
+            &.btn-next {
+                background-color: #6b46c1; 
+    
+                &:hover {
+                    background-color: $hover-bg-purple;
+                }
+            }
+    
+            
+            &.btn-send {
+                @apply bg-gray-500;
+    
+                &:hover {
+                    @apply bg-gray-600;
+                }
+            }
+    
+            
+            &.btn-show-answer {
+                @apply bg-blue-500;
+    
+                &:hover {
+                    @apply bg-blue-600;
+                }
+            }
+        } 
     /** {
         @apply border-border;
     }*/
 
     body {
         @apply flex flex-col;
-        //padding: 2rem;
         margin: 1rem;
-        //justify-content: center;
         @apply bg-background text-foreground justify-center items-center min-h-screen;
     }
     .count-error-msg {
@@ -96,7 +144,13 @@ watch: nice to use if you need to change several things.
     }
     
     main {
-        @apply mt-[-10%];
+        @apply mt-[-10%]; 
+    }
+    
+    h3 {
+        color: rgb(35, 132, 104);
+        font-style: italic;
+    
     }
     h1 {
         font-weight: bold;

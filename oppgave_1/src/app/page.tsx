@@ -4,7 +4,6 @@ import { Answer, Header, Tasks, TaskCount, Progress, DropdownTaskFilter } from "
 import { type Task, type Attempts } from "@/types"
 import React, { useState, useEffect } from 'react'
 import { cn } from "@/lib/utils"
-//import apiController from '../features/task/task.controller'
 import { fetchTasks, fetchRandomTasks } from '../features/task/task.controller'
 
 
@@ -103,7 +102,7 @@ const Home = () => {
       <TaskCount taskCount={taskCount} onTaskCountChange={handleCountChange}></TaskCount>
       {errorRandom && <p className="count-error-msg">{errorRandom}</p>}
       <DropdownTaskFilter selectedType={selectedType} handleTypeChange={handleTypeChange} />
-      <button type="button" onClick={handleRandomTaskFetch} className={cn("bg-slate-200 px-2 py-1")}>Hent et antall tilfeldige oppgaver</button>
+      <button type="button" onClick={handleRandomTaskFetch} className="btn-random">Hent et antall tilfeldige oppgaver</button>
       {randomTaskCount !== null && (
         <p>{`Antall oppgaver hentet: ${randomTaskCount}`}</p>
       )}

@@ -11,21 +11,20 @@ type AnswerProps = {
   remainingAttempts: number;
   totalAttempts: number;
 
-
 }
 
-export default function Answer({ 
-  task, 
-  onCorrectAnswer, 
-  onIncorrectAnswer, 
+export default function Answer({
+  task,
+  onCorrectAnswer,
+  onIncorrectAnswer,
   remainingAttempts,
-  totalAttempts
+  totalAttempts,
 }: AnswerProps) {
-  const [answer, setAnswer] = useState('');
-  const [message, setMessage] = useState<string | null>(null);
-  const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
-  const [attemptMade, setAttemptMade] = useState(false);
-
+  const [answer, setAnswer] = useState('')
+  const [message, setMessage] = useState<string | null>(null)
+  const [isCorrectAnswer, setIsCorrectAnswer] = useState(false)
+  const [attemptMade, setAttemptMade] = useState(false)
+  const [showAnswer, setShowAnswer] = useState(false);
 
   const calculateCorrectAnswer = (task: Task): number | null => {
     const [num1, num2] = task.data.split('|').map(Number);
@@ -88,12 +87,21 @@ export default function Answer({
       />
       {/*{9 + 2 === answer ? "Bra jobbet!" : null}*/}
       {/*{correctAnswer === answer ? <div>Bra jobbet!</div> : null}*/}
-      <button onClick={send}>Send</button>
+      <button onClick={send} className="btn-send">Send</button>
       {isCorrectAnswer && message && <div>{message}</div>}
 
       {attemptMade && (
-      <p>{remainingAttempts} of {totalAttempts} attempts remaining</p>
-    )}
+        <p>{remainingAttempts} of {totalAttempts} attempts remaining</p>
+      )}
+      <div>
+        {!showAnswer && remainingAttempts === 0 && (
+          <button onClick={() => { setShowAnswer(true); }}
+            className="btn-show-answer">Se svaret</button>
+        )}
+        {showAnswer && correctAnswer !== null && (
+          <div>Riktig svar er: {correctAnswer}</div>
+        )}
+      </div>
     </div>
   )
 }
