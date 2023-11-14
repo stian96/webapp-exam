@@ -7,12 +7,25 @@ import { type Task } from "@/types"
 type AnswerProps = {
   task: Task;
   onCorrectAnswer: () => void;
+  onIncorrectAnswer: () => void;
+  remainingAttempts: number;
+  totalAttempts: number;
+
 
 }
-export default function Answer({ task, onCorrectAnswer }: AnswerProps) {
+
+export default function Answer({ 
+  task, 
+  onCorrectAnswer, 
+  onIncorrectAnswer, 
+  remainingAttempts,
+  totalAttempts
+}: AnswerProps) {
   const [answer, setAnswer] = useState('');
   const [message, setMessage] = useState<string | null>(null);
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
+  const [attemptMade, setAttemptMade] = useState(false);
+
 
   const calculateCorrectAnswer = (task: Task): number | null => {
     const [num1, num2] = task.data.split('|').map(Number);
@@ -45,6 +58,8 @@ export default function Answer({ task, onCorrectAnswer }: AnswerProps) {
 
     } else {
       setMessage('Prøv igjen!');
+      setAttemptMade(true);
+      onIncorrectAnswer();
     }
   };
 
@@ -75,6 +90,10 @@ export default function Answer({ task, onCorrectAnswer }: AnswerProps) {
       {/*{correctAnswer === answer ? <div>Bra jobbet!</div> : null}*/}
       <button onClick={send}>Send</button>
       {isCorrectAnswer && message && <div>{message}</div>}
+
+      {attemptMade && (
+      <p>{remainingAttempts} of {totalAttempts} attempts remaining</p>
+    )}
     </div>
   )
 }

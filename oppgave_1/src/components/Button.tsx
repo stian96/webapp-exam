@@ -1,10 +1,12 @@
 import { cn } from "@/lib/utils"
 
+import { type ReactNode } from "react"
+
 export default function Button({
   children,
   classNames,
 }: {
-  children: any
+  children: ReactNode
   classNames: string | string[]
 }) {
   return (
