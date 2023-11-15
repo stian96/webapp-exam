@@ -1,4 +1,4 @@
-export type Goal = {
+export interface GoalModel {
     id: string,
     name: string,
     date: Date,
