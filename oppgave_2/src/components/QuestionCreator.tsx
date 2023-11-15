@@ -129,11 +129,11 @@ const QuestionCreator = () => {
           value={questionText}
           onChange={handleTextChange}
           placeholder="Enter a question!"
-          className={`border-2 ${
+          className={`form__input ${
             isQuestionValid
               ? "border-green-400 text-green-600"
               : "border-red-600 text-red-600"
-          } rounded transition-transform focus:scale-105`}
+          }`}
         />
       </div>
 

@@ -7,10 +7,22 @@ import type { Question } from "@/types/question"
 import type { ChangeEvent, FormEvent } from "react"
 
 import { QuestionTypeEnum } from "@/types/question"
+import SessionTagCreator from "./SessionTagCreator"
 
 // Code based on React documentation found here:
 // https://legacy.reactjs.org/docs/forms.html
 
+// Reference: I also used ChatGPT V3.5 quite a bit when creating the subforms.
+// I've written comments where I've used it. The code it produced was heavily edited,
+// but it gave me a good starting point.
+
+//TODO Add validation to all inputs
+//TODO Create get all users request in API and assign to a state.
+//TODO Connect it to the user dropdown.
+//TODO Create get all questions request in API and assign to a state.
+//TODO Connect it to the question dropdown.
+//TODO Create API PUT to create session, along with intervals, questions (and sessionTags, sessionIntervals, sessionQuestions many to many)
+//TODO Create feedback in button.
 const TemplateCreator = () => {
   const [sessionName, setSessionName] = useState<string>("")
   const [sessionIntensity, setSessionIntensity] = useState<string>("")
@@ -19,6 +31,12 @@ const TemplateCreator = () => {
   const [sessionPulse, setSessionPulse] = useState<string>("")
   const [sessionType, setSessionType] = useState<string>("cycling")
   const [performerId, setPerformerId] = useState<string>("")
+  const [tags, setTags] = useState([""])
+  const [intervals, setIntervals] = useState([{ duration: "", intensity: "" }])
+  const [questions, setQuestions] = useState([{ question: "", type: "text" }])
+  const [existingQuestions, setExistingQuestions] = useState([
+    { question: "", type: "" },
+  ])
   const [isQuestionValid, setIsNameValid] = useState<boolean>(false)
   const [isIntensityValid, setIsIntensityValid] = useState<boolean>(false)
   const [isWattValid, setIsWattValid] = useState<boolean>(false)
@@ -118,6 +136,95 @@ const TemplateCreator = () => {
     setIsCheckboxSelected(!isCheckboxSelected)
   }
 
+  // Reference: ChatGPT V3.5
+  const handleTagChange = (index: number, value: string) => {
+    const newTags = [...tags]
+    newTags[index] = value
+    setTags(newTags)
+  }
+
+  // Reference: ChatGPT V3.5
+  const handleAddAdditionalTag = () => {
+    setTags([...tags, ""])
+  }
+
+  // Reference: ChatGPT V3.5
+  const handleRemoveTag = (index: number) => {
+    const newTags = [...tags]
+    newTags.splice(index, 1)
+    setTags(newTags)
+  }
+
+  // Reference: ChatGPT V3.5
+  const handleIntervalChange = (
+    index: number,
+    field: string,
+    value: string,
+  ) => {
+    const newIntervals = intervals.map((interval, i) =>
+      i === index ? { ...interval, [field]: value } : interval,
+    )
+    setIntervals(newIntervals)
+  }
+
+  // Reference: ChatGPT V3.5
+  const handleAddInterval = () => {
+    setIntervals([...intervals, { duration: "", intensity: "" }])
+  }
+
+  // Reference: ChatGPT V3.5
+  const handleRemoveInterval = (index: number) => {
+    const newIntervals = [...intervals]
+    newIntervals.splice(index, 1)
+    setIntervals(newIntervals)
+  }
+
+  // Reference: ChatGPT V3.5
+  const handleQuestionChange = (
+    index: number,
+    field: string,
+    value: string,
+  ) => {
+    const newQuestions = questions.map((question, i) =>
+      i === index ? { ...question, [field]: value } : question,
+    )
+    setQuestions(newQuestions)
+  }
+
+  // Reference: ChatGPT V3.5
+  const handleAddQuestion = () => {
+    setQuestions([...questions, { question: "", type: "text" }])
+  }
+
+  // Reference: ChatGPT V3.5
+  const handleRemoveQuestion = (index: number) => {
+    const newQuestions = [...questions]
+    newQuestions.splice(index, 1)
+    setQuestions(newQuestions)
+  }
+
+  // Reference: ChatGPT V3.5
+  const handleExistingQuestionChange = (
+    index: number,
+    selectedQuestion: { question: string; type: string },
+  ) => {
+    const newExistingQuestions = [...existingQuestions]
+    newExistingQuestions[index] = selectedQuestion
+    setExistingQuestions(newExistingQuestions)
+  }
+
+  // Reference: ChatGPT V3.5
+  const handleAddExistingQuestion = () => {
+    setExistingQuestions([...existingQuestions, { question: "", type: "text" }])
+  }
+
+  // Reference: ChatGPT V3.5
+  const handleRemoveExistingQuestion = (index: number) => {
+    const newExistingQuestions = [...existingQuestions]
+    newExistingQuestions.splice(index, 1)
+    setExistingQuestions(newExistingQuestions)
+  }
+
   const isQuestionExists = async (
     questionText: string,
     questionType: string,
@@ -190,6 +297,9 @@ const TemplateCreator = () => {
     }
   }
 
+  // Reference: ChatGPT V3.5. I can't comment directly into the following but the subforms but
+  // I used it to create starting points for me to use to implement the tags, intervals, questions,
+  // and existing questions sections near the bottom.
   return (
     <form
       onSubmit={handleSubmit}
@@ -205,11 +315,11 @@ const TemplateCreator = () => {
           value={sessionName}
           onChange={handleNameTextChange}
           placeholder="Enter a name for this template..."
-          className={`border-2 ${
+          className={`form__input ${
             isQuestionValid
               ? "border-green-400 text-green-600"
               : "border-red-600 text-red-600"
-          } rounded transition-transform focus:scale-105`}
+          }`}
         />
       </div>
 
@@ -225,11 +335,11 @@ const TemplateCreator = () => {
             value={sessionIntensity}
             onChange={handleIntensityTextChange}
             placeholder="Enter a measurement..."
-            className={`w-full border-2 ${
+            className={`form__input ${
               isIntensityValid
                 ? "border-green-400 text-green-600"
                 : "border-red-600 text-red-600"
-            } rounded p-2 transition-transform focus:scale-105`}
+            }`}
           />
         </div>
 
@@ -243,11 +353,11 @@ const TemplateCreator = () => {
             value={sessionWatt}
             onChange={handleWattTextChange}
             placeholder="Enter a measurement..."
-            className={`w-full border-2 ${
+            className={`form__input ${
               isWattValid
                 ? "border-green-400 text-green-600"
                 : "border-red-600 text-red-600"
-            } rounded p-2 transition-transform focus:scale-105`}
+            }`}
           />
         </div>
 
@@ -261,11 +371,11 @@ const TemplateCreator = () => {
             value={sessionSpeed}
             onChange={handleSpeedTextChange}
             placeholder="Enter a measurement..."
-            className={`w-full border-2 ${
+            className={`form__input ${
               isSpeedValid
                 ? "border-green-400 text-green-600"
                 : "border-red-600 text-red-600"
-            } rounded p-2 transition-transform focus:scale-105`}
+            }`}
           />
         </div>
 
@@ -279,11 +389,11 @@ const TemplateCreator = () => {
             value={sessionPulse}
             onChange={handlePulseTextChange}
             placeholder="Enter a measurement..."
-            className={`w-full border-2 ${
+            className={`form__input ${
               isPulseValid
                 ? "border-green-400 text-green-600"
                 : "border-red-600 text-red-600"
-            } rounded p-2 transition-transform focus:scale-105`}
+            }`}
           />
         </div>
       </div>
@@ -332,6 +442,216 @@ const TemplateCreator = () => {
           <option value="user2">User 2</option>
           <option value="user3">User 3</option>
         </select>
+      </div>
+
+      <div className="subform">
+        <span>Tags:</span>
+        {tags.map((tag, index) => (
+          <div key={index} className="flex items-center space-x-4">
+            <label htmlFor={`tag-${index + 1}`} className="flex-shrink-0">
+              Tag {index + 1}:
+            </label>
+            <input
+              type="text"
+              id={`tag-${index + 1}`}
+              value={tag}
+              className="form__input"
+              onChange={(e) => {
+                handleTagChange(index, e.target.value)
+              }}
+              placeholder="Enter a tag..."
+            />
+            {index == 0 && (
+              <button
+                type="button"
+                onClick={handleAddAdditionalTag}
+                className="subform__button --add w-1/5 flex-shrink-0"
+              >
+                Add Additional Tag
+              </button>
+            )}
+            {index > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  handleRemoveTag(index)
+                }}
+                className="subform__button w-1/5 flex-shrink-0"
+              >
+                Remove Tag
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="subform">
+        <span>Intervals:</span>
+        {intervals.map((interval, index) => (
+          <div key={index} className="flex items-center space-x-4">
+            <label htmlFor={`duration-${index + 1}`}>Duration:</label>
+            <input
+              type="text"
+              id={`duration-${index + 1}`}
+              value={interval.duration}
+              className="form__input"
+              onChange={(e) => {
+                handleIntervalChange(index, "duration", e.target.value)
+              }}
+              placeholder="Enter duration..."
+            />
+
+            <label htmlFor={`intensity-${index + 1}`}>Intensity:</label>
+            <input
+              type="text"
+              id={`intensity-${index + 1}`}
+              value={interval.intensity}
+              className="form__input"
+              onChange={(e) => {
+                handleIntervalChange(index, "intensity", e.target.value)
+              }}
+              placeholder="Enter intensity..."
+            />
+
+            {index === 0 && (
+              <button
+                type="button"
+                onClick={handleAddInterval}
+                className="subform__button --add w-1/5 flex-shrink-0"
+              >
+                Add Interval
+              </button>
+            )}
+
+            {index > 0 && (
+              <button
+                type="button"
+                onClick={() => handleRemoveInterval(index)}
+                className="subform__button w-1/5 flex-shrink-0"
+              >
+                Remove
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="subform">
+        <span>Questions:</span>
+        {questions.map((question, index) => (
+          <div key={index} className="flex items-center space-x-4">
+            <label htmlFor={`text-${index + 1}`}>Question:</label>
+            <input
+              type="text"
+              id={`text-${index + 1}`}
+              value={question.text}
+              className="form__input"
+              onChange={(e) => {
+                handleQuestionChange(index, "text", e.target.value)
+              }}
+              placeholder="Enter a question..."
+            />
+
+            <label htmlFor={`type-${index + 1}`}>Type:</label>
+            <select
+              id={`type-${index + 1}`}
+              value={question.type}
+              onChange={(e) => {
+                handleQuestionChange(index, "type", e.target.value)
+              }}
+              className="form__select rounded focus:scale-105"
+            >
+              <option value="text">Text</option>
+              <option value="radio:range">Radio: Range</option>
+              <option value="radio:mood">Radio: Mood</option>
+            </select>
+
+            {index === 0 && (
+              <button
+                type="button"
+                onClick={handleAddQuestion}
+                className="subform__button --add w-1/5 flex-shrink-0"
+              >
+                Add Question
+              </button>
+            )}
+
+            {index > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  handleRemoveQuestion(index)
+                }}
+                className="subform__button w-1/5 flex-shrink-0"
+              >
+                Remove
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="subform">
+        <span>Existing Questions:</span>
+        {existingQuestions.map((existingQuestion, index) => (
+          <div key={index} className="flex items-center space-x-4">
+            <label htmlFor={`existing-question-${index + 1}`}>Question:</label>
+            <select
+              id={`existing-question-${index + 1}`}
+              value={existingQuestion.question}
+              className="form__input"
+              onChange={(e) => {
+                handleExistingQuestionChange(index, {
+                  question: e.target.value,
+                  type: existingQuestion.type,
+                })
+              }}
+            >
+              <option value="Option 1">Do you like eggs?</option>
+              <option value="Option 2">What about sawdust?</option>
+              <option value="Option 3">Have you heard?</option>
+            </select>
+
+            <label htmlFor={`type-${index + 1}`}>Type:</label>
+            <select
+              id={`type-${index + 1}`}
+              value={existingQuestion.type}
+              onChange={(e) => {
+                handleExistingQuestionChange(index, {
+                  question: existingQuestion.question,
+                  type: e.target.value,
+                })
+              }}
+              className="form__select rounded focus:scale-105"
+            >
+              <option value={QuestionTypeEnum.TEXT}>Text</option>
+              <option value={QuestionTypeEnum.RADIO_NUMBER}>1 to 10</option>
+              <option value={QuestionTypeEnum.RADIO_EMOJI}>Emojis</option>
+            </select>
+
+            {index === 0 && (
+              <button
+                type="button"
+                onClick={handleAddExistingQuestion}
+                className="subform__button --add w-1/5 flex-shrink-0"
+              >
+                Add Existing Question
+              </button>
+            )}
+
+            {index > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  handleRemoveExistingQuestion(index)
+                }}
+                className="subform__button w-1/5 flex-shrink-0"
+              >
+                Remove
+              </button>
+            )}
+          </div>
+        ))}
       </div>
 
       <button
