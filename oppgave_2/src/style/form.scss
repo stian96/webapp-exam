@@ -1,0 +1,50 @@
+@import "colors";
+
+.form {
+    background: $dark-bg-color;
+    margin: 2rem auto;
+    padding: 1rem;
+    border-radius: 15px;
+    box-shadow: 0px 0px 2px 0px $red-text-color;
+    color: white;
+
+    &__input {
+        background: $dark-bg-color;
+        width: 100%;
+        border: none;
+
+        &:focus {
+            color: #fff;
+        }
+    }
+
+    &__select {
+        color: black;
+    }
+
+    &__button {
+        background-image: $red-gradient;
+        background-size: 200% auto;
+        transition: 0.5s ease;
+        color: #fff;
+        padding: 0.3rem;
+        font-weight: 600;
+
+        border-radius: 15px;
+        width: 100%;
+
+        &:hover {
+            background-position: right center;
+        }
+
+        &.--question-saved {
+            background-image: $green-gradient;
+        }
+
+        &.--error {
+            background-image: $dark-red-gradient;
+        }
+    }
+}
+
+ 
