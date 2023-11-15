@@ -1,8 +1,8 @@
 import { SessionActivity } from "./sessionActivity"
 
 export type Performer = {
-    id: string,
-    userId: string,
+    id?: string,
+    userId?: string,
     gender: string,
     sport: string,
     heartRate: number,
