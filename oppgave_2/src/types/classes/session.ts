@@ -1,7 +1,8 @@
 import { Question } from "../question"
 import { Interval } from "../performance/interval"
+import { SessionModel } from "../interface/SessionModel"
 
-export class Session {
+export class Session implements SessionModel {
     id: string
     name: string
     type: string
