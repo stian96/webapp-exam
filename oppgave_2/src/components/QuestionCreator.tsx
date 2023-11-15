@@ -34,7 +34,33 @@ const QuestionCreator = () => {
     setQuestionType(event.target.value)
   }
 
-  const handleSubmit = (event: FormEvent) => {
+  const isQuestionExists = async (
+    questionText: string,
+    questionType: string,
+  ) => {
+    try {
+      const response = await fetch(
+        `/api/questions/getQuestion?questionText=${questionText}&questionType=${questionType}`,
+        {
+          method: "get",
+        },
+      )
+
+      const data = await response.json()
+      const statusCode = data.status
+
+      if (statusCode == 200) {
+        return { success: true, message: `Question exists.` }
+      } else {
+        return { success: false, message: `Question does not exist.` }
+      }
+    } catch (error) {
+      console.log("somethin rong")
+      return { success: false, message: error }
+    }
+  }
+
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
 
     if (!isQuestionValid) {
@@ -43,8 +69,14 @@ const QuestionCreator = () => {
     } else if (submitButtonText == "Error - Question Already Exists") {
       return
     }
-    //TODO Call API to check if question already exists.
-    //setSubmitButtonText("Error - Question Already Exists")
+
+    const data = await isQuestionExists(questionText, questionResponseType)
+    const isSuccess = data.success
+
+    if (isSuccess) {
+      setSubmitButtonText("Error - Question Already Exists")
+      return
+    }
 
     //TODO Write to database using API
     setSubmitButtonText("Question Saved!")
