@@ -8,14 +8,14 @@ datasource db {
 }
 
 model ExampleTable {
-  id   String @id @default(cuid())
+  id   String @id @default(uuid())
   col1 String
   col2 String
   col3 String
 }
 
 model Performers {
-  id                     String            @id @default(cuid())
+  id                     String            @id @default(uuid())
   userId                 String            @unique
   gender                 String
   sport                  String
@@ -28,7 +28,7 @@ model Performers {
 }
 
 model Goals {
-  id                 String            @id @default(cuid())
+  id                 String            @id @default(uuid())
   name               String?
   date               DateTime?
   comments           String?
@@ -43,7 +43,7 @@ model Goals {
 }
 
 model Questions {
-  id               String             @id @default(cuid())
+  id               String             @id @default(uuid())
   question         String
   type             String
   answers          Answers[]
@@ -51,7 +51,7 @@ model Questions {
 }
 
 model Answers {
-  id            String          @id @default(cuid())
+  id            String          @id @default(uuid())
   question      Questions       @relation(fields: [questionId], references: [id])
   questionId    String
   answerText    String?
@@ -61,7 +61,7 @@ model Answers {
 }
 
 model Intervals {
-  id                    String                  @id @default(cuid())
+  id                    String                  @id @default(uuid())
   duration              Int
   intensity             Int
   intervalResults       IntervalResults[]
@@ -70,7 +70,7 @@ model Intervals {
 }
 
 model IntervalResults {
-  id           String    @id @default(cuid())
+  id           String    @id @default(uuid())
   interval     Intervals @relation(fields: [intervalId], references: [id])
   intervalId   String
   duration     Int
@@ -89,7 +89,7 @@ model IntervalResults {
 }
 
 model Sessions {
-  id                String             @id @default(cuid())
+  id                String             @id @default(uuid())
   name              String?
   type              String?
   isTemplate        Boolean
@@ -107,7 +107,7 @@ model Sessions {
 }
 
 model SessionActivity {
-  id          String     @id @default(cuid())
+  id          String     @id @default(uuid())
   date        DateTime
   session     Sessions   @relation(fields: [sessionId], references: [id])
   sessionId   String
@@ -119,7 +119,7 @@ model SessionActivity {
 }
 
 model Reports {
-  id                    String                  @id @default(cuid())
+  id                    String                  @id @default(uuid())
   sessionActivity       SessionActivity         @relation(fields: [sessionActivityId], references: [id])
   sessionActivityId     String                  @unique
   reportIntervalResults ReportIntervalResults[]
