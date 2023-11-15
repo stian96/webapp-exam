@@ -26,7 +26,12 @@ export const GET = async () => {
   console.log(`Checking to see if questions exists`)
 
   try {
-      const questions = await prisma.questions.findMany();
+    const questions = await prisma.questions.findMany({
+      distinct: ['question', 'type'],
+      orderBy: {
+        question: 'asc',
+      },
+    });
 
       if (questions.length === 0) {
 

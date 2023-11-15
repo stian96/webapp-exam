@@ -28,14 +28,13 @@ const TemplateCreator = () => {
   const [sessionPulse, setSessionPulse] = useState<string>("")
   const [sessionType, setSessionType] = useState<string>("cycling")
   const [performerId, setPerformerId] = useState<string>("")
+  const [questionsId, setQuestionsId] = useState<string[]>([])
   const [dbPerformers, setDbPerformers] = useState<Performer[]>([])
   const [dbQuestions, setDbQuestions] = useState<Question[]>([])
   const [tags, setTags] = useState([""])
   const [intervals, setIntervals] = useState([{ duration: "", intensity: "" }])
   const [questions, setQuestions] = useState([{ question: "", type: "text" }])
-  const [existingQuestions, setExistingQuestions] = useState([
-    { question: "", type: "" },
-  ])
+  const [existingQuestions, setExistingQuestions] = useState<string[]>([""])
   const [isQuestionValid, setIsNameValid] = useState<boolean>(false)
   const [isIntensityValid, setIsIntensityValid] = useState<boolean>(false)
   const [isWattValid, setIsWattValid] = useState<boolean>(false)
@@ -205,16 +204,16 @@ const TemplateCreator = () => {
   // Reference: ChatGPT V3.5
   const handleExistingQuestionChange = (
     index: number,
-    selectedQuestion: { question: string; type: string },
+    event: ChangeEvent<HTMLSelectElement>,
   ) => {
     const newExistingQuestions = [...existingQuestions]
-    newExistingQuestions[index] = selectedQuestion
+    newExistingQuestions[index] = event.target.value
     setExistingQuestions(newExistingQuestions)
   }
 
   // Reference: ChatGPT V3.5
   const handleAddExistingQuestion = () => {
-    setExistingQuestions([...existingQuestions, { question: "", type: "text" }])
+    setExistingQuestions([...existingQuestions, ""])
   }
 
   // Reference: ChatGPT V3.5
@@ -607,35 +606,17 @@ const TemplateCreator = () => {
             <label htmlFor={`existing-question-${index + 1}`}>Question:</label>
             <select
               id={`existing-question-${index + 1}`}
-              value={existingQuestion.question}
+              value={existingQuestions[index]}
               className="form__input"
               onChange={(e) => {
-                handleExistingQuestionChange(index, {
-                  question: e.target.value,
-                  type: existingQuestion.type,
-                })
+                handleExistingQuestionChange(index, e)
               }}
             >
-              <option value="Option 1">Do you like eggs?</option>
-              <option value="Option 2">What about sawdust?</option>
-              <option value="Option 3">Have you heard?</option>
-            </select>
-
-            <label htmlFor={`existing-question-type-${index + 1}`}>Type:</label>
-            <select
-              id={`existing-question-type-${index + 1}`}
-              value={existingQuestion.type}
-              onChange={(e) => {
-                handleExistingQuestionChange(index, {
-                  question: existingQuestion.question,
-                  type: e.target.value,
-                })
-              }}
-              className="form__select rounded focus:scale-105"
-            >
-              <option value={QuestionTypeEnum.TEXT}>Text</option>
-              <option value={QuestionTypeEnum.RADIO_NUMBER}>1 to 10</option>
-              <option value={QuestionTypeEnum.RADIO_EMOJI}>Emojis</option>
+              {dbQuestions.map((question) => (
+                <option key={question.id} value={question.id}>
+                  {question.question} - {question.type}
+                </option>
+              ))}
             </select>
 
             {index === 0 && (
