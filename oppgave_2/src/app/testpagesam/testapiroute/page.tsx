@@ -9,7 +9,7 @@ const TestPageThree = () => {
   const [responseBody, setResponseBody] = useState("")
 
   const getApiResponse = async () => {
-    const response = await fetch(`/api/questions/getQuestions`, {
+    const response = await fetch(`/api/users/getUsers`, {
       method: "get",
     })
 

@@ -2,12 +2,12 @@
 
 import "../style/form.scss"
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import type { Question } from "@/types/question"
 import type { ChangeEvent, FormEvent } from "react"
 
+import { Performer } from "@/types/performer"
 import { QuestionTypeEnum } from "@/types/question"
-import SessionTagCreator from "./SessionTagCreator"
 
 // Code based on React documentation found here:
 // https://legacy.reactjs.org/docs/forms.html
@@ -18,8 +18,7 @@ import SessionTagCreator from "./SessionTagCreator"
 
 //TODO Add validation to all inputs
 //TODO Connect getUsers to the user dropdown.
-//TODO Create get all questions request in API and assign to a state.
-//TODO Connect it to the question dropdown.
+//TODO Connect getQuestions to the question dropdown.
 //TODO Create API PUT to create session, along with intervals, questions (and sessionTags, sessionIntervals, sessionQuestions many to many)
 //TODO Create feedback in button.
 const TemplateCreator = () => {
@@ -30,6 +29,8 @@ const TemplateCreator = () => {
   const [sessionPulse, setSessionPulse] = useState<string>("")
   const [sessionType, setSessionType] = useState<string>("cycling")
   const [performerId, setPerformerId] = useState<string>("")
+  const [dbPerformers, setDbPerformers] = useState<Performer[]>([])
+  const [dbQuestions, setDbQuestions] = useState<Question[]>([])
   const [tags, setTags] = useState([""])
   const [intervals, setIntervals] = useState([{ duration: "", intensity: "" }])
   const [questions, setQuestions] = useState([{ question: "", type: "text" }])
@@ -224,29 +225,30 @@ const TemplateCreator = () => {
     setExistingQuestions(newExistingQuestions)
   }
 
-  const isQuestionExists = async (
-    questionText: string,
-    questionType: string,
-  ) => {
-    try {
-      const response = await fetch(
-        `/api/questions/getQuestion?questionText=${questionText}&questionType=${questionType}`,
-        {
-          method: "get",
-        },
-      )
+  const getUsersApiResponse = async () => {
+    const response = await fetch(`/api/users/getUsers`, {
+      method: "get",
+    })
 
-      const data = await response.json()
-      const statusCode = data.status
+    const data = await response.json()
+    const result = data as { status: number; message: string }
 
-      if (statusCode == 200) {
-        return { success: true, message: `Question exists.` }
-      } else {
-        return { success: false, message: `Question does not exist.` }
-      }
-    } catch (error) {
-      return { success: false, message: error }
-    }
+    const users = JSON.parse(result.message) as Performer[]
+
+    setDbPerformers(users)
+  }
+
+  const getQuestionsApiResponse = async () => {
+    const response = await fetch(`/api/questions/getQuestions`, {
+      method: "get",
+    })
+
+    const data = await response.json()
+    const result = data as { status: number; message: string }
+
+    const questions = JSON.parse(result.message) as Question[]
+
+    setDbQuestions(questions)
   }
 
   const handleSubmit = async (event: FormEvent) => {
@@ -295,6 +297,11 @@ const TemplateCreator = () => {
       console.error(error)
     }
   }
+
+  useEffect(() => {
+    void getUsersApiResponse()
+    void getQuestionsApiResponse()
+  }, [])
 
   // Reference: ChatGPT V3.5. I can't comment directly into the following but the subforms but
   // I used it to create starting points for me to use to implement the tags, intervals, questions,
@@ -525,7 +532,9 @@ const TemplateCreator = () => {
             {index > 0 && (
               <button
                 type="button"
-                onClick={() => handleRemoveInterval(index)}
+                onClick={() => {
+                  handleRemoveInterval(index)
+                }}
                 className="subform__button w-1/5 flex-shrink-0"
               >
                 Remove
@@ -611,9 +620,9 @@ const TemplateCreator = () => {
               <option value="Option 3">Have you heard?</option>
             </select>
 
-            <label htmlFor={`type-${index + 1}`}>Type:</label>
+            <label htmlFor={`existing-question-type-${index + 1}`}>Type:</label>
             <select
-              id={`type-${index + 1}`}
+              id={`existing-question-type-${index + 1}`}
               value={existingQuestion.type}
               onChange={(e) => {
                 handleExistingQuestionChange(index, {
