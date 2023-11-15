@@ -1,11 +1,7 @@
+import { QuestionTypeEnum } from "@/enums/questionTypeEnum"
+
 export type Question = {
     id?: string,
     question: string,
-    type: string
+    type: QuestionTypeEnum
 }
-
-export enum QuestionTypeEnum {
-    TEXT = "text",
-    RADIO_NUMBER = "radio:range",
-    RADIO_EMOJI = "radio:mood",
-  }

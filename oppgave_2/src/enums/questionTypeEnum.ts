@@ -1,5 +1,5 @@
 export enum QuestionTypeEnum {
-    TEXT,
-    RADIO_NUMBER,
-    RADIO_EMOJI
-}
+    TEXT = "text",
+    RADIO_NUMBER = "radio:range",
+    RADIO_EMOJI = "radio:mood",
+  }
