@@ -2,7 +2,7 @@ import { Question } from "../question"
 import { Interval } from "../performance/interval"
 
 export interface SessionModel {
-    id: string
+    id: string | null
     name: string
     type: string
     tags: string[]

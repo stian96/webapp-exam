@@ -1,7 +1,7 @@
 import { GoalModel } from "../interface/GoalModel"
 
 export class Goal implements GoalModel {
-    id: string
+    id: string | null
     name: string
     date: Date
     goal: string

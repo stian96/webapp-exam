@@ -3,7 +3,7 @@ import { Interval } from "../performance/interval"
 import { SessionModel } from "../interface/SessionModel"
 
 export class Session implements SessionModel {
-    id: string
+    id: string | null
     name: string
     type: string
     tags: string[]
