@@ -157,13 +157,19 @@ export const PUT = async (request: NextRequest) => {
         }
 
         if (activity.questions && activity.questions.length > 0) {
-          console.log("newQuestion")
           for (const question of activity.questions) {
             const newQuestion = await prisma.questions.create({
               data: {
                   id: question.id,
                   question: question.question,
                   type: question.type
+              }
+            });
+
+            const newSessionQuestion = await prisma.sessionQuestions.create({
+              data: {
+                  sessionId: newSession.id,
+                  questionId: newQuestion.id
               }
             });
 
