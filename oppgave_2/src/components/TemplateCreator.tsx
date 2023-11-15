@@ -442,6 +442,9 @@ const TemplateCreator = () => {
             isCheckboxSelected ? "--enabled" : "--disabled"
           } flex-grow rounded focus:scale-105`}
         >
+          <option value="" disabled selected>
+            Select a performer...
+          </option>
           {dbPerformers.map((performer) => (
             <option key={performer.id} value={performer.id}>
               {performer.id} - {performer.userId}
@@ -612,6 +615,9 @@ const TemplateCreator = () => {
                 handleExistingQuestionChange(index, e)
               }}
             >
+              <option value="" disabled selected>
+                Select a question...
+              </option>
               {dbQuestions.map((question) => (
                 <option key={question.id} value={question.id}>
                   {question.question} - {question.type}
