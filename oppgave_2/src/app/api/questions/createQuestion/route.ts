@@ -6,10 +6,10 @@ import { NextResponse, type NextRequest } from "next/server";
  * @swagger
  * /api/question/createQuestion:
  *   put:
- *     summary: Create a new user.
- *     description: Takes a request where the body is a serialised Performer object and writes it to the database.
+ *     summary: Create a new question.
+ *     description: Takes a request where the body is a serialised Question object and writes it to the database.
  *     requestBody:
- *        description: Serialized Performer object.
+ *        description: Serialized Question object.
  *        required: true
  *        content:
  *          application/json:

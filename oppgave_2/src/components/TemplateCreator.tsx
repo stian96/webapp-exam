@@ -17,8 +17,7 @@ import SessionTagCreator from "./SessionTagCreator"
 // but it gave me a good starting point.
 
 //TODO Add validation to all inputs
-//TODO Create get all users request in API and assign to a state.
-//TODO Connect it to the user dropdown.
+//TODO Connect getUsers to the user dropdown.
 //TODO Create get all questions request in API and assign to a state.
 //TODO Connect it to the question dropdown.
 //TODO Create API PUT to create session, along with intervals, questions (and sessionTags, sessionIntervals, sessionQuestions many to many)
