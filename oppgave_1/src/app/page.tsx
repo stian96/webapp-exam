@@ -1,13 +1,13 @@
 "use client"
 
 import { Answer, Header, Tasks, TaskCount, Progress, DropdownTaskFilter } from "@/components";
-import { type Task } from "@/types"
+import { type Task, type Attempts } from "@/types"
 import React, { useState, useEffect } from 'react'
 import { cn } from "@/lib/utils"
-//import apiController from '../features/task/task.controller'
 import { fetchTasks, fetchRandomTasks } from '../features/task/task.controller'
 
-
+//TODO: Show button next task when clicking Button : Show answers
+//TODO: Not show next task when clicking Send btn.
 
 const Home = () => {
 
@@ -19,16 +19,29 @@ const Home = () => {
   const [randomTaskCount, setRandomTaskCount] = useState<number | null>(null);
   const [lastRandomCount, setLastRandomCount] = useState<number | null>(null);
 
+  const [attempts, setAttempts] = useState<Attempts>({})
+
   useEffect(() => {
     const getTasks = async () => {
       try {
         const fetchedTasks = await fetchTasks(selectedType, taskCount);
         setTasks(fetchedTasks);
 
+        const initialAttempts = fetchedTasks.reduce((acc: Attempts, task: Task) => {
+          acc[task.id] = 3;
+          return acc;
+        }, {});
+
+
+        setAttempts(initialAttempts);
+        console.log(initialAttempts)
+
       } catch (errorFetchingTasks) {
         console.error(`Error fetching tasks: `, errorFetchingTasks);
         //setError('En feil oppstod under henting av oppgaver.');
       }
+
+
     };
 
     void getTasks();
@@ -76,20 +89,35 @@ const Home = () => {
     setCurrentTaskIndex((prevIndex) => prevIndex + 1);
   };
 
+  const decrementAttempt = (taskId: string) => {
+    setAttempts((prevAttempts) => ({
+      ...prevAttempts,
+      [taskId]: prevAttempts[taskId] > 0 ? prevAttempts[taskId] - 1 : 0
+    }));
+  };
+
+
   return (
     <main>
       <Header />
       <TaskCount taskCount={taskCount} onTaskCountChange={handleCountChange}></TaskCount>
       {errorRandom && <p className="count-error-msg">{errorRandom}</p>}
       <DropdownTaskFilter selectedType={selectedType} handleTypeChange={handleTypeChange} />
-      <button type="button" onClick={handleRandomTaskFetch} className={cn("bg-slate-200 px-2 py-1")}>Hent et antall tilfeldige oppgaver</button>
+      <button type="button" onClick={handleRandomTaskFetch} className="btn-random">Hent et antall tilfeldige oppgaver</button>
       {randomTaskCount !== null && (
         <p>{`Antall oppgaver hentet: ${randomTaskCount}`}</p>
       )}
       <Tasks tasks={tasks} currentTaskIndex={currentTaskIndex}>
         {tasks.length > 0 && currentTaskIndex < tasks.length && (
           <>
-            <Answer task={tasks[currentTaskIndex]} onCorrectAnswer={handleCorrectAnswer} />
+            <Answer
+              task={tasks[currentTaskIndex]}
+              onCorrectAnswer={handleCorrectAnswer}
+              onIncorrectAnswer={() => { decrementAttempt(tasks[currentTaskIndex].id); }}
+              remainingAttempts={attempts[tasks[currentTaskIndex].id]}
+              totalAttempts={3} //TODO add attempts to the db. Right now it is hard coded
+
+            />
             <Progress tasks={tasks} isCorrectAnswer={currentTaskIndex > 0} currentTaskIndex={currentTaskIndex}
               setCurrentTaskIndex={setCurrentTaskIndex} />
           </>
