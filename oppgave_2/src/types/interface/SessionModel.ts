@@ -6,6 +6,6 @@ export interface SessionModel {
     name: string
     type: string
     tags: string[]
-    question: Question[]
+    questions: Question[]
     intervals: Interval[]
 }

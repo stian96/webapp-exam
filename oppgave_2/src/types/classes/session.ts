@@ -7,7 +7,7 @@ export class Session implements SessionModel {
     name: string
     type: string
     tags: string[]
-    question: Question[]
+    questions: Question[]
     intervals: Interval[]
 
     constructor(
@@ -15,14 +15,14 @@ export class Session implements SessionModel {
         name: string,
         type: string,
         tags: string[],
-        question: Question[],
+        questions: Question[],
         intervals: Interval[]) {
 
         this.id = id,
         this.name = name,
         this.type = type,
         this.tags = tags,
-        this.question = question,
+        this.questions = questions,
         this.intervals = intervals
     }
 }
