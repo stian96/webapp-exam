@@ -2,8 +2,8 @@
 import React from "react"
 import { useState } from "react"
 import Link from "next/link"
-import Performer from "../components/Performer"
-import "../style/table.scss"
+import Performer from "../Performer"
+import "../../style/table.scss"
 
 const Table = () => {
     const [editMode, setEditMode] = useState<any>(null)

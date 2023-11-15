@@ -1,4 +1,4 @@
-import Goals from "../components/Goals"
+import Goals from "./tables/Goals"
 import "../style/performer.scss"
 
 type PerformerProps = {

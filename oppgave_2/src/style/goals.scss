@@ -17,5 +17,9 @@
         width: 4rem;
         font-weight: 500;
         border-radius: 0.3rem;
+
+        &:hover {
+            background-position: right center;
+        }
     }
 }
