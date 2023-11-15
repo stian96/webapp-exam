@@ -1,6 +1,41 @@
 import { prisma } from "@/lib/prisma"
 import { NextResponse, type NextRequest } from "next/server"
 
+/**
+ * @swagger
+ * /api/users/getQuestion:
+ *   get:
+ *     summary: Retrieves a user.
+ *     description: Retrieves a user object based on an id in the API route if it exists in the database.
+ *     parameters:
+ *       - in: query
+ *         name: questionText
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The question text.
+ *       - in: query
+ *         name: questionType
+ *         schema:
+ *           type: string
+ *           enum: ["text", "radio:range", "radio:mood"]
+ *         required: true
+ *         description: The type of the question.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved user.
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: 200
+ *               message: {"id":"00e372d4-bb66-4d17-b540-94cbca521ca8","question":"Am I sane?","type":"text"}
+ *       400:
+ *         description: No valid 'questionText' and/or 'questionType' parameter could be found.
+ *       404:
+ *         description: Queestion not found.
+ *       500:
+ *         description: Internal server error.
+ */
 export const GET = async (req: NextRequest) => {
 
     try {

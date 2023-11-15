@@ -3,6 +3,7 @@
 import "../style/form.scss"
 
 import React, { useState } from "react"
+import type { Question } from "@/types/question"
 import type { ChangeEvent, FormEvent } from "react"
 
 import { QuestionTypeEnum } from "@/types/question"
@@ -12,7 +13,7 @@ import { QuestionTypeEnum } from "@/types/question"
 
 const QuestionCreator = () => {
   const [questionText, setQuestion] = useState<string>("")
-  const [questionResponseType, setQuestionType] = useState<string>("text")
+  const [questionType, setQuestionType] = useState<string>("text")
   const [isQuestionValid, setIsQuestionValid] = useState<boolean>(false)
   const [submitButtonText, setSubmitButtonText] =
     useState<string>("Save Question")
@@ -66,24 +67,45 @@ const QuestionCreator = () => {
     if (!isQuestionValid) {
       setSubmitButtonText("Error - Question Is Not Valid")
       return
-    } else if (submitButtonText == "Error - Question Already Exists") {
-      return
     }
 
-    const data = await isQuestionExists(questionText, questionResponseType)
-    const isSuccess = data.success
-
-    if (isSuccess) {
-      setSubmitButtonText("Error - Question Already Exists")
-      return
-    }
-
-    //TODO Write to database using API
-    setSubmitButtonText("Question Saved!")
+    await writeToDatabase()
 
     console.log(
-      `Wrote the question '${questionText}' with the response type '${questionResponseType}' to the database.`,
+      `Wrote the question '${questionText}' with the response type '${questionType}' to the database.`,
     )
+  }
+
+  const writeToDatabase = async () => {
+    const question: Question = {
+      id: "",
+      question: questionText,
+      type: questionType,
+    }
+
+    try {
+      const data = await isQuestionExists(questionText, questionType)
+      const isSuccess = data.success
+
+      if (isSuccess) {
+        setSubmitButtonText("Error - Question Already Exists")
+        return
+      }
+
+      const response = await fetch("/api/questions/createQuestion", {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(question),
+      })
+
+      setSubmitButtonText("Question Saved!")
+
+      console.log(response)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -115,7 +137,7 @@ const QuestionCreator = () => {
         </label>
         <select
           id="questionType"
-          value={questionResponseType}
+          value={questionType}
           onChange={handleDropdownChange}
           className="form__select rounded focus:scale-105"
         >
