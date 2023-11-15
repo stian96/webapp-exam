@@ -65,7 +65,6 @@ model Intervals {
   duration              Int
   intensity             Int
   intervalResults       IntervalResults[]
-  sessionQuestions      SessionQuestions[]
   sessionIntervals      SessionIntervals[]
   reportIntervalResults ReportIntervalResults[]
 }
@@ -138,12 +137,10 @@ model PerformerGoals {
 }
 
 model SessionQuestions {
-  session    Sessions   @relation(fields: [sessionId], references: [id])
+  session    Sessions  @relation(fields: [sessionId], references: [id])
   sessionId  String
-  question   Questions  @relation(fields: [questionId], references: [id])
+  question   Questions @relation(fields: [questionId], references: [id])
   questionId String
-  Interval   Intervals? @relation(fields: [intervalId], references: [id])
-  intervalId String?
 
   @@id([sessionId, questionId])
 }
