@@ -2,7 +2,7 @@ import { Interval } from "./interval"
 import { ParamResult } from "./paramResult" 
 
 export type IntervalResult = {
-    id: string,
+    id?: string,
     interval: Interval,
     intensity: ParamResult,
     pulse: ParamResult,
