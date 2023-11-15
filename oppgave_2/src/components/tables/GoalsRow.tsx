@@ -1,3 +1,5 @@
+import GoalsData from "./GoalsData"
+
 type GoalsRowProps = {
     firstField: string,
     buttonText: string
@@ -5,12 +7,19 @@ type GoalsRowProps = {
 
 const GoalsRow = ({ firstField, buttonText }: GoalsRowProps) => {
     return (
-        <tr>
-            <td className="goals__body-data flex justify-between p-4">
+    <>
+        <tr className="goals__body-row flex justify-between p-4">
+            <td className="goals__body-row-data">
                 { firstField }
-                <button className="goals__body-button" type="button">{ buttonText }</button>
-            </td>  
+            </td> 
+            <button className="goals__body-row-button" type="button">{ buttonText }</button>
         </tr>
+        <tr className="goals__body-inner-row">
+            <td colSpan={2}>
+                <GoalsData />
+            </td>
+        </tr>
+    </>
     )
 }
 export default GoalsRow
