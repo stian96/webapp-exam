@@ -1,14 +1,18 @@
+import "../../style/goalsData.scss"
 
-const GoalsData = () => {
+type GoalsDataProps = {
+    id: string,
+    goalNumber: number,
+}
+
+const GoalsData = ({ id, goalNumber}: GoalsDataProps) => {
     return (
-        <div className="container flex justify-between gap-8">
-            <span className="container__identifier">A</span>
-            <div className="container__inner flex justify-between w-full">
-                <p>Goal 1</p>
-                <div className="container__inner-button flex gap-8">
-                    <button>Edit</button>
-                    <button>Delete</button>
-                </div>
+        <div className="data flex items-center p-4">
+            <span className="data__id mr-10">{ id }</span>
+            <span className="data__goal">{`Goal ${goalNumber}`}</span>
+            <div className="data__inner ml-auto">
+                <button className="data__inner-button mr-5">Edit</button>
+                <button className="data__inner-button">Delete</button>
             </div>
         </div>
     )

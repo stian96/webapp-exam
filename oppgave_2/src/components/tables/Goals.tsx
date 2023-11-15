@@ -10,11 +10,9 @@ const Goals = () => {
                 <button className="goals__body-header-button">Create</button>
             </tr>
             <tr className="goals__body-content">
-                <td colSpan={2}>
-                    <div className="flex flex-col w-11/12 mx-auto">
-                        <GoalsRow firstField="2021" buttonText="Show" />
-                        <GoalsRow firstField="2022" buttonText="Show" />
-                    </div>
+                <td className="flex flex-col w-11/12 mx-auto" colSpan={2}>
+                    <GoalsRow firstField="2021" buttonText="Show" />
+                    <GoalsRow firstField="2022" buttonText="Show" />
                 </td>
             </tr>
         </tbody>
