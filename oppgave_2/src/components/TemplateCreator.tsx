@@ -17,7 +17,6 @@ import { QuestionTypeEnum } from "@/types/question"
 // but it gave me a good starting point.
 
 //TODO Add validation to all inputs
-//TODO Connect getUsers to the user dropdown.
 //TODO Connect getQuestions to the question dropdown.
 //TODO Create API PUT to create session, along with intervals, questions (and sessionTags, sessionIntervals, sessionQuestions many to many)
 //TODO Create feedback in button.
@@ -444,9 +443,11 @@ const TemplateCreator = () => {
             isCheckboxSelected ? "--enabled" : "--disabled"
           } flex-grow rounded focus:scale-105`}
         >
-          <option value="user1">User 1</option>
-          <option value="user2">User 2</option>
-          <option value="user3">User 3</option>
+          {dbPerformers.map((performer) => (
+            <option key={performer.id} value={performer.id}>
+              {performer.id} - {performer.userId}
+            </option>
+          ))}
         </select>
       </div>
 
