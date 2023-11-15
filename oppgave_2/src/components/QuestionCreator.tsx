@@ -6,7 +6,7 @@ import React, { useState } from "react"
 import type { Question } from "@/types/question"
 import type { ChangeEvent, FormEvent } from "react"
 
-import { QuestionTypeEnum } from "@/types/question"
+import { QuestionTypeEnum } from "../enums/questionTypeEnum"
 
 // Code based on React documentation found here:
 // https://legacy.reactjs.org/docs/forms.html
