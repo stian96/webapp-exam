@@ -30,8 +30,20 @@ export const fetchRandomTasks = async (taskType: string, count: number): Promise
 };
 
 
+export const updateAttempts = async (taskId: string, attempts: number): Promise<void> => {
+    const response = await fetch(`${API_URL}`, {
+        method: "PUT",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ taskId, attempts }),
+    });
+
+    if (!response.ok) {
+        throw new Error(`Failed to update attempts. Status: ${response.status}`);
+    }
+};
 export default {
     fetchTasks,
-    fetchRandomTasks
+    fetchRandomTasks,
+    updateAttempts
 }
 
