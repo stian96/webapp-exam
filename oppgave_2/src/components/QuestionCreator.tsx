@@ -2,6 +2,7 @@
 
 import "../style/form.scss"
 
+import { randomUUID } from "crypto"
 import React, { useState } from "react"
 import type { Question } from "@/types/question"
 import type { ChangeEvent, FormEvent } from "react"
@@ -18,17 +19,23 @@ const QuestionCreator = () => {
   const [submitButtonText, setSubmitButtonText] =
     useState<string>("Save Question")
 
-  // Function for validating a string. It mustn't be empty, and must contain at least one unicode character.
-  const validateQuestionText = () => {
-    const isStringValid =
-      questionText.trim() !== "" && /\p{L}/u.test(questionText)
+  // Function for validating a string. It mustn't be empty, and must contain at least 3 unicode characters.
+  const validateString = (string: string) => {
+    const isStringValid = string.trim() !== "" && /\p{L}{3,}/u.test(string)
 
-    setIsQuestionValid(isStringValid)
+    return isStringValid
   }
 
   const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const newQuestionText = event.target.value
+
     setQuestion(event.target.value)
-    validateQuestionText()
+
+    setQuestion((prevQuestionText) => {
+      const isStringValid = validateString(newQuestionText)
+      setIsQuestionValid(isStringValid)
+      return prevQuestionText
+    })
   }
 
   const handleDropdownChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -56,7 +63,6 @@ const QuestionCreator = () => {
         return { success: false, message: `Question does not exist.` }
       }
     } catch (error) {
-      console.log("somethin rong")
       return { success: false, message: error }
     }
   }

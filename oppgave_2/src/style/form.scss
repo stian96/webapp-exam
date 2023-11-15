@@ -20,6 +20,14 @@
 
     &__select {
         color: black;
+
+        &.--enabled {
+            border: 2px solid green;
+        }
+
+        &.--disabled {
+            border: 2px solid red;
+        }
     }
 
     &__button {
@@ -43,6 +51,14 @@
 
         &.--error {
             background-image: $dark-red-gradient;
+        }
+    }
+
+    &__checkbox {
+        border-radius: 4px;
+
+        &:checked {
+            color: $red-text-color;
         }
     }
 }
