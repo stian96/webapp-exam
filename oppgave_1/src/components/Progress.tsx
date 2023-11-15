@@ -19,7 +19,7 @@ export default function Progress({ isCorrectAnswer, currentTaskIndex, setCurrent
   }
 
   return (
-    <footer className="mt-4 border-t-slate-300">
+    <footer className="border-t-slate-300">
       {/*<p>Task ID: {tasks[currentTaskIndex]?.id ?? 'No ID'}</p>*/}
       <button onClick={prev} className="btn-prev">
         Vis forrige oppgave
