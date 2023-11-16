@@ -79,144 +79,144 @@ watch: nice to use if you need to change several things.
 }
 
 @layer base {
-    $hover-bg-teal: #5ad3d1; 
-    $hover-bg-purple: #9b59b6; 
-    
+    $hover-bg-btn-teal: #5ad3d1; 
+    $hover-bg-btn-purple: #9b59b6; 
+    $bg-btn-color1: #38b2ac;
+    $bg-color-btn-next:#6b46c1;
+    $error-msg-text-color:red;
+    $main-color: #a8c6ea9c;
+    $h3-color:rgb(35, 132, 104);
+    $bg-btn-send:#718096;
+    $hover-btn-send:#4a5568;
+    $bg-btn-ans:#4299e1;
+    $hover-btn-ans:#3182ce;
+
+
+    .container {
+            @apply mx-auto w-full max-w-2xl;
+            
+    }
+       
+    .antoppg{
+        margin-bottom:0.5rem;
+
+    }
         
-        button {
-            @apply text-white font-bold py-2 px-4 rounded;
+    button {
+        @apply text-white font-bold py-2 px-4 m-4 rounded;
     
            
-            &.btn-prev {
-                background-color: #38b2ac; 
+        &.btn-prev {
+            background-color: $bg-btn-color1;
     
-                &:hover {
-                    background-color: $hover-bg-teal;
-                }
+            &:hover {
+                background-color: $hover-bg-btn-teal;
             }
-            &.btn-random {
-                background-color: #38b2ac;
+        }
+        &.btn-random {
+            background-color: $bg-btn-color1;
             
-                &:hover {
-                    background-color: $hover-bg-teal;
-                }
+            &:hover {
+                background-color: $hover-bg-btn-teal;
             }
-    
-            
-            &.btn-next {
-                background-color: #6b46c1; 
-    
-                &:hover {
-                    background-color: $hover-bg-purple;
-                }
-            }
+        }
     
             
-            &.btn-send {
-                @apply bg-gray-500;
+        &.btn-next {
+            background-color: $bg-color-btn-next;
     
-                &:hover {
-                    @apply bg-gray-600;
-                }
+            &:hover {
+                background-color: $hover-bg-btn-purple;
             }
+        }
     
             
-            &.btn-show-answer {
-                @apply bg-blue-500;
+        &.btn-send {
+            background-color: $bg-btn-send;
     
-                &:hover {
-                    @apply bg-blue-600;
-                }
+            &:hover {
+                background-color: $hover-btn-send;
             }
-        } 
-    /** {
-        @apply border-border;
-    }*/
+        }
+    
+            
+        &.btn-show-answer {
+            background-color: $bg-btn-ans;
+    
+            &:hover {
+                background-color: $hover-btn-ans;
+            }
+        }
+    } 
+
 
     body {
         @apply flex flex-col;
         margin: 1rem;
-        @apply bg-background text-foreground justify-center items-center min-h-screen;
+        box-sizing: border-box;
+        @apply  justify-center items-center min-h-screen;
     }
     .count-error-msg {
-        color: red;
+        color: $error-msg-text-color;
         font-weight: bolder;
+        margin:  1rem 0 1rem 0;
     }
+   
     
     main {
-        @apply mt-[-10%]; 
-    }
-    
-    h3 {
-        color: rgb(35, 132, 104);
-        font-style: italic;
-    
+        margin-top: -10%; 
+        background-color: $main-color;
+        border-radius: 4%;
+        padding: 1rem;
     }
     h1 {
         font-weight: bold;
         font-size: 24px;
+    
     }
+    h2 {
+        font-weight: bold;
+        font-size: 16px;
+        
+    }
+    h3 {
+        color: $h3-color;
+        font-style: italic;
+    
+    }
+    
+    p{
+        margin: 0.5rem 0 0.5rem 0;
+        
+    }
+    
 
     input[type="number"]::-webkit-inner-spin-button,
     input[type="number"]::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
     }
-         
-    @media only screen and (max-width: 640px) {
-        body {
-            @apply p-4;
-            @apply mt-[-10%];
-        }
-        main {
-            @apply items-center justify-center;      
-        }
-        .container {
-            @apply mx-auto;
-        }
-    }
     
+    //mobil
+    @media only screen and (max-width: 640px) {    
+        button {
+            @apply text-xs ;
+        }
+       
+    }
+    //tablets
     @media only screen and (min-width: 768px) and (max-width: 1024px){
-        body {
-            @apply p-8;
-        }
-        main {
-            @apply items-center justify-center;
-        }
         
+        main {
+            @apply p-8;
+        } 
         .container {
             @apply mx-auto;
         }
                 
     }
-    @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-        body {
-            @apply p-6;
-        }
-        main {
-            @apply mt-[-10%];
-            @apply flex-row justify-center;
-        }
-        
-        .container {
-            @apply max-w-full;
-        }
-       
-    }
     
-    @media (max-width: 640px) and (orientation: landscape) {
-        body {
-            @apply p-2;     
-        }
-    
-        main {
-            @apply flex-row items-center;     
-        }
-    
-        .container {
-            @apply max-w-full;       
-        }
-    }
+ 
 }
 
 /*# sourceMappingURL=globals.css.map */
