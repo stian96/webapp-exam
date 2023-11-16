@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react"
 import Header from "@/components/Header"
 import Search from "@/components/Search"
@@ -10,8 +11,8 @@ const Dashboard = () => {
   return(
     <ActivityProvider>
       <Header />
-      <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
-      <Table />
+      <Search setSearchQuery={setSearchQuery}/>
+      <Table searchQuery={searchQuery}/>
     </ActivityProvider>
   )
 }

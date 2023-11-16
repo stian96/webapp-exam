@@ -1,17 +1,21 @@
-import React from "react"
+"use client"
+import React, { useState } from "react"
 import "../style/search.scss"
 
 type SearchQueryProps = {
-    searchQuery: string,
     setSearchQuery: (text: string) => void
 }
 
-const Search = ({ searchQuery, setSearchQuery }: SearchQueryProps) => {
+const Search = ({ setSearchQuery }: SearchQueryProps) => {
+    const [localQuery, setLocalQuery] = useState("");
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target !== null)
-            setSearchQuery(event.target.value)
+        setLocalQuery(event.target.value);
+    };
 
+
+    const handleSearch = () => {
+        setSearchQuery(localQuery)
     }
 
     return(
@@ -19,9 +23,15 @@ const Search = ({ searchQuery, setSearchQuery }: SearchQueryProps) => {
         <input 
             className="search__input" 
             placeholder="Search for performer..."
+            value={localQuery}
             onChange={handleInputChange}
         />
-        <button className="search__button" type="button">Search</button>
+        <button 
+            className="search__button" 
+            type="button"
+            onClick={handleSearch}>
+                Search
+        </button>
     </div>
     )
 }

@@ -6,7 +6,11 @@ import { ActivityContext } from "@/hooks/ActivityContext"
 
 import "@/style/table.scss"
 
-const Table = () => {
+type TableProp = {
+    searchQuery: string
+}
+
+const Table = ({ searchQuery }: TableProp) => {
     const [editMode, setEditMode] = useState<any>(null)
     const { selectedActivities } = useContext(ActivityContext)
 
@@ -22,10 +26,13 @@ const Table = () => {
         { id: "Performer D", name: "Betty", gender: "Female", sport: "Handball" }
     ]
 
+    const filteredPerformers = performers.filter((performer) => 
+        performer.id.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase()))
+
     return(
         <table className="table w-full max-w-7xl mx-auto border">
             <tbody className="table__body">
-                {performers.map((performer, index) => (
+                {filteredPerformers.map((performer, index) => (
                     <React.Fragment key={`performer-fragment-${index}`}>
                         <tr>
                             <td className="table__body-data flex justify-between p-4">
@@ -44,8 +51,8 @@ const Table = () => {
                                 <Performer performer={performer} />
                             </td>
                         </tr>
-                        )}
-                    </React.Fragment>
+                    )}
+                </React.Fragment>
                 ))}
             </tbody>
             { selectedActivities.length == 2 && (
