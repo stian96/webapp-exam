@@ -1,6 +1,8 @@
 import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
 import { type Performer } from '@/types/performer';
-import { type Question } from '@/types/question';
+import { getQuestionTypeEnum, type Question } from '@/types/question';
+import { SessionTemplate } from '@/types/classes/sessionTemplate';
+import { Interval } from '@/types/performance/interval';
 
 const useTemplateCreatorHook = () => {
   const [sessionName, setSessionName] = useState<string>("")
@@ -10,7 +12,6 @@ const useTemplateCreatorHook = () => {
   const [sessionPulse, setSessionPulse] = useState<string>("")
   const [sessionType, setSessionType] = useState<string>("cycling")
   const [performerId, setPerformerId] = useState<string>("")
-  const [questionsId, setQuestionsId] = useState<string[]>([])
   const [dbPerformers, setDbPerformers] = useState<Performer[]>([])
   const [dbQuestions, setDbQuestions] = useState<Question[]>([])
   const [tags, setTags] = useState([""])
@@ -309,28 +310,87 @@ const useTemplateCreatorHook = () => {
     )
   }
 
-  const writeToDatabase = async () => {
-    const question: Question = {
-      id: "",
-      question: sessionName,
-      type: questionType,
-    }
-
+  const isSlugExists = async (slug: string) => {
     try {
-      const data = await isQuestionExists(sessionName, questionType)
+      const response = await fetch(`/api/sessions/getSessionBySlug/${slug}`, {
+        method: "get",
+      })
+
+      const data = await response.json()
       const isSuccess = data.success
 
-      if (isSuccess) {
-        setSubmitButtonText("Error - Question Already Exists")
+      if (isSuccess == 200) {
+        console.log(`${slug} exists.`)
+        return { success: true, message: `${slug} exists.` }
+      } else {
+        console.log(`${slug} does not exist.`)
+        return { success: false, message: `${slug} does not exist.` }
+      }
+    } catch (error) {
+      return { success: false, message: error }
+    }
+  }
+
+  const writeToDatabase = async () => {
+    const questionsList: Question[] = []
+    const intervalList: Interval[] = []
+    let uniquePerformer: string | null = null;
+
+    for (const question of questions) {
+      const questionTypeEnum = getQuestionTypeEnum(question.type)
+
+      if (questionTypeEnum == undefined) {
+        console.log("Question type could not be deserialised.")
         return
       }
 
+      const questionForList: Question = {
+        id: "",
+        question: question.question,
+        type: questionTypeEnum,
+      }
+
+      questionsList.push(questionForList)
+    }
+
+    for (const interval of intervals) {
+
+      const intervalForList: Interval = {
+        id: "",
+        duration: parseInt(interval.duration, 10),
+        intensity: parseInt(interval.intensity, 10),
+      }
+
+      intervalList.push(intervalForList)
+    }
+
+    // If performer is selected then value is changed from null to the stringId of the performer.
+    if (isCheckboxSelected) {
+      uniquePerformer = performerId
+    }
+
+    // Creates a slug in the format "name_of_template-uniqueto-123123-12sdf-4124-gfgfd4"
+    let slugForTemplate =  `${sessionName}-${isCheckboxSelected ? `-uniqueto-${performerId}` : "-notunique"}`
+    slugForTemplate = slugForTemplate.toLowerCase().replace(/ /g, '_');
+
+    const sessionTemplate = new SessionTemplate("", sessionName, sessionType, tags, questionsList, intervalList, uniquePerformer, slugForTemplate, parseInt(sessionIntensity, 10), parseInt(sessionWatt, 10), parseInt(sessionSpeed, 10), parseInt(sessionPulse, 10))
+
+    try {
+      const data = await isSlugExists(slugForTemplate)
+      const isSuccess = data.success
+
+      if (isSuccess) {
+        setSubmitButtonText("Error - Template Name Already Exists ")
+        return
+      }
+
+      //TODO Write to DB
       const response = await fetch("/api/questions/createQuestion", {
         method: "put",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(question),
+        body: JSON.stringify(sessionTemplate),
       })
 
       setSubmitButtonText("Template Saved!")
@@ -361,8 +421,6 @@ const useTemplateCreatorHook = () => {
     setSessionType,
     performerId,
     setPerformerId,
-    questionsId,
-    setQuestionsId,
     dbPerformers,
     setDbPerformers,
     dbQuestions,

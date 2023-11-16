@@ -7,6 +7,7 @@ import React, { useState } from "react"
 import type { Question } from "@/types/question"
 import type { ChangeEvent, FormEvent } from "react"
 
+import { getQuestionTypeEnum } from "@/types/question"
 import { QuestionTypeEnum } from "../enums/questionTypeEnum"
 
 // Code based on React documentation found here:
@@ -83,10 +84,17 @@ const QuestionCreator = () => {
   }
 
   const writeToDatabase = async () => {
+    const questionTypeEnum = getQuestionTypeEnum(questionType)
+
+    if (questionTypeEnum == undefined) {
+      console.log("Question type could not be deserialised.")
+      return
+    }
+
     const question: Question = {
       id: "",
       question: questionText,
-      type: questionType,
+      type: questionTypeEnum,
     }
 
     try {

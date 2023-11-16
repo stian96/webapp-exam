@@ -4,8 +4,8 @@ import { Question } from "../question"
 import { Interval } from "../performance/interval"
 
 export class SessionTemplate extends Session {
-    uniqueTo: Performer
-    slugs: string
+    uniqueTo?: string | null
+    slug: string
     intensity: number
     watt: number
     speed: number
@@ -18,8 +18,8 @@ export class SessionTemplate extends Session {
         tags: string[],
         questions: Question[],
         intervals: Interval[],
-        uniqueTo: Performer,
-        slugs: string,
+        uniqueTo: string | null,
+        slug: string,
         intensity: number,
         watt: number,
         speed: number,
@@ -27,7 +27,7 @@ export class SessionTemplate extends Session {
 
         super(id, name, type, tags, questions, intervals)
         this.uniqueTo = uniqueTo,
-        this.slugs = slugs,
+        this.slug = slug,
         this.intensity = intensity,
         this.watt = watt,
         this.speed = speed,

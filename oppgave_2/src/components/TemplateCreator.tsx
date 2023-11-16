@@ -2,14 +2,9 @@
 
 import "../style/form.scss"
 
-import React, { useEffect, useState } from "react"
-import type { Question } from "@/types/question"
-import type { ChangeEvent, FormEvent } from "react"
+import React from "react"
 
-import useImportUsersHook from "@/hooks/useImportUsersHook"
 import useTemplateCreatorHook from "@/hooks/useTemplateCreatorHook"
-import { Performer } from "@/types/performer"
-import { QuestionTypeEnum } from "@/types/question"
 
 // Code based on React documentation found here:
 // https://legacy.reactjs.org/docs/forms.html
@@ -24,49 +19,25 @@ import { QuestionTypeEnum } from "@/types/question"
 const TemplateCreator = () => {
   const {
     sessionName,
-    setSessionName,
     sessionIntensity,
-    setSessionIntensity,
     sessionWatt,
-    setSessionWatt,
     sessionSpeed,
-    setSessionSpeed,
     sessionPulse,
-    setSessionPulse,
     sessionType,
-    setSessionType,
     performerId,
-    setPerformerId,
-    questionsId,
-    setQuestionsId,
     dbPerformers,
-    setDbPerformers,
     dbQuestions,
-    setDbQuestions,
     tags,
-    setTags,
     intervals,
-    setIntervals,
     questions,
-    setQuestions,
     existingQuestions,
-    setExistingQuestions,
     isQuestionValid,
-    setIsNameValid,
     isIntensityValid,
-    setIsIntensityValid,
     isWattValid,
-    setIsWattValid,
     isSpeedValid,
-    setIsSpeedValid,
     isPulseValid,
-    setIsPulseValid,
     isCheckboxSelected,
-    setIsCheckboxSelected,
     submitButtonText,
-    setSubmitButtonText,
-    validateString,
-    validateStringMeasurement,
     handleNameTextChange,
     handleIntensityTextChange,
     handleWattTextChange,
