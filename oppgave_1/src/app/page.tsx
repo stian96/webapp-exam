@@ -1,6 +1,6 @@
 "use client"
 
-import { Answer, Header, Tasks, TaskCount, Progress, DropdownTaskFilter} from "@/components";
+import { Answer, Header, Tasks, TaskCount, Progress, DropdownTaskFilter } from "@/components";
 import ResultsDisplay from "@/components/ResultsDisplay";
 import { type Task, type Attempts, type Stats, type Type } from "@/types"
 import React, { useState, useEffect } from 'react'
@@ -35,7 +35,7 @@ const Home = () => {
     multiply: { correct: 0, incorrect: 0 },
     divide: { correct: 0, incorrect: 0 },
   });
-  
+
 
   useEffect(() => {
     const getTasks = async () => {
@@ -102,26 +102,26 @@ const Home = () => {
     }
   };
 
-  
+
   const handleCorrectAnswer = (taskType: Type) => {
     setIsAnswerCorrect(true);
-    
-    
+
+
     setScores(prevScores => ({
       ...prevScores,
       [taskType]: {
         ...prevScores[taskType],
         correct: prevScores[taskType].correct + 1
       }
-      
+
     }));
     console.log(scores)
   };
 
   const handleIncorrectAnswer = (taskType: Type) => {
-  
-  
-    
+
+
+
     setScores(prevScores => ({
       ...prevScores,
       [taskType]: {
@@ -162,7 +162,7 @@ const Home = () => {
   };
 
   console.log({ isCorrectAnswer, isAnswerShown });
-  
+
   console.log("Current Task Index:", currentTaskIndex);
   console.log("Total Tasks:", tasks.length);
 
@@ -184,32 +184,33 @@ const Home = () => {
               onCorrectAnswer={handleCorrectAnswer}
               onIncorrectAnswer={() => {
                 handleIncorrectAnswer(tasks[currentTaskIndex].type);
-                decrementAttempt(tasks[currentTaskIndex].id); }}
-              onShowAnswer= {onShowAnswer}
+                decrementAttempt(tasks[currentTaskIndex].id);
+              }}
+              onShowAnswer={onShowAnswer}
               remainingAttempts={attempts[tasks[currentTaskIndex].id]}
               totalAttempts={3} //TODO add attempts to the db. Right now it is hard coded
-              
-              
-              
+
+
+
 
             />
-            <Progress 
-            tasks={tasks} 
-            isCorrectAnswer={isCorrectAnswer && currentTaskIndex <= tasks.length - 1}  
-            isAnswerShown={isAnswerShown} 
-            currentTaskIndex={currentTaskIndex}
-            setCurrentTaskIndex={setCurrentTaskIndex} />
+            <Progress
+              tasks={tasks}
+              isCorrectAnswer={isCorrectAnswer && currentTaskIndex <= tasks.length - 1}
+              isAnswerShown={isAnswerShown}
+              currentTaskIndex={currentTaskIndex}
+              setCurrentTaskIndex={setCurrentTaskIndex} />
           </>
         )}
       </Tasks>
 
-      {tasks.length > 0 && currentTaskIndex >= tasks.length && (
+      {tasks.length > 0 && currentTaskIndex < tasks.length && (
         <>
           <ResultsDisplay scores={scores} />
           <button onClick={handleStartAgain}>Start Again</button>
 
         </>
-)}
+      )}
 
     </main>
   );
