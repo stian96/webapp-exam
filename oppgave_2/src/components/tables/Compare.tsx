@@ -3,6 +3,8 @@ import Activity from "./Activity"
 import "../../style/compare.scss"
 
 const Compare = () => {
+
+    // TODO: Replace dummy data.
     const activities = ["Activity 1", "Activity 2", "Activity 3"]
     
     return (
@@ -15,12 +17,12 @@ const Compare = () => {
                         <Filters />
                     </td>
                 </tr>
-                <tr className="activity-table ">
-                    <td>
+                <tr className="activity-table">
+                    <div className="mb-5">
                         { activities.map((activity, index) =>  (
                             <Activity key={index} id={activity} />
                         ))}
-                    </td>
+                    </div>
                 </tr>
             </tbody>
         </table>
