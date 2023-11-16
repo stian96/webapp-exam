@@ -1,10 +1,9 @@
+@import "colors";
+
 .filter {
 
     &__dropdown {
-        background-color: black;
-
-        &-placeholder {
-            color: red !important;
-        }
+        background-color: rgb(33, 33, 33);
+        margin-right: 1rem;
     }
 }
