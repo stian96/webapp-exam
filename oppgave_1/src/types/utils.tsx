@@ -4,6 +4,7 @@ export const calculateTotalScore = (scores: Stats) => {
   return Object.values(scores).reduce((total, score) => total + score.correct, 0);
 };
 
+
 //source chatGpt
 export const findWeakness = (scores: Stats) => {
 

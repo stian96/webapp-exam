@@ -7,6 +7,7 @@ type ResultsDisplayProps = {
 };
 
 
+
 export default function ResultsDisplay({ scores }: ResultsDisplayProps) {
 
   const totalScore = calculateTotalScore(scores);
