@@ -28,7 +28,7 @@ const GoalsRow = ({ firstField, buttonText }: GoalsRowProps) => {
                 <td className="goals__body-row-data">{ firstField }</td> 
                 <td>
                     <button className="goals__body-row-button" type="button" onClick={toggleGoalsData}>
-                        { buttonText }
+                        { showGoalsData ? "Hide" : buttonText }
                     </button>
                 </td>
             </tr>

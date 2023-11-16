@@ -1,0 +1,10 @@
+.filter {
+
+    &__dropdown {
+        background-color: black;
+
+        &-placeholder {
+            color: red !important;
+        }
+    }
+}

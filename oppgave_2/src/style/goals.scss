@@ -4,9 +4,15 @@
     color: #fff;
     width: 95%;
     margin: 1rem auto auto auto;
+    background: $dark-bg-color;
 
     &__body {
         box-shadow: 0px 0px 2px 0.5px $red-text-color;
+        padding-bottom: 2rem;
+
+        &-header {
+            padding: 1.5rem 1rem 1.5rem 1rem;
+        }
 
         &-header-button {
             background-image: $red-gradient;
@@ -41,4 +47,9 @@
             margin: 0 auto;
         }
     }
+}
+
+.compare {
+    width: 100%;
+    box-shadow: 0px 0px 2px 0.5px $red-text-color;
 }
