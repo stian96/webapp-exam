@@ -5,8 +5,8 @@ import { NextResponse, type NextRequest } from "next/server"
  * @swagger
  * /api/users/getQuestion:
  *   get:
- *     summary: Retrieves a user.
- *     description: Retrieves a user object based on an id in the API route if it exists in the database.
+ *     summary: Retrieves a question.
+ *     description: Retrieves a question object based on a question text and question type in the API route if it exists in the database.
  *     parameters:
  *       - in: query
  *         name: questionText
@@ -32,7 +32,7 @@ import { NextResponse, type NextRequest } from "next/server"
  *       400:
  *         description: No valid 'questionText' and/or 'questionType' parameter could be found.
  *       404:
- *         description: Queestion not found.
+ *         description: Question not found.
  *       500:
  *         description: Internal server error.
  */

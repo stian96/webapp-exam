@@ -1,15 +1,15 @@
 import Header from "@/components/Header"
-import QuestionCreator from "@/components/QuestionCreator"
+import TemplateCreator from "@/components/TemplateCreator"
 
-const CreateQuestionPage = () => {
+const CreateTemplatePage = () => {
   return (
     <>
       <Header />
       <div className="min-w-screen-md mx-auto max-w-screen-lg">
-        <QuestionCreator />
+        <TemplateCreator />
       </div>
     </>
   )
 }
 
-export default CreateQuestionPage
+export default CreateTemplatePage

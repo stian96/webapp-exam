@@ -2,10 +2,12 @@
 
 import "../style/form.scss"
 
+import { randomUUID } from "crypto"
 import React, { useState } from "react"
 import type { Question } from "@/types/question"
 import type { ChangeEvent, FormEvent } from "react"
 
+import { getQuestionTypeEnum } from "@/types/question"
 import { QuestionTypeEnum } from "../enums/questionTypeEnum"
 
 // Code based on React documentation found here:
@@ -18,17 +20,23 @@ const QuestionCreator = () => {
   const [submitButtonText, setSubmitButtonText] =
     useState<string>("Save Question")
 
-  // Function for validating a string. It mustn't be empty, and must contain at least one unicode character.
-  const validateQuestionText = () => {
-    const isStringValid =
-      questionText.trim() !== "" && /\p{L}/u.test(questionText)
+  // Function for validating a string. It mustn't be empty, and must contain at least 3 unicode characters.
+  const validateString = (string: string) => {
+    const isStringValid = string.trim() !== "" && /\p{L}{3,}/u.test(string)
 
-    setIsQuestionValid(isStringValid)
+    return isStringValid
   }
 
   const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const newQuestionText = event.target.value
+
     setQuestion(event.target.value)
-    validateQuestionText()
+
+    setQuestion((prevQuestionText) => {
+      const isStringValid = validateString(newQuestionText)
+      setIsQuestionValid(isStringValid)
+      return prevQuestionText
+    })
   }
 
   const handleDropdownChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -56,7 +64,6 @@ const QuestionCreator = () => {
         return { success: false, message: `Question does not exist.` }
       }
     } catch (error) {
-      console.log("somethin rong")
       return { success: false, message: error }
     }
   }
@@ -77,10 +84,17 @@ const QuestionCreator = () => {
   }
 
   const writeToDatabase = async () => {
+    const questionTypeEnum = getQuestionTypeEnum(questionType)
+
+    if (questionTypeEnum == undefined) {
+      console.log("Question type could not be deserialised.")
+      return
+    }
+
     const question: Question = {
       id: "",
       question: questionText,
-      type: questionType,
+      type: questionTypeEnum,
     }
 
     try {
@@ -123,11 +137,11 @@ const QuestionCreator = () => {
           value={questionText}
           onChange={handleTextChange}
           placeholder="Enter a question!"
-          className={`border-2 ${
+          className={`form__input ${
             isQuestionValid
               ? "border-green-400 text-green-600"
               : "border-red-600 text-red-600"
-          } rounded transition-transform focus:scale-105`}
+          }`}
         />
       </div>
 
@@ -150,7 +164,7 @@ const QuestionCreator = () => {
       <button
         type="submit"
         className={`form__button ${
-          submitButtonText === "Question Saved!" ? "--question-saved" : ""
+          submitButtonText === "Question Saved!" ? "--saved" : ""
         }
         ${submitButtonText.startsWith("Error") ? "--error" : ""}`}
       >
