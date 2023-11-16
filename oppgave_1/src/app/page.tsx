@@ -4,10 +4,9 @@ import { Answer, Header, Tasks, TaskCount, Progress, DropdownTaskFilter } from "
 import { type Task, type Attempts } from "@/types"
 import React, { useState, useEffect } from 'react'
 import { cn } from "@/lib/utils"
-import { fetchTasks, fetchRandomTasks, updateAttempts } from '../features/task/task.controller'
+import { fetchTasks, fetchRandomTasks } from '../features/task/task.controller'
 
-//TODO: Show button next task when clicking Button : Show answers
-//TODO: Not show next task when clicking Send btn.
+
 
 const Home = () => {
 
@@ -89,17 +88,11 @@ const Home = () => {
     setCurrentTaskIndex((prevIndex) => prevIndex + 1);
   };
 
-  const decrementAttempt = async (taskId: string) => {
-    const newAttemps = attempts[taskId] > 0 ? attempts[taskId] - 1 : 0
+  const decrementAttempt = (taskId: string) => {
     setAttempts((prevAttempts) => ({
       ...prevAttempts,
-      [taskId]: newAttemps
+      [taskId]: prevAttempts[taskId] > 0 ? prevAttempts[taskId] - 1 : 0
     }));
-    try {
-      await updateAttempts(taskId, newAttemps)
-    } catch (error) {
-      console.error('Failed to update number of attempts:', error);
-    }
   };
 
 
@@ -119,7 +112,7 @@ const Home = () => {
             <Answer
               task={tasks[currentTaskIndex]}
               onCorrectAnswer={handleCorrectAnswer}
-              onIncorrectAnswer={() => { void decrementAttempt(tasks[currentTaskIndex].id); }}
+              onIncorrectAnswer={() => { decrementAttempt(tasks[currentTaskIndex].id); }}
               remainingAttempts={attempts[tasks[currentTaskIndex].id]}
               totalAttempts={3} //TODO add attempts to the db. Right now it is hard coded
 

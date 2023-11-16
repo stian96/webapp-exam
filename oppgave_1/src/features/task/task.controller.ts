@@ -29,7 +29,7 @@ export const fetchRandomTasks = async (taskType: string, count: number): Promise
     return result.data;
 };
 
-
+/*
 export const updateAttempts = async (taskId: string, attempts: number): Promise<void> => {
     const response = await fetch(`${API_URL}`, {
         method: "PUT",
@@ -46,4 +46,4 @@ export default {
     fetchRandomTasks,
     updateAttempts
 }
-
+*/
