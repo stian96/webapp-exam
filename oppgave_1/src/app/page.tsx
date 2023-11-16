@@ -204,10 +204,10 @@ const Home = () => {
         )}
       </Tasks>
 
-      {tasks.length > 0 && currentTaskIndex >= tasks.length && (
+      {tasks.length > 0 && currentTaskIndex < tasks.length && (
         <>
           <ResultsDisplay scores={scores} />
-          <button onClick={handleStartAgain}>Start Again</button>
+          <button onClick={handleStartAgain} className="btn-random">Start Again</button>
 
         </>
       )}
