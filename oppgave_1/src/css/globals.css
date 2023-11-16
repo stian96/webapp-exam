@@ -4,19 +4,10 @@
 @import 'tailwindcss/utilities';*/
 /*Skriv kommandoen: npm run css:build (denne kompilerer sass til css) 
 Skriv kommandoen: npm run css:watch (kompilerer også sass til css, men gjør det automatisk når du lagrer main.scss fila)*/
-main {
-  color: rgb(16, 16, 89);
-}
-
-h3 {
-  color: rgb(12, 70, 52);
-  font-style: italic;
-}
-
-.container {
-  justify-content: center;
-}
-
+/*
+build: nice to use if you are only going to change one small thing.
+watch: nice to use if you need to change several things.
+*/
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -76,16 +67,94 @@ h3 {
   }
 }
 @layer base {
-  * {
-    @apply border-border;
+  .container {
+    @apply mx-auto w-full max-w-2xl;
+  }
+  .antoppg {
+    margin-bottom: 0.5rem;
+  }
+  button {
+    @apply text-white font-bold py-2 px-4 m-4 rounded;
+  }
+  button.btn-prev {
+    background-color: #38b2ac;
+  }
+  button.btn-prev:hover {
+    background-color: #5ad3d1;
+  }
+  button.btn-random {
+    background-color: #38b2ac;
+  }
+  button.btn-random:hover {
+    background-color: #5ad3d1;
+  }
+  button.btn-next {
+    background-color: #6b46c1;
+  }
+  button.btn-next:hover {
+    background-color: #9b59b6;
+  }
+  button.btn-send {
+    background-color: #718096;
+  }
+  button.btn-send:hover {
+    background-color: #4a5568;
+  }
+  button.btn-show-answer {
+    background-color: #4299e1;
+  }
+  button.btn-show-answer:hover {
+    background-color: #3182ce;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply flex flex-col;
+    margin: 1rem;
+    box-sizing: border-box;
+    @apply justify-center items-center min-h-screen;
+  }
+  .count-error-msg {
+    color: red;
+    font-weight: bolder;
+    margin: 1rem 0 1rem 0;
+  }
+  main {
+    margin-top: -10%;
+    background-color: rgba(168, 198, 234, 0.6117647059);
+    border-radius: 4%;
+    padding: 1rem;
+  }
+  h1 {
+    font-weight: bold;
+    font-size: 24px;
+  }
+  h2 {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  h3 {
+    color: rgb(35, 132, 104);
+    font-style: italic;
+  }
+  p {
+    margin: 0.5rem 0 0.5rem 0;
   }
   input[type=number]::-webkit-inner-spin-button,
   input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+  @media only screen and (max-width: 640px) {
+    button {
+      @apply text-xs;
+    }
+  }
+  @media only screen and (min-width: 768px) and (max-width: 1024px) {
+    main {
+      @apply p-8;
+    }
+    .container {
+      @apply mx-auto;
+    }
   }
 }
 

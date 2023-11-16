@@ -1,6 +1,6 @@
 
 export type Interval = {
-    id: string,
+    id?: string,
     duration: number,
     intensity: number
 }

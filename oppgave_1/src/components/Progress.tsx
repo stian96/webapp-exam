@@ -1,33 +1,33 @@
 "use client"
 
-import { useState } from "react"
 import type { MouseEvent } from "react"
 
 import { type Task } from "../types/index"
 
-export default function Progress(props: { tasks: Task[] }) {
-  const [state, setState] = useState(0)
-  const currentTask = props.tasks[state]
+export default function Progress({ isCorrectAnswer, currentTaskIndex, setCurrentTaskIndex }:
+  { tasks: Task[], isCorrectAnswer: boolean, currentTaskIndex: number, setCurrentTaskIndex: (index: number) => void; }) {
+
 
   const next = (event: MouseEvent<HTMLButtonElement>) => {
     console.log(event)
-    setState(state + 1)
+    setCurrentTaskIndex(currentTaskIndex + 1)
   }
 
   const prev = (event: MouseEvent<HTMLButtonElement>) => {
     console.log(event)
-    setState(state - 1)
+    setCurrentTaskIndex(currentTaskIndex - 1)
   }
 
   return (
-    <footer className="mt-4 border-t-slate-300">
-      <p>{currentTask ? currentTask.id : "No ID"}</p>
-      <button onClick={next} className="bg-purple-700 text-white">
-        Forrige
+    <footer className="border-t-slate-300">
+      {/*<p>Task ID: {tasks[currentTaskIndex]?.id ?? 'No ID'}</p>*/}
+      <button onClick={prev} className="btn-prev">
+        Vis forrige oppgave
       </button>
-      <button onClick={prev} className="bg-teal-700 text-white">
-        Neste
-      </button>
+      {isCorrectAnswer && (
+        <button onClick={next} className="btn-next">
+          Vis neste oppgave
+        </button>)}
     </footer>
   )
 }

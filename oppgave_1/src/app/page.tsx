@@ -1,37 +1,137 @@
-import Answer from "@/components/Answer"
-import Header from "@/components/Header"
-import Progress from "@/components/Progress"
-import TaskComponent from "@/components/Task"
-import Tasks from "@/components/Tasks"
-import TaskText from "@/components/Text"
-import { type Task } from "@/types"
+"use client"
 
-const Home = async () => {
+import { Answer, Header, Tasks, TaskCount, Progress, DropdownTaskFilter } from "@/components";
+import { type Task, type Attempts } from "@/types"
+import React, { useState, useEffect } from 'react'
+import { cn } from "@/lib/utils"
+import { fetchTasks, fetchRandomTasks, updateAttempts } from '../features/task/task.controller'
 
-  const fetchTask = async () => {
-    const response = await fetch("http://localhost:3000/api/restapi", { method: "get" })
+//TODO: Show button next task when clicking Button : Show answers
+//TODO: Not show next task when clicking Send btn.
 
-    if (!response.ok)
-      throw new Error("Failed to fetch data.")
+const Home = () => {
 
-    return response.json()
-  }
+  const [selectedType, setSelectedType] = useState<string>('add')
+  const [tasks, setTasks] = useState<Task[]>([])
+  const [taskCount, setTaskCount] = useState<string>('5')
+  const [errorRandom, setErrorRandom] = useState('')
+  const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
+  const [randomTaskCount, setRandomTaskCount] = useState<number | null>(null);
+  const [lastRandomCount, setLastRandomCount] = useState<number | null>(null);
 
-  const response = await fetchTask()
-  const result = response as { success: boolean, data: Task[] }
+  const [attempts, setAttempts] = useState<Attempts>({})
+
+  useEffect(() => {
+    const getTasks = async () => {
+      try {
+        const fetchedTasks = await fetchTasks(selectedType, taskCount);
+        setTasks(fetchedTasks);
+
+        const initialAttempts = fetchedTasks.reduce((acc: Attempts, task: Task) => {
+          acc[task.id] = 3;
+          return acc;
+        }, {});
+
+
+        setAttempts(initialAttempts);
+        console.log(initialAttempts)
+
+      } catch (errorFetchingTasks) {
+        console.error(`Error fetching tasks: `, errorFetchingTasks);
+        //setError('En feil oppstod under henting av oppgaver.');
+      }
+
+
+    };
+
+    void getTasks();
+  }, [selectedType, taskCount]);
+
+
+  const handleRandomTaskFetch = async () => {
+    try {
+      let randomCount;
+      do {
+        randomCount = Math.floor(Math.random() * 10) + 1;
+      } while (randomCount === lastRandomCount)
+
+      setLastRandomCount(randomCount)
+
+      const randomTasks = await fetchRandomTasks(selectedType, randomCount);
+      setTasks(randomTasks);
+      setRandomTaskCount(randomTasks.length);
+      console.log(`Antall tilfeldige oppgaver hentet: ${randomTasks.length}`);
+
+    } catch (errorRandomTaskFetch) {
+      console.error(`Error fetching random tasks: `, errorRandomTaskFetch);
+      setRandomTaskCount(0);
+    }
+  };
+
+  const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(`Selected task type changed to: ${event.target.value}`);
+    setSelectedType(event.target.value)
+  };
+
+  const handleCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value.replace(/\D/g, '');
+    setTaskCount(value ? String(Number(value)) : '');
+
+    const numberValue = value ? Number(value) : 0;
+    if (numberValue >= 1 && numberValue <= 10) {
+      setTaskCount(String(numberValue));
+      setErrorRandom('');
+    } else {
+      setErrorRandom('Skriv inn et antall oppgaver fra 1 til 10, eller velg et tilfeldig antall oppgaver.');
+    }
+  };
+  const handleCorrectAnswer = () => {
+    setCurrentTaskIndex((prevIndex) => prevIndex + 1);
+  };
+
+  const decrementAttempt = async (taskId: string) => {
+    const newAttemps = attempts[taskId] > 0 ? attempts[taskId] - 1 : 0
+    setAttempts((prevAttempts) => ({
+      ...prevAttempts,
+      [taskId]: newAttemps
+    }));
+    try {
+      await updateAttempts(taskId, newAttemps)
+    } catch (error) {
+      console.error('Failed to update number of attempts:', error);
+    }
+  };
+
 
   return (
     <main>
-      {JSON.stringify(result)}
       <Header />
-      <Tasks>
-        <Answer />
-      </Tasks>
-      <TaskComponent />
-      <TaskText text={"Hva blir resultatet av regneoperasjonen?"} />
-      {result && <Progress tasks={result.data} />}
-    </main>
-  )
-}
+      <TaskCount taskCount={taskCount} onTaskCountChange={handleCountChange}></TaskCount>
+      {errorRandom && <p className="count-error-msg">{errorRandom}</p>}
+      <DropdownTaskFilter selectedType={selectedType} handleTypeChange={handleTypeChange} />
+      <button type="button" onClick={handleRandomTaskFetch} className="btn-random">Hent et antall tilfeldige oppgaver</button>
+      {randomTaskCount !== null && (
+        <p>{`Antall oppgaver hentet: ${randomTaskCount}`}</p>
+      )}
+      <Tasks tasks={tasks} currentTaskIndex={currentTaskIndex}>
+        {tasks.length > 0 && currentTaskIndex < tasks.length && (
+          <>
+            <Answer
+              task={tasks[currentTaskIndex]}
+              onCorrectAnswer={handleCorrectAnswer}
+              onIncorrectAnswer={() => { void decrementAttempt(tasks[currentTaskIndex].id); }}
+              remainingAttempts={attempts[tasks[currentTaskIndex].id]}
+              totalAttempts={3} //TODO add attempts to the db. Right now it is hard coded
 
-export default Home
+            />
+            <Progress tasks={tasks} isCorrectAnswer={currentTaskIndex > 0} currentTaskIndex={currentTaskIndex}
+              setCurrentTaskIndex={setCurrentTaskIndex} />
+          </>
+        )}
+      </Tasks>
+
+    </main>
+  );
+};
+
+export default Home;

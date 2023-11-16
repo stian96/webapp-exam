@@ -1,3 +1,3 @@
 export default function Header() {
-  return <h1>Oppgave 1</h1>
+  return <h1>Matematikkoppgaver</h1>
 }

@@ -53,33 +53,40 @@ describe("Progress Component", () => {
       type: "multiply",
     },
   ]
+  //TODO: Make this test pass
   it("renders with default state and buttons", () => {
-    render(<Progress tasks={tasks} />)
+    render(<Progress tasks={tasks} isCorrectAnswer={false} currentTaskIndex={0} setCurrentTaskIndex={function (index: number): void {
+      throw new Error("Function not implemented.")
+    }} />)
 
     const currentTask = screen.getByText("123")
     expect(currentTask).toBeInTheDocument()
 
-    const nextButton = screen.getByText("Neste")
+    const nextButton = screen.getByText("Vis forrige oppgave")
     expect(nextButton).toBeInTheDocument()
 
-    const prevButton = screen.getByText("Forrige")
+    const prevButton = screen.getByText("Vis neste oppgave oppgave")
     expect(prevButton).toBeInTheDocument()
   })
-
+  //TODO: Make this test pass
   it('increments the state when "Neste" is clicked', () => {
-    render(<Progress tasks={tasks} />)
-    const nextButton = screen.getByText("Neste")
+    render(<Progress tasks={tasks} isCorrectAnswer={false} currentTaskIndex={0} setCurrentTaskIndex={function (index: number): void {
+      throw new Error("Function not implemented.")
+    }} />)
+    const nextButton = screen.getByText("Vis neste oppgave oppgave")
 
     fireEvent.click(nextButton)
 
     const updatedTask = screen.getByText("234")
     expect(updatedTask).toBeInTheDocument()
   })
-
+  //TODO: Make this test pass
   it('decrements the state when "Forrige" is clicked', () => {
-    render(<Progress tasks={tasks} />)
-    const nextButton = screen.getByText("Neste")
-    const prevButton = screen.getByText("Forrige")
+    render(<Progress tasks={tasks} isCorrectAnswer={false} currentTaskIndex={0} setCurrentTaskIndex={function (index: number): void {
+      throw new Error("Function not implemented.")
+    }} />)
+    const nextButton = screen.getByText("Vis neste oppgave oppgave")
+    const prevButton = screen.getByText("Vis forrige oppgave")
 
     fireEvent.click(nextButton)
     fireEvent.click(prevButton)
@@ -112,8 +119,15 @@ describe("Progress Component", () => {
   })
 
   it("updates the answer correctly", () => {
-    render(<Answer />)
-    const inputElement = screen.getByPlaceholderText("Sett svar her")
+    render(<Answer task={{
+      id: "1",
+      text: "Tekstsvar",
+      type: "add",
+      data: "6|5"
+    }} onCorrectAnswer={function (): void {
+      throw new Error("Function not implemented.")
+    }} />)
+    const inputElement = screen.getByPlaceholderText("Sett svar her") as HTMLInputElement
 
     fireEvent.input(inputElement, { target: { value: "11" } })
 
@@ -121,7 +135,14 @@ describe("Progress Component", () => {
   })
 
   it('displays "Bra jobbet!" when the answer is correct', () => {
-    render(<Answer />)
+    const task: Task = {
+      id: "1",
+      text: "Teksoppgave",
+      type: "add",
+      data: `6|5`,
+
+    };
+    render(<Answer task={task} onCorrectAnswer={() => { }} />)
     const inputElement = screen.getByPlaceholderText("Sett svar her")
     const sendButton = screen.getByText("Send")
 
@@ -131,18 +152,24 @@ describe("Progress Component", () => {
     const successMessage = screen.getByText("Bra jobbet!")
     expect(successMessage).toBeInTheDocument()
   })
-  it("renders a list of tasks correctly", () => {
-    render(<Tasks>{null}</Tasks>)
+  it("renders a the current task correctly", () => {
+    const tasks: Task[] = [
+      { id: '1', type: 'add', text: '1 + 1', data: '2|3' },
+      { id: '2', type: 'subtract', text: '3 - 1', data: '5|3' },
+    ];
+    render(<Tasks tasks={tasks} currentTaskIndex={0}>{null}</Tasks>)
 
-    for (const task of tasks) {
-      const taskElement = screen.getByText(task.text)
-      const typeElement = screen.getByText(task.type)
-      const dataElement = screen.getByText(task.data)
 
-      expect(taskElement).toBeInTheDocument()
-      expect(typeElement).toBeInTheDocument()
-      expect(dataElement).toBeInTheDocument()
-    }
+    const taskElement = screen.getByText(tasks[0].text)
+    const typeElement = screen.getByText(tasks[0].type)
+    const dataElement = screen.getByText(tasks[0].data)
+
+    expect(taskElement).toBeInTheDocument()
+    expect(typeElement).toBeInTheDocument()
+    expect(dataElement).toBeInTheDocument()
+
+    expect(screen.queryByText(tasks[1].text)).not.toBeInTheDocument()
+
   })
   it("initializes with count as 0 and returns the current task", () => {
     const { result } = renderHook(() => useProgress({ tasks }))
@@ -150,7 +177,7 @@ describe("Progress Component", () => {
     expect(result.current.count).toBe(0)
     expect(result.current.current).toEqual(tasks[0])
   })
-
+  //TODO: Make this test pass
   it("updates count when next is called", () => {
     const { result } = renderHook(() => useProgress({ tasks }))
 
@@ -162,6 +189,7 @@ describe("Progress Component", () => {
     expect(result.current.current).toEqual(tasks[1])
   })
 
+  //TODO: Make this test pass
   it("updates count when prev is called", () => {
     const { result } = renderHook(() => useProgress({ tasks }))
 
