@@ -1,12 +1,14 @@
 "use client"
-import React from "react"
-import { useState } from "react"
+import React, { useState, useContext } from "react"
 import Link from "next/link"
-import Performer from "../Performer"
-import "../../style/table.scss"
+import Performer from "@/components/Performer"
+import { ActivityContext } from "@/hooks/ActivityContext"
+
+import "@/style/table.scss"
 
 const Table = () => {
     const [editMode, setEditMode] = useState<any>(null)
+    const { selectedActivities } = useContext(ActivityContext)
 
     const handleEditClick = (index: number) => {
         setEditMode(editMode === index ? null : index)
@@ -46,6 +48,13 @@ const Table = () => {
                     </React.Fragment>
                 ))}
             </tbody>
+            { selectedActivities.length == 2 && (
+            <tr>
+                <td className="table__compare flex justify-end">
+                    <button className="table__compare-button">Compare Activities</button>
+                </td>
+            </tr>
+            )}
         </table>
     )
 }

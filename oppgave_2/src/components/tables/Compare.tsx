@@ -5,7 +5,7 @@ import "../../style/compare.scss"
 const Compare = () => {
 
     // TODO: Replace dummy data.
-    const activities = ["Activity 1", "Activity 2", "Activity 3"]
+    const activities = [1, 2, 3]
     
     return (
         <table className="compare">

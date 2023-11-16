@@ -1,3 +1,4 @@
+"use client"
 import { createContext, useState, ReactNode } from "react"
 
 type ActivityContextType = {
@@ -9,9 +10,15 @@ interface ActivityProviderProps {
     children: ReactNode
 }
 
-export const ActivityContext = createContext<ActivityContextType | null>(null)
+const defaultContext: ActivityContextType = {
+    selectedActivities: [],
+    toggleActivity: () => {}
+}
 
-const ActivityProvider = ({ children }: ActivityProviderProps) => {
+// This context was created to avoid 4 levels of props drilling.
+export const ActivityContext = createContext<ActivityContextType>(defaultContext)
+
+export const ActivityProvider = ({ children }: ActivityProviderProps) => {
     const [selectedActivities, setSelectedActivities] = useState<number[]>([])
 
     const toggleActivity = (activityId: number) => {
