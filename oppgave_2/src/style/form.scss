@@ -13,11 +13,14 @@
         padding: 0.5rem;
         border-radius: 0.375rem;
         border: 2px solid;
-        color: black;
 
         &:focus {
             transition: transform 0.3s;
             transform: scale(1.05);
+        }
+
+        &.--default {
+            color: black;
         }
     }
 
