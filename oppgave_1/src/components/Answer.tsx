@@ -55,11 +55,11 @@ export default function Answer({
     const correctAnswerNumber = Number(correctAnswer);
   
     if (userAnswer === correctAnswerNumber) {
-      setMessage('Correct! Great job!');
+      setMessage('Bra jobbet');
       setIsCorrectAnswer(true);
       onCorrectAnswer(task.type); 
     } else {
-      setMessage('Incorrect, try again!');
+      setMessage('Prøv igjen!');
       setAttemptMade(true);
       setIsCorrectAnswer(false);
       onIncorrectAnswer(task.type); 
