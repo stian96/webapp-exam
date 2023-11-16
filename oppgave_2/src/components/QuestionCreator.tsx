@@ -164,7 +164,7 @@ const QuestionCreator = () => {
       <button
         type="submit"
         className={`form__button ${
-          submitButtonText === "Question Saved!" ? "--question-saved" : ""
+          submitButtonText === "Question Saved!" ? "--saved" : ""
         }
         ${submitButtonText.startsWith("Error") ? "--error" : ""}`}
       >

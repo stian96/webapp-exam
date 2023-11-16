@@ -14,7 +14,7 @@ import { NextRequest, NextResponse } from "next/server";
  *           application/json:
  *             example:
  *               status: 200
- *               message: {"id":"00e372d4-bb66-4d17-b540-94cbca521ca8","userId":"acer-ater-quos","gender":"male","sport":"triathlon","heartRate":176,"watt":368,"speed":19}
+ *               message: {"id":"00e372d4-bb66-4d17-b540-94cbca521ca8","name":"acer-ater-quos","type":"cycling","isTemplate":true,"uniqueToPerformer":"2023592-2342023-2340234-2342","slug":"slug-name","intensityParam":19,"wattParam":29,"speedParam":16,"pulseParam":33}
 
  *       404:
  *         description: Session not found.

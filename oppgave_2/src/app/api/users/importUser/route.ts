@@ -72,7 +72,7 @@ import { NextResponse, type NextRequest } from "next/server";
  *                             type: number
  *     responses:
  *       200:
- *         description: Successfully retrieved users.
+ *         description: Successfully wrote users.
   *       500:
  *         description: Internal server error.
  */

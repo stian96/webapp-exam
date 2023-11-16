@@ -2,7 +2,8 @@ import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
 import { type Performer } from '@/types/performer';
 import { getQuestionTypeEnum, type Question } from '@/types/question';
 import { SessionTemplate } from '@/types/classes/sessionTemplate';
-import { Interval } from '@/types/performance/interval';
+import { type Interval } from '@/types/performance/interval';
+import { QuestionTypeEnum } from '@/enums/questionTypeEnum';
 
 const useTemplateCreatorHook = () => {
   const [sessionName, setSessionName] = useState<string>("")
@@ -317,7 +318,7 @@ const useTemplateCreatorHook = () => {
       })
 
       const data = await response.json()
-      const isSuccess = data.success
+      const isSuccess = data.status
 
       if (isSuccess == 200) {
         console.log(`${slug} exists.`)
@@ -348,6 +349,17 @@ const useTemplateCreatorHook = () => {
         id: "",
         question: question.question,
         type: questionTypeEnum,
+      }
+
+      questionsList.push(questionForList)
+    }
+    
+    for (const question of existingQuestions) {
+
+      const questionForList: Question = {
+        id: question,
+        question: "",
+        type: QuestionTypeEnum.TEXT,
       }
 
       questionsList.push(questionForList)
@@ -384,8 +396,7 @@ const useTemplateCreatorHook = () => {
         return
       }
 
-      //TODO Write to DB
-      const response = await fetch("/api/questions/createQuestion", {
+      const response = await fetch("/api/sessions/createSessionTemplate", {
         method: "put",
         headers: {
           "Content-Type": "application/json",

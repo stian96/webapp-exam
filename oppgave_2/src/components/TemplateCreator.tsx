@@ -13,9 +13,6 @@ import useTemplateCreatorHook from "@/hooks/useTemplateCreatorHook"
 // I've written comments where I've used it. The code it produced was heavily edited,
 // but it gave me a good starting point.
 
-//TODO Add validation to all inputs
-//TODO Create API PUT to create session, along with intervals, questions (and sessionTags, sessionIntervals, sessionQuestions many to many)
-//TODO Create feedback in button.
 const TemplateCreator = () => {
   const {
     sessionName,
@@ -92,7 +89,6 @@ const TemplateCreator = () => {
       </div>
 
       <div className="flex flex-row">
-        {/* First row */}
         <div className="flex flex-grow flex-col pr-2">
           <label htmlFor="sessionIntensity" className="mb-1">
             Intensity:
@@ -417,7 +413,7 @@ const TemplateCreator = () => {
       <button
         type="submit"
         className={`form__button ${
-          submitButtonText === "Question Saved!" ? "--question-saved" : ""
+          submitButtonText === "Template Saved!" ? "--saved" : ""
         }
         ${submitButtonText.startsWith("Error") ? "--error" : ""}`}
       >
