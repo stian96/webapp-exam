@@ -51,7 +51,7 @@ export default function Answer({
     const correctAnswerNumber = Number(correctAnswer);
 
     if (userAnswer === correctAnswerNumber) {
-      setMessage('Bra jobbet!');
+      setMessage('Bra jobbet');
       setIsCorrectAnswer(true);
       onCorrectAnswer();
 
