@@ -1,16 +1,15 @@
 //"use client"
 
-import { useState , useEffect} from "react"
+import { useState } from "react"
 import type { FormEvent, MouseEvent } from "react"
-import { type Task, type Stats, type AnswerStatus, type Type } from "@/types"
+import { type Task } from "@/types"
 
 type AnswerProps = {
   task: Task;
-  onCorrectAnswer: (taskType: Type) => void;
-  onIncorrectAnswer: (taskType: Type) => void;
+  onCorrectAnswer: () => void;
+  onIncorrectAnswer: () => void;
   remainingAttempts: number;
   totalAttempts: number;
-  onShowAnswer: () => void;
 
 }
 
@@ -20,15 +19,12 @@ export default function Answer({
   onIncorrectAnswer,
   remainingAttempts,
   totalAttempts,
-  onShowAnswer
 }: AnswerProps) {
   const [answer, setAnswer] = useState('')
   const [message, setMessage] = useState<string | null>(null)
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false)
   const [attemptMade, setAttemptMade] = useState(false)
   const [showAnswer, setShowAnswer] = useState(false);
-
-
 
   const calculateCorrectAnswer = (task: Task): number | null => {
     const [num1, num2] = task.data.split('|').map(Number);
@@ -53,19 +49,18 @@ export default function Answer({
     event.preventDefault();
     const userAnswer = Number(answer);
     const correctAnswerNumber = Number(correctAnswer);
-  
+
     if (userAnswer === correctAnswerNumber) {
-      setMessage('Correct! Great job!');
+      setMessage('Bra jobbet!');
       setIsCorrectAnswer(true);
-      onCorrectAnswer(task.type); 
+      onCorrectAnswer();
+
     } else {
-      setMessage('Incorrect, try again!');
+      setMessage('Prøv igjen!');
       setAttemptMade(true);
-      setIsCorrectAnswer(false);
-      onIncorrectAnswer(task.type); 
+      onIncorrectAnswer();
     }
   };
-  
 
   const update = (event: FormEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
@@ -77,13 +72,6 @@ export default function Answer({
     }
     setMessage(null);
   }
-
-  const handleShowAnswer = () => {
-
-    console.log('Show Answer Clicked');
-    setShowAnswer(true); 
-    onShowAnswer(); 
-  };
 
   const inputId = `answer-${task.id}`;
   return (
@@ -107,7 +95,7 @@ export default function Answer({
       )}
       <div>
         {!showAnswer && remainingAttempts === 0 && (
-          <button onClick={() => { setShowAnswer(true); handleShowAnswer}}
+          <button onClick={() => { setShowAnswer(true); }}
             className="btn-show-answer">Se svaret</button>
         )}
         {showAnswer && correctAnswer !== null && (
