@@ -1,13 +1,13 @@
 //"use client"
 
-import { useState } from "react"
+import { useState , useEffect} from "react"
 import type { FormEvent, MouseEvent } from "react"
-import { type Task } from "@/types"
+import { type Task, type Stats, type AnswerStatus, type Type } from "@/types"
 
 type AnswerProps = {
   task: Task;
-  onCorrectAnswer: () => void;
-  onIncorrectAnswer: () => void;
+  onCorrectAnswer: (taskType: Type) => void;
+  onIncorrectAnswer: (taskType: Type) => void;
   remainingAttempts: number;
   totalAttempts: number;
 
@@ -25,6 +25,17 @@ export default function Answer({
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false)
   const [attemptMade, setAttemptMade] = useState(false)
   const [showAnswer, setShowAnswer] = useState(false);
+
+  const [scores, setScores] = useState<Stats>({
+    add: { correct: 0, attempts: 0 },
+    subtract: { correct: 0, attempts: 0 },
+    multiply: { correct: 0, attempts: 0 },
+    divide: { correct: 0, attempts: 0 },
+  });
+  
+  const [answerStatus, setAnswerStatus] = useState<AnswerStatus>(null);
+
+
 
   const calculateCorrectAnswer = (task: Task): number | null => {
     const [num1, num2] = task.data.split('|').map(Number);
@@ -49,18 +60,33 @@ export default function Answer({
     event.preventDefault();
     const userAnswer = Number(answer);
     const correctAnswerNumber = Number(correctAnswer);
-
+  
     if (userAnswer === correctAnswerNumber) {
-      setMessage('Bra jobbet!');
+      setMessage('Correct! Great job!');
       setIsCorrectAnswer(true);
-      onCorrectAnswer();
-
+      setAnswerStatus('correct'); 
+      onCorrectAnswer(task.type); 
     } else {
-      setMessage('Prøv igjen!');
+      setMessage('Incorrect, try again!');
       setAttemptMade(true);
-      onIncorrectAnswer();
+      setIsCorrectAnswer(false);
+      setAnswerStatus('incorrect'); 
+      onIncorrectAnswer(task.type); 
     }
   };
+  
+  /*
+  useEffect(() => {
+    if (answerStatus === 'correct') {
+      onCorrectAnswer();
+    } else if (answerStatus === 'incorrect') {
+      onIncorrectAnswer();
+    }
+    
+    setAnswerStatus(null);
+  }, [answerStatus, onCorrectAnswer, onIncorrectAnswer]);
+  
+  */
 
   const update = (event: FormEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
