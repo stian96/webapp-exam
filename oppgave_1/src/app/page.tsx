@@ -24,14 +24,16 @@ const Home = () => {
 
   const [attempts, setAttempts] = useState<Attempts>({});
 
-  const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
+  const [isCorrectAnswer, setIsAnswerCorrect] = useState(false);
+
+  const [isAnswerShown, setIsAnswerShown] = useState(false);
 
 
   const [scores, setScores] = useState<Stats>({
-    add: { correct: 0, attempts: 0 },
-    subtract: { correct: 0, attempts: 0 },
-    multiply: { correct: 0, attempts: 0 },
-    divide: { correct: 0, attempts: 0 },
+    add: { correct: 0, incorrect: 0 },
+    subtract: { correct: 0, incorrect: 0 },
+    multiply: { correct: 0, incorrect: 0 },
+    divide: { correct: 0, incorrect: 0 },
   });
   
 
@@ -117,14 +119,14 @@ const Home = () => {
   };
 
   const handleIncorrectAnswer = (taskType: Type) => {
-    setIsAnswerCorrect(false);
   
-    // Update scores state for an incorrect answer
+  
+    
     setScores(prevScores => ({
       ...prevScores,
       [taskType]: {
         ...prevScores[taskType],
-        attempts: prevScores[taskType].attempts + 1
+        attempts: prevScores[taskType].incorrect + 1
       }
     }));
   };
@@ -142,10 +144,10 @@ const Home = () => {
     console.log("handle start again")
     setCurrentTaskIndex(0);
     setScores({
-      add: { correct: 0, attempts: 0 },
-      subtract: { correct: 0, attempts: 0 },
-      multiply: { correct: 0, attempts: 0 },
-      divide: { correct: 0, attempts: 0 },
+      add: { correct: 0, incorrect: 0 },
+      subtract: { correct: 0, incorrect: 0 },
+      multiply: { correct: 0, incorrect: 0 },
+      divide: { correct: 0, incorrect: 0 },
     });
     // Fetch new tasks
     const newTasks = await fetchTasks(selectedType, taskCount);
@@ -153,6 +155,14 @@ const Home = () => {
     console.log(newTasks)
     setTasks(newTasks);
   };
+
+  const onShowAnswer = () => {
+    console.log('onShowAnswer called');
+    setIsAnswerShown(true);
+  };
+
+  console.log({ isCorrectAnswer, isAnswerShown });
+  
   console.log("Current Task Index:", currentTaskIndex);
   console.log("Total Tasks:", tasks.length);
 
@@ -175,15 +185,18 @@ const Home = () => {
               onIncorrectAnswer={() => {
                 handleIncorrectAnswer(tasks[currentTaskIndex].type);
                 decrementAttempt(tasks[currentTaskIndex].id); }}
+              onShowAnswer= {onShowAnswer}
               remainingAttempts={attempts[tasks[currentTaskIndex].id]}
               totalAttempts={3} //TODO add attempts to the db. Right now it is hard coded
+              
               
               
 
             />
             <Progress 
             tasks={tasks} 
-            isCorrectAnswer={isAnswerCorrect && currentTaskIndex < tasks.length - 1}   
+            isCorrectAnswer={isCorrectAnswer && currentTaskIndex <= tasks.length - 1}  
+            isAnswerShown={isAnswerShown} 
             currentTaskIndex={currentTaskIndex}
             setCurrentTaskIndex={setCurrentTaskIndex} />
           </>

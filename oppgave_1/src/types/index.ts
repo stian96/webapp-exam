@@ -19,10 +19,10 @@ export type QueryParamsTask = {
 export type Attempts = Record<string, number>;
 
 export type Stats = {
-   add: { correct: 0, attempts: 0 },
-    subtract: { correct: 0, attempts: 0 },
-    multiply: { correct: 0, attempts: 0 },
-    divide: { correct: 0, attempts: 0 },
+  add: { correct: 0, incorrect: 0 },
+  subtract: { correct: 0, incorrect: 0 },
+  multiply: { correct: 0, incorrect: 0 },
+  divide: { correct: 0, incorrect: 0 },
 
 }
 
