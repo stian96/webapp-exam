@@ -118,7 +118,6 @@ watch: nice to use if you need to change several things.
     margin: 1rem 0 1rem 0;
   }
   main {
-    margin-top: -10%;
     background-color: rgba(168, 198, 234, 0.6117647059);
     border-radius: 4%;
     padding: 1rem;
