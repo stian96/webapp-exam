@@ -8,23 +8,24 @@ import "@/style/table.scss"
 
 type TableProp = {
     searchQuery: string
+    performers: Performer[]
+    setPerformers: React.Dispatch<React.SetStateAction<Performer[]>>
 }
 
-const Table = ({ searchQuery }: TableProp) => {
+export type Performer = {
+    id: string,
+    name: string,
+    gender: string,
+    sport: string
+}
+
+const Table = ({ searchQuery, performers, setPerformers }: TableProp) => {
     const [editMode, setEditMode] = useState<any>(null)
     const { selectedActivities } = useContext(ActivityContext)
 
     const handleEditClick = (index: number) => {
         setEditMode(editMode === index ? null : index)
     }
-
-    // TODO: Replace dummy data.
-    const performers = [
-        { id: "Performer A", name: "Jake", gender: "Male", sport: "Running" },
-        { id: "Performer B", name: "Karen", gender: "Female", sport: "Crossfit" },
-        { id: "Performer C", name: "Josh", gender: "Male", sport: "Football" },
-        { id: "Performer D", name: "Betty", gender: "Female", sport: "Handball" }
-    ]
 
     const search = searchQuery.toLocaleLowerCase()
     const filteredPerformers = performers.filter((performer) => performer.id.toLocaleLowerCase().includes(search))
@@ -46,7 +47,11 @@ const Table = ({ searchQuery }: TableProp) => {
                             </td>
                         </tr>
                         {editMode === index && (
-                        <Performer performer={performer} />
+                        <Performer 
+                            performer={performer}
+                            performers={performers}
+                            setPerformers={setPerformers}
+                        />
                     )}
                 </React.Fragment>
                 ))}
