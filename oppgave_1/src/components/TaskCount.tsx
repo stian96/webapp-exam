@@ -7,7 +7,7 @@ type CountProps = {
 
 const TaskCount = ({ taskCount, onTaskCountChange }: CountProps) => {
     return (
-        <div>
+        <div className='antoppg'>
             <label htmlFor="taskCount">Skriv inn ønsket antall oppgaver:</label>
             <input
                 type="text"

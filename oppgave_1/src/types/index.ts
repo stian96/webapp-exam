@@ -15,6 +15,7 @@ export type QueryParamsTask = {
   taskType?: string
   count?: string
 }
+//Forelesning Webapp-06:https://github.com/mariuswallin/webapp-2023/blob/main/webapp-06/src/types/index.ts
 
 export type Attempts = Record<string, number>;
 
@@ -28,5 +29,3 @@ export type Stats = {
 
 export type AnswerStatus = 'correct' | 'incorrect' | null;
 
-
-//Forelesning Webapp-06:https://github.com/mariuswallin/webapp-2023/blob/main/webapp-06/src/types/index.ts

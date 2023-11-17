@@ -37,6 +37,7 @@ const Home = () => {
   });
 
 
+
   useEffect(() => {
     const getTasks = async () => {
       try {
@@ -230,7 +231,7 @@ const Home = () => {
       {tasks.length > 0 && currentTaskIndex < tasks.length && tasks[currentTaskIndex] && (
         <>
           <ResultsDisplay scores={scores} />
-          <button onClick={handleStartAgain}>Start Again</button>
+          <button onClick={handleStartAgain} className="btn-random">Start Again</button>
 
         </>
       )}

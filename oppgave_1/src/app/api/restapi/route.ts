@@ -26,15 +26,36 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({ success: true, data: tasks });
 }
 
-
-// Denne skal brukes til å "samle" svarene (om du ikke bruker database)-Vi bruker db!
 /*
-const answers = new Map<Task["id"], { attempts: number }>()
 
-export function PUT(request: NextRequest) {
-  const count = request.nextUrl.searchParams.get("count")
-  if (!count)
-    return NextResponse.json({ success: false, error: "Invalid count" })
-  return NextResponse.json({ success: true, data: tasks }, { status: 207 })
+type AnswerUpdate = {
+  taskId: string;
+  attempts: number;
 }
-*/
+
+export async function PUT(request: NextRequest) {
+  try {
+    const body = await request.json() as AnswerUpdate;
+    const { taskId, attempts } = body;
+
+    if (!taskId) {
+      return NextResponse.json({ success: false, error: "Id not found" }, { status: 400 });
+    }
+    const answer = await prisma.answer.findFirst({
+      where: { taskId: taskId },
+    });
+    if (!answer) {
+      return NextResponse.json({ success: false, error: "Answer not found" }, { status: 404 });
+    }
+
+    const updatedAnswer = await prisma.answer.update({
+      where: { id: answer.id },
+      data: { attempts: attempts },
+    });
+
+    return NextResponse.json({ success: true, data: updatedAnswer }, { status: 200 });
+
+  } catch (error) {
+    return NextResponse.json({ success: false, error: "Server error" }, { status: 500 });
+  }
+}*/

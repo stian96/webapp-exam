@@ -127,17 +127,14 @@ const taskData = [
 //TODO: Use .upsert instead of .create, and remove .deleteMany().
 async function main() {
 
-  // Sletter alle eksisterende oppgaver først
   await prisma.task.deleteMany();
 
-  // Oppretter nye oppgaver
   const taskPromises = taskData.map((task) => {
     return prisma.task.create({
       data: task,
     });
   });
 
-  // Venter på at alle oppgavene skal bli opprettet
   await Promise.all(taskPromises);
 }
 

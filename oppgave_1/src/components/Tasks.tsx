@@ -12,15 +12,22 @@ export default function Tasks({ tasks, children, currentTaskIndex }:
   const task = tasks[currentTaskIndex];
   return (
     <section>
-
       <article key={task.id}>
         <TaskText text={"Hva blir resultatet av regneoperasjonen?"} />
-        <p>{task.type}</p>
-        <h3>{task.text}</h3>
+        <h3>{"Type oppgave: "}
+          {
+            task.type === "add" ? "Addisjon" :
+              task.type === "divide" ? "Divisjon" :
+                task.type === "multiply" ? "Multiplikasjon" :
+                  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                  task.type === "subtract" ? "Subtraksjon" :
+                    "Ukjent oppgavetype"
+          }
+        </h3>
+        <h2>{task.text}</h2>
         <p>{task.data}</p>
         {children}
       </article>
-
     </section>
   )
 }

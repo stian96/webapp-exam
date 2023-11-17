@@ -1,6 +1,6 @@
 //"use client"
 
-import { useState , useEffect} from "react"
+import { useState } from "react"
 import type { FormEvent, MouseEvent } from "react"
 import { type Task, type Stats, type AnswerStatus, type Type } from "@/types"
 
@@ -27,8 +27,6 @@ export default function Answer({
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false)
   const [attemptMade, setAttemptMade] = useState(false)
   const [showAnswer, setShowAnswer] = useState(false);
-
-
 
   const calculateCorrectAnswer = (task: Task): number | null => {
     const [num1, num2] = task.data.split('|').map(Number);
@@ -67,7 +65,6 @@ export default function Answer({
       
     }
   };
-  
 
   const update = (event: FormEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
@@ -79,7 +76,6 @@ export default function Answer({
     }
     setMessage(null);
   }
-
   const handleShowAnswer = () => {
 
     
@@ -121,4 +117,3 @@ export default function Answer({
     </div>
   )
 }
-
