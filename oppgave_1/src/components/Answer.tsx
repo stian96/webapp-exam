@@ -2,14 +2,15 @@
 
 import { useState } from "react"
 import type { FormEvent, MouseEvent } from "react"
-import { type Task } from "@/types"
+import { type Task, type Stats, type AnswerStatus, type Type } from "@/types"
 
 type AnswerProps = {
   task: Task;
-  onCorrectAnswer: () => void;
-  onIncorrectAnswer: () => void;
+  onCorrectAnswer: (taskType: Type) => void;
+  onIncorrectAnswer: (taskType: Type) => void;
   remainingAttempts: number;
   totalAttempts: number;
+  onShowAnswer: () => void;
 
 }
 
@@ -19,6 +20,7 @@ export default function Answer({
   onIncorrectAnswer,
   remainingAttempts,
   totalAttempts,
+  onShowAnswer
 }: AnswerProps) {
   const [answer, setAnswer] = useState('')
   const [message, setMessage] = useState<string | null>(null)
@@ -53,12 +55,12 @@ export default function Answer({
     if (userAnswer === correctAnswerNumber) {
       setMessage('Bra jobbet!');
       setIsCorrectAnswer(true);
-      onCorrectAnswer();
+      onCorrectAnswer(task.type);
 
     } else {
       setMessage('Prøv igjen!');
       setAttemptMade(true);
-      onIncorrectAnswer();
+      onIncorrectAnswer(task.type);
     }
   };
 
@@ -72,7 +74,12 @@ export default function Answer({
     }
     setMessage(null);
   }
+  const handleShowAnswer = () => {
 
+    console.log('Show Answer Clicked');
+    setShowAnswer(true);
+    onShowAnswer();
+  };
   const inputId = `answer-${task.id}`;
   return (
     <div>
@@ -95,7 +102,7 @@ export default function Answer({
       )}
       <div>
         {!showAnswer && remainingAttempts === 0 && (
-          <button onClick={() => { setShowAnswer(true); }}
+          <button onClick={() => { setShowAnswer(true); handleShowAnswer }}
             className="btn-show-answer">Se svaret</button>
         )}
         {showAnswer && correctAnswer !== null && (
@@ -105,4 +112,3 @@ export default function Answer({
     </div>
   )
 }
-

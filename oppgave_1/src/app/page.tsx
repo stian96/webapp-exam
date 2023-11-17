@@ -1,13 +1,16 @@
 "use client"
 
 import { Answer, Header, Tasks, TaskCount, Progress, DropdownTaskFilter } from "@/components";
-import { type Task, type Attempts } from "@/types"
+import ResultsDisplay from "@/components/ResultsDisplay";
+import { type Task, type Attempts, type Stats, type Type } from "@/types"
 import React, { useState, useEffect } from 'react'
 import { cn } from "@/lib/utils"
-import { fetchTasks, fetchRandomTasks, updateAttempts } from '../features/task/task.controller'
+import { fetchTasks, fetchRandomTasks } from '../features/task/task.controller'
 
 //TODO: Show button next task when clicking Button : Show answers
 //TODO: Not show next task when clicking Send btn.
+
+
 
 const Home = () => {
 
@@ -19,7 +22,20 @@ const Home = () => {
   const [randomTaskCount, setRandomTaskCount] = useState<number | null>(null);
   const [lastRandomCount, setLastRandomCount] = useState<number | null>(null);
 
-  const [attempts, setAttempts] = useState<Attempts>({})
+  const [attempts, setAttempts] = useState<Attempts>({});
+
+  const [isCorrectAnswer, setIsAnswerCorrect] = useState(false);
+
+  const [isAnswerShown, setIsAnswerShown] = useState(false);
+
+
+  const [scores, setScores] = useState<Stats>({
+    add: { correct: 0, incorrect: 0 },
+    subtract: { correct: 0, incorrect: 0 },
+    multiply: { correct: 0, incorrect: 0 },
+    divide: { correct: 0, incorrect: 0 },
+  });
+
 
   useEffect(() => {
     const getTasks = async () => {
@@ -85,23 +101,70 @@ const Home = () => {
       setErrorRandom('Skriv inn et antall oppgaver fra 1 til 10, eller velg et tilfeldig antall oppgaver.');
     }
   };
-  const handleCorrectAnswer = () => {
-    setCurrentTaskIndex((prevIndex) => prevIndex + 1);
+
+
+  const handleCorrectAnswer = (taskType: Type) => {
+    setIsAnswerCorrect(true);
+
+
+    setScores(prevScores => ({
+      ...prevScores,
+      [taskType]: {
+        ...prevScores[taskType],
+        correct: prevScores[taskType].correct + 1
+      }
+
+    }));
+    console.log(scores)
   };
 
-  const decrementAttempt = async (taskId: string) => {
-    const newAttemps = attempts[taskId] > 0 ? attempts[taskId] - 1 : 0
+  const handleIncorrectAnswer = (taskType: Type) => {
+
+
+
+    setScores(prevScores => ({
+      ...prevScores,
+      [taskType]: {
+        ...prevScores[taskType],
+        attempts: prevScores[taskType].incorrect + 1
+      }
+    }));
+  };
+
+  const decrementAttempt = (taskId: string) => {
     setAttempts((prevAttempts) => ({
       ...prevAttempts,
-      [taskId]: newAttemps
+      [taskId]: prevAttempts[taskId] > 0 ? prevAttempts[taskId] - 1 : 0
     }));
-    try {
-      await updateAttempts(taskId, newAttemps)
-    } catch (error) {
-      console.error('Failed to update number of attempts:', error);
-    }
   };
 
+
+  const handleStartAgain = async () => {
+
+    console.log("handle start again")
+    setCurrentTaskIndex(0);
+    setScores({
+      add: { correct: 0, incorrect: 0 },
+      subtract: { correct: 0, incorrect: 0 },
+      multiply: { correct: 0, incorrect: 0 },
+      divide: { correct: 0, incorrect: 0 },
+    });
+    // Fetch new tasks
+    const newTasks = await fetchTasks(selectedType, taskCount);
+
+    console.log(newTasks)
+    setTasks(newTasks);
+  };
+
+  const onShowAnswer = () => {
+    console.log('onShowAnswer called');
+    setIsAnswerShown(true);
+  };
+
+  console.log({ isCorrectAnswer, isAnswerShown });
+
+  console.log("Current Task Index:", currentTaskIndex);
+  console.log("Total Tasks:", tasks.length);
 
   return (
     <main>
@@ -119,16 +182,35 @@ const Home = () => {
             <Answer
               task={tasks[currentTaskIndex]}
               onCorrectAnswer={handleCorrectAnswer}
-              onIncorrectAnswer={() => { void decrementAttempt(tasks[currentTaskIndex].id); }}
+              onIncorrectAnswer={() => {
+                handleIncorrectAnswer(tasks[currentTaskIndex].type);
+                decrementAttempt(tasks[currentTaskIndex].id);
+              }}
+              onShowAnswer={onShowAnswer}
               remainingAttempts={attempts[tasks[currentTaskIndex].id]}
               totalAttempts={3} //TODO add attempts to the db. Right now it is hard coded
 
+
+
+
             />
-            <Progress tasks={tasks} isCorrectAnswer={currentTaskIndex > 0} currentTaskIndex={currentTaskIndex}
+            <Progress
+              tasks={tasks}
+              isCorrectAnswer={isCorrectAnswer && currentTaskIndex <= tasks.length - 1}
+              isAnswerShown={isAnswerShown}
+              currentTaskIndex={currentTaskIndex}
               setCurrentTaskIndex={setCurrentTaskIndex} />
           </>
         )}
       </Tasks>
+
+      {tasks.length > 0 && currentTaskIndex < tasks.length && (
+        <>
+          <ResultsDisplay scores={scores} />
+          <button onClick={handleStartAgain} className="btn-random">Start Again</button>
+
+        </>
+      )}
 
     </main>
   );
