@@ -5,7 +5,9 @@ import TaskText from "@/components/Text"
 
 export default function Tasks({ tasks, children, currentTaskIndex }:
   { tasks: Task[], children: ReactNode, currentTaskIndex: number }) {
-  if (tasks.length === 0) return null;
+    if (tasks.length === 0 || currentTaskIndex < 0 || currentTaskIndex >= tasks.length) {
+      return null;
+    }
 
   const task = tasks[currentTaskIndex];
   return (

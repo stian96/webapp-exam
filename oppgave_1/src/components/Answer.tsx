@@ -7,10 +7,10 @@ import { type Task, type Stats, type AnswerStatus, type Type } from "@/types"
 type AnswerProps = {
   task: Task;
   onCorrectAnswer: (taskType: Type) => void;
-  onIncorrectAnswer: (taskType: Type) => void;
+  onIncorrectAnswer: (taskType: Type, taskId: string) => void;
   remainingAttempts: number;
   totalAttempts: number;
-  onShowAnswer: () => void;
+  onShowAnswer: (taskType: Type) => void;
 
 }
 
@@ -51,16 +51,19 @@ export default function Answer({
     event.preventDefault();
     const userAnswer = Number(answer);
     const correctAnswerNumber = Number(correctAnswer);
+  
+    if (userAnswer !== correctAnswerNumber) {
 
-    if (userAnswer === correctAnswerNumber) {
-      setMessage('Bra jobbet!');
-      setIsCorrectAnswer(true);
-      onCorrectAnswer(task.type);
-
-    } else {
       setMessage('Prøv igjen!');
       setAttemptMade(true);
-      onIncorrectAnswer(task.type);
+      onIncorrectAnswer(task.type, task.id); 
+     
+      
+    } else {
+      setMessage('Bra jobbet');
+      setIsCorrectAnswer(true);
+      onCorrectAnswer(task.type); 
+      
     }
   };
 
@@ -75,11 +78,15 @@ export default function Answer({
     setMessage(null);
   }
   const handleShowAnswer = () => {
-
-    console.log('Show Answer Clicked');
-    setShowAnswer(true);
-    onShowAnswer();
+    if (remainingAttempts === 0) {
+      setShowAnswer(true); 
+      onShowAnswer(task.type); 
+    }
   };
+  
+
+ console.log('anser is' , showAnswer)
+
   const inputId = `answer-${task.id}`;
   return (
     <div>
@@ -95,14 +102,14 @@ export default function Answer({
       {/*{9 + 2 === answer ? "Bra jobbet!" : null}*/}
       {/*{correctAnswer === answer ? <div>Bra jobbet!</div> : null}*/}
       <button onClick={send} className="btn-send">Send</button>
-      {isCorrectAnswer && message && <div>{message}</div>}
+      {message && <div>{message}</div>}
 
       {attemptMade && (
         <p>{remainingAttempts} of {totalAttempts} attempts remaining</p>
       )}
       <div>
         {!showAnswer && remainingAttempts === 0 && (
-          <button onClick={() => { setShowAnswer(true); handleShowAnswer }}
+          <button onClick={handleShowAnswer}
             className="btn-show-answer">Se svaret</button>
         )}
         {showAnswer && correctAnswer !== null && (

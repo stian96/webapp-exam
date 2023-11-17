@@ -88,6 +88,12 @@ watch: nice to use if you need to change several things.
   button.btn-random:hover {
     background-color: #5ad3d1;
   }
+  button.btn-startAgain {
+    background-color: #38b25b;
+  }
+  button.btn-startAgain:hover {
+    background-color: #5fd27c;
+  }
   button.btn-next {
     background-color: #6b46c1;
   }
@@ -118,7 +124,6 @@ watch: nice to use if you need to change several things.
     margin: 1rem 0 1rem 0;
   }
   main {
-    margin-top: -10%;
     background-color: rgba(168, 198, 234, 0.6117647059);
     border-radius: 4%;
     padding: 1rem;

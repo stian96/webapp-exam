@@ -26,7 +26,8 @@ const Home = () => {
 
   const [isCorrectAnswer, setIsAnswerCorrect] = useState(false);
 
-  const [isAnswerShown, setIsAnswerShown] = useState(false);
+  const [answerShown, setIsAnswerShown] = useState(false);
+  const [showResults, setShowResults] = useState(false);
 
 
   const [scores, setScores] = useState<Stats>({
@@ -35,6 +36,7 @@ const Home = () => {
     multiply: { correct: 0, incorrect: 0 },
     divide: { correct: 0, incorrect: 0 },
   });
+
 
 
   useEffect(() => {
@@ -66,18 +68,12 @@ const Home = () => {
 
   const handleRandomTaskFetch = async () => {
     try {
-      let randomCount;
-      do {
-        randomCount = Math.floor(Math.random() * 10) + 1;
-      } while (randomCount === lastRandomCount)
+      const userDefinedCount = Number(taskCount);
 
-      setLastRandomCount(randomCount)
-
-      const randomTasks = await fetchRandomTasks(selectedType, randomCount);
+      const randomTasks = await fetchRandomTasks(userDefinedCount);
       setTasks(randomTasks);
       setRandomTaskCount(randomTasks.length);
-      console.log(`Antall tilfeldige oppgaver hentet: ${randomTasks.length}`);
-
+      console.log(randomTasks);
     } catch (errorRandomTaskFetch) {
       console.error(`Error fetching random tasks: `, errorRandomTaskFetch);
       setRandomTaskCount(0);
@@ -115,33 +111,27 @@ const Home = () => {
       }
 
     }));
-    console.log(scores)
+    //console.log(scores)
   };
 
-  const handleIncorrectAnswer = (taskType: Type) => {
-
-
-
-    setScores(prevScores => ({
-      ...prevScores,
-      [taskType]: {
-        ...prevScores[taskType],
-        attempts: prevScores[taskType].incorrect + 1
-      }
-    }));
+  const handleIncorrectAnswer = (taskId: string) => {
+    setAttempts(prevAttempts => {
+      const newAttempts = Math.max(prevAttempts[taskId] - 1, 0);
+      return {
+        ...prevAttempts,
+        [taskId]: newAttempts
+      };
+    });
+  
+  
+    console.log('incorrect', scores)
   };
-
-  const decrementAttempt = (taskId: string) => {
-    setAttempts((prevAttempts) => ({
-      ...prevAttempts,
-      [taskId]: prevAttempts[taskId] > 0 ? prevAttempts[taskId] - 1 : 0
-    }));
-  };
+  
 
 
   const handleStartAgain = async () => {
 
-    console.log("handle start again")
+    //console.log("handle start again")
     setCurrentTaskIndex(0);
     setScores({
       add: { correct: 0, incorrect: 0 },
@@ -149,22 +139,53 @@ const Home = () => {
       multiply: { correct: 0, incorrect: 0 },
       divide: { correct: 0, incorrect: 0 },
     });
+
+    setSelectedType('add'); 
+    setTasks([]); 
+    setTaskCount('5'); 
+    setErrorRandom(''); 
+    
+    setRandomTaskCount(null); 
+    setLastRandomCount(null); 
+    setAttempts({}); 
+    setIsAnswerCorrect(false); 
+    setIsAnswerShown(false); 
+    setShowResults(false); 
+
     // Fetch new tasks
     const newTasks = await fetchTasks(selectedType, taskCount);
 
-    console.log(newTasks)
+    //console.log(newTasks)
     setTasks(newTasks);
   };
 
-  const onShowAnswer = () => {
-    console.log('onShowAnswer called');
-    setIsAnswerShown(true);
+  const onShowAnswer = (taskType: Type) => {
+    setIsAnswerShown(true)
+
+    setScores(prevScores => ({
+      ...prevScores,
+      [taskType]: {
+        ...prevScores[taskType],
+        incorrect: prevScores[taskType].incorrect + 1
+      }
+    }));
   };
 
-  console.log({ isCorrectAnswer, isAnswerShown });
+  const handleShowResults = () => {
+    // Logic to show results, such as setting a state
+    setShowResults(true);
+  };
 
-  console.log("Current Task Index:", currentTaskIndex);
-  console.log("Total Tasks:", tasks.length);
+  useEffect(() => {
+    
+    setIsAnswerCorrect(false);
+    setIsAnswerShown(false);
+  }, [currentTaskIndex]);
+
+
+
+  //console.log("Current Task Index:", currentTaskIndex);
+  //console.log("Total Tasks:", tasks.length);
 
   return (
     <main>
@@ -172,21 +193,21 @@ const Home = () => {
       <TaskCount taskCount={taskCount} onTaskCountChange={handleCountChange}></TaskCount>
       {errorRandom && <p className="count-error-msg">{errorRandom}</p>}
       <DropdownTaskFilter selectedType={selectedType} handleTypeChange={handleTypeChange} />
-      <button type="button" onClick={handleRandomTaskFetch} className="btn-random">Hent et antall tilfeldige oppgaver</button>
+      <button type="button" onClick={handleRandomTaskFetch} className="btn-random">Hent tilfeldige typer oppgaver</button>
       {randomTaskCount !== null && (
-        <p>{`Antall oppgaver hentet: ${randomTaskCount}`}</p>
+        <p>{`Antall oppgaver hentet av tilfeldige typer: ${randomTaskCount}`}</p>
       )}
       <Tasks tasks={tasks} currentTaskIndex={currentTaskIndex}>
-        {tasks.length > 0 && currentTaskIndex < tasks.length && (
+        {tasks.length > 0 && currentTaskIndex < tasks.length && tasks[currentTaskIndex] && (
           <>
             <Answer
               task={tasks[currentTaskIndex]}
               onCorrectAnswer={handleCorrectAnswer}
               onIncorrectAnswer={() => {
-                handleIncorrectAnswer(tasks[currentTaskIndex].type);
-                decrementAttempt(tasks[currentTaskIndex].id);
-              }}
-              onShowAnswer={onShowAnswer}
+                handleIncorrectAnswer(tasks[currentTaskIndex].id);
+              
+                 }}
+              onShowAnswer= {onShowAnswer}
               remainingAttempts={attempts[tasks[currentTaskIndex].id]}
               totalAttempts={3} //TODO add attempts to the db. Right now it is hard coded
 
@@ -194,20 +215,22 @@ const Home = () => {
 
 
             />
-            <Progress
-              tasks={tasks}
-              isCorrectAnswer={isCorrectAnswer && currentTaskIndex <= tasks.length - 1}
-              isAnswerShown={isAnswerShown}
-              currentTaskIndex={currentTaskIndex}
-              setCurrentTaskIndex={setCurrentTaskIndex} />
+            <Progress 
+            tasks={tasks} 
+            attempts={attempts}
+            onShowResults={handleShowResults}
+            isCorrectAnswer={isCorrectAnswer && currentTaskIndex <= tasks.length - 1}  
+            isAnswerShown={answerShown} 
+            currentTaskIndex={currentTaskIndex}
+            setCurrentTaskIndex={setCurrentTaskIndex} />
           </>
         )}
       </Tasks>
 
-      {tasks.length > 0 && currentTaskIndex < tasks.length && (
+      {showResults && (
         <>
           <ResultsDisplay scores={scores} />
-          <button onClick={handleStartAgain} className="btn-random">Start Again</button>
+          <button onClick={handleStartAgain} className="btn-startAgain">Start Again</button>
 
         </>
       )}

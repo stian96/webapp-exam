@@ -1,0 +1,71 @@
+@import "colors";
+@import "functions";
+
+.popup-content {
+    background: $dark-bg-color;
+    width: 500px;
+    height: 500px;
+    text-align: center;
+    border: 1px solid $red-text-color;
+    color: #fff;
+    padding: 1rem;
+
+    &__title {
+        font-weight: 500;
+        font-size: 1.2rem;
+    }
+
+}
+
+.modal {
+
+    &__header {
+        font-weight: 500;
+        font-size: 1.3rem;
+        margin-left: 1.5rem;
+    }
+
+    &__content {
+
+        &-label {
+            font-weight: 500;
+        }
+
+        &-input {
+            max-width: 50%;
+            margin: 1rem auto;
+            background-color: $dark-bg-color;
+        }
+    }
+
+    &__actions {
+
+        &-button {
+            margin-top: 2rem;
+            @include button-style-red(5rem, 0.3rem)
+        }
+    }
+
+    &__close {
+        font-size: 1.5rem;
+
+        &:hover {
+            color: $red-text-color;
+        }
+    }
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+}
+
+.overlay--active {
+    display: block;
+
+}
