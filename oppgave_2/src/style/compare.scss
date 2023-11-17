@@ -1,0 +1,19 @@
+@import "colors";
+
+.compare {
+
+    &__body-row {
+        padding: 1.5rem 1rem 1.5rem 1rem;
+    }
+}
+
+.activity-table {
+    margin-right: 2rem;
+    margin-left: 1rem;
+}
+
+.filter-container {
+    background: rgb(42, 41, 41);
+    padding: 0.35rem 0.8rem 0.35rem 0.8rem;
+    border-radius: 10px;
+}
