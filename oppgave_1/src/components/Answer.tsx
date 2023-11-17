@@ -10,7 +10,7 @@ type AnswerProps = {
   onIncorrectAnswer: (taskType: Type, taskId: string) => void;
   remainingAttempts: number;
   totalAttempts: number;
-  onShowAnswer: () => void;
+  onShowAnswer: (taskType: Type) => void;
 
 }
 
@@ -57,6 +57,7 @@ export default function Answer({
       setMessage('Prøv igjen!');
       setAttemptMade(true);
       onIncorrectAnswer(task.type, task.id); 
+     
       
     } else {
       setMessage('Bra jobbet');
@@ -79,7 +80,7 @@ export default function Answer({
   const handleShowAnswer = () => {
     if (remainingAttempts === 0) {
       setShowAnswer(true); 
-      onShowAnswer(); 
+      onShowAnswer(task.type); 
     }
   };
   
@@ -101,7 +102,7 @@ export default function Answer({
       {/*{9 + 2 === answer ? "Bra jobbet!" : null}*/}
       {/*{correctAnswer === answer ? <div>Bra jobbet!</div> : null}*/}
       <button onClick={send} className="btn-send">Send</button>
-      {isCorrectAnswer && message && <div>{message}</div>}
+      {message && <div>{message}</div>}
 
       {attemptMade && (
         <p>{remainingAttempts} of {totalAttempts} attempts remaining</p>
