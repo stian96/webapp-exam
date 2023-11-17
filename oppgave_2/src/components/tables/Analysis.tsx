@@ -1,4 +1,9 @@
-import { useEffect } from "react"
+import { useEffect, useRef, useState } from "react"
+
+import {
+  IntervalResult,
+  IntervalResultAnalysis,
+} from "@/types/performance/intervalResult"
 
 type AnalysisProps = {
   activityIds: string[]
@@ -16,6 +21,11 @@ const dummyReports: string[] = [
 ]
 
 const Analysis = ({ activityIds }: AnalysisProps) => {
+  const [intervalResults, setIntervalResults] = useState<
+    IntervalResultAnalysis[]
+  >([])
+  const isApiCalled = useRef(false)
+
   const isReportExists = async (activityId: string) => {
     try {
       const response = await fetch(
@@ -27,10 +37,11 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
 
       const data = await response.json()
       const isSuccess = data.status
+      const body = data.message
 
       if (isSuccess == 200) {
         console.log(`${activityId} exists.`)
-        return { success: true, message: `${activityId} exists.` }
+        return { success: true, message: body }
       } else {
         console.log(`${activityId} does not exist.`)
         return { success: false, message: `${activityId} does not exist.` }
@@ -40,7 +51,7 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
     }
   }
 
-  const getIntervalResults = async (reportId: string) => {
+  const getIntervalResults = async (reportId: string, activityId: string) => {
     try {
       const response = await fetch(
         `/api/reports/getIntervalResultsByReportId/${reportId}`,
@@ -51,8 +62,11 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
 
       const data = await response.json()
       const isSuccess = data.status
+      const message = data.message
 
       if (isSuccess == 200) {
+        await deserialiseIntervalResultsResponse(message, activityId)
+
         console.log(`Results for ${reportId} exists.`)
         return { success: true, message: `${reportId} exists.` }
       } else {
@@ -67,14 +81,61 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
     }
   }
 
+  const populateIntervalResults = async (activityIdList: string[]) => {
+    for (const activityId of activityIdList) {
+      const { success, message } = await isReportExists(activityId)
+
+      if (success) {
+        const { id } = JSON.parse(message)
+
+        await getIntervalResults(id, activityId)
+      }
+    }
+  }
+
+  const deserialiseIntervalResultsResponse = async (
+    responseMessage: string,
+    activityId: string,
+  ) => {
+    const intervalList: IntervalResultAnalysis[] = JSON.parse(
+      responseMessage,
+    ).map((intervalResult: any) => ({
+      id: intervalResult.id,
+      activityId: activityId,
+      interval: intervalResult.intervalId,
+      duration: intervalResult.duration,
+      intensity: {
+        min: intervalResult.intensityMin,
+        max: intervalResult.intensityMax,
+        average: intervalResult.intensityAvg,
+      },
+      pulse: {
+        min: intervalResult.pulseMin,
+        max: intervalResult.pulseMax,
+        average: intervalResult.pulseAvg,
+      },
+      speed: {
+        min: intervalResult.speedMin,
+        max: intervalResult.speedMax,
+        average: intervalResult.speedAvg,
+      },
+      watt: {
+        min: intervalResult.wattMin,
+        max: intervalResult.wattMax,
+        average: intervalResult.wattAvg,
+      },
+    }))
+
+    setIntervalResults((prevState) => [...prevState, ...intervalList])
+  }
+
   useEffect(() => {
-    for (const id of activityIds) {
-      void isReportExists(id)
+    if (!isApiCalled.current) {
+      isApiCalled.current = true
+      return
     }
 
-    for (const id of dummyReports) {
-      void getIntervalResults(id)
-    }
+    void populateIntervalResults(activityIds)
   }, [activityIds])
 
   return (
@@ -82,7 +143,12 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
       <p className="text-white">selectedActivities</p>
       {activityIds.map((id, index) => (
         <li key={index} className="text-white">
-          {id}
+          {"Activity " + (index + 1) + ": " + id}
+        </li>
+      ))}
+      {intervalResults.map((result, index) => (
+        <li key={index} className="text-white">
+          {"IntervalResult " + (index + 1) + ": " + result.id}
         </li>
       ))}
     </div>
