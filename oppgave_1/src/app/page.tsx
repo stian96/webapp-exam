@@ -27,6 +27,7 @@ const Home = () => {
   const [isCorrectAnswer, setIsAnswerCorrect] = useState(false);
 
   const [answerShown, setIsAnswerShown] = useState(false);
+  const [showResults, setShowResults] = useState(false);
 
 
   const [scores, setScores] = useState<Stats>({
@@ -119,7 +120,7 @@ const Home = () => {
     console.log(scores)
   };
 
-  const handleIncorrectAnswer = (taskId: string, taskType: Type) => {
+  const handleIncorrectAnswer = (taskId: string) => {
     setAttempts(prevAttempts => {
       const newAttempts = Math.max(prevAttempts[taskId] - 1, 0);
       return {
@@ -128,24 +129,10 @@ const Home = () => {
       };
     });
   
-    // Existing logic for updating scores
-    setScores(prevScores => ({
-      ...prevScores,
-      [taskType]: {
-        ...prevScores[taskType],
-        incorrect: prevScores[taskType].incorrect + 1
-      }
-    }));
+  
+    console.log('incorrect', scores)
   };
   
-  
-
-  const decrementAttempt = (taskId: string) => {
-    setAttempts((prevAttempts) => ({
-      ...prevAttempts,
-      [taskId]: prevAttempts[taskId] > 0 ? prevAttempts[taskId] - 1 : 0
-    }));
-  };
 
 
   const handleStartAgain = async () => {
@@ -158,6 +145,19 @@ const Home = () => {
       multiply: { correct: 0, incorrect: 0 },
       divide: { correct: 0, incorrect: 0 },
     });
+
+    setSelectedType('add'); 
+    setTasks([]); 
+    setTaskCount('5'); 
+    setErrorRandom(''); 
+    
+    setRandomTaskCount(null); 
+    setLastRandomCount(null); 
+    setAttempts({}); 
+    setIsAnswerCorrect(false); 
+    setIsAnswerShown(false); 
+    setShowResults(false); 
+
     // Fetch new tasks
     const newTasks = await fetchTasks(selectedType, taskCount);
 
@@ -165,12 +165,25 @@ const Home = () => {
     setTasks(newTasks);
   };
 
-  const onShowAnswer = () => {
+  const onShowAnswer = (taskType: Type) => {
     setIsAnswerShown(true)
+
+    setScores(prevScores => ({
+      ...prevScores,
+      [taskType]: {
+        ...prevScores[taskType],
+        incorrect: prevScores[taskType].incorrect + 1
+      }
+    }));
+  };
+
+  const handleShowResults = () => {
+    // Logic to show results, such as setting a state
+    setShowResults(true);
   };
   
   useEffect(() => {
-    // Reset states when the current task index changes
+    
     setIsAnswerCorrect(false);
     setIsAnswerShown(false);
   }, [currentTaskIndex]);
@@ -197,7 +210,7 @@ const Home = () => {
               task={tasks[currentTaskIndex]}
               onCorrectAnswer={handleCorrectAnswer}
               onIncorrectAnswer={() => {
-                handleIncorrectAnswer(tasks[currentTaskIndex].id, tasks[currentTaskIndex].type);
+                handleIncorrectAnswer(tasks[currentTaskIndex].id);
               
                  }}
               onShowAnswer= {onShowAnswer}
@@ -211,6 +224,7 @@ const Home = () => {
             <Progress 
             tasks={tasks} 
             attempts={attempts}
+            onShowResults={handleShowResults}
             isCorrectAnswer={isCorrectAnswer && currentTaskIndex <= tasks.length - 1}  
             isAnswerShown={answerShown} 
             currentTaskIndex={currentTaskIndex}
@@ -219,7 +233,7 @@ const Home = () => {
         )}
       </Tasks>
 
-      {tasks.length > 0 && currentTaskIndex < tasks.length && tasks[currentTaskIndex] && (
+      {showResults && (
         <>
           <ResultsDisplay scores={scores} />
           <button onClick={handleStartAgain} className="btn-random">Start Again</button>
