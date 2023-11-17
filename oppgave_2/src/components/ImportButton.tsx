@@ -1,17 +1,22 @@
 // ImportButton.tsx
+import "../style/form.scss"
+
 import React from "react"
 
 import useImportUsersHook from "@/hooks/useImportUsersHook"
 
 const ImportButton = () => {
-  const { importAllUsers } = useImportUsersHook()
+  const { importAllUsers, importButtonText } = useImportUsersHook()
 
   return (
     <button
-      className="rounded-md bg-orange-500 px-4 py-2 text-white"
+      className={`form__button ${
+        importButtonText === "Imported Users!" ? "--saved" : ""
+      }
+    ${importButtonText.startsWith("Error") ? "--error" : ""}`}
       onClick={importAllUsers}
     >
-      Import Users
+      {importButtonText}
     </button>
   )
 }
