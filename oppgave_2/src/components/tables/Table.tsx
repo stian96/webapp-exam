@@ -58,7 +58,7 @@ const Table = ({ searchQuery, performers, setPerformers }: TableProp) => {
                 </React.Fragment>
                 ))}
             </tbody>
-            { selectedActivities.length == 2 && (
+            { selectedActivities.length >= 2 && (
             <td className="table__compare flex justify-end">
                 <button className="table__compare-button">
                     Compare Activities
