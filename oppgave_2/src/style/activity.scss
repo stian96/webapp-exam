@@ -1,0 +1,15 @@
+@import "colors";
+@import "functions";
+
+.activity {
+    box-shadow: 0px 0px 2px 0.5px $red-text-color;
+    padding: 1rem;
+
+    &__container {
+
+        &-button {
+            @include button-style-red(7.5rem, 0.3rem)
+        }
+        
+    }
+}
