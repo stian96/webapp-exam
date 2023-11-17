@@ -4,15 +4,17 @@ type AnalysisProps = {
   activityIds: string[]
 }
 
-//TODO Make component with props
 //TODO API -> sessionactivity with report -> get report -> get many reportintervalresult -> get one interval for each many
-//TODO Make API request to get sessionActivity where report exists
-//TODO Make API request to get report of session activity
-//TODO Make API request to get intervalResults of activity
 //TODO Change dashboard to only make checkbox selectable on sessions with reports
 //TODO Make table of all columns
 //TODO Make table of averages
 //TODO Make functionality to show/hide columns in table and tableaverage
+
+const dummyReports: string[] = [
+  "c94b0bf6-44fd-4e19-a9d9-25150b91d7fc",
+  "1b8669e4-92a6-4d56-b14b-023c9bec158d",
+]
+
 const Analysis = ({ activityIds }: AnalysisProps) => {
   const isReportExists = async (activityId: string) => {
     try {
@@ -24,7 +26,7 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
       )
 
       const data = await response.json()
-      const isSuccess = data.success
+      const isSuccess = data.status
 
       if (isSuccess == 200) {
         console.log(`${activityId} exists.`)
@@ -38,9 +40,40 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
     }
   }
 
+  const getIntervalResults = async (reportId: string) => {
+    try {
+      const response = await fetch(
+        `/api/reports/getIntervalResultsByReportId/${reportId}`,
+        {
+          method: "get",
+        },
+      )
+
+      const data = await response.json()
+      const isSuccess = data.status
+
+      if (isSuccess == 200) {
+        console.log(`Results for ${reportId} exists.`)
+        return { success: true, message: `${reportId} exists.` }
+      } else {
+        console.log(`Results for ${reportId} do not exist.`)
+        return {
+          success: false,
+          message: `Results for ${reportId} do not exist.`,
+        }
+      }
+    } catch (error) {
+      return { success: false, message: error }
+    }
+  }
+
   useEffect(() => {
     for (const id of activityIds) {
       void isReportExists(id)
+    }
+
+    for (const id of dummyReports) {
+      void getIntervalResults(id)
     }
   }, [activityIds])
 
