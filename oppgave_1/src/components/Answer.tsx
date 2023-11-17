@@ -7,7 +7,7 @@ import { type Task, type Stats, type AnswerStatus, type Type } from "@/types"
 type AnswerProps = {
   task: Task;
   onCorrectAnswer: (taskType: Type) => void;
-  onIncorrectAnswer: (taskType: Type) => void;
+  onIncorrectAnswer: (taskType: Type, taskId: string) => void;
   remainingAttempts: number;
   totalAttempts: number;
   onShowAnswer: () => void;
@@ -54,15 +54,17 @@ export default function Answer({
     const userAnswer = Number(answer);
     const correctAnswerNumber = Number(correctAnswer);
   
-    if (userAnswer === correctAnswerNumber) {
+    if (userAnswer !== correctAnswerNumber) {
+
+      setMessage('Prøv igjen!');
+      setAttemptMade(true);
+      onIncorrectAnswer(task.type, task.id); 
+      
+    } else {
       setMessage('Bra jobbet');
       setIsCorrectAnswer(true);
       onCorrectAnswer(task.type); 
-    } else {
-      setMessage('Prøv igjen!');
-      setAttemptMade(true);
-      setIsCorrectAnswer(false);
-      onIncorrectAnswer(task.type); 
+      
     }
   };
   
@@ -80,10 +82,12 @@ export default function Answer({
 
   const handleShowAnswer = () => {
 
-    console.log('Show Answer Clicked');
+    
     setShowAnswer(true); 
-    onShowAnswer(); 
+   
   };
+
+ 
 
   const inputId = `answer-${task.id}`;
   return (
@@ -107,7 +111,7 @@ export default function Answer({
       )}
       <div>
         {!showAnswer && remainingAttempts === 0 && (
-          <button onClick={() => { setShowAnswer(true); handleShowAnswer}}
+          <button onClick={() => { setShowAnswer(true)}}
             className="btn-show-answer">Se svaret</button>
         )}
         {showAnswer && correctAnswer !== null && (

@@ -118,18 +118,33 @@ const Home = () => {
     console.log(scores)
   };
 
-  const handleIncorrectAnswer = (taskType: Type) => {
-  
-  
+  const handleIncorrectAnswer = (taskId: string, taskType: Type) => {
     
+    setAttempts(prevAttempts => {
+      const newAttempts = Math.max(prevAttempts[taskId] - 1, 0);
+      
+      
+      if (newAttempts === 0) {
+        setIsAnswerShown(true);
+      }
+  
+      return {
+        ...prevAttempts,
+        [taskId]: newAttempts
+      };
+    });
+  
+  
+    // Existing logic to handle incorrect answer for updating scores
     setScores(prevScores => ({
       ...prevScores,
       [taskType]: {
         ...prevScores[taskType],
-        attempts: prevScores[taskType].incorrect + 1
+        incorrect: prevScores[taskType].incorrect + 1
       }
     }));
   };
+  
 
   const decrementAttempt = (taskId: string) => {
     setAttempts((prevAttempts) => ({
@@ -157,11 +172,18 @@ const Home = () => {
   };
 
   const onShowAnswer = () => {
-    console.log('onShowAnswer called');
-    setIsAnswerShown(true);
+    
+    if (attempts[tasks[currentTaskIndex].id] === 0) {
+      setIsAnswerShown(true);
+      if (currentTaskIndex < tasks.length - 1) {
+        setCurrentTaskIndex(currentTaskIndex + 1);
+      } else {
+        setIsAnswerShown(false)
+      }
+    }
   };
 
-  console.log({ isCorrectAnswer, isAnswerShown });
+  
   
   console.log("Current Task Index:", currentTaskIndex);
   console.log("Total Tasks:", tasks.length);
@@ -177,14 +199,15 @@ const Home = () => {
         <p>{`Antall oppgaver hentet: ${randomTaskCount}`}</p>
       )}
       <Tasks tasks={tasks} currentTaskIndex={currentTaskIndex}>
-        {tasks.length > 0 && currentTaskIndex < tasks.length && (
+        {tasks.length > 0 && currentTaskIndex < tasks.length && tasks[currentTaskIndex] && (
           <>
             <Answer
               task={tasks[currentTaskIndex]}
               onCorrectAnswer={handleCorrectAnswer}
               onIncorrectAnswer={() => {
-                handleIncorrectAnswer(tasks[currentTaskIndex].type);
-                decrementAttempt(tasks[currentTaskIndex].id); }}
+                handleIncorrectAnswer(tasks[currentTaskIndex].id, tasks[currentTaskIndex].type);
+              
+                 }}
               onShowAnswer= {onShowAnswer}
               remainingAttempts={attempts[tasks[currentTaskIndex].id]}
               totalAttempts={3} //TODO add attempts to the db. Right now it is hard coded
@@ -195,6 +218,7 @@ const Home = () => {
             />
             <Progress 
             tasks={tasks} 
+            attempts={attempts}
             isCorrectAnswer={isCorrectAnswer && currentTaskIndex <= tasks.length - 1}  
             isAnswerShown={isAnswerShown} 
             currentTaskIndex={currentTaskIndex}
@@ -203,7 +227,7 @@ const Home = () => {
         )}
       </Tasks>
 
-      {tasks.length > 0 && currentTaskIndex >= tasks.length && (
+      {tasks.length > 0 && currentTaskIndex < tasks.length && tasks[currentTaskIndex] && (
         <>
           <ResultsDisplay scores={scores} />
           <button onClick={handleStartAgain}>Start Again</button>
