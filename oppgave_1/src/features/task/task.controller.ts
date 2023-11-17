@@ -17,16 +17,26 @@ export const fetchTasks = async (selectedType: string, taskCount: string): Promi
     return result.data;
 };
 
-//Merk denne har count:Number, hvis denne endre må det også endres i page.ts
-export const fetchRandomTasks = async (taskType: string, count: number): Promise<Task[]> => {
-    const response = await fetch(`${API_URL}?type=${taskType}&count=${count}`, { method: "GET" });
+export const fetchRandomTasks = async (totalCount: number): Promise<Task[]> => {
+    const tasks = [];
+    const taskTypes = ["add", "subtract", "multiply", "divide"];
+    const countPerType = Math.ceil(totalCount / taskTypes.length);
 
-    if (!response.ok) {
-        throw new Error(`Failed to fetch tasks. Status: ${response.status}`);
+    for (const taskType of taskTypes) {
+        const response = await fetch(`${API_URL}?type=${taskType}&count=${countPerType}`, { method: "GET" });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch task. Status: ${response.status}`);
+        }
+
+        const result = await response.json() as { success: boolean; data: Task[] };
+        tasks.push(...result.data);
     }
 
-    const result = await response.json() as { success: boolean; data: Task[] };
-    return result.data;
+
+    const shuffledTasks = tasks.sort(() => 0.5 - Math.random()).slice(0, totalCount);//Chatgpt4
+    return shuffledTasks;//Chatgpt4
+
 };
 
 /*
