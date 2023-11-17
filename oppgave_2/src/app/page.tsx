@@ -9,11 +9,18 @@ import { fetchPerformers } from "../lib/api"
 const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState("")
   const [performers, setPerformers] = useState<Performer[]>([]);
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetch = async () => {
-      const users = await fetchPerformers("/api/users/getUsers")
-      setPerformers(users)
+      setLoading(true)
+      try {
+        setPerformers(await fetchPerformers("/api/users/getUsers"))
+      } catch(error) {
+        console.error("Error fetching users:", error)
+      } finally {
+        setLoading(false)
+      }
     }
     fetch()
   }, [])
@@ -21,13 +28,19 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Header />
-      <Search setSearchQuery={setSearchQuery} />
-      <Table 
-        searchQuery={searchQuery}  
-        performers={performers}
-        setPerformers={setPerformers}
-      />
+      {loading ? (
+        <div className="loading-data">Loading data, please wait a moment...</div>
+      ): (
+        <div>
+          <Header />
+          <Search setSearchQuery={setSearchQuery} />
+          <Table 
+            searchQuery={searchQuery}  
+            performers={performers}
+            setPerformers={setPerformers}
+          />
+        </div>
+      )}
     </div>
   )
 }
