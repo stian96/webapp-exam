@@ -1,24 +1,16 @@
 "use client"
-
 import React, { useContext, useState } from "react"
 import Link from "next/link"
 
-import Performer from "@/components/Performer"
+import { Performer as PerformerType } from "../../types/performer"
+import Performer from "../../components/Performer"
 import { ActivityContext } from "@/hooks/ActivityContext"
-
 import "@/style/table.scss"
 
 type TableProp = {
     searchQuery: string
-    performers: Performer[]
-    setPerformers: React.Dispatch<React.SetStateAction<Performer[]>>
-}
-
-export type Performer = {
-    id: string,
-    name: string,
-    gender: string,
-    sport: string
+    performers: PerformerType[]
+    setPerformers: React.Dispatch<React.SetStateAction<PerformerType[]>>
 }
 
 const Table = ({ searchQuery, performers, setPerformers }: TableProp) => {
@@ -30,7 +22,7 @@ const Table = ({ searchQuery, performers, setPerformers }: TableProp) => {
   }
 
     const search = searchQuery.toLocaleLowerCase()
-    const filteredPerformers = performers.filter((performer) => performer.id.toLocaleLowerCase().includes(search))
+    const filteredPerformers = performers.filter((performer) => performer.userId !== undefined && performer.userId.includes(search))
 
     return(
         <table className="table w-full max-w-7xl mx-auto border">
@@ -39,18 +31,21 @@ const Table = ({ searchQuery, performers, setPerformers }: TableProp) => {
                     <React.Fragment key={`performer-fragment-${index}`}>
                         <tr>
                             <td className="table__body-data flex justify-between p-4">
-                                {performer.id}
-                                <Link className="table__body-link" href="/sessions">Sessions</Link>
-                                <Link className="table__body-link" href="/reports">Reports</Link>
-                                <button 
-                                className="table__body-button" 
-                                type="button"
-                                onClick={() => handleEditClick(index)}>Show</button>
+                                <div className="userId-container w-48">
+                                    {performer.userId}
+                                </div>
+                                    <Link className="table__body-link" href="/sessions">Sessions</Link>
+                                    <Link className="table__body-link" href="/reports">Reports</Link>
+                                    <button 
+                                        className="table__body-button" 
+                                        type="button"
+                                        onClick={() => handleEditClick(index)}>
+                                        { editMode === index ? "Hide" : "Show"}
+                                    </button>
                             </td>
                         </tr>
                         {editMode === index && (
                         <Performer 
-                            performer={performer}
                             performers={performers}
                             setPerformers={setPerformers}
                         />

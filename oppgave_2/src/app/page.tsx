@@ -1,22 +1,44 @@
 "use client"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 import Header from "@/components/Header"
 import Search from "@/components/Search"
 import Table from "../components/tables/Table"
-import { ActivityProvider } from "@/hooks/ActivityContext"
+import { Performer } from "../types/performer"
+
+interface APIResponse {
+  status: number
+  message: Performer[]
+}
 
 const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState("")
 
   // TODO: Replace dummy data with data from db
-  const [performers, setPerformers] = useState([
-    { id: "Performer A", name: "Jake", gender: "Male", sport: "Running" },
-    { id: "Performer B", name: "Karen", gender: "Female", sport: "Crossfit" },
-    { id: "Performer C", name: "Josh", gender: "Male", sport: "Football" },
-    { id: "Performer D", name: "Betty", gender: "Female", sport: "Handball" }
-  ]);
+  const [performers, setPerformers] = useState<Performer[]>([]);
+
+  useEffect(() => {
+    const fetchPerformers = async () => {
+      const response = await fetch("/api/users/getUsers")
+      if (!response.ok) {
+        throw new Error("Failed to fetch performers...")
+      }
+      
+      const data = await response.json() as APIResponse
+      if (data.status === 200 && typeof data.message === 'string') {
+        const performers = JSON.parse(data.message) as Performer[]
+        if (performers.length === 30) {
+          console.log(performers[0].gender)
+        }
+        setPerformers(performers)
+      }
+      else {
+        throw new Error("Invalid response format!")
+      }
+    }
+    fetchPerformers()
+  }, [])
+
 
   return (
     <div>

@@ -1,25 +1,19 @@
 import Goals from "./tables/Goals"
 import EditPopup from "./EditPopup"
 import { useState } from "react"
-import { Performer } from "../components/tables/Table"
+import { Performer } from "../types/performer"
 import "../style/performer.scss"
 
 export type PerformerProps = {
-    performer: {
-        id: string,
-        name: string,
-        gender: string,
-        sport: string
-    }
     performers: Performer[]
     setPerformers: React.Dispatch<React.SetStateAction<Performer[]>>
 }
 
-const Performer = ({ performer, performers, setPerformers }: PerformerProps) => {
-    const [editPerformer, setEditPerformer] = useState(performer)
+const Performer = ({ performers, setPerformers }: PerformerProps) => {
+    const [editPerformer, setEditPerformer] = useState(performers[0])  
 
     const updatePerformer = () => {
-        const updatedPerformers = performers.map((p) => p.id === performer.id ? editPerformer : p)
+        const updatedPerformers = performers.map((p) => p.id === performers[0].id ? editPerformer : p)
         setPerformers(updatedPerformers)
     }
 
@@ -31,7 +25,7 @@ const Performer = ({ performer, performers, setPerformers }: PerformerProps) => 
             handleSave={updatePerformer}
         />
         <div className="performer w-full">
-            <p className="performer__name">Name: {editPerformer.name}</p>
+            <p className="performer__name">ID: {editPerformer.userId}</p>
             <p className="performer__gender">Gender: {editPerformer.gender}</p>
             <p className="performer__sport">Sport: {editPerformer.sport}</p>
             <Goals />

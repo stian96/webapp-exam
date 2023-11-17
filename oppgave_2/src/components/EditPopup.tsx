@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import Popup from "reactjs-popup"
-import { Performer } from "../components/tables/Table"
+import { Performer } from "../types/performer"
 import "../style/popup.scss"
 
 // Reference for Popup: https://react-popup.elazizi.com/react-modal
@@ -36,7 +36,7 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
                                 className="modal__content-input" 
                                 type="text" name="name" 
                                 placeholder="..." 
-                                value={editPerformer.name}
+                                value={editPerformer.id}
                                 onChange={handleChange} 
                             />
                             <label className="modal__content-label">Gender:</label>
