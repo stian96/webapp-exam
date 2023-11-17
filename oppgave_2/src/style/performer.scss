@@ -1,4 +1,5 @@
 @import "colors";
+@import "functions";
 
 .performer {
     background: $dark-matt-color;
@@ -9,5 +10,11 @@
         padding: 1rem;
         color: #fff;
     }
+}
+
+.button {
+    @include button-style-red(4rem, 0.3rem);
+    color: #fff;
+    margin: 1rem;
 }
 

@@ -12,6 +12,7 @@ type PerformerProps = {
 const Performer = ({ performer }: PerformerProps) => {
     return(
     <>
+        <button className="button float-right">Edit</button>
         <div className="performer w-full">
             <p className="performer__name">Name: {performer.name}</p>
             <p className="performer__gender">Gender: {performer.gender}</p>

@@ -9,6 +9,7 @@ type ActivityProps = {
 
 const Activity = ({ id }: ActivityProps) => {
     const { selectedActivities, toggleActivity } = useContext(ActivityContext)
+
     const buttons = ["Duplicate", "Edit", "Delete", "Create Report"]
 
     const handleChange = () => {

@@ -1,4 +1,5 @@
 @import "colors";
+@import "functions";
 
 .goals {
     color: #fff;
@@ -15,31 +16,11 @@
         }
 
         &-header-button {
-            background-image: $red-gradient;
-            background-size: 200% auto;
-            transition: 0.5s ease;
-            
-            width: 4rem;
-            font-weight: 500;
-            border-radius: 0.3rem;
-        
-            &:hover {
-                background-position: right center;
-            }
+            @include button-style-red(4rem, 0.3rem)
         }
 
         &-row-button {
-            background-image: $red-gradient;
-            background-size: 200% auto;
-            transition: 0.5s ease;
-    
-            width: 4rem;
-            font-weight: 500;
-            border-radius: 0.3rem;
-
-            &:hover {
-                background-position: right center;
-            }
+            @include button-style-red(4rem, 0.3rem)
         }
 
         &-inner-row {

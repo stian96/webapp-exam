@@ -1,4 +1,5 @@
 @import "colors";
+@import "functions";
 
 .activity {
     box-shadow: 0px 0px 2px 0.5px $red-text-color;
@@ -7,19 +8,8 @@
     &__container {
 
         &-button {
-            background-image: $red-gradient;
-            background-size: 200% auto;
-            transition: 0.5s ease;
-    
-            width: 7.5rem;
-            font-weight: 500;
-            border-radius: 0.3rem;
-
-            &:hover {
-                background-position: right center;
-            }
+            @include button-style-red(7.5rem, 0.3rem)
         }
         
     }
-
 }

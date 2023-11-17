@@ -42,7 +42,7 @@ const Table = ({ searchQuery }: TableProp) => {
                                 <button 
                                 className="table__body-button" 
                                 type="button"
-                                onClick={() => handleEditClick(index)}>Edit</button>
+                                onClick={() => handleEditClick(index)}>Show</button>
                             </td>
                         </tr>
                         {editMode === index && (

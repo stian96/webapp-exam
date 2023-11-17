@@ -1,4 +1,5 @@
 @import "colors";
+@import "functions";
 
 .table {
     border: none;
@@ -10,17 +11,7 @@
     }
 
     &__body-button {
-        background-image: $red-gradient;
-        background-size: 200% auto;
-        transition: 0.5s ease;
-        
-        width: 4rem;
-        font-weight: 500;
-        border-radius: 0.3rem;
-
-        &:hover {
-            background-position: right center;
-        }
+        @include button-style-red(4rem, 0.3rem)
     }
 
     &__body-link {
@@ -41,18 +32,8 @@
         padding: 1rem;
 
         &-button {
-            background-image: $red-gradient;
-            background-size: 200% auto;
-            transition: 0.5s ease;
-            
-            width: auto;
+            @include button-style-red(auto, 0.3rem);
             padding: 0.8rem;
-            font-weight: 500;
-            border-radius: 0.3rem;
-
-            &:hover {
-                background-position: right center;
-            }
 
         }
     }
