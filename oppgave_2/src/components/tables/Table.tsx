@@ -26,8 +26,8 @@ const Table = ({ searchQuery }: TableProp) => {
         { id: "Performer D", name: "Betty", gender: "Female", sport: "Handball" }
     ]
 
-    const filteredPerformers = performers.filter((performer) => 
-        performer.id.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase()))
+    const search = searchQuery.toLocaleLowerCase()
+    const filteredPerformers = performers.filter((performer) => performer.id.toLocaleLowerCase().includes(search))
 
     return(
         <table className="table w-full max-w-7xl mx-auto border">
@@ -46,21 +46,17 @@ const Table = ({ searchQuery }: TableProp) => {
                             </td>
                         </tr>
                         {editMode === index && (
-                        <tr>
-                            <td colSpan={1}>
-                                <Performer performer={performer} />
-                            </td>
-                        </tr>
+                        <Performer performer={performer} />
                     )}
                 </React.Fragment>
                 ))}
             </tbody>
             { selectedActivities.length == 2 && (
-            <tr>
-                <td className="table__compare flex justify-end">
-                    <button className="table__compare-button">Compare Activities</button>
-                </td>
-            </tr>
+            <td className="table__compare flex justify-end">
+                <button className="table__compare-button">
+                    Compare Activities
+                </button>
+            </td>
             )}
         </table>
     )
