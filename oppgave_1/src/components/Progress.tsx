@@ -19,7 +19,7 @@ export default function Progress({
   const next = (event: MouseEvent<HTMLButtonElement>) => {
     console.log(event)
     setCurrentTaskIndex(currentTaskIndex + 1)
-   
+
   }
 
   const prev = (event: MouseEvent<HTMLButtonElement>) => {
@@ -28,14 +28,14 @@ export default function Progress({
   }
   console.log({ isCorrectAnswer, isAnswerShown });
 
-  const currentTaskRemainingAttempts = attempts[tasks[currentTaskIndex].id];
+  //const currentTaskRemainingAttempts = attempts[tasks[currentTaskIndex].id];
   return (
     <footer className="border-t-slate-300">
       {/*<p>Task ID: {tasks[currentTaskIndex]?.id ?? 'No ID'}</p>*/}
       <button onClick={prev} className="btn-prev">
         Vis forrige oppgave
       </button>
-      {(isCorrectAnswer || isAnswerShown ) && (
+      {(isCorrectAnswer || isAnswerShown) && (
         <button onClick={next} className="btn-next">
           Vis neste oppgave
         </button>)}

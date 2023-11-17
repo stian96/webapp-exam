@@ -88,6 +88,12 @@ watch: nice to use if you need to change several things.
   button.btn-random:hover {
     background-color: #5ad3d1;
   }
+  button.btn-startAgain {
+    background-color: #38b25b;
+  }
+  button.btn-startAgain:hover {
+    background-color: #5fd27c;
+  }
   button.btn-next {
     background-color: #6b46c1;
   }

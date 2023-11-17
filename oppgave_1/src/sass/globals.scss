@@ -82,6 +82,7 @@ watch: nice to use if you need to change several things.
     $hover-bg-btn-teal: #5ad3d1; 
     $hover-bg-btn-purple: #9b59b6; 
     $bg-btn-color1: #38b2ac;
+    $bg-btn-color2: #38b25b;
     $bg-color-btn-next:#6b46c1;
     $error-msg-text-color:red;
     $main-color: #a8c6ea9c;
@@ -90,6 +91,8 @@ watch: nice to use if you need to change several things.
     $hover-btn-send:#4a5568;
     $bg-btn-ans:#4299e1;
     $hover-btn-ans:#3182ce;
+    $hover-btn-Again:#5fd27c;
+   
 
 
     .container {
@@ -118,6 +121,13 @@ watch: nice to use if you need to change several things.
             
             &:hover {
                 background-color: $hover-bg-btn-teal;
+            }
+        }
+        &.btn-startAgain {
+            background-color: $bg-btn-color2;
+        
+            &:hover {
+                background-color: $hover-btn-Again;
             }
         }
     
