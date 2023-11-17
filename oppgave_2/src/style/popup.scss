@@ -22,6 +22,7 @@
     &__header {
         font-weight: 500;
         font-size: 1.3rem;
+        margin-left: 1.5rem;
     }
 
     &__content {
@@ -42,6 +43,14 @@
         &-button {
             margin-top: 2rem;
             @include button-style-red(5rem, 0.3rem)
+        }
+    }
+
+    &__close {
+        font-size: 1.5rem;
+
+        &:hover {
+            color: $red-text-color;
         }
     }
 }

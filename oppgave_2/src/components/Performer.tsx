@@ -3,7 +3,7 @@ import EditPopup from "./EditPopup"
 import { useState } from "react"
 import "../style/performer.scss"
 
-type PerformerProps = {
+export type PerformerProps = {
     performer: {
         name: string,
         gender: string,
@@ -16,11 +16,11 @@ const Performer = ({ performer }: PerformerProps) => {
 
     return(
     <>
-        <EditPopup/>
+        <EditPopup editPerformer={editPerformer} setEditPerformer={setEditPerformer}/>
         <div className="performer w-full">
-            <p className="performer__name">Name: {performer.name}</p>
-            <p className="performer__gender">Gender: {performer.gender}</p>
-            <p className="performer__sport">Sport: {performer.sport}</p>
+            <p className="performer__name">Name: {editPerformer.name}</p>
+            <p className="performer__gender">Gender: {editPerformer.gender}</p>
+            <p className="performer__sport">Sport: {editPerformer.sport}</p>
             <Goals />
         </div>
     </>
