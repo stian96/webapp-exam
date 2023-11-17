@@ -1,0 +1,47 @@
+@import "colors";
+@import "functions";
+
+.popup-content {
+    background: $dark-bg-color;
+    width: 500px;
+    height: 500px;
+    text-align: center;
+    border: 1px solid $red-text-color;
+    color: #fff;
+    padding: 1rem;
+
+    &__title {
+        font-weight: 500;
+        font-size: 1.2rem;
+    }
+
+}
+
+.modal {
+
+    &__header {
+        font-weight: 500;
+        font-size: 1.3rem;
+    }
+
+    &__content {
+
+        &-label {
+            font-weight: 500;
+        }
+
+        &-input {
+            max-width: 50%;
+            margin: 1rem auto;
+            background-color: $dark-bg-color;
+        }
+    }
+
+    &__actions {
+
+        &-button {
+            margin-top: 2rem;
+            @include button-style-red(5rem, 0.3rem)
+        }
+    }
+}
