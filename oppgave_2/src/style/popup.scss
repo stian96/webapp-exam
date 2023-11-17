@@ -8,7 +8,8 @@
     text-align: center;
     border: 1px solid $red-text-color;
     color: #fff;
-    padding: 1rem;
+
+    border-radius: 15px;
 
     &__title {
         font-weight: 500;
@@ -22,7 +23,13 @@
     &__header {
         font-weight: 500;
         font-size: 1.3rem;
-        margin-left: 1.5rem;
+        background-color: #232323d2;
+
+        width: 100%;
+        margin: 0 auto;
+        padding: 1rem;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
     }
 
     &__content {
@@ -47,7 +54,10 @@
     }
 
     &__close {
-        font-size: 1.5rem;
+        position: absolute;
+        right: 1.2rem;
+        top: 0.5rem;
+        font-size: 1.7rem;
 
         &:hover {
             color: $red-text-color;
@@ -57,9 +67,11 @@
 
 .overlay {
     @include background-overlay;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
 .overlay-active {
-    display: block;
+    opacity: 1;
+    visibility: visible;
 
 }
