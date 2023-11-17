@@ -1,6 +1,6 @@
 "use client"
 
-import { Answer, Header, Tasks, TaskCount, Progress, DropdownTaskFilter} from "@/components";
+import { Answer, Header, Tasks, TaskCount, Progress, DropdownTaskFilter } from "@/components";
 import ResultsDisplay from "@/components/ResultsDisplay";
 import { type Task, type Attempts, type Stats, type Type } from "@/types"
 import React, { useState, useEffect } from 'react'
@@ -35,7 +35,7 @@ const Home = () => {
     multiply: { correct: 0, incorrect: 0 },
     divide: { correct: 0, incorrect: 0 },
   });
-  
+
 
   useEffect(() => {
     const getTasks = async () => {
@@ -102,18 +102,18 @@ const Home = () => {
     }
   };
 
-  
+
   const handleCorrectAnswer = (taskType: Type) => {
     setIsAnswerCorrect(true);
-    
-    
+
+
     setScores(prevScores => ({
       ...prevScores,
       [taskType]: {
         ...prevScores[taskType],
         correct: prevScores[taskType].correct + 1
       }
-      
+
     }));
     console.log(scores)
   };
@@ -211,9 +211,9 @@ const Home = () => {
               onShowAnswer= {onShowAnswer}
               remainingAttempts={attempts[tasks[currentTaskIndex].id]}
               totalAttempts={3} //TODO add attempts to the db. Right now it is hard coded
-              
-              
-              
+
+
+
 
             />
             <Progress 
@@ -233,7 +233,7 @@ const Home = () => {
           <button onClick={handleStartAgain}>Start Again</button>
 
         </>
-)}
+      )}
 
     </main>
   );
