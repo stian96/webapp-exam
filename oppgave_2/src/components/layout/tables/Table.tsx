@@ -2,8 +2,8 @@
 import React, { useContext, useState } from "react"
 import Link from "next/link"
 
-import { Performer as PerformerType } from "../../types/performer"
-import Performer from "../../components/Performer"
+import { Performer as PerformerType } from "../../../types/performer"
+import Performer from "../../data/Performer"
 import { ActivityContext } from "@/hooks/ActivityContext"
 import "@/style/table.scss"
 

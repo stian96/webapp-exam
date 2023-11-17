@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Navigation from "./Navigation"
 
-import "../style/header.scss"
+import "@/style/header.scss"
 
 const Header = () => {
   return (

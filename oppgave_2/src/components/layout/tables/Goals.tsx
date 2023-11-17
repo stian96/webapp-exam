@@ -1,6 +1,5 @@
-import "../../style/goals.scss"
-import Compare from "./Compare"
-import GoalsRow from "./GoalsRow"
+import "@/style/goals.scss"
+import { Compare, GoalsRow } from "@/components"
 
 const Goals = () => {
     return(

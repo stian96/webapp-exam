@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import "../style/navigation.scss"
+import "@/style/navigation.scss"
 
 import { FileText, HelpCircle, Home, User } from "lucide-react"
 

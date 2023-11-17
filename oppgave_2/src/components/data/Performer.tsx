@@ -1,7 +1,7 @@
 import { Goals, EditPopup } from "@/components"
 import { useState } from "react"
-import { Performer } from "../types/performer"
-import "../style/performer.scss"
+import { Performer } from "../../types/performer"
+import "@/style/performer.scss"
 
 export type PerformerProps = {
     performers: Performer[]

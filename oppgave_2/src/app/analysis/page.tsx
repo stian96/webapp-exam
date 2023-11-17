@@ -2,8 +2,8 @@
 
 import { useContext } from "react"
 
-import Header from "@/components/Header"
-import Analysis from "@/components/tables/Analysis"
+import Header from "@/components/layout/Header"
+import Analysis from "@/components/layout/tables/Analysis"
 import { ActivityContext, ActivityProvider } from "@/hooks/ActivityContext"
 
 const AnalysisPage = () => {

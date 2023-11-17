@@ -1,6 +1,6 @@
 import Filters from "./Filters"
 import Activity from "./Activity"
-import "../../style/compare.scss"
+import "@/style/compare.scss"
 
 const Compare = () => {
 

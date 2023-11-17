@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { ActivityContext } from "@/hooks/ActivityContext"
 
-import "../../style/activity.scss"
+import "@/style/activity.scss"
 
 type ActivityProps = {
     id: number

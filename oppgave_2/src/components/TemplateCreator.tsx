@@ -1,9 +1,6 @@
 "use client"
-
 import "../style/form.scss"
-
 import React from "react"
-
 import useTemplateCreatorHook from "@/hooks/useTemplateCreatorHook"
 
 // Code based on React documentation found here:

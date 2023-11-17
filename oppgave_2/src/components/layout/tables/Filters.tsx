@@ -1,4 +1,4 @@
-import "../../style/filters.scss"
+import "@/style/filters.scss"
 
 const Filters = () => {
 

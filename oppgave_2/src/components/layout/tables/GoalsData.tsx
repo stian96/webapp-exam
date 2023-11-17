@@ -1,4 +1,4 @@
-import "../../style/goalsData.scss"
+import "@/style/goalsData.scss"
 
 type GoalsDataProps = {
     id: string,

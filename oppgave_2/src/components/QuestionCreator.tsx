@@ -1,6 +1,6 @@
 "use client"
 
-import "../style/form.scss"
+import "@/style/form.scss"
 
 import { randomUUID } from "crypto"
 import React, { useState } from "react"

@@ -2,7 +2,7 @@
 import GoalsData from "./GoalsData"
 import { useState } from "react"
 
-import "../../style/goalsRow.scss"
+import "@/style/goalsRow.scss"
 
 type GoalsRowProps = {
     firstField: string,

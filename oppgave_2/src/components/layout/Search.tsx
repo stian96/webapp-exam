@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from "react"
-import "../style/search.scss"
+import "@/style/search.scss"
 
 type SearchQueryProps = {
     setSearchQuery: (text: string) => void

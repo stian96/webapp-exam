@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import Popup from "reactjs-popup"
-import { Performer } from "../types/performer"
-import "../style/popup.scss"
+import { Performer } from "@/types/performer"
+import "@/style/popup.scss"
 
 // Reference for Popup: https://react-popup.elazizi.com/react-modal
 
