@@ -1,42 +1,21 @@
 "use client"
 import { useState, useEffect } from "react"
-
 import Header from "@/components/Header"
 import Search from "@/components/Search"
 import Table from "../components/tables/Table"
 import { Performer } from "../types/performer"
-
-interface APIResponse {
-  status: number
-  message: Performer[]
-}
+import { fetchPerformers } from "../lib/api"
 
 const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState("")
-
-  // TODO: Replace dummy data with data from db
   const [performers, setPerformers] = useState<Performer[]>([]);
 
   useEffect(() => {
-    const fetchPerformers = async () => {
-      const response = await fetch("/api/users/getUsers")
-      if (!response.ok) {
-        throw new Error("Failed to fetch performers...")
-      }
-      
-      const data = await response.json() as APIResponse
-      if (data.status === 200 && typeof data.message === 'string') {
-        const performers = JSON.parse(data.message) as Performer[]
-        if (performers.length === 30) {
-          console.log(performers[0].gender)
-        }
-        setPerformers(performers)
-      }
-      else {
-        throw new Error("Invalid response format!")
-      }
+    const fetch = async () => {
+      const users = await fetchPerformers("/api/users/getUsers")
+      setPerformers(users)
     }
-    fetchPerformers()
+    fetch()
   }, [])
 
 

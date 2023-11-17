@@ -31,12 +31,12 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
                         </button>
                         <h1 className="modal__header">Edit Performer</h1>
                         <div className="modal__content flex flex-col mt-16">
-                            <label className="modal__content-label">Name:</label>
+                            <label className="modal__content-label">User ID:</label>
                             <input 
                                 className="modal__content-input" 
                                 type="text" name="name" 
                                 placeholder="..." 
-                                value={editPerformer.id}
+                                value={editPerformer.userId}
                                 onChange={handleChange} 
                             />
                             <label className="modal__content-label">Gender:</label>
