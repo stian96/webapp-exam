@@ -26,7 +26,7 @@ const Home = () => {
 
   const [isCorrectAnswer, setIsAnswerCorrect] = useState(false);
 
-  const [isAnswerShown, setIsAnswerShown] = useState(false);
+  const [answerShown, setIsAnswerShown] = useState(false);
 
 
   const [scores, setScores] = useState<Stats>({
@@ -120,23 +120,15 @@ const Home = () => {
   };
 
   const handleIncorrectAnswer = (taskId: string, taskType: Type) => {
-    
     setAttempts(prevAttempts => {
       const newAttempts = Math.max(prevAttempts[taskId] - 1, 0);
-      
-      
-      if (newAttempts === 0) {
-        setIsAnswerShown(true);
-      }
-  
       return {
         ...prevAttempts,
         [taskId]: newAttempts
       };
     });
   
-  
-    // Existing logic to handle incorrect answer for updating scores
+    // Existing logic for updating scores
     setScores(prevScores => ({
       ...prevScores,
       [taskType]: {
@@ -145,6 +137,7 @@ const Home = () => {
       }
     }));
   };
+  
   
 
   const decrementAttempt = (taskId: string) => {
@@ -173,17 +166,15 @@ const Home = () => {
   };
 
   const onShowAnswer = () => {
-    
-    if (attempts[tasks[currentTaskIndex].id] === 0) {
-      setIsAnswerShown(true);
-      if (currentTaskIndex < tasks.length - 1) {
-        setCurrentTaskIndex(currentTaskIndex + 1);
-      } else {
-        setIsAnswerShown(false)
-      }
-    }
+    setIsAnswerShown(true)
   };
-
+  
+  useEffect(() => {
+    // Reset states when the current task index changes
+    setIsAnswerCorrect(false);
+    setIsAnswerShown(false);
+  }, [currentTaskIndex]);
+  
   
   
   console.log("Current Task Index:", currentTaskIndex);
@@ -221,7 +212,7 @@ const Home = () => {
             tasks={tasks} 
             attempts={attempts}
             isCorrectAnswer={isCorrectAnswer && currentTaskIndex <= tasks.length - 1}  
-            isAnswerShown={isAnswerShown} 
+            isAnswerShown={answerShown} 
             currentTaskIndex={currentTaskIndex}
             setCurrentTaskIndex={setCurrentTaskIndex} />
           </>

@@ -77,13 +77,14 @@ export default function Answer({
     setMessage(null);
   }
   const handleShowAnswer = () => {
-
-    
-    setShowAnswer(true); 
-   
+    if (remainingAttempts === 0) {
+      setShowAnswer(true); 
+      onShowAnswer(); 
+    }
   };
+  
 
- 
+ console.log('anser is' , showAnswer)
 
   const inputId = `answer-${task.id}`;
   return (
@@ -107,7 +108,7 @@ export default function Answer({
       )}
       <div>
         {!showAnswer && remainingAttempts === 0 && (
-          <button onClick={() => { setShowAnswer(true)}}
+          <button onClick={handleShowAnswer}
             className="btn-show-answer">Se svaret</button>
         )}
         {showAnswer && correctAnswer !== null && (

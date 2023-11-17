@@ -19,8 +19,7 @@ export default function Progress({
   const next = (event: MouseEvent<HTMLButtonElement>) => {
     console.log(event)
     setCurrentTaskIndex(currentTaskIndex + 1)
-    isAnswerShown = false;
-    isCorrectAnswer = false;
+   
   }
 
   const prev = (event: MouseEvent<HTMLButtonElement>) => {
@@ -36,7 +35,7 @@ export default function Progress({
       <button onClick={prev} className="btn-prev">
         Vis forrige oppgave
       </button>
-      {(isCorrectAnswer || isAnswerShown || currentTaskRemainingAttempts === 0) && (
+      {(isCorrectAnswer || isAnswerShown ) && (
         <button onClick={next} className="btn-next">
           Vis neste oppgave
         </button>)}
