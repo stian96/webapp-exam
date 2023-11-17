@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { type PerformerDto } from '@/types/DTO/importUsers';
 
 const useImportUsersHook = () => {
+  const isApiCalled = useRef(false)
   const [responseCode, setResponseCode] = useState(0);
   const [responseBody, setResponseBody] = useState('');
   const [importButtonText, setImportButtonText] =
@@ -74,6 +75,11 @@ const useImportUsersHook = () => {
   };
 
   useEffect(() => {
+    if (!isApiCalled.current) {
+      isApiCalled.current = true
+      return
+    }
+
     void getApiResponse();
   }, []);
 
