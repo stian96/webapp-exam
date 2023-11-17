@@ -1,5 +1,4 @@
-import Goals from "./tables/Goals"
-import EditPopup from "./EditPopup"
+import { Goals, EditPopup } from "@/components"
 import { useState } from "react"
 import { Performer } from "../types/performer"
 import "../style/performer.scss"

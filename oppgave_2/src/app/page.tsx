@@ -1,8 +1,6 @@
 "use client"
 import { useState, useEffect } from "react"
-import Header from "@/components/Header"
-import Search from "@/components/Search"
-import Table from "../components/tables/Table"
+import { Header, Search, Table } from "@/components"
 import { Performer } from "../types/performer"
 import { fetchPerformers } from "../lib/api"
 
@@ -27,7 +25,7 @@ const Dashboard = () => {
 
 
   return (
-    <div>
+    <>
       {loading ? (
         <div className="loading-data">Loading data, please wait a moment...</div>
       ): (
@@ -41,7 +39,7 @@ const Dashboard = () => {
           />
         </div>
       )}
-    </div>
+    </>
   )
 }
 
