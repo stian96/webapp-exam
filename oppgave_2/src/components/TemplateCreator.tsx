@@ -333,8 +333,8 @@ const TemplateCreator = () => {
               className="form__select rounded focus:scale-105"
             >
               <option value="text">Text</option>
-              <option value="radio:range">Radio: Range</option>
-              <option value="radio:mood">Radio: Mood</option>
+              <option value="radio:range">1 to 10</option>
+              <option value="radio:mood">Emojis</option>
             </select>
 
             {index === 0 && (
