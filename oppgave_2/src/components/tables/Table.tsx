@@ -31,7 +31,7 @@ const Table = ({ searchQuery, performers, setPerformers }: TableProp) => {
                     <React.Fragment key={`performer-fragment-${index}`}>
                         <tr>
                             <td className="table__body-data flex justify-between p-4">
-                                <div className="userId-container w-48">
+                                <div className="userId-container w-52">
                                     {performer.userId}
                                 </div>
                                     <Link className="table__body-link" href="/sessions">Sessions</Link>
