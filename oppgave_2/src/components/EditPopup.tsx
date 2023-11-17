@@ -23,7 +23,7 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
     return(
     <>
         <button className="button float-right" onClick={() => setIsPopupOpen(true)}>Edit</button>
-        <div className={`overlay ${isPopupOpen ? 'overlay--active' : ''}`}>
+        <div className={`overlay ${isPopupOpen ? 'overlay-active' : ''}`}>
             <Popup open={isPopupOpen} closeOnDocumentClick onClick={closePopup}>
                     <div className="modal">
                         <button className="modal__close float-right" onClick={closePopup}>
