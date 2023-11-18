@@ -24,22 +24,22 @@ const GoalsRow = ({ firstField, buttonText }: GoalsRowProps) => {
 
     return (
         <div className="test">
-            <tr className="goals__body-row flex justify-between p-4">
-                <td className="goals__body-row-data">{ firstField }</td> 
-                <td>
+            <div className="goals__body-row flex justify-between p-4">
+                <div className="goals__body-row-data">{ firstField }</div> 
+                <div>
                     <button className="goals__body-row-button" type="button" onClick={toggleGoalsData}>
                         { showGoalsData ? "Hide" : buttonText }
                     </button>
-                </td>
-            </tr>
+                </div>
+            </div>
             {showGoalsData && (
-                 <tr className="goals__data-row flex justify-center p-4">
-                 <td className="w-full mx-4" colSpan={3}>
+            <div className="goals__data-row flex justify-center p-4">
+                 <div className="w-full mx-4">
                      { rowData.map((data, index) => (
                          <GoalsData key={index} id={data.id} goalNumber={data.num}/>
                      ))}
-                 </td>
-             </tr>
+                 </div>
+             </div>
             )}
         </div>
     )

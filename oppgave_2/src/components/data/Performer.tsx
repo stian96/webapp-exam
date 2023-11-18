@@ -33,22 +33,24 @@ const Performer = ({ performer, performers, setPerformers }: PerformerProps) => 
     };    
 
     return (
-        <>
-            <EditPopup 
-                editPerformer={performer} 
-                setEditPerformer={(updated) => updatePerformer(updated)}
-                handleSave={handleSave}
-            />
-            <div className="performer w-full">
-                <p className="performer__name">ID: {performer.userId}</p>
-                <p className="performer__gender">Gender: {performer.gender}</p>
-                <p className="performer__sport">Sport: {performer.sport}</p>
-                {!isEditing && (
-                    <button onClick={handleEditClick}>Edit</button>
-                )}
-                <Goals />
-            </div>
-        </>
+        <tr>
+            <td>
+                <EditPopup 
+                    editPerformer={performer} 
+                    setEditPerformer={(updated) => updatePerformer(updated)}
+                    handleSave={handleSave}
+                />
+                <div className="performer w-full">
+                    <p className="performer__name">ID: {performer.userId}</p>
+                    <p className="performer__gender">Gender: {performer.gender}</p>
+                    <p className="performer__sport">Sport: {performer.sport}</p>
+                    {!isEditing && (
+                        <button onClick={handleEditClick}>Edit</button>
+                    )}
+                    <Goals />
+                </div>
+            </td>
+        </tr>
     );
 }
 

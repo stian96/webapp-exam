@@ -7,7 +7,7 @@ const Goals = () => {
         <tbody className="goals__body">
             <tr className="goals__body-header flex justify-between">
                 <td className="goals__body-header-data">Goals</td>
-                <button className="goals__body-header-button">Create</button>
+                <td><button className="goals__body-header-button">Create</button></td>
             </tr>
             <tr className="goals__body-content">
                 <td className="flex flex-col w-11/12 mx-auto pb-5" colSpan={2}>
