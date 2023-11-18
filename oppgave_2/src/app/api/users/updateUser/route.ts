@@ -2,7 +2,6 @@ import { prisma } from "@/lib/prisma"
 import { type Performer } from "@/types/performer";
 import { NextResponse, type NextRequest } from "next/server";
 
-// TODO: Create update user endpoint.
 export const PUT = async (request: NextRequest) => {
     try {
         console.log("Deserialising user.")
