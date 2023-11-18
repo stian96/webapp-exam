@@ -1,5 +1,5 @@
 import Popup from "reactjs-popup"
-import PopupCont from "../popups/PopupCont"
+import PopupCont from "./PopupContent"
 
 import "../../../style/popup.scss"
 
