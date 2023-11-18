@@ -11,7 +11,7 @@ export const PUT = async (request: NextRequest) => {
     
         console.log("Deserialised user.")
 
-        const existingPerformer = prisma.performers.findUnique({
+        const existingPerformer = await prisma.performers.findUnique({
             where: { id: performer.id }
         })
 
@@ -21,7 +21,7 @@ export const PUT = async (request: NextRequest) => {
         }
 
         // Update existing user.
-        const updatedPerformer = prisma.performers.update({
+        const updatedPerformer = await prisma.performers.update({
             where: { id: performer.id },
                 data: {
                 userId: performer.userId,

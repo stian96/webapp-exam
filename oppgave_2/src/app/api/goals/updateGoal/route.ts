@@ -11,7 +11,7 @@ export const PUT = async (request: NextRequest) => {
     
         console.log("Deserialised goal.")
 
-        const existingGoal = prisma.goals.findUnique({
+        const existingGoal = await prisma.goals.findUnique({
             where: { id: goal.id }
         })
 
@@ -21,7 +21,7 @@ export const PUT = async (request: NextRequest) => {
         }
 
         // Update existing goal.
-        const updatedGoal = prisma.goals.update({
+        const updatedGoal = await prisma.goals.update({
             where: { id: goal.id },
                 data: {
                 id: goal.id,
