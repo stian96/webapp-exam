@@ -1,3 +1,5 @@
+import { useState } from "react"
+import  GoalsPopup from "../popups/GoalsPopup"
 import "@/style/goalsData.scss"
 
 type GoalsDataProps = {
@@ -6,15 +8,30 @@ type GoalsDataProps = {
 }
 
 const GoalsData = ({ id, goalNumber}: GoalsDataProps) => {
+    const [editClicked, setEditClicked] = useState(false)
+
+    const handleClick = () => {
+        setEditClicked(!editClicked)
+    }
+
+
     return (
-        <div className="data flex items-center p-4">
-            <span className="data__id mr-10">{ id }</span>
-            <span className="data__goal">{`Goal ${goalNumber}`}</span>
-            <div className="data__inner ml-auto">
-                <button className="data__inner-button mr-5">Edit</button>
-                <button className="data__inner-button">Delete</button>
+        <> 
+            <GoalsPopup editClicked={editClicked} setEditClicked={setEditClicked} />
+            <div className="data flex items-center p-4">
+                <span className="data__id mr-10">{ id }</span>
+                <span className="data__goal">{`Goal ${goalNumber}`}</span>
+                <div className="data__inner ml-auto">
+                    <button 
+                        className="data__inner-button mr-5"
+                        onClick={handleClick}
+                    >
+                            Edit
+                    </button>
+                    <button className="data__inner-button">Delete</button>
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 
