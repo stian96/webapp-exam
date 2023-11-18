@@ -7,15 +7,22 @@ import "@/style/popup.scss"
 
 type EditPopupProps = {
     editPerformer: Performer,
-    setEditPerformer: React.Dispatch<React.SetStateAction<Performer>>
-    handleSave: () => void
+    setEditPerformer: (performer: Performer) => void 
+    handleSave: (updatedPerformer: Performer) => void
 }
 
 const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupProps) => {
+    const [localPerformer, setLocalPerformer] = useState(editPerformer);
     const [isPopupOpen, setIsPopupOpen] = useState(false)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setEditPerformer({...editPerformer, [event.target.name]: event.target.value})
+        console.log("Event target name: ", event.target.name)
+        setLocalPerformer({...localPerformer, [event.target.name]: event.target.value})
+    }
+
+    const handleLocalSave = () => {
+        setEditPerformer(localPerformer)
+        handleSave(localPerformer)
     }
 
     const closePopup = () => setIsPopupOpen(false)
@@ -36,7 +43,6 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
                                 className="modal__content-input" 
                                 type="text" name="name" 
                                 placeholder="..." 
-                                value={editPerformer.userId}
                                 onChange={handleChange} 
                             />
                             <label className="modal__content-label">Gender:</label>
@@ -45,7 +51,6 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
                                 type="text" 
                                 name="gender" 
                                 placeholder="..." 
-                                value={editPerformer.gender}
                                 onChange={handleChange} 
                             />
                             <label className="modal__content-label">Sport:</label>
@@ -54,7 +59,6 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
                                 type="text" 
                                 name="sport" 
                                 placeholder="..." 
-                                value={editPerformer.sport}
                                 onChange={handleChange} 
                             /> 
                         </div>
@@ -62,7 +66,7 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
                             <button 
                                 className="modal__actions-button" 
                                 onClick={() => {
-                                    handleSave()
+                                    handleLocalSave()
                                     closePopup()
                                 }}>Save
                             </button>
@@ -75,3 +79,4 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
 }
 
 export default EditPopup;
+

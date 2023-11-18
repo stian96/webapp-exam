@@ -46,6 +46,7 @@ const Table = ({ searchQuery, performers, setPerformers }: TableProp) => {
                         </tr>
                         {editMode === index && (
                         <Performer 
+                            performer={performer}
                             performers={performers}
                             setPerformers={setPerformers}
                         />

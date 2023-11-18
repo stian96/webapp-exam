@@ -35,7 +35,7 @@ export const PUT = async (request: NextRequest) => {
         })
 
         console.log("Updated user in database.", updatedPerformer)
-        return NextResponse.json({ status: 200, message: "Success updating user in database." });
+        return NextResponse.json({ status: 200, message: "Success updating user in database.", data: (await updatedPerformer).gender });
         } 
         catch (error) {
             console.log(error);
