@@ -6,7 +6,8 @@ import { type Task, type Attempts, type Stats, type Type } from "@/types"
 import React, { useState, useEffect } from 'react'
 import { fetchTasks, fetchRandomTasks } from '../features/task/task.controller'
 import { Icons } from "@/components/icons"
-
+import useTaskManager from '../hooks//useTaskManager';
+import useResetTask from "@/hooks/useResetTask";
 
 
 const Home = () => {
@@ -19,22 +20,22 @@ const Home = () => {
   const [randomTaskCount, setRandomTaskCount] = useState<number | null>(null);
   const [lastRandomCount, setLastRandomCount] = useState<number | null>(null);
 
-
-  const [attempts, setAttempts] = useState<Attempts>({});
-
   const [isCorrectAnswer, setIsAnswerCorrect] = useState(false);
-
   const [answerShown, setIsAnswerShown] = useState(false);
   const [showResults, setShowResults] = useState(false);
 
 
-  const [scores, setScores] = useState<Stats>({
+
+  const initialScores: Stats = {
     add: { correct: 0, incorrect: 0 },
     subtract: { correct: 0, incorrect: 0 },
     multiply: { correct: 0, incorrect: 0 },
     divide: { correct: 0, incorrect: 0 },
-  });
+  };
 
+
+  const { scores, attempts, handleCorrectAnswer,
+    handleIncorrectAnswer, resetTasks, initializeAttempts } = useTaskManager(initialScores);
 
 
   useEffect(() => {
@@ -42,32 +43,20 @@ const Home = () => {
       try {
         const fetchedTasks = await fetchTasks(selectedType, taskCount);
         setTasks(fetchedTasks);
-
-        const initialAttempts = fetchedTasks.reduce((acc: Attempts, task: Task) => {
-          acc[task.id] = 3;
-          return acc;
-        }, {});
-
-
-        setAttempts(initialAttempts);
-        console.log(initialAttempts)
+        initializeAttempts(fetchedTasks);
 
       } catch (errorFetchingTasks) {
         console.error(`Error fetching tasks: `, errorFetchingTasks);
 
       }
-
-
     };
-
     void getTasks();
-  }, [selectedType, taskCount]);
+  }, [selectedType, taskCount, initializeAttempts]);
 
 
   const handleRandomTaskFetch = async () => {
     try {
       const userDefinedCount = Number(taskCount);
-
       const randomTasks = await fetchRandomTasks(userDefinedCount);
       setTasks(randomTasks);
       setRandomTaskCount(randomTasks.length);
@@ -97,93 +86,43 @@ const Home = () => {
   };
 
 
-  const handleCorrectAnswer = (taskType: Type) => {
-    setIsAnswerCorrect(true);
-
-
-    setScores(prevScores => ({
-      ...prevScores,
-      [taskType]: {
-        ...prevScores[taskType],
-        correct: prevScores[taskType].correct + 1
-      }
-
-    }));
-    //console.log(scores)
-  };
-
-  const handleIncorrectAnswer = (taskId: string) => {
-    setAttempts(prevAttempts => {
-      const newAttempts = Math.max(prevAttempts[taskId] - 1, 0);
-      return {
-        ...prevAttempts,
-        [taskId]: newAttempts
-      };
-    });
-
-
-    console.log('incorrect', scores)
-  };
-
-
+  const resetTask = useResetTask({
+    setSelectedType,
+    setTasks,
+    setTaskCount,
+    setErrorRandom,
+    setRandomTaskCount,
+    setLastRandomCount,
+    setIsAnswerCorrect,
+    setIsAnswerShown,
+    setShowResults,
+    resetTasks,
+    setCurrentTaskIndex
+  });
 
   const handleStartAgain = async () => {
-
-    //console.log("handle start again")
-    setCurrentTaskIndex(0);
-    setScores({
-      add: { correct: 0, incorrect: 0 },
-      subtract: { correct: 0, incorrect: 0 },
-      multiply: { correct: 0, incorrect: 0 },
-      divide: { correct: 0, incorrect: 0 },
-    });
-
-    setSelectedType('add');
-    setTasks([]);
-    setTaskCount('5');
-    setErrorRandom('');
-
-    setRandomTaskCount(null);
-    setLastRandomCount(null);
-    setAttempts({});
-    setIsAnswerCorrect(false);
-    setIsAnswerShown(false);
-    setShowResults(false);
-
-
-    const newTasks = await fetchTasks(selectedType, taskCount);
-
-    //console.log(newTasks)
-    setTasks(newTasks);
+    await resetTask(selectedType, taskCount);
   };
 
   const onShowAnswer = (taskType: Type) => {
     setIsAnswerShown(true)
-
-    setScores(prevScores => ({
-      ...prevScores,
-      [taskType]: {
-        ...prevScores[taskType],
-        incorrect: prevScores[taskType].incorrect + 1
-      }
-    }));
+    handleIncorrectAnswer(taskType)
   };
 
   const handleShowResults = () => {
-
     setShowResults(true);
   };
 
   useEffect(() => {
-
     setIsAnswerCorrect(false);
     setIsAnswerShown(false);
   }, [currentTaskIndex]);
 
+  //denne må ligge her, for at neste knappen skal synes når svaret er rett
+  const handleAnswerCorrect = (taskType: Type) => {
+    handleCorrectAnswer(taskType, setIsAnswerCorrect);
+  };
 
-
-  //console.log("Current Task Index:", currentTaskIndex);
-  //console.log("Total Tasks:", tasks.length);
 
   return (
     <main>
@@ -200,12 +139,17 @@ const Home = () => {
           <>
             <Answer
               task={tasks[currentTaskIndex]}
-              onCorrectAnswer={handleCorrectAnswer}
+              onCorrectAnswer={() => {
+                handleAnswerCorrect(tasks[currentTaskIndex].type);
+              }}
+
               onIncorrectAnswer={() => {
                 handleIncorrectAnswer(tasks[currentTaskIndex].id);
 
               }}
-              onShowAnswer={onShowAnswer}
+              onShowAnswer={() => {
+                onShowAnswer(tasks[currentTaskIndex].type)
+              }}
               remainingAttempts={attempts[tasks[currentTaskIndex].id]}
               totalAttempts={3} //TODO add attempts to the db. Right now it is hard coded
 

@@ -25,18 +25,19 @@ describe('fetchTasks', () => {
 
   it('should fetch tasks successfully', async () => {
     api.use(rest.get(API_URL, (reqest, response, context) => {
-        return response(context.json({ success: true, data: mockTasks }))
-      })
+      return response(context.json({ success: true, data: mockTasks }))
+    })
     )
 
     const tasks = await fetchTasks('someType', '5')
     expect(tasks).toEqual(mockTasks)
   })
 
+  //TODO:Ash kan du se på denne, sluttet å virke etter at du gjorde endringer i error hånteringen
   it('should throw an error when the response is not ok', async () => {
     api.use(rest.get(API_URL, (reqest, response, context) => {
-        return response(context.status(404));
-      })
+      return response(context.status(404));
+    })
     )
     await expect(fetchTasks('someType', '5')).rejects.toThrow('Failed to fetch tasks. Status: 404');
   })

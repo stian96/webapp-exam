@@ -6,29 +6,29 @@ import { type Task } from "@/types"
 const API_URL = 'http://localhost:3000/api/restapi';
 
 export const fetchTasks = async (selectedType: string, taskCount: string): Promise<Task[]> => {
-  
-  const count = Number(taskCount);
-  if (isNaN(count) || count < 1 || count > 10) {
-      console.error('Invalid task count:', taskCount);
-     
-      return [];
-  }
 
-  try {
-      const response = await fetch(`${API_URL}?type=${selectedType}&count=${taskCount}`, { method: "GET" });
+    const count = Number(taskCount);
+    if (isNaN(count) || count < 1 || count > 10) {
+        console.error('Invalid task count:', taskCount);
 
-      if (!response.ok) {
-          throw new Error(`Failed to fetch tasks. Status: ${response.status}`);
-      }
+        return [];
+    }
 
-      const result = await response.json() as { success: boolean; data: Task[] };
-      console.log(`Tasks fetched successfully: `, result.data);
-      return result.data;
-  } catch (error) {
-      console.error('Error fetching tasks:', error);
-      
-      throw error;
-  }
+    try {
+        const response = await fetch(`${API_URL}?type=${selectedType}&count=${taskCount}`, { method: "GET" });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch tasks. Status: ${response.status}`);
+        }
+
+        const result = await response.json() as { success: boolean; data: Task[] };
+        //console.log(`Tasks fetched successfully: `, result.data);
+        return result.data;
+    } catch (error) {
+        console.error('Error fetching tasks:', error);
+
+        throw error;
+    }
 };
 
 

@@ -106,13 +106,13 @@ watch: nice to use if you need to change several things.
     }
     .footer-container {
         display: flex;
-            /* Setter footer til å være en flex container */
+            
         flex-wrap: wrap;
-            /* Tillater elementer å gå til neste linje om nødvendig */
-        justify-content: space-between;
-            /* Fordeler plass mellom knappene */
+            
+        justify-content: flex-start;
+            
         gap: 16px;
-            /* Setter litt plass mellom knappene */
+            
     }
         
     button {
