@@ -6,10 +6,12 @@ import GoalsRow from "./GoalsRow"
 
 type IntervalResultsSummaryProps = {
   intervalList: IntervalResultAnalysis[]
+  filteredColumns: number[]
 }
 
 const IntervalResultsSummary = ({
   intervalList,
+  filteredColumns,
 }: IntervalResultsSummaryProps) => {
   const [averageValues, setAverageValues] = useState<number[]>([])
   const isUseEffectCalled = useRef(false)
@@ -76,25 +78,54 @@ const IntervalResultsSummary = ({
         <thead className="text-white">
           <tr>
             <th>Averages</th>
-            <th>Intensity Min</th>
-            <th>Intensity Max</th>
-            <th>Intensity Avg</th>
-            <th>Pulse Min</th>
-            <th>Pulse Max</th>
-            <th>Pulse Avg</th>
-            <th>Speed Min</th>
-            <th>Speed Max</th>
-            <th>Speed Avg</th>
-            <th>Watt Min</th>
-            <th>Watt Max</th>
-            <th>Watt Avg</th>
+            <th className={`${filteredColumns.includes(0) && "hidden"}`}>
+              Intensity Min
+            </th>
+            <th className={`${filteredColumns.includes(1) && "hidden"}`}>
+              Intensity Max
+            </th>
+            <th className={`${filteredColumns.includes(2) && "hidden"}`}>
+              Intensity Avg
+            </th>
+            <th className={`${filteredColumns.includes(3) && "hidden"}`}>
+              Pulse Min
+            </th>
+            <th className={`${filteredColumns.includes(4) && "hidden"}`}>
+              Pulse Max
+            </th>
+            <th className={`${filteredColumns.includes(5) && "hidden"}`}>
+              Pulse Avg
+            </th>
+            <th className={`${filteredColumns.includes(6) && "hidden"}`}>
+              Speed Min
+            </th>
+            <th className={`${filteredColumns.includes(7) && "hidden"}`}>
+              Speed Max
+            </th>
+            <th className={`${filteredColumns.includes(8) && "hidden"}`}>
+              Speed Avg
+            </th>
+            <th className={`${filteredColumns.includes(9) && "hidden"}`}>
+              Watt Min
+            </th>
+            <th className={`${filteredColumns.includes(10) && "hidden"}`}>
+              Watt Max
+            </th>
+            <th className={`${filteredColumns.includes(11) && "hidden"}`}>
+              Watt Avg
+            </th>
           </tr>
         </thead>
         <tbody className="text-white">
           <tr>
             <td></td>
             {averageValues.map((averageVal, index) => (
-              <td key={averageVal + index}>{averageVal}</td>
+              <td
+                key={averageVal + index}
+                className={`${filteredColumns.includes(index) && "hidden"}`}
+              >
+                {averageVal}
+              </td>
             ))}
           </tr>
         </tbody>

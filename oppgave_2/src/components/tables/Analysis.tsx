@@ -26,8 +26,21 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
   const [intervalResults, setIntervalResults] = useState<
     IntervalResultAnalysis[]
   >([])
+  const [filteredColumns, setFilteredColumns] = useState<number[]>([])
   const isApiCalled = useRef(false)
   const isApiPopulated = useRef(false)
+
+  const toggleFilteredColumn = (colNumber) => {
+    if (filteredColumns.includes(colNumber)) {
+      setFilteredColumns(filteredColumns.filter((col) => col !== colNumber))
+    } else {
+      setFilteredColumns([...filteredColumns, colNumber])
+    }
+  }
+
+  const resetColumns = () => {
+    setFilteredColumns([])
+  }
 
   const isReportExists = async (activityId: string) => {
     try {
@@ -155,11 +168,28 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
           {"Activity " + (index + 1) + ": " + id}
         </li>
       ))}
-      <IntervalResults intervalList={intervalResults} />;
+      <button
+        className="bg-orange-500 text-white"
+        onClick={() => {
+          resetColumns()
+        }}
+      >
+        Reset Columns
+      </button>
+      <IntervalResults
+        intervalList={intervalResults}
+        filteredColumns={filteredColumns}
+        toggleFilteredColumn={toggleFilteredColumn}
+      />
+      ;
       <br />
       <br />
       <br />
-      <IntervalResultsSummary intervalList={intervalResults} />;
+      <IntervalResultsSummary
+        intervalList={intervalResults}
+        filteredColumns={filteredColumns}
+      />
+      ;
     </div>
   )
 }
