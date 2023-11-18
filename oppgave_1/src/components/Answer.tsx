@@ -1,8 +1,7 @@
-//"use client"
 
 import { useState } from "react"
 import type { FormEvent, MouseEvent } from "react"
-import { type Task, type Stats, type AnswerStatus, type Type } from "@/types"
+import { type Task, type Type } from "@/types"
 
 type AnswerProps = {
   task: Task;
@@ -51,19 +50,19 @@ export default function Answer({
     event.preventDefault();
     const userAnswer = Number(answer);
     const correctAnswerNumber = Number(correctAnswer);
-  
+
     if (userAnswer !== correctAnswerNumber) {
 
       setMessage('Prøv igjen!');
       setAttemptMade(true);
-      onIncorrectAnswer(task.type, task.id); 
-     
-      
+      onIncorrectAnswer(task.type, task.id);
+
+
     } else {
       setMessage('Bra jobbet');
       setIsCorrectAnswer(true);
-      onCorrectAnswer(task.type); 
-      
+      onCorrectAnswer(task.type);
+
     }
   };
 
@@ -79,13 +78,13 @@ export default function Answer({
   }
   const handleShowAnswer = () => {
     if (remainingAttempts === 0) {
-      setShowAnswer(true); 
-      onShowAnswer(task.type); 
+      setShowAnswer(true);
+      onShowAnswer(task.type);
     }
   };
-  
 
- console.log('anser is' , showAnswer)
+
+  console.log('anser is', showAnswer)
 
   const inputId = `answer-${task.id}`;
   return (
@@ -99,8 +98,7 @@ export default function Answer({
         onChange={update}
         value={answer}
       />
-      {/*{9 + 2 === answer ? "Bra jobbet!" : null}*/}
-      {/*{correctAnswer === answer ? <div>Bra jobbet!</div> : null}*/}
+
       <button onClick={send} className="btn-send">Send</button>
       {message && <div>{message}</div>}
 

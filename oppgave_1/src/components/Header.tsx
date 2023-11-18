@@ -1,3 +1,8 @@
+import { Icons } from "@/components/icons"
+
 export default function Header() {
-  return <h1>Matematikkoppgaver</h1>
+  return <h1>
+    <Icons.graduationCap size={24} />
+    Matematikkoppgaver
+  </h1>
 }

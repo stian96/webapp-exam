@@ -73,11 +73,25 @@ watch: nice to use if you need to change several things.
   .antoppg {
     margin-bottom: 0.5rem;
   }
+  .footer-container {
+    display: flex;
+    /* Setter footer til å være en flex container */
+    flex-wrap: wrap;
+    /* Tillater elementer å gå til neste linje om nødvendig */
+    justify-content: space-between;
+    /* Fordeler plass mellom knappene */
+    gap: 16px;
+    /* Setter litt plass mellom knappene */
+  }
   button {
     @apply text-white font-bold py-2 px-4 m-4 rounded;
   }
   button.btn-prev {
     background-color: #38b2ac;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
   button.btn-prev:hover {
     background-color: #5ad3d1;
@@ -90,12 +104,21 @@ watch: nice to use if you need to change several things.
   }
   button.btn-startAgain {
     background-color: #38b25b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
   button.btn-startAgain:hover {
     background-color: #5fd27c;
   }
   button.btn-next {
     background-color: #6b46c1;
+    background-color: #38b2ac;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
   button.btn-next:hover {
     background-color: #9b59b6;
@@ -131,6 +154,11 @@ watch: nice to use if you need to change several things.
   h1 {
     font-weight: bold;
     font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 4px;
   }
   h2 {
     font-weight: bold;
@@ -151,6 +179,14 @@ watch: nice to use if you need to change several things.
   @media only screen and (max-width: 640px) {
     button {
       @apply text-xs;
+    }
+    .footer-container {
+      gap: 0px;
+    }
+    .btn-prev,
+    .btn-next {
+      margin-top: 4px;
+      margin-bottom: 4px;
     }
   }
   @media only screen and (min-width: 768px) and (max-width: 1024px) {

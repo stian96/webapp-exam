@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
 
   }
   if (!taskType) {
-    taskType = getRandomTaskType(); // Velger en tilfeldig oppgavetype hvis ingen er spesifisert
+    taskType = getRandomTaskType();
   }
 
   const tasks = await prisma.task.findMany({

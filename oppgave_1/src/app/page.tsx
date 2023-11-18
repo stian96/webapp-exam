@@ -4,11 +4,8 @@ import { Answer, Header, Tasks, TaskCount, Progress, DropdownTaskFilter } from "
 import ResultsDisplay from "@/components/ResultsDisplay";
 import { type Task, type Attempts, type Stats, type Type } from "@/types"
 import React, { useState, useEffect } from 'react'
-import { cn } from "@/lib/utils"
 import { fetchTasks, fetchRandomTasks } from '../features/task/task.controller'
-
-//TODO: Show button next task when clicking Button : Show answers
-//TODO: Not show next task when clicking Send btn.
+import { Icons } from "@/components/icons"
 
 
 
@@ -22,7 +19,7 @@ const Home = () => {
   const [randomTaskCount, setRandomTaskCount] = useState<number | null>(null);
   const [lastRandomCount, setLastRandomCount] = useState<number | null>(null);
 
-  
+
   const [attempts, setAttempts] = useState<Attempts>({});
 
   const [isCorrectAnswer, setIsAnswerCorrect] = useState(false);
@@ -57,7 +54,7 @@ const Home = () => {
 
       } catch (errorFetchingTasks) {
         console.error(`Error fetching tasks: `, errorFetchingTasks);
-        //setError('En feil oppstod under henting av oppgaver.');
+
       }
 
 
@@ -123,11 +120,11 @@ const Home = () => {
         [taskId]: newAttempts
       };
     });
-  
-  
+
+
     console.log('incorrect', scores)
   };
-  
+
 
 
   const handleStartAgain = async () => {
@@ -141,19 +138,19 @@ const Home = () => {
       divide: { correct: 0, incorrect: 0 },
     });
 
-    setSelectedType('add'); 
-    setTasks([]); 
-    setTaskCount('5'); 
-    setErrorRandom(''); 
-    
-    setRandomTaskCount(null); 
-    setLastRandomCount(null); 
-    setAttempts({}); 
-    setIsAnswerCorrect(false); 
-    setIsAnswerShown(false); 
-    setShowResults(false); 
+    setSelectedType('add');
+    setTasks([]);
+    setTaskCount('5');
+    setErrorRandom('');
 
-    // Fetch new tasks
+    setRandomTaskCount(null);
+    setLastRandomCount(null);
+    setAttempts({});
+    setIsAnswerCorrect(false);
+    setIsAnswerShown(false);
+    setShowResults(false);
+
+
     const newTasks = await fetchTasks(selectedType, taskCount);
 
     //console.log(newTasks)
@@ -173,12 +170,12 @@ const Home = () => {
   };
 
   const handleShowResults = () => {
-    // Logic to show results, such as setting a state
+
     setShowResults(true);
   };
 
   useEffect(() => {
-    
+
     setIsAnswerCorrect(false);
     setIsAnswerShown(false);
   }, [currentTaskIndex]);
@@ -206,24 +203,21 @@ const Home = () => {
               onCorrectAnswer={handleCorrectAnswer}
               onIncorrectAnswer={() => {
                 handleIncorrectAnswer(tasks[currentTaskIndex].id);
-              
-                 }}
-              onShowAnswer= {onShowAnswer}
+
+              }}
+              onShowAnswer={onShowAnswer}
               remainingAttempts={attempts[tasks[currentTaskIndex].id]}
               totalAttempts={3} //TODO add attempts to the db. Right now it is hard coded
 
-
-
-
             />
-            <Progress 
-            tasks={tasks} 
-            attempts={attempts}
-            onShowResults={handleShowResults}
-            isCorrectAnswer={isCorrectAnswer && currentTaskIndex <= tasks.length - 1}  
-            isAnswerShown={answerShown} 
-            currentTaskIndex={currentTaskIndex}
-            setCurrentTaskIndex={setCurrentTaskIndex} />
+            <Progress
+              tasks={tasks}
+              attempts={attempts}
+              onShowResults={handleShowResults}
+              isCorrectAnswer={isCorrectAnswer && currentTaskIndex <= tasks.length - 1}
+              isAnswerShown={answerShown}
+              currentTaskIndex={currentTaskIndex}
+              setCurrentTaskIndex={setCurrentTaskIndex} />
           </>
         )}
       </Tasks>
@@ -231,7 +225,10 @@ const Home = () => {
       {showResults && (
         <>
           <ResultsDisplay scores={scores} />
-          <button onClick={handleStartAgain} className="btn-startAgain">Start Again</button>
+          <button onClick={handleStartAgain} className="btn-startAgain">
+            Start på nytt
+            <Icons.refresh size={18} />
+          </button>
 
         </>
       )}
