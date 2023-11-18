@@ -12,7 +12,8 @@ const GoalsPopup = ({ editClicked, setEditClicked }: GoalsPopupProps) => {
     const inputFields: string[] = ["Name", "Date", "Goal", "Comment"]
     const fieldMapping = {"Name": "name", "Date": "date", "Goal": "goal", "Comment": "comment"}
 
-    //TODO: Show goals in popup modal.
+    // TODO: Show goals in popup modal.
+    // TODO: Implement handleChange and handleSave functions.
 
     const close = () => setEditClicked(!editClicked)
 
