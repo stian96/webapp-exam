@@ -1,6 +1,7 @@
-import { Goals, EditPopup } from "@/components"
 import { useState } from "react"
-import { Performer } from "../../types/performer"
+import { Goals, EditPopup } from "@/components"
+import { Performer } from "@/types/performer"
+import { updatePerformerInDatabase } from "@/lib/api"
 import "@/style/performer.scss"
 
 export type PerformerProps = {
@@ -11,9 +12,15 @@ export type PerformerProps = {
 const Performer = ({ performers, setPerformers }: PerformerProps) => {
     const [editPerformer, setEditPerformer] = useState(performers[0])  
 
-    const updatePerformer = () => {
-        const updatedPerformers = performers.map((p) => p.id === performers[0].id ? editPerformer : p)
-        setPerformers(updatedPerformers)
+    const updatePerformer = async () => {
+        const success = await updatePerformerInDatabase(editPerformer)
+        if (success) {
+            const updatedPerformers = performers.map((p) => p.id === performers[0].id ? editPerformer : p)
+            setPerformers(updatedPerformers)
+        }
+        else {
+            console.error(`Failed to update performer with ID: ${editPerformer.userId}`)
+        }
     }
 
     return(
