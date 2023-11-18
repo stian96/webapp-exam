@@ -25,6 +25,7 @@ import {
   FileCheck,
   FileCheck2,
   FileText,
+  GraduationCap,
   HelpCircle,
   Image,
   Laptop,
@@ -118,6 +119,8 @@ export const Icons = {
   thumbsUp: ThumbsUp,
   thumbsDown: ThumbsDown,
   plus: Plus,
+  graduationCap: GraduationCap,
+
   gitHub: (props: LucideProps) => (
     <svg viewBox="0 0 438.549 438.549" {...props}>
       <path

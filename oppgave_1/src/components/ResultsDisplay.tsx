@@ -1,6 +1,6 @@
-import { useState } from "react";
+
 import { calculateTotalScore, findWeakness } from '@/types/utils';
-import {type Stats} from '@/types/index'
+import { type Stats } from '@/types/index'
 
 type ResultsDisplayProps = {
   scores: Stats;
@@ -17,11 +17,11 @@ export default function ResultsDisplay({ scores }: ResultsDisplayProps) {
 
   console.log(weakness)
 
- 
+
   return (
     <div>
-      <p>Total Score: {totalScore}</p>
-      {weakness !== "None" && <p>Need more practice in: {weakness}</p>}
+      <p>Samlet poengsum: {totalScore}</p>
+      {weakness !== "None" && <p>Du bør øve mer på: {weakness}</p>}
     </div>
   )
 
