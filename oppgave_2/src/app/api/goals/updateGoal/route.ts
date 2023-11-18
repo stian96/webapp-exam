@@ -24,10 +24,10 @@ export const PUT = async (request: NextRequest) => {
         const updatedGoal = await prisma.goals.update({
             where: { id: goal.id },
                 data: {
-                id: goal.id,
-                name: goal.name,
-                date: goal.date,
-                comments: goal.comments
+                    id: goal.id,
+                    name: goal.name,
+                    date: goal.date,
+                    comments: goal.comments
             }
         })
 

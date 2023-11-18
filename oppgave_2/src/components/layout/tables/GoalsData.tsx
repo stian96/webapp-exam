@@ -5,9 +5,10 @@ import "@/style/goalsData.scss"
 type GoalsDataProps = {
     id: string,
     goalNumber: number,
+    performerId: string | undefined
 }
 
-const GoalsData = ({ id, goalNumber}: GoalsDataProps) => {
+const GoalsData = ({ id, goalNumber, performerId }: GoalsDataProps) => {
     const [editClicked, setEditClicked] = useState(false)
 
     const handleClick = () => {
@@ -17,7 +18,11 @@ const GoalsData = ({ id, goalNumber}: GoalsDataProps) => {
 
     return (
         <> 
-            <GoalsPopup editClicked={editClicked} setEditClicked={setEditClicked} />
+            <GoalsPopup 
+                performerId={performerId}
+                editClicked={editClicked} 
+                setEditClicked={setEditClicked} 
+            />
             <div className="data flex items-center p-4">
                 <span className="data__id mr-10">{ id }</span>
                 <span className="data__goal">{`Goal ${goalNumber}`}</span>

@@ -1,7 +1,11 @@
 import "@/style/goals.scss"
 import { Compare, GoalsRow } from "@/components"
 
-const Goals = () => {
+type GoalsProps = {
+    performerId: string | undefined
+}
+
+const Goals = ({ performerId }: GoalsProps) => {
     
 
     return(
@@ -13,8 +17,8 @@ const Goals = () => {
             </div>
             <div className="goals__body-content">
                 <div className="flex flex-col w-11/12 mx-auto pb-5">
-                    <GoalsRow firstField="2021" buttonText="Show" />
-                    <GoalsRow firstField="2022" buttonText="Show" />
+                    <GoalsRow firstField="2021" buttonText="Show" id={performerId} />
+                    <GoalsRow firstField="2022" buttonText="Show" id={performerId} />
                 </div>
             </div>
         </div>

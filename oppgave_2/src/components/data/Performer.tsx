@@ -47,7 +47,7 @@ const Performer = ({ performer, performers, setPerformers }: PerformerProps) => 
                     {!isEditing && (
                         <button onClick={handleEditClick}>Edit</button>
                     )}
-                    <Goals />
+                    <Goals performerId={performer.id} />
                 </div>
             </td>
         </tr>

@@ -1,4 +1,5 @@
 import { Performer } from "../types/performer"
+import { Goal } from "../types/classes/goal"
 
 interface APIResponse {
     status: number
@@ -43,5 +44,26 @@ export const fetchPerformers = async (url: string): Promise<Performer[]> => {
     else {
       console.log("Error saving data to DB: ", data)
       return false
+    }
+  }
+
+  // Function used to update a goal in the database.
+  export const updateGoalInDatabase = async (goal: Goal): Promise<Boolean> => {
+    const response = await fetch("/api/goals/updateGoal", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(goal)
+    })
+
+    const goalData = await response.json()
+    if (!response.ok) {
+      console.error(`Error saving Goal: ${goal.name} to DB.`)
+      return false
+    }
+    else {
+      console.log(`Success: ${goal}`)
+      return true
     }
   }

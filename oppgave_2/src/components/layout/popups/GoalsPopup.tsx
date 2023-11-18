@@ -1,35 +1,53 @@
 import { useState } from "react"
+import { updateGoalInDatabase } from "../../../lib/api"
 import Popup from "reactjs-popup"
 import PopupCont from "./PopupContent"
 
 import "../../../style/popup.scss"
 
 type GoalsPopupProps = {
+    performerId: string | undefined
     editClicked: boolean
     setEditClicked: (value: boolean) => void 
 }
 
-const GoalsPopup = ({ editClicked, setEditClicked }: GoalsPopupProps) => {
-    const [formValues, setFormValues] = useState({
+const GoalsPopup = ({ performerId, editClicked, setEditClicked }: GoalsPopupProps) => {
+    const [goalInput, setGoalInput] = useState({
+        id: performerId,
         name: "",
         date: "",
         goal: "",
-        comment: ""
+        comments: ""
     })
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormValues({...formValues, [event.target.name]: event.target.value});
+        setGoalInput({...goalInput, [event.target.name]: event.target.value});
     };
 
+
+    // TODO: Talk to the team about what to do with the goals.
     const handleSave = async () => {
-        // TODO: Do api call to database.
+        const parsedDate = new Date(goalInput.date)
+        const modifiedGoal = {
+            id: goalInput.id,
+            name: goalInput.name,
+            date: parsedDate,
+            goal: goalInput.goal,
+            comments: goalInput.comments
+        }
+        const success = await updateGoalInDatabase(modifiedGoal)
+        if (success) {
+            console.log("Goal created/updated successfully!")
+        }
+        else {
+            console.error("Failed to create/update goal...")
+        }
+        setEditClicked(false)
     }
 
     const inputFields: string[] = ["Name", "Date", "Goal", "Comment"]
     const fieldMapping = {"Name": "name", "Date": "date", "Goal": "goal", "Comment": "comment"}
 
-    // TODO: Show goals in popup modal.
-    // TODO: Implement handleChange and handleSave functions.
 
     const close = () => setEditClicked(!editClicked)
 
@@ -41,8 +59,8 @@ const GoalsPopup = ({ editClicked, setEditClicked }: GoalsPopupProps) => {
                     inputElements={inputFields} 
                     mapping={fieldMapping}
                     close={close} 
-                    handleChange={() => {}}
-                    handleSave={() => {}}
+                    handleChange={handleChange}
+                    handleSave={handleSave}
                 />
             </Popup>
         </div>

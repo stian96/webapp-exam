@@ -5,11 +5,12 @@ import { useState } from "react"
 import "@/style/goalsRow.scss"
 
 type GoalsRowProps = {
-    firstField: string,
+    firstField: string
     buttonText: string
+    id: string | undefined
 }
 
-const GoalsRow = ({ firstField, buttonText }: GoalsRowProps) => {
+const GoalsRow = ({ firstField, buttonText, id }: GoalsRowProps) => {
     const [showGoalsData, setShowGoalsData] = useState(false)
 
     const rowData = [
@@ -36,7 +37,12 @@ const GoalsRow = ({ firstField, buttonText }: GoalsRowProps) => {
             <div className="goals__data-row flex justify-center p-4">
                  <div className="w-full mx-4">
                      { rowData.map((data, index) => (
-                         <GoalsData key={index} id={data.id} goalNumber={data.num}/>
+                         <GoalsData 
+                            key={index} 
+                            id={data.id} 
+                            goalNumber={data.num}
+                            performerId={id}
+                        />
                      ))}
                  </div>
              </div>
