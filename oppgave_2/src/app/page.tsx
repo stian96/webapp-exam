@@ -7,17 +7,17 @@ import { fetchPerformers } from "../lib/api"
 const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState("")
   const [performers, setPerformers] = useState<Performer[]>([]);
-  const [loading, setLoading] = useState(false)
+  const [fetching, setFetching] = useState(false)
 
   useEffect(() => {
     const fetch = async () => {
-      setLoading(true)
+      setFetching(true)
       try {
         setPerformers(await fetchPerformers("/api/users/getUsers"))
       } catch(error) {
         console.error("Error fetching users:", error)
       } finally {
-        setLoading(false)
+        setFetching(false)
       }
     }
     fetch()
@@ -26,8 +26,8 @@ const Dashboard = () => {
 
   return (
     <>
-      {loading ? (
-        <div className="loading-data">Loading data, please wait a moment...</div>
+      {fetching ? (
+        <div className="loading-data">Fetching data, please wait a moment...</div>
       ): (
         <div>
           <Header />

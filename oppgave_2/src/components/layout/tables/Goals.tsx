@@ -1,23 +1,29 @@
 import "@/style/goals.scss"
 import { Compare, GoalsRow } from "@/components"
 
-const Goals = () => {
+type GoalsProps = {
+    performerId: string | undefined
+}
+
+const Goals = ({ performerId }: GoalsProps) => {
+    
+
     return(
-    <table className="goals w-full">
-        <tbody className="goals__body">
-            <tr className="goals__body-header flex justify-between">
-                <td className="goals__body-header-data">Goals</td>
+    <div className="goals w-full">
+        <div className="goals__body">
+            <div className="goals__body-header flex justify-between">
+                <span className="goals__body-header-data">Goals</span>
                 <button className="goals__body-header-button">Create</button>
-            </tr>
-            <tr className="goals__body-content">
-                <td className="flex flex-col w-11/12 mx-auto pb-5" colSpan={2}>
-                    <GoalsRow firstField="2021" buttonText="Show" />
-                    <GoalsRow firstField="2022" buttonText="Show" />
-                </td>
-            </tr>
-        </tbody>
+            </div>
+            <div className="goals__body-content">
+                <div className="flex flex-col w-11/12 mx-auto pb-5">
+                    <GoalsRow firstField="2021" buttonText="Show" id={performerId} />
+                    <GoalsRow firstField="2022" buttonText="Show" id={performerId} />
+                </div>
+            </div>
+        </div>
         <Compare />
-    </table>
+    </div>
     )
 }
 

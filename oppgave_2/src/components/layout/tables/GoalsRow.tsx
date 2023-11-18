@@ -5,11 +5,12 @@ import { useState } from "react"
 import "@/style/goalsRow.scss"
 
 type GoalsRowProps = {
-    firstField: string,
+    firstField: string
     buttonText: string
+    id: string | undefined
 }
 
-const GoalsRow = ({ firstField, buttonText }: GoalsRowProps) => {
+const GoalsRow = ({ firstField, buttonText, id }: GoalsRowProps) => {
     const [showGoalsData, setShowGoalsData] = useState(false)
 
     const rowData = [
@@ -24,22 +25,27 @@ const GoalsRow = ({ firstField, buttonText }: GoalsRowProps) => {
 
     return (
         <div className="test">
-            <tr className="goals__body-row flex justify-between p-4">
-                <td className="goals__body-row-data">{ firstField }</td> 
-                <td>
+            <div className="goals__body-row flex justify-between p-4">
+                <div className="goals__body-row-data">{ firstField }</div> 
+                <div>
                     <button className="goals__body-row-button" type="button" onClick={toggleGoalsData}>
                         { showGoalsData ? "Hide" : buttonText }
                     </button>
-                </td>
-            </tr>
+                </div>
+            </div>
             {showGoalsData && (
-                 <tr className="goals__data-row flex justify-center p-4">
-                 <td className="w-full mx-4" colSpan={3}>
+            <div className="goals__data-row flex justify-center p-4">
+                 <div className="w-full mx-4">
                      { rowData.map((data, index) => (
-                         <GoalsData key={index} id={data.id} goalNumber={data.num}/>
+                         <GoalsData 
+                            key={index} 
+                            id={data.id} 
+                            goalNumber={data.num}
+                            performerId={id}
+                        />
                      ))}
-                 </td>
-             </tr>
+                 </div>
+             </div>
             )}
         </div>
     )

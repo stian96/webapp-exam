@@ -34,18 +34,19 @@ const Table = ({ searchQuery, performers, setPerformers }: TableProp) => {
                                 <div className="userId-container w-52">
                                     {performer.userId}
                                 </div>
-                                    <Link className="table__body-link" href="/sessions">Sessions</Link>
-                                    <Link className="table__body-link" href="/reports">Reports</Link>
-                                    <button 
-                                        className="table__body-button" 
-                                        type="button"
-                                        onClick={() => handleEditClick(index)}>
-                                        { editMode === index ? "Hide" : "Show"}
-                                    </button>
+                                <Link className="table__body-link" href="/sessions">Sessions</Link>
+                                <Link className="table__body-link" href="/reports">Reports</Link>
+                                <button 
+                                    className="table__body-button" 
+                                    type="button"
+                                    onClick={() => handleEditClick(index)}>
+                                    { editMode === index ? "Hide" : "Show"}
+                                </button>
                             </td>
                         </tr>
                         {editMode === index && (
                         <Performer 
+                            performer={performer}
                             performers={performers}
                             setPerformers={setPerformers}
                         />
@@ -54,11 +55,15 @@ const Table = ({ searchQuery, performers, setPerformers }: TableProp) => {
                 ))}
             </tbody>
             { selectedActivities.length >= 2 && (
-            <td className="table__compare flex justify-end">
-                <button className="table__compare-button">
-                    Compare Activities
-                </button>
-            </td>
+            <tbody className="table__compare flex justify-end">
+                <tr>
+                    <td>
+                        <button className="table__compare-button">
+                            Compare Activities
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
             )}
         </table>
     )

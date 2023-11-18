@@ -1,5 +1,5 @@
 export interface GoalModel {
-    id: string | null,
+    id: string | undefined,
     name: string,
     date: Date,
     goal: string,
