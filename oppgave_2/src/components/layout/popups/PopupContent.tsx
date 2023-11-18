@@ -4,10 +4,13 @@ import "../../../style/popup.scss"
 type PopupProps = {
     header: string
     inputElements: string[]
+    mapping: Record<string, string>
     close: () => void
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    handleSave: () => void
 }
 
-const PopupContent = ({ header, inputElements, close }: PopupProps) => {
+const PopupContent = ({ header, inputElements, close, handleChange, handleSave, mapping }: PopupProps) => {
 
     return (
         <div className="modal">
@@ -16,13 +19,18 @@ const PopupContent = ({ header, inputElements, close }: PopupProps) => {
         </button>
         <h1 className="modal__header">{header}</h1>
         <div className="modal__content">
-            <Input elements={inputElements}/>
+            <Input 
+                elements={inputElements} 
+                handleChange={handleChange}
+                fieldMapping={mapping}
+            />
         </div>
         <div className="modal__actions">
             <button 
                 className="modal__actions-button" 
                 onClick={() => {
                     close()
+                    handleSave()
                 }}>Save
             </button>
         </div>

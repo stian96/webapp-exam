@@ -10,13 +10,23 @@ type GoalsPopupProps = {
 
 const GoalsPopup = ({ editClicked, setEditClicked }: GoalsPopupProps) => {
     const inputFields: string[] = ["Name", "Date", "Goal", "Comment"]
+    const fieldMapping = {"Name": "name", "Date": "date", "Goal": "goal", "Comment": "comment"}
+
+    //TODO: Show goals in popup modal.
 
     const close = () => setEditClicked(!editClicked)
 
     return (
         <div className={`overlay ${editClicked ? 'overlay-active': ''}`}>
             <Popup open={editClicked} closeOnDocumentClick onClick={close}>
-                <PopupCont header={"Edit Goal"} inputElements={inputFields} close={close} />
+                <PopupCont 
+                    header={"Edit Goal"} 
+                    inputElements={inputFields} 
+                    mapping={fieldMapping}
+                    close={close} 
+                    handleChange={() => {}}
+                    handleSave={() => {}}
+                />
             </Popup>
         </div>
     )

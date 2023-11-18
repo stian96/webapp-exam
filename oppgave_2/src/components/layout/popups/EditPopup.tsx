@@ -17,6 +17,7 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
     const [isPopupOpen, setIsPopupOpen] = useState(false)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(`EVENT TYPE: ${event.target.name}`)
         setLocalPerformer({...localPerformer, [event.target.name]: event.target.value})
     }
 
@@ -27,6 +28,7 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
 
     const closePopup = () => setIsPopupOpen(false)
     const inputFields = ["User ID", "Gender", "Sport"]
+    const fieldMapping = {"User ID": "userId", "Gender": "gender", "Sport": "sport"}
 
     return(
     <>
@@ -38,7 +40,10 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
                 <PopupContent 
                     header="Edit Performer" 
                     inputElements={inputFields}
+                    mapping={fieldMapping}
                     close={closePopup}
+                    handleChange={handleChange}
+                    handleSave={handleLocalSave}
                 /> 
             </Popup>
         </div>
