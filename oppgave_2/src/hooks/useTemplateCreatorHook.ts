@@ -398,7 +398,7 @@ const useTemplateCreatorHook = () => {
       }
 
       const response = await fetch("/api/sessions/createSessionTemplate", {
-        method: "put",
+        method: "post",
         headers: {
           "Content-Type": "application/json",
         },

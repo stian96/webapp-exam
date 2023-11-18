@@ -107,7 +107,7 @@ const QuestionCreator = () => {
       }
 
       const response = await fetch("/api/questions/createQuestion", {
-        method: "put",
+        method: "post",
         headers: {
           "Content-Type": "application/json",
         },
