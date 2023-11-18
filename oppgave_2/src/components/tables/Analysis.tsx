@@ -4,6 +4,8 @@ import {
   IntervalResult,
   IntervalResultAnalysis,
 } from "@/types/performance/intervalResult"
+import IntervalResults from "./IntervalResults"
+import IntervalResultsSummary from "./IntervalResultsSummary"
 
 type AnalysisProps = {
   activityIds: string[]
@@ -25,6 +27,7 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
     IntervalResultAnalysis[]
   >([])
   const isApiCalled = useRef(false)
+  const isApiPopulated = useRef(false)
 
   const isReportExists = async (activityId: string) => {
     try {
@@ -91,6 +94,8 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
         await getIntervalResults(id, activityId)
       }
     }
+
+    isApiPopulated.current = true
   }
 
   const deserialiseIntervalResultsResponse = async (
@@ -138,6 +143,10 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
     void populateIntervalResults(activityIds)
   }, [activityIds])
 
+  if (!isApiPopulated.current) {
+    return null // or render loading state
+  }
+
   return (
     <div>
       <p className="text-white">selectedActivities</p>
@@ -146,11 +155,11 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
           {"Activity " + (index + 1) + ": " + id}
         </li>
       ))}
-      {intervalResults.map((result, index) => (
-        <li key={index} className="text-white">
-          {"IntervalResult " + (index + 1) + ": " + result.id}
-        </li>
-      ))}
+      <IntervalResults intervalList={intervalResults} />;
+      <br />
+      <br />
+      <br />
+      <IntervalResultsSummary intervalList={intervalResults} />;
     </div>
   )
 }
