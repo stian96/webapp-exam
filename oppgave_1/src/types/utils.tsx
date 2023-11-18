@@ -5,9 +5,8 @@ export const calculateTotalScore = (scores: Stats) => {
 };
 
 
-//source chatGpt
-export const findWeakness = (scores: Stats) => {
 
+export const findWeakness = (scores: Stats) => {
   const detailedScores = Object.entries(scores).map(([operation, score]) => ({
     operation,
     correct: score.correct,
@@ -16,11 +15,9 @@ export const findWeakness = (scores: Stats) => {
     ratio: score.correct / (score.correct + score.incorrect)
   }));
 
-  
   let maxIncorrect = -1;
   let maxIncorrectOperation = '';
 
- 
   detailedScores.forEach(score => {
     if (score.incorrect > maxIncorrect) {
       maxIncorrect = score.incorrect;
@@ -28,6 +25,7 @@ export const findWeakness = (scores: Stats) => {
     }
   });
 
-  
-  return maxIncorrectOperation;
+ 
+  return maxIncorrect === 0 ? "None" : maxIncorrectOperation;
 };
+

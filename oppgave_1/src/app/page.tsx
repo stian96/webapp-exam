@@ -22,6 +22,7 @@ const Home = () => {
   const [randomTaskCount, setRandomTaskCount] = useState<number | null>(null);
   const [lastRandomCount, setLastRandomCount] = useState<number | null>(null);
 
+  
   const [attempts, setAttempts] = useState<Attempts>({});
 
   const [isCorrectAnswer, setIsAnswerCorrect] = useState(false);

@@ -17,10 +17,11 @@ export default function ResultsDisplay({ scores }: ResultsDisplayProps) {
 
   console.log(weakness)
 
+ 
   return (
     <div>
       <p>Total Score: {totalScore}</p>
-      <p>Need more practice in: {weakness}</p>
+      {weakness !== "None" && <p>Need more practice in: {weakness}</p>}
     </div>
   )
 
