@@ -6,6 +6,8 @@ import { type Task, type Attempts } from "../types/index"
 import { Icons } from "@/components/icons"
 
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Progress({
   tasks, attempts, onShowResults, isAnswerShown, isCorrectAnswer, currentTaskIndex, setCurrentTaskIndex
@@ -30,8 +32,8 @@ export default function Progress({
   const prev = (event: MouseEvent<HTMLButtonElement>) => {
     console.log(event);
     if (currentTaskIndex === 0) {
-
-      setErrorMessage('Du er på den første oppgaven og kan ikke gå tilbake.');
+      toast.error('Du er på den første oppgaven og kan ikke gå tilbake.')
+      //setErrorMessage('Du er på den første oppgaven og kan ikke gå tilbake.');
     } else {
       setCurrentTaskIndex(currentTaskIndex - 1);
       setErrorMessage(null); // Clear the error message when it's valid to go back
@@ -42,11 +44,13 @@ export default function Progress({
 
   return (
     <footer className="footer-container border-t-slate-300">
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+      {/*{errorMessage && <p className="error-message">{errorMessage}</p>}*/}
+      <ToastContainer position="bottom-center" autoClose={6500} />
 
       <button onClick={prev} className="btn-prev">
         <Icons.chevronLeft size={22} />
-        <span>Vis forrige oppgave</span>
+        Vis forrige oppgave
       </button>
 
       {isLastQuestion ? (
@@ -67,3 +71,7 @@ export default function Progress({
     </footer>
   )
 }
+
+//Kilder for toast:
+//https://www.npmjs.com/package/react-toastify
+//https://blog.logrocket.com/using-react-toastify-style-toast-messages/

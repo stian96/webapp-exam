@@ -59,7 +59,7 @@ export default function Answer({
 
 
     } else {
-      setMessage('Bra jobbet');
+      setMessage('Bra jobbet!');
       setIsCorrectAnswer(true);
       onCorrectAnswer(task.type);
 
@@ -84,7 +84,7 @@ export default function Answer({
   };
 
 
-  console.log('anser is', showAnswer)
+  //console.log('anser is', showAnswer)
 
   const inputId = `answer-${task.id}`;
   return (
