@@ -18,11 +18,11 @@ const Compare = () => {
                     </td>
                 </tr>
                 <tr className="activity-table">
-                    <div className="mb-5">
+                    <td className="mb-5">
                         { activities.map((activity, index) =>  (
                             <Activity key={index} id={activity} />
                         ))}
-                    </div>
+                    </td>
                 </tr>
             </tbody>
         </table>

@@ -2,9 +2,9 @@ import { useState } from "react"
 import "@/style/filters.scss"
 
 const Filters = () => {
-    const [selectedTag, setSelectedTag] = useState('');
-    const [selectedReportStatus, setSelectedReportStatus] = useState('');
-    const [selectedSortBy, setSelectedSortBy] = useState('');
+    const [selectedTag, setSelectedTag] = useState("");
+    const [selectedReportStatus, setSelectedReportStatus] = useState("");
+    const [selectedSortBy, setSelectedSortBy] = useState("");
 
     return (
         <div className="filter">
