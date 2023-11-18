@@ -27,7 +27,7 @@ export const fetchPerformers = async (url: string): Promise<Performer[]> => {
 
   // Function used to update a particular performer in the database.
   export const updatePerformerInDatabase = async (performer: Performer): Promise<Boolean> => {
-    const response = await fetch("/api/users/createUser", {
+    const response = await fetch("/api/users/updateUser", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
