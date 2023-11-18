@@ -9,7 +9,7 @@ type InputProps = {
 const Input = ({ elements }: InputProps) => {
 
     return(
-        <div className="input flex flex-col gap-1">
+        <div className="input flex flex-col gap-3">
             {elements.map((element, index) => (
                 <React.Fragment key={index}>
                     <label className="input__label">{element}</label>

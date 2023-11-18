@@ -7,7 +7,7 @@ type PopupProps = {
     close: () => void
 }
 
-const PopupCont = ({ header, inputElements, close }: PopupProps) => {
+const PopupContent = ({ header, inputElements, close }: PopupProps) => {
 
     return (
         <div className="modal">
@@ -30,4 +30,4 @@ const PopupCont = ({ header, inputElements, close }: PopupProps) => {
     )
 }
 
-export default PopupCont
+export default PopupContent

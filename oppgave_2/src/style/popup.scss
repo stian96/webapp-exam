@@ -4,9 +4,10 @@
 .popup-content {
     background: $dark-bg-color;
     width: 500px;
-    height: 500px;
+    height: auto;
     text-align: center;
     border: 1px solid $red-text-color;
+    padding-bottom: 1rem;
     color: #fff;
 
     border-radius: 15px;
@@ -49,6 +50,7 @@
 
         &-button {
             margin-top: 1.5rem;
+            padding: 0.2rem 1.2rem 0.2rem 1.2rem;
             @include button-style-red(5rem, 0.3rem)
         }
     }
