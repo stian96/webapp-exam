@@ -1,3 +1,4 @@
+import { useState } from "react"
 import Popup from "reactjs-popup"
 import PopupCont from "./PopupContent"
 
@@ -9,6 +10,21 @@ type GoalsPopupProps = {
 }
 
 const GoalsPopup = ({ editClicked, setEditClicked }: GoalsPopupProps) => {
+    const [formValues, setFormValues] = useState({
+        name: "",
+        date: "",
+        goal: "",
+        comment: ""
+    })
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormValues({...formValues, [event.target.name]: event.target.value});
+    };
+
+    const handleSave = async () => {
+        // TODO: Do api call to database.
+    }
+
     const inputFields: string[] = ["Name", "Date", "Goal", "Comment"]
     const fieldMapping = {"Name": "name", "Date": "date", "Goal": "goal", "Comment": "comment"}
 

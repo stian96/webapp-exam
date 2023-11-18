@@ -2,6 +2,8 @@ import "@/style/goals.scss"
 import { Compare, GoalsRow } from "@/components"
 
 const Goals = () => {
+    
+
     return(
     <div className="goals w-full">
         <div className="goals__body">
