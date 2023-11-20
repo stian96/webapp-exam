@@ -2,7 +2,7 @@ import "@/style/goals.scss"
 import { Compare, GoalsRow } from "@/components"
 
 type GoalsProps = {
-    performerId: string | undefined
+    performerId: string
 }
 
 const Goals = ({ performerId }: GoalsProps) => {

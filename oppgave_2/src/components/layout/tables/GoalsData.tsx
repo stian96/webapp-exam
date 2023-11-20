@@ -5,7 +5,7 @@ import "@/style/goalsData.scss"
 type GoalsDataProps = {
     id: string,
     goalNumber: number,
-    performerId: string | undefined
+    performerId: string
 }
 
 const GoalsData = ({ id, goalNumber, performerId }: GoalsDataProps) => {

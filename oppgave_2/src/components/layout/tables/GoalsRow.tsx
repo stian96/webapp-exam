@@ -7,7 +7,7 @@ import "@/style/goalsRow.scss"
 type GoalsRowProps = {
     firstField: string
     buttonText: string
-    id: string | undefined
+    id: string
 }
 
 const GoalsRow = ({ firstField, buttonText, id }: GoalsRowProps) => {

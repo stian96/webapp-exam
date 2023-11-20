@@ -13,6 +13,7 @@ export const POST = async (request: NextRequest) => {
         const data = await request.json() as RequestData
         const { goal, performerId, year } = data
         console.log(`Got Data: goal name: ${goal.name}, performerId: ${performerId}, year: ${year}`)
+        console.log("Goal ID: ", goal.id)
 
         if (!goal.id) {
             return NextResponse.json({ status: 400, message: "Missing goal ID." })
