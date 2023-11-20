@@ -48,13 +48,13 @@ export const fetchPerformers = async (url: string): Promise<Performer[]> => {
   }
 
   // Function used to update a goal in the database.
-  export const updateGoalInDatabase = async (goal: Goal): Promise<boolean> => {
-    const response = await fetch("/api/goals/updateGoal", {
-      method: "PUT",
+  export const createNewGoalInDatabase = async (goal: Goal, performerId: string, year: number): Promise<boolean> => {
+    const response = await fetch("/api/goals/createNewGoal", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(goal)
+      body: JSON.stringify({ goal, performerId, year})
     })
 
     const goalData = await response.json()

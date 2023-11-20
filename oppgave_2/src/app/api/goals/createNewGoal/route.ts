@@ -2,23 +2,21 @@ import { prisma } from "@/lib/prisma"
 import { Goal } from "@/types/classes/goal";
 import { NextResponse, type NextRequest } from "next/server";
 
+type RequestData = {
+    goal: Goal
+    performerId: string
+    year: number
+}
+
 export const POST = async (request: NextRequest) => {
     try {        
-        const data = await request.json()
-        const goal: Goal = data as Goal;
-
-        const performerGoal = await prisma.performerGoals.findFirst({ 
-            where: { goalId: goal.id }
-        })
-
-        if (!performerGoal) {
-            return NextResponse.json({ status: 404, message: "Goal not linked to any performer..."})
-        }
+        const data = await request.json() as RequestData
+        const { goal, performerId, year} = data
 
         const existingGoalCount = await prisma.performerGoals.count({
             where: {
-                performerId: performerGoal.performerId,
-                year: performerGoal.year
+                performerId: performerId,
+                year: year
             }
         })
 
@@ -34,6 +32,15 @@ export const POST = async (request: NextRequest) => {
                 date: goal.date,
                 comments: goal.comments,
                 isCompetition: false,
+            }
+        })
+
+        // Link the new goal to the performer and year.
+        await prisma.performerGoals.create({
+            data: {
+                performerId: performerId,
+                goalId: newGoal.id,
+                year: year
             }
         })
 
