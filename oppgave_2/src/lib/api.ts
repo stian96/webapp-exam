@@ -49,21 +49,26 @@ export const fetchPerformers = async (url: string): Promise<Performer[]> => {
 
   // Function used to update a goal in the database.
   export const createNewGoalInDatabase = async (goal: Goal, performerId: string, year: number): Promise<boolean> => {
-    const response = await fetch("/api/goals/createNewGoal", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ goal, performerId, year})
-    })
+    try {
+        const response = await fetch("/api/goals/createNewGoal", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ goal, performerId, year })
+        });
 
-    const goalData = await response.json()
-    if (!response.ok) {
-      console.error(`Error saving Goal: ${goal.name} to DB.`)
-      return false
+        if (!response.ok) {
+            const errorData = await response.json() as { message: string }
+            console.error(`Error saving Goal: ${goal.name} to DB. Response: ${response.status}, ${errorData.message}`)
+            return false
+        }
+
+        const goalData = await response.json();
+        console.log(`Success: Goal created in DB`, goalData)
+        return true
+    } catch (error) {
+        console.error(`Error in fetching API: ${error}`)
+        return false
     }
-    else {
-      console.log(`Success: ${goal}`)
-      return true
-    }
-  }
+};
