@@ -6,7 +6,7 @@ import { NextResponse, type NextRequest } from "next/server";
 /**
  * @swagger
  * /api/sessions/createSessionTemplate:
- *   put:
+ *   post:
  *     summary: Create a new sessionTemplate.
  *     description: Takes a request where the body is a serialised SessionTemplate object and writes it to the database.
  *     requestBody:
@@ -68,7 +68,7 @@ import { NextResponse, type NextRequest } from "next/server";
  *       500:
  *         description: Internal server error when writing to database.
  */
-export const PUT = async (request: NextRequest) => {
+export const POST = async (request: NextRequest) => {
 
   try {
     await prisma.$transaction(async (prisma) => {
