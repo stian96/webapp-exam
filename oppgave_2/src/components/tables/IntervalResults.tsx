@@ -1,8 +1,6 @@
 import React from "react"
 
-import { IntervalResultAnalysis } from "@/types/performance/intervalResult"
-import Compare from "./Compare"
-import GoalsRow from "./GoalsRow"
+import { type IntervalResultAnalysis } from "@/types/performance/intervalResult"
 
 type IntervalResultsProps = {
   intervalList: IntervalResultAnalysis[]
@@ -17,24 +15,25 @@ const IntervalResults = ({
   toggleFilteredColumn,
   colNames,
 }: IntervalResultsProps) => {
-  if (!intervalList) {
-    return null
-  }
-
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full">
-        <thead className="text-white">
+      <table className="table min-w-full">
+        <thead className="table__head">
           <tr>
-            <th>Activity ID</th>
+            <th className="table__head-data">Activity ID</th>
             {colNames.map((name, index) => (
-              <th key={name}>
-                <span
-                  className={`${filteredColumns.includes(index) && "hidden"}`}
-                >
-                  {name}
+              <th
+                className={`table__head-data ${
+                  filteredColumns.includes(index) && "hidden"
+                }`}
+                key={name}
+              >
+                <span className="flex items-center space-x-2">
+                  <span>{name}</span>
                   <button
-                    className={`${filteredColumns.includes(index) && "hidden"}`}
+                    className={`table__body-button text-white ${
+                      filteredColumns.includes(index) && "hidden"
+                    }`}
                     onClick={() => {
                       toggleFilteredColumn(index)
                     }}
@@ -46,44 +45,94 @@ const IntervalResults = ({
             ))}
           </tr>
         </thead>
-        <tbody className="text-white">
+        <tbody className="table__body">
           {intervalList.map((interval, index) => (
             <tr key={index}>
-              <td>{interval.activityId}</td>
-              <td className={`${filteredColumns.includes(0) && "hidden"}`}>
+              <td className="table__body-id line-clamp-2">
+                {interval.activityId}
+              </td>
+              <td
+                className={`table__body-data ${
+                  filteredColumns.includes(0) && "hidden"
+                }`}
+              >
                 {interval.intensity.min}
               </td>
-              <td className={`${filteredColumns.includes(1) && "hidden"}`}>
+              <td
+                className={`table__body-data ${
+                  filteredColumns.includes(1) && "hidden"
+                }`}
+              >
                 {interval.intensity.max}
               </td>
-              <td className={`${filteredColumns.includes(2) && "hidden"}`}>
+              <td
+                className={`table__body-data ${
+                  filteredColumns.includes(2) && "hidden"
+                }`}
+              >
                 {interval.intensity.average}
               </td>
-              <td className={`${filteredColumns.includes(3) && "hidden"}`}>
+              <td
+                className={`table__body-data ${
+                  filteredColumns.includes(3) && "hidden"
+                }`}
+              >
                 {interval.pulse.min}
               </td>
-              <td className={`${filteredColumns.includes(4) && "hidden"}`}>
+              <td
+                className={`table__body-data ${
+                  filteredColumns.includes(4) && "hidden"
+                }`}
+              >
                 {interval.pulse.max}
               </td>
-              <td className={`${filteredColumns.includes(5) && "hidden"}`}>
+              <td
+                className={`table__body-data ${
+                  filteredColumns.includes(5) && "hidden"
+                }`}
+              >
                 {interval.pulse.average}
               </td>
-              <td className={`${filteredColumns.includes(6) && "hidden"}`}>
+              <td
+                className={`table__body-data ${
+                  filteredColumns.includes(6) && "hidden"
+                }`}
+              >
                 {interval.speed.min}
               </td>
-              <td className={`${filteredColumns.includes(7) && "hidden"}`}>
+              <td
+                className={`table__body-data ${
+                  filteredColumns.includes(7) && "hidden"
+                }`}
+              >
                 {interval.speed.max}
               </td>
-              <td className={`${filteredColumns.includes(8) && "hidden"}`}>
+              <td
+                className={`table__body-data ${
+                  filteredColumns.includes(8) && "hidden"
+                }`}
+              >
                 {interval.speed.average}
               </td>
-              <td className={`${filteredColumns.includes(9) && "hidden"}`}>
+              <td
+                className={`table__body-data ${
+                  filteredColumns.includes(9) && "hidden"
+                }`}
+              >
                 {interval.watt.min}
               </td>
-              <td className={`${filteredColumns.includes(10) && "hidden"}`}>
+              <td
+                className={`table__body-data ${
+                  filteredColumns.includes(10) && "hidden"
+                }`}
+              >
                 {interval.watt.max}
               </td>
-              <td className={`${filteredColumns.includes(11) && "hidden"}`}>
+              <td
+                className={`table__body-data ${
+                  filteredColumns.includes(11) && "hidden"
+                }`}
+              >
                 {interval.watt.average}
               </td>
             </tr>

@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 
+import "../../style/analysisTable.scss"
+
 import useAnalysisHook from "@/hooks/useAnalysisHook"
 import {
   IntervalResult,
@@ -57,20 +59,7 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
 
   return (
     <div>
-      <p className="text-white">selectedActivities</p>
-      {activityIds.map((id, index) => (
-        <li key={index} className="text-white">
-          {"Activity " + (index + 1) + ": " + id}
-        </li>
-      ))}
-      <button
-        className="bg-orange-500 text-white"
-        onClick={() => {
-          resetColumns()
-        }}
-      >
-        Reset Columns
-      </button>
+      <br />
       <IntervalResults
         intervalList={intervalResults}
         filteredColumns={filteredColumns}
@@ -78,15 +67,22 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
         colNames={colNames}
       />
       ;
-      <br />
-      <br />
-      <br />
       <IntervalResultsSummary
         intervalAverages={averageValues}
         filteredColumns={filteredColumns}
         colNames={colNames}
       />
       ;
+      <button
+        className={`table__outer-button fixed bottom-4 right-4 text-white ${
+          filteredColumns.length === 0 ? "hidden" : ""
+        }`}
+        onClick={() => {
+          resetColumns()
+        }}
+      >
+        Reset Columns
+      </button>
     </div>
   )
 }

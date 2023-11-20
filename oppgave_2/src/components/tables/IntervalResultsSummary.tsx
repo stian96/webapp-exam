@@ -18,27 +18,31 @@ const IntervalResultsSummary = ({
 }: IntervalResultsSummaryProps) => {
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full">
-        <thead className="text-white">
+      <table className="table min-w-full">
+        <thead className="table__head">
           <tr>
-            <th>Averages</th>
+            <th className="table__head-data">Averages</th>
             {colNames.map((name, index) => (
               <th
                 key={name}
-                className={`${filteredColumns.includes(index) && "hidden"}`}
+                className={`table__head-data ${
+                  filteredColumns.includes(index) && "hidden"
+                }`}
               >
                 {name}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="text-white">
+        <tbody className="table__body">
           <tr>
-            <td></td>
+            <td className="table__body-data"></td>
             {intervalAverages.map((averageVal, index) => (
               <td
                 key={averageVal + index}
-                className={`${filteredColumns.includes(index) && "hidden"}`}
+                className={`table__body-data ${
+                  filteredColumns.includes(index) && "hidden"
+                }`}
               >
                 {averageVal}
               </td>
