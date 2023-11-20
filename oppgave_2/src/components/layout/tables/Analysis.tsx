@@ -1,12 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 
-import "../../style/analysisTable.scss"
+import "@/style/analysisTable.scss"
 
 import useAnalysisHook from "@/hooks/useAnalysisHook"
-import {
-  IntervalResult,
-  IntervalResultAnalysis,
-} from "@/types/performance/intervalResult"
 import IntervalResults from "./IntervalResults"
 import IntervalResultsSummary from "./IntervalResultsSummary"
 
