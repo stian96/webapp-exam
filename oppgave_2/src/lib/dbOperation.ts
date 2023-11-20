@@ -3,20 +3,17 @@ import { PriorityEnum } from "../enums/PriorityEnum"
 import { createNewGoalInDatabase } from "../lib/api"
 
 type GoalsSaveProps = {
-    goalInput: {
-        name: string,
-        date: string,
-        year: string,
-        goal: string,
-        comments: string,
-        competition: string,
-        priority: PriorityEnum.A
-    }
-    goalId: string
-    setEditClicked: (decition: boolean) => void 
+    id: string,
+    name: string,
+    date: string,
+    year: string,
+    goal: string,
+    comments: string,
+    isCompetition: string,
+    priority: PriorityEnum
 }
 
-export const saveGoalsToDb = async ({ goalInput, goalId, setEditClicked}: GoalsSaveProps) => {
+export const saveGoalsToDb = async (goalInput: GoalsSaveProps, goalId: string) => {
     const parsedDate = new Date(goalInput.date)
 
     const newGoal = {
@@ -25,7 +22,7 @@ export const saveGoalsToDb = async ({ goalInput, goalId, setEditClicked}: GoalsS
         date: parsedDate,
         goal: goalInput.goal,
         comments: goalInput.comments,
-        isCompetition: goalInput.competition === "yes" ? true : false,
+        isCompetition: goalInput.isCompetition === "yes" ? true : false,
         priority: PriorityEnum.A
     }
     const success = await createNewGoalInDatabase(newGoal, parseInt(goalInput.year))
@@ -35,5 +32,4 @@ export const saveGoalsToDb = async ({ goalInput, goalId, setEditClicked}: GoalsS
     else {
         console.error("Failed to create/update goal...")
     }
-    setEditClicked(false)
 }
