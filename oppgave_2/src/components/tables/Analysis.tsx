@@ -14,17 +14,6 @@ type AnalysisProps = {
   activityIds: string[]
 }
 
-//TODO API -> sessionactivity with report -> get report -> get many reportintervalresult -> get one interval for each many
-//TODO Change dashboard to only make checkbox selectable on sessions with reports
-//TODO Make table of all columns
-//TODO Make table of averages
-//TODO Make functionality to show/hide columns in table and tableaverage
-
-const dummyReports: string[] = [
-  "c94b0bf6-44fd-4e19-a9d9-25150b91d7fc",
-  "1b8669e4-92a6-4d56-b14b-023c9bec158d",
-]
-
 const Analysis = ({ activityIds }: AnalysisProps) => {
   const {
     intervalResults,
