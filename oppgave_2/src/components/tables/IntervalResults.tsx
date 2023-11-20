@@ -28,21 +28,21 @@ const IntervalResults = ({
           <tr>
             <th>Activity ID</th>
             {colNames.map((name, index) => (
-              <span key={name}>
-                <th
+              <th key={name}>
+                <span
                   className={`${filteredColumns.includes(index) && "hidden"}`}
                 >
                   {name}
-                </th>
-                <button
-                  className={`${filteredColumns.includes(index) && "hidden"}`}
-                  onClick={() => {
-                    toggleFilteredColumn(index)
-                  }}
-                >
-                  X
-                </button>
-              </span>
+                  <button
+                    className={`${filteredColumns.includes(index) && "hidden"}`}
+                    onClick={() => {
+                      toggleFilteredColumn(index)
+                    }}
+                  >
+                    X
+                  </button>
+                </span>
+              </th>
             ))}
           </tr>
         </thead>
