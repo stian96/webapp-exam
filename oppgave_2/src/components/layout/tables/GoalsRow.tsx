@@ -1,23 +1,17 @@
 "use client"
 import GoalsData from "./GoalsData"
 import { useState } from "react"
+import { Goal } from "../../../types/classes/goal"
 
 import "@/style/goalsRow.scss"
 
 type GoalsRowProps = {
-    firstField: string
-    buttonText: string
-    id: string
+    performerId: string
+    goalsArray: Goal[]
 }
 
-const GoalsRow = ({ firstField, buttonText, id }: GoalsRowProps) => {
+const GoalsRow = ({ performerId, goalsArray }: GoalsRowProps) => {
     const [showGoalsData, setShowGoalsData] = useState(false)
-
-    const rowData = [
-        { id: "A", num: 1 },
-        { id: "B", num: 2 },
-        { id: "C", num: 3}
-    ]
 
     const toggleGoalsData = () => {
         setShowGoalsData(!showGoalsData)
@@ -26,24 +20,24 @@ const GoalsRow = ({ firstField, buttonText, id }: GoalsRowProps) => {
     return (
         <div className="test">
             <div className="goals__body-row flex justify-between p-4">
-                <div className="goals__body-row-data">{ firstField }</div> 
+                <div className="goals__body-row-data">2023</div> 
                 <div>
                     <button className="goals__body-row-button" type="button" onClick={toggleGoalsData}>
-                        { showGoalsData ? "Hide" : buttonText }
+                        { showGoalsData ? "Hide" : "Show" }
                     </button>
                 </div>
             </div>
             {showGoalsData && (
             <div className="goals__data-row flex justify-center p-4">
                  <div className="w-full mx-4">
-                     { rowData.map((data, index) => (
-                         <GoalsData 
-                            key={index} 
-                            id={data.id} 
-                            goalNumber={data.num}
-                            performerId={id}
-                        />
-                     ))}
+                    {goalsArray.map((goal, index) => (
+                    <GoalsData 
+                        key={index}
+                        priority={goal.priority}
+                        goalName={goal.name}
+                        performerId={performerId}
+                    />
+                    ))}
                  </div>
              </div>
             )}

@@ -6,6 +6,11 @@ interface APIResponse {
     message: Performer[]
   }
 
+  interface GoalsResponse {
+    status: number
+    message: Goal[]
+  }
+
 // Function used to fetch performers from the database.
 export const fetchPerformers = async (url: string): Promise<Performer[]> => {
     const response = await fetch(url)
@@ -48,16 +53,22 @@ export const fetchPerformers = async (url: string): Promise<Performer[]> => {
   }
 
   // Function to get all the goals in the database.
-  export const fetchGoals = async () => {
+  export const fetchGoals = async (performerId: string) => {
     try {
-      const response = await fetch("/api/goals/getGoals")
+      const response = await fetch(`/api/goals/getGoals?performerId=${performerId}`)
       if (!response.ok) {
-        throw new Error(`Error: ${response.status}`)
+        const errorData = await response.json() as { message: string}
+        console.error(`Error in fetching goals from DB: ${response.status}, ${errorData.message}`)
+        return []
       }
-      const goals = await response.json()
-      return goals
+      const goals = await response.json() as GoalsResponse
+      if (goals.status === 200 && typeof goals.message === "string") {
+        const goalsArray = JSON.parse(goals.message) as Goal[]
+        return goalsArray
+      }
     } catch(error) {
         console.error("Failed to fetch goals: ", error)
+        return []
     }
   }
 

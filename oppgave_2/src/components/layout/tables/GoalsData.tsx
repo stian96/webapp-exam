@@ -3,12 +3,12 @@ import  GoalsPopup from "../popups/GoalsPopup"
 import "@/style/goalsData.scss"
 
 type GoalsDataProps = {
-    id: string,
-    goalNumber: number,
+    priority: PriorityEnum,
+    goalName: string,
     performerId: string
 }
 
-const GoalsData = ({ id, goalNumber, performerId }: GoalsDataProps) => {
+const GoalsData = ({ priority, goalName, performerId }: GoalsDataProps) => {
     const [editClicked, setEditClicked] = useState(false)
 
     const handleClick = () => {
@@ -24,8 +24,9 @@ const GoalsData = ({ id, goalNumber, performerId }: GoalsDataProps) => {
                 setEditClicked={setEditClicked} 
             />
             <div className="data flex items-center p-4">
-                <span className="data__id mr-10">{ id }</span>
-                <span className="data__goal">{`Goal ${goalNumber}`}</span>
+                <span className="data__id mr-10">{ priority ? priority : "No priority" }</span>
+                <span className="data__goal mr-10">{`Goal: ${ goalName ? goalName : "No name"}`}</span>
+                <span className="data__goal">{`Performer: ${ performerId ? performerId : "No name"}`}</span>
                 <div className="data__inner ml-auto">
                     <button 
                         className="data__inner-button mr-5"

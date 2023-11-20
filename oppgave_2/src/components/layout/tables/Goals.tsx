@@ -13,12 +13,12 @@ const Goals = ({ performerId }: GoalsProps) => {
 
     useEffect(() => {
         const getGoalsData = async () => {
-            const goals = await fetchGoals() as Goal[]
-            setAllGoals(goals)
+            const goalsResponse = await fetchGoals(performerId) as Goal[]
+            console.log("Goals response:", goalsResponse);
+            setAllGoals(goalsResponse)
         }
         getGoalsData()
     }, [])
-
 
     return(
     <div className="goals w-full">
@@ -29,8 +29,10 @@ const Goals = ({ performerId }: GoalsProps) => {
             </div>
             <div className="goals__body-content">
                 <div className="flex flex-col w-11/12 mx-auto pb-5">
-                    <GoalsRow firstField="2021" buttonText="Show" id={performerId} />
-                    <GoalsRow firstField="2022" buttonText="Show" id={performerId} />
+                    <GoalsRow 
+                        performerId={performerId}
+                        goalsArray={allGoals}
+                    />
                 </div>
             </div>
         </div>
