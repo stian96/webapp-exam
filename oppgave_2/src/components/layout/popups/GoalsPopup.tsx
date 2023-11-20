@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { createNewGoalInDatabase } from "../../../lib/api"
+import { saveGoalsToDb } from "../../../lib/dbOperation"
 import { PriorityEnum } from "@/enums/PriorityEnum"
 import Popup from "reactjs-popup"
 import PopupCont from "./PopupContent"
@@ -28,33 +28,10 @@ const GoalsPopup = ({ goalId, performerId, editClicked, setEditClicked }: GoalsP
         setGoalInput({...goalInput, [event.target.name]: event.target.value});
     };
 
-
-    const handleSave = async () => {
-        const parsedDate = new Date(goalInput.date)
-
-        const newGoal = {
-            id: goalId,
-            name: goalInput.name,
-            date: parsedDate,
-            goal: goalInput.goal,
-            comments: goalInput.comments,
-            isCompetition: goalInput.competition === "yes" ? true : false,
-            priority: PriorityEnum.A
-        }
-        const success = await createNewGoalInDatabase(newGoal, performerId, parseInt(goalInput.year))
-        if (success) {
-            console.log("Goal created/updated successfully!")
-        }
-        else {
-            console.error("Failed to create/update goal...")
-        }
-        setEditClicked(false)
-    }
-
-    const inputFields: string[] = ["Name", "Date", "Year", "Goal", "Competition", "Comments"]
-
+    const handleSave = async () => saveGoalsToDb(goalInput, goalId, setEditClicked)
     const close = () => setEditClicked(!editClicked)
 
+    const inputFields: string[] = ["Name", "Date", "Year", "Goal", "Competition", "Comments"]
     return (
         <div className={`overlay ${editClicked ? 'overlay-active': ''}`}>
             <Popup open={editClicked} closeOnDocumentClick onClick={close}>

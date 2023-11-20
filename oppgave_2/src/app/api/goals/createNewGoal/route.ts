@@ -25,6 +25,7 @@ export const POST = async (request: NextRequest) => {
                 data: {
                     name: goal.name,
                     date: goal.date,
+                    goal: goal.goal,
                     comments: goal.comments,
                     isCompetition: goal.isCompetition,
                     priority: goal.priority

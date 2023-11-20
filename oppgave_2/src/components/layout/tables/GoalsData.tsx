@@ -27,11 +27,11 @@ const GoalsData = ({ performerId, goal }: GoalsDataProps) => {
                 setEditClicked={setEditClicked} 
             />
             <div className="data flex items-center justify-between p-4">
-                <span className="data__goal">{`${ goal.name ? `Name: ${goal.name}` : ''}`}</span>
-                <span className="data__id">{`${goal.priority ? `Priority: ${goal.priority}` : ''} `}</span>
-                <span className="data__goal">{`${goal.date ? `Date: ${dateString}` : ''}`}</span>
-                <span className="data__goal">{`${goal.isCompetition ? `Competition: ${goal.isCompetition}` : ''}`}</span>
-                <div className="data__inner">
+                <span className="data__goal mr-6">{`${ goal.name ? `Name: ${goal.name}` : ''}`}</span>
+                <span className="data__id mx-6">{`${goal.priority ? `Priority: ${goal.priority}` : ''} `}</span>
+                <span className="data__goal mx-6">{`${goal.date ? `Date: ${dateString}` : ''}`}</span>
+                <span className="data__goal mx-6">{`${goal.goal ? `Goal: ${goal.goal}` : ''}`}</span>
+                <div className="data__inner ml-auto">
                     <button 
                         className="data__inner-button mr-5"
                         onClick={handleClick}
