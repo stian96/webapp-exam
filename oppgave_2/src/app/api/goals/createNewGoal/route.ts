@@ -12,77 +12,38 @@ export const POST = async (request: NextRequest) => {
     try {
         const data = await request.json() as RequestData
         const { goal, performerId, year } = data
-        console.log(`Got Data: goal name: ${goal.name}, performerId: ${performerId}, year: ${year}`)
-        console.log("Goal ID: ", goal.id)
 
-        if (!goal.id) {
-            return NextResponse.json({ status: 400, message: "Missing goal ID." })
-        }
-
-        const existingGoalCount = await prisma.performerGoals.count({
-            where: {
-                performerId: performerId,
-                year: year
-            }
+        const existingGoal = await prisma.goals.findUnique({
+            where: { id: goal.id }
         })
 
-        if (existingGoalCount >= 3) {
-            return NextResponse.json({ status: 400, message: `Maximum number of goals reached for this performer for the year: ${year}`})
-        }
+        console.log("Goal comment: ", goal.comments)
+        console.log("Goal date: ", goal.date)
 
-        const existingPerformerGoal = await prisma.performerGoals.findUnique({
-            where: {
-                performerId_goalId_year: {
-                    performerId: performerId,
-                    goalId: goal.id,
-                    year: year
-                }
-            }
-        })
-        
-        if (existingPerformerGoal) {
-            await prisma.performerGoals.update({
-                where: {
-                    performerId_goalId_year: {
-                        performerId: performerId,
-                        goalId: goal.id,
-                        year: year
-                    }
-                },
-                data: {
-                    performerId: performerId,
-                        goalId: goal.id,
-                        year: year
-                }
-            })
-        }
-        else {
-            // Create new goal
-            const newGoal = await prisma.goals.create({
+
+        if (existingGoal) {
+            const updatedGoal = await prisma.goals.update({
+                where: { id: goal.id },
                 data: {
                     name: goal.name,
                     date: goal.date,
                     comments: goal.comments,
                     isCompetition: false,
+                    priority: goal.priority
                 }
             })
 
-            // Link the new goal to the performer and year
-            const linkedGoal = await prisma.performerGoals.create({
-                data: {
-                    performerId: performerId,
-                    goalId: newGoal.id,
-                    year: year
-                }
-            })
+            console.log("Updated goal in the database: ", updatedGoal.name)
+            return NextResponse.json({ status: 200, message: "Successfully updated goal", data: updatedGoal})
+        }
+        else {
+            return NextResponse.json({ status: 400, message: "Goal not found..." })
 
-            console.log("Created and linked goal in the database:", linkedGoal);
-            return NextResponse.json({ status: 200, message: "Successfully created new goal: ", data: newGoal.name })
         }
     } catch (error) {
         if (error instanceof Error) {
-            console.error("Error in creating goal:", error);
-            return NextResponse.json({ status: 500, message: "Failed to create new goal.", error: error.message })
+            console.error("Error in the process of updating goal:", error);
+            return NextResponse.json({ status: 500, message: "Failed to update new goal.", error: error.message })
         }
     }
 }

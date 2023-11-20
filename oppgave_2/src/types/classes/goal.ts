@@ -1,7 +1,8 @@
 import { GoalModel } from "../interface/GoalModel"
+import { PriorityEnum } from "@/enums/PriorityEnum"
 
 export class Goal implements GoalModel {
-    id?: string
+    id: string
     name: string
     date: Date
     goal: string

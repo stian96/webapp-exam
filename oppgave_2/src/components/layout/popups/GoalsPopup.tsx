@@ -1,17 +1,19 @@
 import { useState } from "react"
 import { createNewGoalInDatabase } from "../../../lib/api"
+import { PriorityEnum } from "@/enums/PriorityEnum"
 import Popup from "reactjs-popup"
 import PopupCont from "./PopupContent"
 
 import "../../../style/popup.scss"
 
 type GoalsPopupProps = {
+    goalId: string,
     performerId: string
     editClicked: boolean
     setEditClicked: (value: boolean) => void 
 }
 
-const GoalsPopup = ({ performerId, editClicked, setEditClicked }: GoalsPopupProps) => {
+const GoalsPopup = ({ goalId, performerId, editClicked, setEditClicked }: GoalsPopupProps) => {
     const [goalInput, setGoalInput] = useState({
         name: "",
         date: "",
@@ -19,7 +21,7 @@ const GoalsPopup = ({ performerId, editClicked, setEditClicked }: GoalsPopupProp
         goal: "",
         comments: "",
         isCompetition: false,
-        priority: PriorityEnum
+        priority: PriorityEnum.A
     })
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +33,7 @@ const GoalsPopup = ({ performerId, editClicked, setEditClicked }: GoalsPopupProp
     const handleSave = async () => {
         const parsedDate = new Date(goalInput.date)
         const newGoal = {
+            id: goalId,
             name: goalInput.name,
             date: parsedDate,
             goal: goalInput.goal,

@@ -1,14 +1,16 @@
 import { useState } from "react"
+import { PriorityEnum    } from "@/enums/PriorityEnum"
 import  GoalsPopup from "../popups/GoalsPopup"
 import "@/style/goalsData.scss"
 
 type GoalsDataProps = {
+    goalId: string,
     priority: PriorityEnum,
     goalName: string,
     performerId: string
 }
 
-const GoalsData = ({ priority, goalName, performerId }: GoalsDataProps) => {
+const GoalsData = ({ goalId, priority, goalName, performerId }: GoalsDataProps) => {
     const [editClicked, setEditClicked] = useState(false)
 
     const handleClick = () => {
@@ -19,6 +21,7 @@ const GoalsData = ({ priority, goalName, performerId }: GoalsDataProps) => {
     return (
         <> 
             <GoalsPopup 
+                goalId={goalId}
                 performerId={performerId}
                 editClicked={editClicked} 
                 setEditClicked={setEditClicked} 

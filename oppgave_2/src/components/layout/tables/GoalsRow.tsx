@@ -33,6 +33,7 @@ const GoalsRow = ({ performerId, goalsArray }: GoalsRowProps) => {
                     {goalsArray.map((goal, index) => (
                     <GoalsData 
                         key={index}
+                        goalId={goal.id}
                         priority={goal.priority}
                         goalName={goal.name}
                         performerId={performerId}

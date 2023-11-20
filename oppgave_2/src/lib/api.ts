@@ -81,7 +81,7 @@ export const fetchPerformers = async (url: string): Promise<Performer[]> => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({ goal, performerId, year })
-        });
+        })
 
         if (!response.ok) {
             const errorData = await response.json() as { message: string }
