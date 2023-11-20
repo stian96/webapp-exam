@@ -3,5 +3,7 @@ export interface GoalModel {
     name: string,
     date: Date,
     goal: string,
-    comments: string
+    comments: string,
+    isCompetition: boolean
+    priority: PriorityEnum
 }

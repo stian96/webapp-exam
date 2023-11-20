@@ -47,6 +47,20 @@ export const fetchPerformers = async (url: string): Promise<Performer[]> => {
     }
   }
 
+  // Function to get all the goals in the database.
+  export const fetchGoals = async () => {
+    try {
+      const response = await fetch("/api/goals/getGoals")
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`)
+      }
+      const goals = await response.json()
+      return goals
+    } catch(error) {
+        console.error("Failed to fetch goals: ", error)
+    }
+  }
+
   // Function used to update a goal in the database.
   export const createNewGoalInDatabase = async (goal: Goal, performerId: string, year: number): Promise<boolean> => {
     try {

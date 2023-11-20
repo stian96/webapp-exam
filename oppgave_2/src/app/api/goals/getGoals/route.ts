@@ -6,16 +6,16 @@ export const GET = async () => {
     console.log(`Checking to see if users exists`)
   
     try {
-        const performers = await prisma.performers.findMany();
+        const goals = await prisma.goals.findMany();
   
-        if (performers.length === 0) {
+        if (goals.length === 0) {
   
-          console.log(`No users exist.`)
-          return NextResponse.json({ status: 404, message: `No users exist.` })
+          console.log(`No goals exist.`)
+          return NextResponse.json({ status: 404, message: `No goals exist.` })
         }
   
-        console.log(`${performers.length} users exist.`)
-        return NextResponse.json({ status: 200, message: JSON.stringify(performers) })
+        console.log(`${goals.length} goals exist.`)
+        return NextResponse.json({ status: 200, message: JSON.stringify(goals) })
     } catch (error) {
       console.log(error)
       return NextResponse.json({ status: 500, message: `Internal server error..` })

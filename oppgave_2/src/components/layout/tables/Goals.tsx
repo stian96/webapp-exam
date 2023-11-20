@@ -1,12 +1,24 @@
+import { useState, useEffect } from "react"
 import "@/style/goals.scss"
 import { Compare, GoalsRow } from "@/components"
+import { fetchGoals } from "../../../lib/api"
+import { Goal } from "../../../types/classes/goal"
 
 type GoalsProps = {
     performerId: string
 }
 
 const Goals = ({ performerId }: GoalsProps) => {
-    
+    const [allGoals, setAllGoals] = useState<Goal[]>([])
+
+    useEffect(() => {
+        const getGoalsData = async () => {
+            const goals = await fetchGoals() as Goal[]
+            setAllGoals(goals)
+        }
+        getGoalsData()
+    }, [])
+
 
     return(
     <div className="goals w-full">
