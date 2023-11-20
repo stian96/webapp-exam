@@ -17,7 +17,9 @@ const GoalsPopup = ({ performerId, editClicked, setEditClicked }: GoalsPopupProp
         date: "",
         year: "",
         goal: "",
-        comments: ""
+        comments: "",
+        isCompetition: false,
+        priority: PriorityEnum
     })
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +34,9 @@ const GoalsPopup = ({ performerId, editClicked, setEditClicked }: GoalsPopupProp
             name: goalInput.name,
             date: parsedDate,
             goal: goalInput.goal,
-            comments: goalInput.comments
+            comments: goalInput.comments,
+            isCompetition: false,
+            priority: PriorityEnum.A
         }
         const year = parseInt(goalInput.year)
         const success = await createNewGoalInDatabase(newGoal, performerId, year)

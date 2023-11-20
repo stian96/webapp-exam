@@ -27,7 +27,7 @@ export const GET = async (request: NextRequest) => {
       return NextResponse.json({ status: 404, message: `No goals exist.` })
     }
   
-    console.log(`${goals.length} goals exist.`)
+    console.log(`${goals.length} goals exists.`)
     return NextResponse.json({ status: 200, message: JSON.stringify(goals) })
     } 
     catch (error) {
