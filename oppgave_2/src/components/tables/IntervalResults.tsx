@@ -8,12 +8,14 @@ type IntervalResultsProps = {
   intervalList: IntervalResultAnalysis[]
   filteredColumns: number[]
   toggleFilteredColumn: (colNumber: number) => void
+  colNames: string[]
 }
 
 const IntervalResults = ({
   intervalList,
   filteredColumns,
   toggleFilteredColumn,
+  colNames,
 }: IntervalResultsProps) => {
   if (!intervalList) {
     return null
@@ -25,138 +27,23 @@ const IntervalResults = ({
         <thead className="text-white">
           <tr>
             <th>Activity ID</th>
-            <th className={`${filteredColumns.includes(0) && "hidden"}`}>
-              Intensity Min
-            </th>
-            <button
-              className={`${filteredColumns.includes(0) && "hidden"}`}
-              onClick={() => {
-                toggleFilteredColumn(0)
-              }}
-            >
-              X
-            </button>
-            <th className={`${filteredColumns.includes(1) && "hidden"}`}>
-              Intensity Max
-            </th>
-            <button
-              className={`${filteredColumns.includes(1) && "hidden"}`}
-              onClick={() => {
-                toggleFilteredColumn(1)
-              }}
-            >
-              X
-            </button>
-            <th className={`${filteredColumns.includes(2) && "hidden"}`}>
-              Intensity Avg
-            </th>
-            <button
-              className={`${filteredColumns.includes(2) && "hidden"}`}
-              onClick={() => {
-                toggleFilteredColumn(2)
-              }}
-            >
-              X
-            </button>
-            <th className={`${filteredColumns.includes(3) && "hidden"}`}>
-              Pulse Min
-            </th>
-            <button
-              className={`${filteredColumns.includes(3) && "hidden"}`}
-              onClick={() => {
-                toggleFilteredColumn(3)
-              }}
-            >
-              X
-            </button>
-            <th className={`${filteredColumns.includes(4) && "hidden"}`}>
-              Pulse Max
-            </th>
-            <button
-              className={`${filteredColumns.includes(4) && "hidden"}`}
-              onClick={() => {
-                toggleFilteredColumn(4)
-              }}
-            >
-              X
-            </button>
-            <th className={`${filteredColumns.includes(5) && "hidden"}`}>
-              Pulse Avg
-            </th>
-            <button
-              className={`${filteredColumns.includes(5) && "hidden"}`}
-              onClick={() => {
-                toggleFilteredColumn(5)
-              }}
-            >
-              X
-            </button>
-            <th className={`${filteredColumns.includes(6) && "hidden"}`}>
-              Speed Min
-            </th>
-            <button
-              className={`${filteredColumns.includes(6) && "hidden"}`}
-              onClick={() => {
-                toggleFilteredColumn(6)
-              }}
-            >
-              X
-            </button>
-            <th className={`${filteredColumns.includes(7) && "hidden"}`}>
-              Speed Max
-            </th>
-            <button
-              className={`${filteredColumns.includes(7) && "hidden"}`}
-              onClick={() => {
-                toggleFilteredColumn(7)
-              }}
-            >
-              X
-            </button>
-            <th className={`${filteredColumns.includes(8) && "hidden"}`}>
-              Speed Avg
-            </th>
-            <button
-              className={`${filteredColumns.includes(8) && "hidden"}`}
-              onClick={() => {
-                toggleFilteredColumn(8)
-              }}
-            >
-              X
-            </button>
-            <th className={`${filteredColumns.includes(9) && "hidden"}`}>
-              Watt Min
-            </th>
-            <button
-              className={`${filteredColumns.includes(9) && "hidden"}`}
-              onClick={() => {
-                toggleFilteredColumn(9)
-              }}
-            >
-              X
-            </button>
-            <th className={`${filteredColumns.includes(10) && "hidden"}`}>
-              Watt Max
-            </th>
-            <button
-              className={`${filteredColumns.includes(10) && "hidden"}`}
-              onClick={() => {
-                toggleFilteredColumn(10)
-              }}
-            >
-              X
-            </button>
-            <th className={`${filteredColumns.includes(11) && "hidden"}`}>
-              Watt Avg
-            </th>
-            <button
-              className={`${filteredColumns.includes(11) && "hidden"}`}
-              onClick={() => {
-                toggleFilteredColumn(11)
-              }}
-            >
-              X
-            </button>
+            {colNames.map((name, index) => (
+              <span key={name}>
+                <th
+                  className={`${filteredColumns.includes(index) && "hidden"}`}
+                >
+                  {name}
+                </th>
+                <button
+                  className={`${filteredColumns.includes(index) && "hidden"}`}
+                  onClick={() => {
+                    toggleFilteredColumn(index)
+                  }}
+                >
+                  X
+                </button>
+              </span>
+            ))}
           </tr>
         </thead>
         <tbody className="text-white">

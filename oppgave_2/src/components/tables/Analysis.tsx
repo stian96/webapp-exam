@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 
+import useAnalysisHook from "@/hooks/useAnalysisHook"
 import {
   IntervalResult,
   IntervalResultAnalysis,
@@ -23,129 +24,19 @@ const dummyReports: string[] = [
 ]
 
 const Analysis = ({ activityIds }: AnalysisProps) => {
-  const [intervalResults, setIntervalResults] = useState<
-    IntervalResultAnalysis[]
-  >([])
-  const [filteredColumns, setFilteredColumns] = useState<number[]>([])
+  const {
+    intervalResults,
+    averageValues,
+    filteredColumns,
+    isApiPopulated,
+    colNames,
+    toggleFilteredColumn,
+    resetColumns,
+    calculateColumnStats,
+    populateIntervalResults,
+  } = useAnalysisHook()
+
   const isApiCalled = useRef(false)
-  const isApiPopulated = useRef(false)
-
-  const toggleFilteredColumn = (colNumber) => {
-    if (filteredColumns.includes(colNumber)) {
-      setFilteredColumns(filteredColumns.filter((col) => col !== colNumber))
-    } else {
-      setFilteredColumns([...filteredColumns, colNumber])
-    }
-  }
-
-  const resetColumns = () => {
-    setFilteredColumns([])
-  }
-
-  const isReportExists = async (activityId: string) => {
-    try {
-      const response = await fetch(
-        `/api/reports/getReportByActivityId/${activityId}`,
-        {
-          method: "get",
-        },
-      )
-
-      const data = await response.json()
-      const isSuccess = data.status
-      const body = data.message
-
-      if (isSuccess == 200) {
-        console.log(`${activityId} exists.`)
-        return { success: true, message: body }
-      } else {
-        console.log(`${activityId} does not exist.`)
-        return { success: false, message: `${activityId} does not exist.` }
-      }
-    } catch (error) {
-      return { success: false, message: error }
-    }
-  }
-
-  const getIntervalResults = async (reportId: string, activityId: string) => {
-    try {
-      const response = await fetch(
-        `/api/reports/getIntervalResultsByReportId/${reportId}`,
-        {
-          method: "get",
-        },
-      )
-
-      const data = await response.json()
-      const isSuccess = data.status
-      const message = data.message
-
-      if (isSuccess == 200) {
-        await deserialiseIntervalResultsResponse(message, activityId)
-
-        console.log(`Results for ${reportId} exists.`)
-        return { success: true, message: `${reportId} exists.` }
-      } else {
-        console.log(`Results for ${reportId} do not exist.`)
-        return {
-          success: false,
-          message: `Results for ${reportId} do not exist.`,
-        }
-      }
-    } catch (error) {
-      return { success: false, message: error }
-    }
-  }
-
-  const populateIntervalResults = async (activityIdList: string[]) => {
-    for (const activityId of activityIdList) {
-      const { success, message } = await isReportExists(activityId)
-
-      if (success) {
-        const { id } = JSON.parse(message)
-
-        await getIntervalResults(id, activityId)
-      }
-    }
-
-    isApiPopulated.current = true
-  }
-
-  const deserialiseIntervalResultsResponse = async (
-    responseMessage: string,
-    activityId: string,
-  ) => {
-    const intervalList: IntervalResultAnalysis[] = JSON.parse(
-      responseMessage,
-    ).map((intervalResult: any) => ({
-      id: intervalResult.id,
-      activityId: activityId,
-      interval: intervalResult.intervalId,
-      duration: intervalResult.duration,
-      intensity: {
-        min: intervalResult.intensityMin,
-        max: intervalResult.intensityMax,
-        average: intervalResult.intensityAvg,
-      },
-      pulse: {
-        min: intervalResult.pulseMin,
-        max: intervalResult.pulseMax,
-        average: intervalResult.pulseAvg,
-      },
-      speed: {
-        min: intervalResult.speedMin,
-        max: intervalResult.speedMax,
-        average: intervalResult.speedAvg,
-      },
-      watt: {
-        min: intervalResult.wattMin,
-        max: intervalResult.wattMax,
-        average: intervalResult.wattAvg,
-      },
-    }))
-
-    setIntervalResults((prevState) => [...prevState, ...intervalList])
-  }
 
   useEffect(() => {
     if (!isApiCalled.current) {
@@ -156,8 +47,12 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
     void populateIntervalResults(activityIds)
   }, [activityIds])
 
+  useEffect(() => {
+    calculateColumnStats()
+  }, [intervalResults])
+
   if (!isApiPopulated.current) {
-    return null // or render loading state
+    return null
   }
 
   return (
@@ -180,14 +75,16 @@ const Analysis = ({ activityIds }: AnalysisProps) => {
         intervalList={intervalResults}
         filteredColumns={filteredColumns}
         toggleFilteredColumn={toggleFilteredColumn}
+        colNames={colNames}
       />
       ;
       <br />
       <br />
       <br />
       <IntervalResultsSummary
-        intervalList={intervalResults}
+        intervalAverages={averageValues}
         filteredColumns={filteredColumns}
+        colNames={colNames}
       />
       ;
     </div>
