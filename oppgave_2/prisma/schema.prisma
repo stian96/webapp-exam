@@ -33,8 +33,7 @@ model Goals {
   date               DateTime?
   comments           String?
   isCompetition      Boolean
-  goalCompetition    String?
-  goalNotCompetition Int?
+  goal               String?
   location           String?
   type               String?
   priority           Int?

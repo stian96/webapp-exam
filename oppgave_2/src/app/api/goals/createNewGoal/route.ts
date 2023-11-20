@@ -11,29 +11,27 @@ type RequestData = {
 export const POST = async (request: NextRequest) => {
     try {
         const data = await request.json() as RequestData
-        const { goal, performerId, year } = data
+        const { goal } = data
 
         const existingGoal = await prisma.goals.findUnique({
             where: { id: goal.id }
         })
 
         console.log("Goal comment: ", goal.comments)
-        console.log("Goal date: ", goal.date)
 
-
-        if (existingGoal) {
+        if (existingGoal && goal.date) {
             const updatedGoal = await prisma.goals.update({
                 where: { id: goal.id },
                 data: {
                     name: goal.name,
                     date: goal.date,
                     comments: goal.comments,
-                    isCompetition: false,
+                    isCompetition: goal.isCompetition,
                     priority: goal.priority
                 }
             })
 
-            console.log("Updated goal in the database: ", updatedGoal.name)
+            console.log("Updated goal in the database: ", updatedGoal)
             return NextResponse.json({ status: 200, message: "Successfully updated goal", data: updatedGoal})
         }
         else {

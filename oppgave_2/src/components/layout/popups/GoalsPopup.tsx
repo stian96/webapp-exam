@@ -20,7 +20,7 @@ const GoalsPopup = ({ goalId, performerId, editClicked, setEditClicked }: GoalsP
         year: "",
         goal: "",
         comments: "",
-        isCompetition: false,
+        competition: "",
         priority: PriorityEnum.A
     })
 
@@ -29,20 +29,19 @@ const GoalsPopup = ({ goalId, performerId, editClicked, setEditClicked }: GoalsP
     };
 
 
-    // TODO: Talk to the team about what to do with the goals.
     const handleSave = async () => {
         const parsedDate = new Date(goalInput.date)
+
         const newGoal = {
             id: goalId,
             name: goalInput.name,
             date: parsedDate,
             goal: goalInput.goal,
             comments: goalInput.comments,
-            isCompetition: false,
+            isCompetition: goalInput.competition === "yes" ? true : false,
             priority: PriorityEnum.A
         }
-        const year = parseInt(goalInput.year)
-        const success = await createNewGoalInDatabase(newGoal, performerId, year)
+        const success = await createNewGoalInDatabase(newGoal, performerId, parseInt(goalInput.year))
         if (success) {
             console.log("Goal created/updated successfully!")
         }
@@ -52,9 +51,7 @@ const GoalsPopup = ({ goalId, performerId, editClicked, setEditClicked }: GoalsP
         setEditClicked(false)
     }
 
-    const inputFields: string[] = ["Name", "Date", "Year", "Goal", "Comment"]
-    const fieldMapping = {"Name": "name", "Date": "date", "Year": "year", "Goal": "goal", "Comment": "comment"}
-
+    const inputFields: string[] = ["Name", "Date", "Year", "Goal", "Competition", "Comments"]
 
     const close = () => setEditClicked(!editClicked)
 
@@ -64,7 +61,6 @@ const GoalsPopup = ({ goalId, performerId, editClicked, setEditClicked }: GoalsP
                 <PopupCont 
                     header={"Edit Goal"} 
                     inputElements={inputFields} 
-                    mapping={fieldMapping}
                     close={close} 
                     handleChange={handleChange}
                     handleSave={handleSave}

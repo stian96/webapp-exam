@@ -4,13 +4,12 @@ import "../../../style/popup.scss"
 type PopupProps = {
     header: string
     inputElements: string[]
-    mapping: Record<string, string>
     close: () => void
     handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
     handleSave: () => void
 }
 
-const PopupContent = ({ header, inputElements, close, handleChange, handleSave, mapping }: PopupProps) => {
+const PopupContent = ({ header, inputElements, close, handleChange, handleSave }: PopupProps) => {
 
     return (
         <div className="modal">
@@ -22,7 +21,6 @@ const PopupContent = ({ header, inputElements, close, handleChange, handleSave, 
             <Input 
                 elements={inputElements} 
                 handleChange={handleChange}
-                fieldMapping={mapping}
             />
         </div>
         <div className="modal__actions">
