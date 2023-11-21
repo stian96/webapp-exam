@@ -1,4 +1,5 @@
 import { Goal } from "./goal"
+import { PriorityEnum } from "@/enums/PriorityEnum"
 
 export class Competition extends Goal {
     location: string

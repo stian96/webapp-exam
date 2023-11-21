@@ -22,11 +22,20 @@ const Goals = ({ performerId }: GoalsProps) => {
         getGoalsData()
     }, [])
 
+    const addNewGoals = (newGoal: Goal) => {
+        setAllGoals([...allGoals, newGoal])
+
+    }
+
     const handleClick = () => setIsCreateClicked(!isCreateClicked)
 
     return(
         <>
-        <GoalsCreatePopup createClicked={isCreateClicked} close={handleClick} />
+        <GoalsCreatePopup 
+            createClicked={isCreateClicked} 
+            close={handleClick} 
+            onSave={addNewGoals}
+        />
         <div className="goals w-full">
             <div className="goals__body">
                 <div className="goals__body-header flex justify-between">

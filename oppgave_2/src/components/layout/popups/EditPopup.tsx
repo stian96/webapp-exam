@@ -17,7 +17,6 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
     const [isPopupOpen, setIsPopupOpen] = useState(false)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(`EVENT TYPE: ${event.target.name}`)
         setLocalPerformer({...localPerformer, [event.target.name]: event.target.value})
     }
 

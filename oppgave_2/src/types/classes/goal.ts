@@ -5,10 +5,12 @@ export class Goal implements GoalModel {
     id: string
     name: string
     date: Date
-    comments: string
+    comment: string
     isCompetition: boolean
     goalCompetition?: number
     goalNotCompetition?: string
+    location?: string
+    type?: string
     priority: PriorityEnum
 
     constructor(
@@ -19,15 +21,17 @@ export class Goal implements GoalModel {
         isCompetition: boolean,
         goalCompetition: number, 
         goalNotCompetition: string,
+        type: string,
         priority: PriorityEnum) {
 
         this.id = id,
         this.name = name,
         this.date = date,
-        this.comments = comment,
+        this.comment = comment,
         this.isCompetition = isCompetition
         this.goalCompetition = goalCompetition,
         this.goalNotCompetition = goalNotCompetition,
+        this.type = type
         this.priority = priority
     }
 }

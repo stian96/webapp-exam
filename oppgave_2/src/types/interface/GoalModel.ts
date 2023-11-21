@@ -3,7 +3,7 @@ export interface GoalModel {
     id?: string,
     name?: string,
     date?: Date,
-    comments?: string,
+    comment?: string,
     isCompetition: boolean,
     goalCompetition?: number,
     goalNotCompetition?: string,

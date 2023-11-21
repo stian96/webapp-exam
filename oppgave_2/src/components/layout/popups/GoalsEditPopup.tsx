@@ -22,7 +22,7 @@ const GoalsPopup = ({ goalId, editClicked, setEditClicked, onGoalUpdate }: Goals
         date: "",
         year: "",
         goal: "",
-        comments: "",
+        comment: "",
         isCompetition: "",
         priority: PriorityEnum.A
     })

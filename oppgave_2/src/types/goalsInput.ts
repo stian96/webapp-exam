@@ -6,7 +6,7 @@ export type GoalsInput = {
     date: string,
     year: string,
     goal: string,
-    comments: string,
+    comment: string,
     isCompetition: string,
     priority: PriorityEnum
 }

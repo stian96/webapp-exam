@@ -8,7 +8,7 @@ type GoalsSaveProps = {
     date: string,
     year: string,
     goal: string,
-    comments: string,
+    comment: string,
     isCompetition: string,
     priority: PriorityEnum
 }
@@ -21,7 +21,7 @@ export const saveGoalsToDb = async (goalInput: GoalsSaveProps, goalId: string) =
         name: goalInput.name,
         date: parsedDate,
         goal: goalInput.goal,
-        comments: goalInput.comments,
+        comment: goalInput.comment,
         isCompetition: goalInput.isCompetition === "yes" ? true : false,
         priority: PriorityEnum.A
     }
