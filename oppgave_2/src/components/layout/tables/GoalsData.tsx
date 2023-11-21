@@ -29,6 +29,12 @@ const GoalsData = ({ performerId, goal }: GoalsDataProps) => {
         setCurrentGoal(convertedGoal)
     }
 
+    // TODO: Ash delete goal when 'delete button is pressed'. 
+    const handleGoalDelete = () => {
+
+
+    }
+
     return (
         <> 
             <GoalsPopup 
@@ -50,6 +56,7 @@ const GoalsData = ({ performerId, goal }: GoalsDataProps) => {
                     >
                             Edit
                     </button>
+                    {/* TODO: Connect 'handleGoalsDelete' to this button */}
                     <button className="data__inner-button">Delete</button>
                 </div>
             </div>
