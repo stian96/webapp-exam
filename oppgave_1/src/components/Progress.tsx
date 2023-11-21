@@ -72,6 +72,7 @@ export default function Progress({
   )
 }
 
-//Kilder for toast:
-//https://www.npmjs.com/package/react-toastify
-//https://blog.logrocket.com/using-react-toastify-style-toast-messages/
+// SRC for toast-implementation:
+// NPM.(2023).React-Toastify. https://www.npmjs.com/package/react-toastify?activeTab=readme
+// Innocent,C.(2023).Using React-Toastify to style your toast messages. LogRocket:Frontend Analytics.
+// https://blog.logrocket.com/using-react-toastify-style-toast-messages/

@@ -15,6 +15,7 @@ type UseResetProps = {
     setShowResults: Dispatch<SetStateAction<boolean>>;
     resetTasks: () => void;
     setCurrentTaskIndex: Dispatch<SetStateAction<number>>;
+    //SRC: OpenAI.(2023).ChatGPT(GPT-4).[Large language model]. https://chat.openai.com/chat
 }
 
 const useResetTask = ({
