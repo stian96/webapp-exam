@@ -24,6 +24,17 @@
         }
     }
 
+    &__dateInput {
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 0.375rem;
+        border: 2px solid;
+
+        &.--default {
+            color: black;
+        }
+    }
+
     &__select {
         color: black;
 

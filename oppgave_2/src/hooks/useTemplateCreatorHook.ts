@@ -4,9 +4,12 @@ import { getQuestionTypeEnum, type Question } from '@/types/question';
 import { SessionTemplate } from '@/types/classes/sessionTemplate';
 import { type Interval } from '@/types/performance/interval';
 import { QuestionTypeEnum } from '@/enums/questionTypeEnum';
+import { isDate } from 'util/types';
+import { Goal } from '@/types/classes/goal';
 
 const useTemplateCreatorHook = () => {
   const isApiCalled = useRef(false)
+  const [sessionDate, setSessionDate] = useState<string>("");
   const [sessionName, setSessionName] = useState<string>("")
   const [sessionIntensity, setSessionIntensity] = useState<string>("")
   const [sessionWatt, setSessionWatt] = useState<string>("")
@@ -15,16 +18,20 @@ const useTemplateCreatorHook = () => {
   const [sessionType, setSessionType] = useState<string>("cycling")
   const [performerId, setPerformerId] = useState<string>("")
   const [dbPerformers, setDbPerformers] = useState<Performer[]>([])
+  const [goalId, setGoalId] = useState<string>("")
+  const [dbGoals, setDbGoals] = useState<Goal[]>([])
   const [dbQuestions, setDbQuestions] = useState<Question[]>([])
   const [tags, setTags] = useState([""])
   const [intervals, setIntervals] = useState([{ duration: "", intensity: "" }])
   const [questions, setQuestions] = useState([{ question: "", type: "text" }])
   const [existingQuestions, setExistingQuestions] = useState<string[]>([""])
+  const [isDateValid, setIsDateValid] = useState<boolean>(false)
   const [isQuestionValid, setIsNameValid] = useState<boolean>(false)
   const [isIntensityValid, setIsIntensityValid] = useState<boolean>(false)
   const [isWattValid, setIsWattValid] = useState<boolean>(false)
   const [isSpeedValid, setIsSpeedValid] = useState<boolean>(false)
   const [isPulseValid, setIsPulseValid] = useState<boolean>(false)
+  const [isGoalCheckboxSelected, setIsGoalCheckboxSelected] = useState<boolean>(false)
   const [isCheckboxSelected, setIsCheckboxSelected] = useState<boolean>(false)
   const [submitButtonText, setSubmitButtonText] =
     useState<string>("Save Template")
@@ -44,6 +51,11 @@ const useTemplateCreatorHook = () => {
     const integerValue = parseInt(stringMeasurement, 10)
     return isMeasurementValid && integerValue > 0
   }
+
+  const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSessionDate(e.target.value);
+    setIsDateValid(true)
+  };
 
   const handleNameTextChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newSessionName = event.target.value
@@ -115,8 +127,18 @@ const useTemplateCreatorHook = () => {
     setPerformerId(event.target.value)
   }
 
+  const handleGoalDropdownChange = (
+    event: ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setGoalId(event.target.value)
+  }
+
   const handleCheckboxChange = () => {
     setIsCheckboxSelected(!isCheckboxSelected)
+  }
+
+  const handleGoalCheckboxChange = () => {
+    setIsGoalCheckboxSelected(!isGoalCheckboxSelected)
   }
 
   // Reference: ChatGPT V3.5
@@ -232,6 +254,20 @@ const useTemplateCreatorHook = () => {
     const questions = JSON.parse(result.message) as Question[]
 
     setDbQuestions(questions)
+  }
+
+  const getGoalsApiResponse = async (performerId: string) => {
+
+    const response = await fetch(`/api/goals/getGoals?performerId=${performerId}`, {
+      method: "get",
+    })
+
+    const data = await response.json()
+    const result = data as { status: number; message: string }
+
+    const goals = JSON.parse(result.message) as Goal[]
+
+    setDbGoals(goals)
   }
 
   const isFormValid = (): boolean => {
@@ -463,6 +499,14 @@ const useTemplateCreatorHook = () => {
     isCheckboxSelected,
     setIsCheckboxSelected,
     submitButtonText,
+    sessionDate,
+    isDateValid,
+    isGoalCheckboxSelected,
+    handleGoalCheckboxChange,
+    handleGoalDropdownChange,
+    dbGoals,
+    goalId,
+    handleDateChange,
     setSubmitButtonText,
     validateString,
     validateStringMeasurement,
@@ -488,6 +532,7 @@ const useTemplateCreatorHook = () => {
     handleRemoveExistingQuestion,
     getUsersApiResponse,
     getQuestionsApiResponse,
+    getGoalsApiResponse,
     handleSubmit,
     writeToDatabase,
     useEffect

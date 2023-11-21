@@ -1,6 +1,9 @@
 "use client"
+
 import "../style/form.scss"
-import React from "react"
+
+import React, { useRef } from "react"
+
 import useTemplateCreatorHook from "@/hooks/useTemplateCreatorHook"
 
 // Code based on React documentation found here:
@@ -9,8 +12,15 @@ import useTemplateCreatorHook from "@/hooks/useTemplateCreatorHook"
 // Reference: I also used ChatGPT V3.5 quite a bit when creating the subforms.
 // I've written comments where I've used it. The code it produced was heavily edited,
 // but it gave me a good starting point.
+type TemplateCreatorProps = {
+  isTemplateCreator: boolean
+  performerIdString?: string
+}
 
-const TemplateCreator = () => {
+const TemplateCreator = ({
+  isTemplateCreator,
+  performerIdString,
+}: TemplateCreatorProps) => {
   const {
     sessionName,
     sessionIntensity,
@@ -32,6 +42,14 @@ const TemplateCreator = () => {
     isPulseValid,
     isCheckboxSelected,
     submitButtonText,
+    sessionDate,
+    isDateValid,
+    isGoalCheckboxSelected,
+    handleGoalCheckboxChange,
+    handleGoalDropdownChange,
+    dbGoals,
+    goalId,
+    handleDateChange,
     handleNameTextChange,
     handleIntensityTextChange,
     handleWattTextChange,
@@ -54,10 +72,24 @@ const TemplateCreator = () => {
     handleRemoveExistingQuestion,
     getUsersApiResponse,
     getQuestionsApiResponse,
+    getGoalsApiResponse,
     handleSubmit,
     writeToDatabase,
     useEffect,
   } = useTemplateCreatorHook()
+
+  const isGoalsApiCalled = useRef(false)
+
+  useEffect(() => {
+    if (!isGoalsApiCalled.current) {
+      isGoalsApiCalled.current = true
+      return
+    }
+
+    if (!isTemplateCreator) {
+      void getGoalsApiResponse(performerIdString)
+    }
+  }, [])
 
   // Reference: ChatGPT V3.5. I can't comment directly into the following but the subforms but
   // I used it to create starting points for me to use to implement the tags, intervals, questions,
@@ -67,6 +99,23 @@ const TemplateCreator = () => {
       onSubmit={handleSubmit}
       className="form flex w-full flex-col space-y-4"
     >
+      <div className={`${isTemplateCreator ? "hidden" : ""} flex flex-col`}>
+        <label htmlFor="sessionDate" className="mb-1">
+          Date:
+        </label>
+        <input
+          id="sessionDate"
+          type="date"
+          value={sessionDate}
+          onChange={handleDateChange}
+          className={`form__dateInput ${
+            isDateValid
+              ? "border-green-400 text-green-600"
+              : "border-red-600 text-red-600"
+          }`}
+        />
+      </div>
+
       <div className="flex flex-col">
         <label htmlFor="sessionName" className="mb-1">
           Template name:
@@ -76,7 +125,7 @@ const TemplateCreator = () => {
           type="text"
           value={sessionName}
           onChange={handleNameTextChange}
-          placeholder="Enter a name for this template..."
+          placeholder="Enter a name..."
           className={`form__input ${
             isQuestionValid
               ? "border-green-400 text-green-600"
@@ -179,15 +228,19 @@ const TemplateCreator = () => {
         </select>
       </div>
 
-      <div className=" flex flex-row items-center space-x-4">
+      <div
+        className={`${
+          isTemplateCreator ? "" : "hidden"
+        } flex flex-row items-center space-x-4`}
+      >
         <input
-          id="checkbox"
+          id="checkboxPerformer"
           type="checkbox"
           className="form__checkbox"
           onChange={handleCheckboxChange}
           checked={isCheckboxSelected}
         />
-        <label htmlFor="checkbox">Unique to Performer</label>
+        <label htmlFor="checkboxPerformer">Unique to Performer</label>
 
         <label htmlFor="performer">Select Performer:</label>
         <select
@@ -199,7 +252,7 @@ const TemplateCreator = () => {
             isCheckboxSelected && performerId != "" ? "--enabled" : "--disabled"
           } flex-grow rounded focus:scale-105`}
         >
-          <option value={performerId} disabled>
+          <option value="" disabled>
             Select a performer...
           </option>
           {dbPerformers.map((performer) => (
@@ -372,7 +425,7 @@ const TemplateCreator = () => {
                 handleExistingQuestionChange(index, e)
               }}
             >
-              <option value={existingQuestions[index]} disabled>
+              <option value="" disabled>
                 Select a question...
               </option>
               {dbQuestions.map((question) => (
@@ -405,6 +458,41 @@ const TemplateCreator = () => {
             )}
           </div>
         ))}
+      </div>
+
+      <div
+        className={`${
+          isTemplateCreator ? "hidden" : ""
+        } flex flex-row items-center space-x-4`}
+      >
+        <input
+          id="checkboxGoal"
+          type="checkbox"
+          className="form__checkbox"
+          onChange={handleGoalCheckboxChange}
+          checked={isGoalCheckboxSelected}
+        />
+        <label htmlFor="checkboxGoal">Specific Goal</label>
+
+        <label htmlFor="goal">Select Goal:</label>
+        <select
+          id="goal"
+          value={goalId}
+          onChange={handleGoalDropdownChange}
+          disabled={!isGoalCheckboxSelected}
+          className={`form__select ${
+            isGoalCheckboxSelected && goalId != "" ? "--enabled" : "--disabled"
+          } flex-grow rounded focus:scale-105`}
+        >
+          <option value="" disabled>
+            Select a goal...
+          </option>
+          {dbGoals.map((goal) => (
+            <option key={goal.id} value={goal.id}>
+              {goal.name ? `${goal.id} ${goal.name}` : `${goal.id}`}
+            </option>
+          ))}
+        </select>
       </div>
 
       <button
