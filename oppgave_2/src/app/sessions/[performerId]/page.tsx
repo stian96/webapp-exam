@@ -5,7 +5,6 @@ import Link from "next/link"
 import { Header } from "@/components"
 import ActivityList from "@/components/ActivityList"
 
-//TODO Display them
 const Sessions = ({ params }: { params: { performerId: string } }) => {
   return (
     <>
