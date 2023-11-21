@@ -6,7 +6,7 @@ const CreateTemplatePage = () => {
     <>
       <Header />
       <div className="min-w-screen-md mx-auto max-w-screen-lg">
-        <TemplateCreator />
+        <TemplateCreator isTemplateCreator={true} />
       </div>
     </>
   )
