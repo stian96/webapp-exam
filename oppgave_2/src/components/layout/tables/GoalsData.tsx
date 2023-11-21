@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Goal } from "../../../types/classes/goal"
-import  GoalsPopup from "../popups/GoalsPopup"
+import  GoalsPopup from "../popups/GoalsEditPopup"
 import "@/style/goalsData.scss"
 import { GoalsInput } from "@/types/goalsInput"
 
@@ -29,12 +29,6 @@ const GoalsData = ({ performerId, goal }: GoalsDataProps) => {
         setCurrentGoal(convertedGoal)
     }
 
-    // TODO: Ash delete goal when 'delete button is pressed'. 
-    const handleGoalDelete = () => {
-
-
-    }
-
     return (
         <> 
             <GoalsPopup 
@@ -48,7 +42,6 @@ const GoalsData = ({ performerId, goal }: GoalsDataProps) => {
                 <span className="data__goal mr-6">{`${ currentGoal.name ? `${currentGoal.name}` : ''}`}</span>
                 <span className="data__id mx-6">{`${currentGoal.priority ? `Priority: ${currentGoal.priority}` : ''} `}</span>
                 <span className="data__goal mx-6">{`${currentGoal.date ? `Date: ${dateString}` : ''}`}</span>
-                <span className="data__goal mx-6">{`${currentGoal.goal ? `Goal: ${currentGoal.goal}` : ''}`}</span>
                 <div className="data__inner ml-auto">
                     <button 
                         className="data__inner-button mr-5"
@@ -56,7 +49,6 @@ const GoalsData = ({ performerId, goal }: GoalsDataProps) => {
                     >
                             Edit
                     </button>
-                    {/* TODO: Connect 'handleGoalsDelete' to this button */}
                     <button className="data__inner-button">Delete</button>
                 </div>
             </div>

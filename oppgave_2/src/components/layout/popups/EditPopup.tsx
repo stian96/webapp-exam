@@ -28,7 +28,6 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
 
     const closePopup = () => setIsPopupOpen(false)
     const inputFields = ["User ID", "Gender", "Sport"]
-    const fieldMapping = {"User ID": "userId", "Gender": "gender", "Sport": "sport"}
 
     return(
     <>
@@ -40,7 +39,6 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
                 <PopupContent 
                     header="Edit Performer" 
                     inputElements={inputFields}
-                    mapping={fieldMapping}
                     close={closePopup}
                     handleChange={handleChange}
                     handleSave={handleLocalSave}
