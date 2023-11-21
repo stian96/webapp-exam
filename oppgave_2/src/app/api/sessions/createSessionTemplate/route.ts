@@ -106,13 +106,15 @@ export const POST = async (request: NextRequest) => {
 
     if (sessionTemplate.questions.length > 0) {
       for (const question of sessionTemplate.questions) {
-        if (typeof question.id === 'string' && question.question == "") {
+        if (typeof question.id === 'string' && question.question == "" && question.id != "") {
           const newSessionQuestion = await prisma.sessionQuestions.create({
             data: {
                 sessionId: newSession.id,
                 questionId: question.id
             }
           });
+
+
         } else if (question.id == "" && question.question != "") {
           
           const newQuestion = await prisma.questions.create({
@@ -128,26 +130,28 @@ export const POST = async (request: NextRequest) => {
                 questionId: newQuestion.id
             }
           });
-
         }
       }
     }
 
     if (sessionTemplate.intervals.length > 0) {
       for (const interval of sessionTemplate.intervals) {
-        const newIntervals = await prisma.intervals.create({
-          data: {
-              duration: interval.duration,
-              intensity: interval.intensity
-          }
-        });
+        if (!isNaN(interval.duration) && typeof interval.duration === 'number') {
 
-        const newIntervalSessions = await prisma.sessionIntervals.create({
-          data: {
-              sessionId: newSession.id,
-              intervalId: newIntervals.id
-          }
-        });
+          const newIntervals = await prisma.intervals.create({
+            data: {
+                duration: interval.duration,
+                intensity: interval.intensity
+            }
+          });
+
+          const newIntervalSessions = await prisma.sessionIntervals.create({
+            data: {
+                sessionId: newSession.id,
+                intervalId: newIntervals.id
+            }
+          });
+        }
       }
     }
   });

@@ -49,6 +49,11 @@ const TemplateCreator = ({
     handleGoalDropdownChange,
     dbGoals,
     goalId,
+    isTemplateCheckboxSelected,
+    handleTemplateCheckboxChange,
+    handleTemplateDropdownChange,
+    dbTemplates,
+    templateId,
     handleDateChange,
     handleNameTextChange,
     handleIntensityTextChange,
@@ -73,6 +78,7 @@ const TemplateCreator = ({
     getUsersApiResponse,
     getQuestionsApiResponse,
     getGoalsApiResponse,
+    getTemplateApiResponse,
     handleSubmit,
     writeToDatabase,
     useEffect,
@@ -88,6 +94,7 @@ const TemplateCreator = ({
 
     if (!isTemplateCreator) {
       void getGoalsApiResponse(performerIdString)
+      void getTemplateApiResponse()
     }
   }, [])
 
@@ -99,6 +106,43 @@ const TemplateCreator = ({
       onSubmit={handleSubmit}
       className="form flex w-full flex-col space-y-4"
     >
+      <div
+        className={`${
+          isTemplateCreator ? "hidden" : ""
+        } flex flex-row items-center space-x-4`}
+      >
+        <input
+          id="checkboxTemplate"
+          type="checkbox"
+          className="form__checkbox"
+          onChange={handleTemplateCheckboxChange}
+          checked={isTemplateCheckboxSelected}
+        />
+        <label htmlFor="checkboxTemplate">Based On Template</label>
+
+        <label htmlFor="goal">Select Template:</label>
+        <select
+          id="template"
+          value={templateId}
+          onChange={handleTemplateDropdownChange}
+          disabled={!isTemplateCheckboxSelected}
+          className={`form__select ${
+            isTemplateCheckboxSelected && templateId != ""
+              ? "--enabled"
+              : "--disabled"
+          } flex-grow rounded focus:scale-105`}
+        >
+          <option value="" disabled>
+            Select a template...
+          </option>
+          {dbTemplates.map((template) => (
+            <option key={template.id} value={template.id}>
+              {template.slug}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className={`${isTemplateCreator ? "hidden" : ""} flex flex-col`}>
         <label htmlFor="sessionDate" className="mb-1">
           Date:
