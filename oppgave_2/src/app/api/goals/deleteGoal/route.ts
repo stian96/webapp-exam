@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { type NextRequest } from "next/server";
 
 
-export const GET = async (request: NextRequest) => {
+export const DELETE = async (request: NextRequest) => {
   const { searchParams } = new URL(request.url);
   const goalId = searchParams.get("goalId");
 
