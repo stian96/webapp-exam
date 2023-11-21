@@ -250,8 +250,6 @@ const useTemplateCreatorHook = () => {
     const newExistingQuestions = [...existingQuestions]
     newExistingQuestions[index] = event.target.value
     setExistingQuestions(newExistingQuestions)
-
-    console.log(existingQuestions)
   }
 
   // Reference: ChatGPT V3.5
@@ -315,7 +313,6 @@ const useTemplateCreatorHook = () => {
     const data = await response.json()
     const result = data as { status: number; message: string }
 
-    console.log(result.message)
     const templates = JSON.parse(result.message) as SessionTemplate[]
 
     setDbTemplates(templates)
@@ -509,7 +506,6 @@ const useTemplateCreatorHook = () => {
     let slugForTemplate =  `${sessionName}-${isCheckboxSelected ? `-uniqueto-${performerId}` : "-notunique"}`
     slugForTemplate = slugForTemplate.toLowerCase().replace(/ /g, '_');
 
-    console.log(intervalList)
     const sessionTemplate = new SessionTemplate("", sessionName, sessionType, tags, questionsList, intervalList, uniquePerformer, slugForTemplate, parseInt(sessionIntensity, 10), parseInt(sessionWatt, 10), parseInt(sessionSpeed, 10), parseInt(sessionPulse, 10), null, null)
 
     try {
