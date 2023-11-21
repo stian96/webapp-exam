@@ -6,3 +6,5 @@ export default function Header() {
     Matematikkoppgaver
   </h1>
 }
+
+//Lucide.(n.d).Lucide-react. https://lucide.dev/guide/packages/lucide-react

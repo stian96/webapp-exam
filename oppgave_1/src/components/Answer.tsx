@@ -103,7 +103,7 @@ export default function Answer({
       {message && <div>{message}</div>}
 
       {attemptMade && (
-        <p>{remainingAttempts} of {totalAttempts} attempts remaining</p>
+        <p>{remainingAttempts} av {totalAttempts} forsøk gjenstår</p>
       )}
       <div>
         {!showAnswer && remainingAttempts === 0 && (
