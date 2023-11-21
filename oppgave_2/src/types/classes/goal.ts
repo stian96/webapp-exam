@@ -3,15 +3,15 @@ import { PriorityEnum } from "@/enums/PriorityEnum"
 
 export class Goal implements GoalModel {
     id: string
-    name: string
-    date: Date
-    comment: string
-    isCompetition: boolean
-    goalCompetition?: number
-    goalNotCompetition?: string
-    location?: string
-    type?: string
-    priority: PriorityEnum
+    name?: string | null
+    date?: Date | null
+    comment?: string | null
+    isCompetition: boolean | null
+    goalCompetition?: number | null
+    goalNotCompetition?: string | null
+    location?: string | null
+    type?: string | null
+    priority?: PriorityEnum | null
 
     constructor(
         id: string, 

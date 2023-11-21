@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react"
 import { Compare, GoalsRow } from "@/components"
+import { Goal } from "@/types/classes/goal"
+import { GoalsGroupedByYear } from "@/app/api/goals/getGoals/route"
 import  GoalsCreatePopup from "../popups/GoalsCreatePopup"
-import { fetchGoals } from "../../../lib/api"
-import { Goal } from "../../../types/classes/goal"
+import { fetchGoals } from "@/lib/api"
+
 import "@/style/goals.scss"
 
 type GoalsProps = {
@@ -10,21 +12,30 @@ type GoalsProps = {
 }
 
 const Goals = ({ performerId }: GoalsProps) => {
-    const [allGoals, setAllGoals] = useState<Goal[]>([])
+    const [allGoals, setAllGoals] = useState<GoalsGroupedByYear>({})
     const [isCreateClicked, setIsCreateClicked] = useState(false)
 
     useEffect(() => {
         const getGoalsData = async () => {
-            const goalsResponse = await fetchGoals(performerId) as Goal[]
-            console.log("Goals response:", goalsResponse);
-            setAllGoals(goalsResponse)
+            const goalsGroupedByYear = await fetchGoals(performerId) as GoalsGroupedByYear
+            console.log("Goals response:", goalsGroupedByYear);
+            setAllGoals(goalsGroupedByYear)
         }
         getGoalsData()
     }, [])
 
     const addNewGoals = (newGoal: Goal) => {
-        setAllGoals([...allGoals, newGoal])
 
+        // Find year for the new goal so we know what group to put it in.
+        const year = newGoal.date?.getFullYear().toString() as string
+
+        // Update the collection of goals by adding a new goal in the correct 'year' key.
+        // If no goals exist for that year, create a new array containing only 'newGoal'.
+        const updatedGoals = {
+            ...allGoals,
+            [year]: allGoals[year] ? [...allGoals[year], newGoal] : [newGoal]
+        }
+        setAllGoals(updatedGoals)
     }
 
     const handleClick = () => setIsCreateClicked(!isCreateClicked)

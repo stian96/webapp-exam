@@ -1,5 +1,6 @@
 import { Performer } from "../types/performer"
 import { Goal } from "../types/classes/goal"
+import { GoalsGroupedByYear } from "@/app/api/goals/getGoals/route"
 
 interface APIResponse {
     status: number
@@ -8,7 +9,7 @@ interface APIResponse {
 
   interface GoalsResponse {
     status: number
-    message: Goal[]
+    message: string
   }
 
 // Function used to fetch performers from the database.
@@ -59,16 +60,16 @@ export const fetchPerformers = async (url: string): Promise<Performer[]> => {
       if (!response.ok) {
         const errorData = await response.json() as { message: string}
         console.error(`Error in fetching goals from DB: ${response.status}, ${errorData.message}`)
-        return []
+        return {}
       }
       const goals = await response.json() as GoalsResponse
       if (goals.status === 200 && typeof goals.message === "string") {
-        const goalsArray = JSON.parse(goals.message) as Goal[]
-        return goalsArray
+        const goalsGroupedByYear = JSON.parse(goals.message) as GoalsGroupedByYear
+        return goalsGroupedByYear
       }
     } catch(error) {
         console.error("Failed to fetch goals: ", error)
-        return []
+        return {}
     }
   }
 

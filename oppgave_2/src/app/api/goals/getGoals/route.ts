@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { Goal } from "@/types/classes/goal"
 
-type GoalsGroupedByYear = Record<string, Goal[]>
+export type GoalsGroupedByYear = Record<string, Goal[]>
 
 export const GET = async (request: NextRequest) => {
   const { searchParams } = new URL(request.url)
@@ -23,22 +23,24 @@ export const GET = async (request: NextRequest) => {
       }
     })
 
-    const goalsGroupedByYear: GoalsGroupedByYear = performerGoals.reduce((acc, performerGoal) => {
+    const goalsGroupedByYear: GoalsGroupedByYear = performerGoals.reduce((groupedGoals, performerGoal) => {
       const year = performerGoal.year.toString();
-      if (!acc[year]) {
-        acc[year] = [];
+      if (!groupedGoals[year]) {
+        groupedGoals[year] = [];
       }
-      acc[year].push(performerGoal.goal);
-      return acc;
+      groupedGoals[year].push(performerGoal.goal);
+      return groupedGoals;
     }, {} as GoalsGroupedByYear);
 
-    if (goals.length === 0) {
+    const differentYearsWithGoals = Object.keys(goalsGroupedByYear).length
+
+    if (differentYearsWithGoals === 0) {
       console.log(`No goals exist.`)
       return NextResponse.json({ status: 404, message: `No goals exist.` })
     }
   
-    console.log(`${goals.length} goals exists.`)
-    return NextResponse.json({ status: 200, message: JSON.stringify(goals) })
+    console.log(`${differentYearsWithGoals} years of goals exists.`)
+    return NextResponse.json({ status: 200, message: JSON.stringify(goalsGroupedByYear) })
     } 
     catch (error) {
       console.log(error)
