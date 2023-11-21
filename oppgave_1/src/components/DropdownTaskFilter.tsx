@@ -8,8 +8,8 @@ const DropdownTaskFilter = ({ selectedType, handleTypeChange }: TaskFilterProps)
 
     return (
         <div>
-            <label htmlFor="ddTaskType">Velg oppgavetype:</label>
-            <select id="ddTaskType" value={selectedType} onChange={handleTypeChange}>
+            <label htmlFor="chooseTaskType">Velg oppgavetype:</label>
+            <select id="chooseTaskType" value={selectedType} onChange={handleTypeChange}>
                 <option value="add">Addisjon</option>
                 <option value="divide">Divisjon</option>
                 <option value="multiply">Multiplikasjon</option>

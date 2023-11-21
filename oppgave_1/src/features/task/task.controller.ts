@@ -47,10 +47,10 @@ export const fetchRandomTasks = async (totalCount: number): Promise<Task[]> => {
         const result = await response.json() as { success: boolean; data: Task[] };
         tasks.push(...result.data);
     }
+    const shuffledTasks = tasks.sort(() => 0.5 - Math.random()).slice(0, totalCount);
+    //SRC: OpenAI.(2023).ChatGPT(GPT-4).[Large language model]. https://chat.openai.com/chat
 
-
-    const shuffledTasks = tasks.sort(() => 0.5 - Math.random()).slice(0, totalCount);//Chatgpt4
-    return shuffledTasks;//Chatgpt4
+    return shuffledTasks;
 
 };
 
