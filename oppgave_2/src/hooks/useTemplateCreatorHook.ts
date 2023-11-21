@@ -272,6 +272,10 @@ const useTemplateCreatorHook = () => {
     const data = await response.json()
     const result = data as { status: number; message: string }
 
+    if (result.status == 404) {
+      return
+    }
+
     const users = JSON.parse(result.message) as Performer[]
 
     setDbPerformers(users)
@@ -285,6 +289,10 @@ const useTemplateCreatorHook = () => {
     const data = await response.json()
     const result = data as { status: number; message: string }
 
+    if (result.status == 404) {
+      return
+    }
+    
     const questions = JSON.parse(result.message) as Question[]
 
     setDbQuestions(questions)
@@ -299,6 +307,10 @@ const useTemplateCreatorHook = () => {
     const data = await response.json()
     const result = data as { status: number; message: string }
 
+    if (result.status == 404) {
+      return
+    }
+
     const goals = JSON.parse(result.message) as Goal[]
 
     setDbGoals(goals)
@@ -312,6 +324,10 @@ const useTemplateCreatorHook = () => {
 
     const data = await response.json()
     const result = data as { status: number; message: string }
+
+    if (result.status == 404) {
+      return
+    }
 
     const templates = JSON.parse(result.message) as SessionTemplate[]
 
