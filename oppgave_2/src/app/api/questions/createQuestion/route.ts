@@ -5,7 +5,7 @@ import { NextResponse, type NextRequest } from "next/server";
 /**
  * @swagger
  * /api/question/createQuestion:
- *   put:
+ *   post:
  *     summary: Create a new question.
  *     description: Takes a request where the body is a serialised Question object and writes it to the database.
  *     requestBody:
@@ -27,7 +27,7 @@ import { NextResponse, type NextRequest } from "next/server";
  *       500:
  *         description: Internal server error when writing to database.
  */
-export const PUT = async (request: NextRequest) => {
+export const POST = async (request: NextRequest) => {
 
   try {
     console.log("Deserialising question.")

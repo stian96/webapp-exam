@@ -33,8 +33,7 @@ model Goals {
   date               DateTime?
   comments           String?
   isCompetition      Boolean
-  goalCompetition    String?
-  goalNotCompetition Int?
+  goal               String?
   location           String?
   type               String?
   priority           Int?
@@ -61,31 +60,31 @@ model Answers {
 }
 
 model Intervals {
-  id                    String                  @id @default(uuid())
-  duration              Int
-  intensity             Int
-  intervalResults       IntervalResults[]
-  sessionIntervals      SessionIntervals[]
-  reportIntervalResults ReportIntervalResults[]
+  id               String             @id @default(uuid())
+  duration         Int
+  intensity        Int
+  intervalResults  IntervalResults[]
+  sessionIntervals SessionIntervals[]
 }
 
 model IntervalResults {
-  id           String    @id @default(uuid())
-  interval     Intervals @relation(fields: [intervalId], references: [id])
-  intervalId   String
-  duration     Int
-  intensityMin Int
-  intensityMax Int
-  intensityAvg Int
-  pulseMin     Int
-  pulseMax     Int
-  pulseAvg     Int
-  speedMin     Int
-  speedMax     Int
-  speedAvg     Int
-  wattMin      Int
-  wattMax      Int
-  wattAvg      Int
+  id                   String                  @id @default(uuid())
+  interval             Intervals               @relation(fields: [intervalId], references: [id])
+  intervalId           String
+  duration             Int
+  intensityMin         Int
+  intensityMax         Int
+  intensityAvg         Int
+  pulseMin             Int
+  pulseMax             Int
+  pulseAvg             Int
+  speedMin             Int
+  speedMax             Int
+  speedAvg             Int
+  wattMin              Int
+  wattMax              Int
+  wattAvg              Int
+  reportIntervalResult ReportIntervalResults[]
 }
 
 model Sessions {
@@ -163,12 +162,12 @@ model SessionTags {
 }
 
 model ReportIntervalResults {
-  report     Reports   @relation(fields: [reportId], references: [id])
-  reportId   String
-  interval   Intervals @relation(fields: [intervalId], references: [id])
-  intervalId String
+  report           Reports         @relation(fields: [reportId], references: [id])
+  reportId         String
+  intervalResult   IntervalResults @relation(fields: [intervalResultId], references: [id])
+  intervalResultId String
 
-  @@id([reportId, intervalId])
+  @@id([reportId, intervalResultId])
 }
 
 model ReportAnswers {

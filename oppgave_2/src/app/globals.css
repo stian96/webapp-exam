@@ -92,6 +92,15 @@
     @apply bg-background text-foreground;
     background: #07182f;
   }
+
+  .loading-data {
+    position: fixed;      
+    top: 45%;             
+    left: 28%;
+    right: 10%;            
+    color: #fff;
+    font-size: 2.3rem;
+  }
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;

@@ -1,0 +1,27 @@
+@import "colors";
+
+@mixin button-style-red($width, $radius) {
+    background-image: $red-gradient;
+    background-size: 200% auto;
+    transition: 0.5s ease;
+    
+    width: $width;
+    font-weight: 500;
+    border-radius: $radius;
+
+    &:hover {
+        background-position: right center;
+    }
+}
+
+@mixin background-overlay {
+    opacity: 0;
+    visibility: hidden;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+}

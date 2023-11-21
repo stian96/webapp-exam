@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { type PerformerDto } from '@/types/DTO/importUsers';
 
 const useImportUsersHook = () => {
+  const isApiCalled = useRef(false)
   const [responseCode, setResponseCode] = useState(0);
   const [responseBody, setResponseBody] = useState('');
+  const [importButtonText, setImportButtonText] =
+    useState<string>("Import Users")
 
   const getApiResponse = async () => {
     const response = await fetch(`/api/users/getImportedUsers`, {
@@ -56,8 +59,10 @@ const useImportUsersHook = () => {
             body: JSON.stringify(performer),
           })
 
+          setImportButtonText("Imported Users!")
           console.log(response)
         } catch (error) {
+          setImportButtonText("Error Importing Users")
           console.error(error)
         }
       }
@@ -70,11 +75,16 @@ const useImportUsersHook = () => {
   };
 
   useEffect(() => {
+    if (!isApiCalled.current) {
+      isApiCalled.current = true
+      return
+    }
+
     void getApiResponse();
   }, []);
 
 
-  return { responseCode, responseBody, getApiResponse, importAllUsers };
+  return { responseCode, responseBody, importButtonText, getApiResponse, importAllUsers };
 };
 
 export default useImportUsersHook;

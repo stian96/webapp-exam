@@ -1,0 +1,67 @@
+@import "colors";
+@import "functions";
+
+.analysisTable { 
+    overflow: hidden;
+    border-radius: 20px;
+
+    &__head-data {
+        background: $dark-bg-color;
+        color: $red-text-color;
+        box-shadow: 0px 0px 2px 0.5px $red-text-color;
+        width: auto;
+        text-align: center;
+        vertical-align: middle;
+        white-space: normal;
+        padding: 4px;
+    }
+
+    &__body-id {
+        background: $dark-bg-color;
+        color: $red-text-color;
+        box-shadow: 0px 0px 2px 0.5px $red-text-color;
+        text-align: center;
+    }
+
+    &__body-data {
+        background: $dark-bg-color;
+        color: #fff;
+        box-shadow: 0px 0px 2px 0.5px $red-text-color;
+        width: auto;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    &__body-button {
+        @include button-style-red(1.5rem, 0.3rem);
+    }
+
+    &__outer-button {
+        @include button-style-red(auto, 0.3rem);
+        padding: 12px;
+    }
+
+    &__body-link {
+        font-weight: 500;
+        transition: 0.3s ease;
+
+        &:hover {
+            color: $red-text-color;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+
+    &__compare {
+        background: $dark-bg-color;
+        color: #fff;
+        box-shadow: 0px 0px 2px 0.5px $red-text-color;
+        padding: 1rem;
+
+        &-button {
+            @include button-style-red(auto, 0.3rem);
+            padding: 0.8rem;
+
+        }
+    }
+}

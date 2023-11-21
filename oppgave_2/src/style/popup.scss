@@ -1,0 +1,79 @@
+@import "colors";
+@import "functions";
+
+.popup-content {
+    background: $dark-bg-color;
+    width: 500px;
+    height: auto;
+    text-align: center;
+    border: 1px solid $red-text-color;
+    padding-bottom: 1rem;
+    color: #fff;
+
+    border-radius: 15px;
+
+    &__title {
+        font-weight: 500;
+        font-size: 1.2rem;
+    }
+
+}
+
+.modal {
+
+    &__header {
+        font-weight: 500;
+        font-size: 1.3rem;
+        background-color: #232323d2;
+
+        width: 100%;
+        margin: 0 auto;
+        padding: 1rem;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    &__content {
+
+        &-label {
+            font-weight: 500;
+        }
+
+        &-input {
+            max-width: 50%;
+            margin: 1rem auto;
+            background-color: $dark-bg-color;
+        }
+    }
+
+    &__actions {
+
+        &-button {
+            margin-top: 1.5rem;
+            padding: 0.2rem 1.2rem 0.2rem 1.2rem;
+            @include button-style-red(5rem, 0.3rem)
+        }
+    }
+
+    &__close {
+        position: absolute;
+        right: 1.2rem;
+        top: 0.5rem;
+        font-size: 1.7rem;
+
+        &:hover {
+            color: $red-text-color;
+        }
+    }
+}
+
+.overlay {
+    @include background-overlay;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.overlay-active {
+    opacity: 1;
+    visibility: visible;
+
+}

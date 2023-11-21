@@ -65,7 +65,7 @@ describe("Progress Component", () => {
     const nextButton = screen.getByText("Vis forrige oppgave")
     expect(nextButton).toBeInTheDocument()
 
-    const prevButton = screen.getByText("Vis neste oppgave oppgave")
+    const prevButton = screen.getByText("Vis neste oppgave")
     expect(prevButton).toBeInTheDocument()
   })
   //TODO: Make this test pass
@@ -73,7 +73,7 @@ describe("Progress Component", () => {
     render(<Progress tasks={tasks} isCorrectAnswer={false} currentTaskIndex={0} setCurrentTaskIndex={function (index: number): void {
       throw new Error("Function not implemented.")
     }} />)
-    const nextButton = screen.getByText("Vis neste oppgave oppgave")
+    const nextButton = screen.getByText("Vis neste oppgave")
 
     fireEvent.click(nextButton)
 
@@ -85,7 +85,7 @@ describe("Progress Component", () => {
     render(<Progress tasks={tasks} isCorrectAnswer={false} currentTaskIndex={0} setCurrentTaskIndex={function (index: number): void {
       throw new Error("Function not implemented.")
     }} />)
-    const nextButton = screen.getByText("Vis neste oppgave oppgave")
+    const nextButton = screen.getByText("Vis neste oppgave")
     const prevButton = screen.getByText("Vis forrige oppgave")
 
     fireEvent.click(nextButton)
@@ -108,12 +108,12 @@ describe("Progress Component", () => {
     render(<TaskText text={text} />)
     const taskTextElement = screen.getByText(text)
 
-    expect(taskTextElement).toHaveClass("text-sm text-slate-400")
+    expect(taskTextElement).toHaveClass("text-sm md:text-base lg:text-lg")
   })
 
   it("renders the header text correctly", () => {
     render(<Header />)
-    const headerElement = screen.getByText("Oppgave 1")
+    const headerElement = screen.getByText("Matematikkoppgaver")
 
     expect(headerElement).toBeInTheDocument()
   })
@@ -152,21 +152,20 @@ describe("Progress Component", () => {
     const successMessage = screen.getByText("Bra jobbet!")
     expect(successMessage).toBeInTheDocument()
   })
-  it("renders a the current task correctly", () => {
+  it("renders the current task correctly", () => {
     const tasks: Task[] = [
       { id: '1', type: 'add', text: '1 + 1', data: '2|3' },
       { id: '2', type: 'subtract', text: '3 - 1', data: '5|3' },
     ];
     render(<Tasks tasks={tasks} currentTaskIndex={0}>{null}</Tasks>)
 
+    const typeElement = screen.getByText(/Addisjon/i);
+    const dataElement = screen.getByText(tasks[0].data);
+    const taskTextElement = screen.getByText(tasks[0].text);
 
-    const taskElement = screen.getByText(tasks[0].text)
-    const typeElement = screen.getByText(tasks[0].type)
-    const dataElement = screen.getByText(tasks[0].data)
-
-    expect(taskElement).toBeInTheDocument()
-    expect(typeElement).toBeInTheDocument()
-    expect(dataElement).toBeInTheDocument()
+    expect(taskTextElement).toBeInTheDocument();
+    expect(typeElement).toBeInTheDocument();
+    expect(dataElement).toBeInTheDocument();
 
     expect(screen.queryByText(tasks[1].text)).not.toBeInTheDocument()
 
@@ -177,6 +176,8 @@ describe("Progress Component", () => {
     expect(result.current.count).toBe(0)
     expect(result.current.current).toEqual(tasks[0])
   })
+
+
   //TODO: Make this test pass
   it("updates count when next is called", () => {
     const { result } = renderHook(() => useProgress({ tasks }))

@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, type FormEvent, useEffect, useState, useRef } from 'react';
 import { type Performer } from '@/types/performer';
 import { getQuestionTypeEnum, type Question } from '@/types/question';
 import { SessionTemplate } from '@/types/classes/sessionTemplate';
@@ -6,6 +6,7 @@ import { type Interval } from '@/types/performance/interval';
 import { QuestionTypeEnum } from '@/enums/questionTypeEnum';
 
 const useTemplateCreatorHook = () => {
+  const isApiCalled = useRef(false)
   const [sessionName, setSessionName] = useState<string>("")
   const [sessionIntensity, setSessionIntensity] = useState<string>("")
   const [sessionWatt, setSessionWatt] = useState<string>("")
@@ -397,7 +398,7 @@ const useTemplateCreatorHook = () => {
       }
 
       const response = await fetch("/api/sessions/createSessionTemplate", {
-        method: "put",
+        method: "post",
         headers: {
           "Content-Type": "application/json",
         },
@@ -413,6 +414,11 @@ const useTemplateCreatorHook = () => {
   }
 
   useEffect(() => {
+    if (!isApiCalled.current) {
+      isApiCalled.current = true
+      return
+    }
+
     void getUsersApiResponse()
     void getQuestionsApiResponse()
   }, [])

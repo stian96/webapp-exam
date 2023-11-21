@@ -1,7 +1,9 @@
 export interface GoalModel {
-    id: string | null,
+    id?: string,
     name: string,
     date: Date,
     goal: string,
-    comments: string
+    comments: string,
+    isCompetition: boolean
+    priority: PriorityEnum
 }

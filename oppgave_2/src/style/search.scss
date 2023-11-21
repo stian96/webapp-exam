@@ -1,4 +1,5 @@
 @import "colors";
+@import "functions";
 
 .search {
     background: $dark-bg-color;
@@ -12,6 +13,7 @@
         background: $dark-bg-color;
         width: 100%;
         border: none;
+        color: #fff;
 
         &:focus {
             color: #fff;
@@ -19,19 +21,10 @@
     }
 
     &__button {
-        background-image: $red-gradient;
-        background-size: 200% auto;
-        transition: 0.5s ease;
+        @include button-style-red(25%, 15px);
         color: #fff;
         padding: 0.3rem;
         font-weight: 600;
-
-        border-radius: 15px;
-        width: 25%;
-
-        &:hover {
-            background-position: right center;
-        }
     }
 }
 

@@ -1,9 +1,6 @@
 "use client"
-
 import "../style/form.scss"
-
 import React from "react"
-
 import useTemplateCreatorHook from "@/hooks/useTemplateCreatorHook"
 
 // Code based on React documentation found here:
@@ -202,7 +199,7 @@ const TemplateCreator = () => {
             isCheckboxSelected && performerId != "" ? "--enabled" : "--disabled"
           } flex-grow rounded focus:scale-105`}
         >
-          <option value="" disabled selected>
+          <option value={performerId} disabled>
             Select a performer...
           </option>
           {dbPerformers.map((performer) => (
@@ -333,8 +330,8 @@ const TemplateCreator = () => {
               className="form__select rounded focus:scale-105"
             >
               <option value="text">Text</option>
-              <option value="radio:range">Radio: Range</option>
-              <option value="radio:mood">Radio: Mood</option>
+              <option value="radio:range">1 to 10</option>
+              <option value="radio:mood">Emojis</option>
             </select>
 
             {index === 0 && (
@@ -375,7 +372,7 @@ const TemplateCreator = () => {
                 handleExistingQuestionChange(index, e)
               }}
             >
-              <option value="" disabled selected>
+              <option value={existingQuestions[index]} disabled>
                 Select a question...
               </option>
               {dbQuestions.map((question) => (

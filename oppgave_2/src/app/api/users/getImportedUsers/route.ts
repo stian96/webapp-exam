@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 /**
  * @swagger
  * /api/users/getImportedUsers:
- *   put:
+ *   get:
  *     summary: Retrieves users to be imported.
  *     description: Sends a fetch request to an API endpoint to retrieve all users to be imported in the database.
  *     responses:

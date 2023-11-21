@@ -1,4 +1,4 @@
-import Header from "@/components/Header"
+import Header from "@/components/layout/Header"
 import QuestionCreator from "@/components/QuestionCreator"
 
 const CreateQuestionPage = () => {

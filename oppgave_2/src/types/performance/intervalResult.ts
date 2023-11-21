@@ -10,3 +10,14 @@ export type IntervalResult = {
     watt: ParamResult,
     duration: number
 }
+
+export type IntervalResultAnalysis = {
+    id?: string,
+    activityId: string,
+    interval: string,
+    intensity: ParamResult,
+    pulse: ParamResult,
+    speed: ParamResult,
+    watt: ParamResult,
+    duration: number
+}

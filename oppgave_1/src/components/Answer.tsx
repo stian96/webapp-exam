@@ -1,15 +1,15 @@
-//"use client"
 
 import { useState } from "react"
 import type { FormEvent, MouseEvent } from "react"
-import { type Task } from "@/types"
+import { type Task, type Type } from "@/types"
 
 type AnswerProps = {
   task: Task;
-  onCorrectAnswer: () => void;
-  onIncorrectAnswer: () => void;
+  onCorrectAnswer: (taskType: Type) => void;
+  onIncorrectAnswer: (taskType: Type, taskId: string) => void;
   remainingAttempts: number;
   totalAttempts: number;
+  onShowAnswer: (taskType: Type) => void;
 
 }
 
@@ -19,6 +19,7 @@ export default function Answer({
   onIncorrectAnswer,
   remainingAttempts,
   totalAttempts,
+  onShowAnswer
 }: AnswerProps) {
   const [answer, setAnswer] = useState('')
   const [message, setMessage] = useState<string | null>(null)
@@ -50,15 +51,18 @@ export default function Answer({
     const userAnswer = Number(answer);
     const correctAnswerNumber = Number(correctAnswer);
 
-    if (userAnswer === correctAnswerNumber) {
-      setMessage('Bra jobbet!');
-      setIsCorrectAnswer(true);
-      onCorrectAnswer();
+    if (userAnswer !== correctAnswerNumber) {
 
-    } else {
       setMessage('Prøv igjen!');
       setAttemptMade(true);
-      onIncorrectAnswer();
+      onIncorrectAnswer(task.type, task.id);
+
+
+    } else {
+      setMessage('Bra jobbet!');
+      setIsCorrectAnswer(true);
+      onCorrectAnswer(task.type);
+
     }
   };
 
@@ -72,6 +76,15 @@ export default function Answer({
     }
     setMessage(null);
   }
+  const handleShowAnswer = () => {
+    if (remainingAttempts === 0) {
+      setShowAnswer(true);
+      onShowAnswer(task.type);
+    }
+  };
+
+
+  //console.log('anser is', showAnswer)
 
   const inputId = `answer-${task.id}`;
   return (
@@ -85,17 +98,16 @@ export default function Answer({
         onChange={update}
         value={answer}
       />
-      {/*{9 + 2 === answer ? "Bra jobbet!" : null}*/}
-      {/*{correctAnswer === answer ? <div>Bra jobbet!</div> : null}*/}
+
       <button onClick={send} className="btn-send">Send</button>
-      {isCorrectAnswer && message && <div>{message}</div>}
+      {message && <div>{message}</div>}
 
       {attemptMade && (
         <p>{remainingAttempts} of {totalAttempts} attempts remaining</p>
       )}
       <div>
         {!showAnswer && remainingAttempts === 0 && (
-          <button onClick={() => { setShowAnswer(true); }}
+          <button onClick={handleShowAnswer}
             className="btn-show-answer">Se svaret</button>
         )}
         {showAnswer && correctAnswer !== null && (
@@ -105,4 +117,3 @@ export default function Answer({
     </div>
   )
 }
-

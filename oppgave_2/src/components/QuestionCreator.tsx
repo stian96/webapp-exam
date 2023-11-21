@@ -1,6 +1,6 @@
 "use client"
 
-import "../style/form.scss"
+import "@/style/form.scss"
 
 import { randomUUID } from "crypto"
 import React, { useState } from "react"
@@ -107,7 +107,7 @@ const QuestionCreator = () => {
       }
 
       const response = await fetch("/api/questions/createQuestion", {
-        method: "put",
+        method: "post",
         headers: {
           "Content-Type": "application/json",
         },
