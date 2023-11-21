@@ -1,5 +1,5 @@
 // ImportButton.tsx
-import "../style/form.scss"
+import "../style/button.scss"
 
 import React from "react"
 
@@ -10,7 +10,7 @@ const ImportButton = () => {
 
   return (
     <button
-      className={`form__button ${
+      className={`button ${
         importButtonText === "Imported Users!" ? "--saved" : ""
       }
     ${importButtonText.startsWith("Error") ? "--error" : ""}`}

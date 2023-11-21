@@ -1,0 +1,25 @@
+@import "colors";
+
+.button {
+    background-image: $red-gradient;
+    background-size: 200% auto;
+    transition: 0.5s ease;
+    color: #fff;
+    padding: 0.3rem;
+    font-weight: 600;
+
+    border-radius: 15px;
+    width: 100%;
+
+    &:hover {
+        background-position: right center;
+    }
+
+    &.--saved {
+        background-image: $green-gradient;
+    }
+
+    &.--error {
+        background-image: $dark-red-gradient;
+    }
+}
