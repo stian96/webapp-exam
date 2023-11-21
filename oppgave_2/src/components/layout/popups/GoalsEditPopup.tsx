@@ -1,11 +1,11 @@
 import { useState } from "react"
 import PopupCont from "@/components/layout/popups/PopupContent"
+import { Goal } from "@/types/classes/goal"
 import { saveGoalsToDb } from "@/lib/dbOperation"
-import { PriorityEnum } from "@/enums/PriorityEnum"
-import { GoalsInput } from "@/types/goalsInput"
 import Popup from "reactjs-popup"
 
 import "@/style/popup.scss"
+import { GoalsInput } from "@/types/goalsInput"
 
 type GoalsPopupProps = {
     goalId: string,
@@ -13,35 +13,28 @@ type GoalsPopupProps = {
     editClicked: boolean
     setEditClicked: (value: boolean) => void 
     onGoalUpdate: (updatedGoal: GoalsInput) => void
+    initialGoalData: Goal
 }
 
-const GoalsPopup = ({ goalId, editClicked, setEditClicked, onGoalUpdate }: GoalsPopupProps) => {
-    const [goalInput, setGoalInput] = useState({
-        id: "",
-        name: "",
-        date: "",
-        year: "",
-        goal: "",
-        comment: "",
-        isCompetition: "",
-        priority: PriorityEnum.A
-    })
+const GoalsEditPopup = ( props :GoalsPopupProps) => {
+    const [goalInput, setGoalInput] = useState({ ...props.initialGoalData, year: ""})
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setGoalInput({...goalInput, [event.target.name]: event.target.value});
     };
 
     const handleSave = async () => {
-        saveGoalsToDb(goalInput, goalId)
-        onGoalUpdate(goalInput)
-        setEditClicked(false)
+        saveGoalsToDb(goalInput, props.performerId, props.goalId, goalInput.year)
+        props.onGoalUpdate(goalInput)
+        props.setEditClicked(false)
     }
-    const close = () => setEditClicked(!editClicked)
 
-    const inputFields: string[] = ["Name", "Date", "Year", "Goal", "Competition", "Comments"]
+    const close = () => props.setEditClicked(!props.editClicked)
+
+    const inputFields: string[] = ["Name", "Date", "Year", "Goal", "Competition", "Comment"]
     return (
-        <div className={`overlay ${editClicked ? 'overlay-active': ''}`}>
-            <Popup open={editClicked} closeOnDocumentClick onClick={close}>
+        <div className={`overlay ${props.editClicked ? 'overlay-active': ''}`}>
+            <Popup open={props.editClicked} closeOnDocumentClick onClick={close}>
                 <PopupCont 
                     header={"Edit Goal"} 
                     inputElements={inputFields} 
@@ -54,4 +47,4 @@ const GoalsPopup = ({ goalId, editClicked, setEditClicked, onGoalUpdate }: Goals
     )
 }
 
-export default GoalsPopup
+export default GoalsEditPopup
