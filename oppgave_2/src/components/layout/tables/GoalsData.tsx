@@ -6,10 +6,11 @@ import { GoalsInput } from "@/types/goalsInput"
 
 type GoalsDataProps = {
     goal: Goal
-    performerId: string
+    performerId: string,
+    updateGoal: (update: Goal) => void
 }
 
-const GoalsData = ({ performerId, goal }: GoalsDataProps) => {
+const GoalsData = ({ performerId, goal, updateGoal }: GoalsDataProps) => {
     const [editClicked, setEditClicked] = useState(false)
     const [currentGoal, setCurrentGoal] = useState(goal)
 
@@ -21,10 +22,10 @@ const GoalsData = ({ performerId, goal }: GoalsDataProps) => {
     const handleGoalUpdate = (updatedGoal: GoalsInput) => {
         const convertedGoal = { 
             ...updatedGoal, 
-            date: updatedGoal.date,
-            isCompetition: updatedGoal.isCompetition ? true : false
+            date: updatedGoal.date
         }
         setCurrentGoal(convertedGoal)
+        updateGoal(convertedGoal)
     }
 
     return (

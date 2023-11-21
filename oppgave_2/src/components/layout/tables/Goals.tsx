@@ -27,7 +27,11 @@ const Goals = ({ performerId }: GoalsProps) => {
     const addNewGoals = (newGoal: Goal) => {
 
         // Find year for the new goal so we know what group to put it in.
-        const year = newGoal.date?.getFullYear().toString() as string
+        let year = ""
+        if (newGoal.date) {
+            const dateObject = new Date(newGoal.date)
+            year = dateObject.getFullYear().toString() as string
+        }
 
         // Update the collection of goals by adding a new goal in the correct 'year' key.
         // If no goals exist for that year, create a new array containing only 'newGoal'.
@@ -65,6 +69,7 @@ const Goals = ({ performerId }: GoalsProps) => {
                                 performerId={performerId}
                                 goalsArray={goalsArray}
                                 year={year}
+                                addNewGoals={addNewGoals}
                             />
                         ))}
                     </div>

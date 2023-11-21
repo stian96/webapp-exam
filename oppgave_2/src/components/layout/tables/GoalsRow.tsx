@@ -9,9 +9,10 @@ type GoalsRowProps = {
     performerId: string
     goalsArray: Goal[]
     year: string
+    addNewGoals: (newGoal: Goal) => void
 }
 
-const GoalsRow = ({ performerId, goalsArray, year }: GoalsRowProps) => {
+const GoalsRow = ({ performerId, goalsArray, year, addNewGoals }: GoalsRowProps) => {
     const [showGoalsData, setShowGoalsData] = useState(false)
 
     const toggleGoalsData = () => {
@@ -36,6 +37,7 @@ const GoalsRow = ({ performerId, goalsArray, year }: GoalsRowProps) => {
                         key={index}
                         goal={goal}
                         performerId={performerId}
+                        updateGoal={addNewGoals}
                     />
                     ))}
                  </div>
