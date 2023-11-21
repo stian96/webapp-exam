@@ -1,31 +1,21 @@
 
 import { PriorityEnum } from "../enums/PriorityEnum"
-import { createNewGoalInDatabase } from "../lib/api"
+import { updateExistingGoalInDatabase } from "../lib/api"
+import { Goal } from "@/types/classes/goal"
 
-type GoalsSaveProps = {
-    id: string,
-    name: string,
-    date: string,
-    year: string,
-    goal: string,
-    comment: string,
-    isCompetition: string,
-    priority: PriorityEnum
-}
 
-export const saveGoalsToDb = async (goalInput: GoalsSaveProps, goalId: string) => {
-    const parsedDate = new Date(goalInput.date)
+export const saveGoalsToDb = async (goalInput: Goal, performerId: string, goalId: string, year: string) => {
 
     const newGoal = {
         id: goalId,
         name: goalInput.name,
-        date: parsedDate,
-        goal: goalInput.goal,
+        date: goalInput.date,
         comment: goalInput.comment,
-        isCompetition: goalInput.isCompetition === "yes" ? true : false,
+        isCompetition: goalInput.isCompetition,
         priority: PriorityEnum.A
     }
-    const success = await createNewGoalInDatabase(newGoal, parseInt(goalInput.year))
+
+    const success = await updateExistingGoalInDatabase(newGoal, parseInt(year), performerId)
     if (success) {
         console.log("Goal created/updated successfully!")
     }

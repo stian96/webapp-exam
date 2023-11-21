@@ -53,17 +53,20 @@ const Goals = ({ performerId }: GoalsProps) => {
                     <span className="goals__body-header-data">Goals</span>
                     <button 
                         className="goals__body-header-button"
-                        onClick={handleClick}
-                    >
+                        onClick={handleClick}>
                         Create
                     </button>
                 </div>
                 <div className="goals__body-content">
                     <div className="flex flex-col w-11/12 mx-auto pb-5">
-                        <GoalsRow 
-                            performerId={performerId}
-                            goalsArray={allGoals}
-                        />
+                        {Object.entries(allGoals).map(([year, goalsArray]) => (
+                            <GoalsRow 
+                                key={year}
+                                performerId={performerId}
+                                goalsArray={goalsArray}
+                                year={year}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>

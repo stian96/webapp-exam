@@ -1,16 +1,17 @@
 "use client"
+import { Goal } from "@/types/classes/goal"
 import GoalsData from "./GoalsData"
 import { useState } from "react"
-import { Goal } from "../../../types/classes/goal"
 
 import "@/style/goalsRow.scss"
 
 type GoalsRowProps = {
     performerId: string
     goalsArray: Goal[]
+    year: string
 }
 
-const GoalsRow = ({ performerId, goalsArray }: GoalsRowProps) => {
+const GoalsRow = ({ performerId, goalsArray, year }: GoalsRowProps) => {
     const [showGoalsData, setShowGoalsData] = useState(false)
 
     const toggleGoalsData = () => {
@@ -20,7 +21,7 @@ const GoalsRow = ({ performerId, goalsArray }: GoalsRowProps) => {
     return (
         <div className="test">
             <div className="goals__body-row flex justify-between p-4">
-                <div className="goals__body-row-data">2023</div> 
+                <div className="goals__body-row-data">{year}</div> 
                 <div>
                     <button className="goals__body-row-button" type="button" onClick={toggleGoalsData}>
                         { showGoalsData ? "Hide" : "Show" }

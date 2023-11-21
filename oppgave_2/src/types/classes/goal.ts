@@ -6,7 +6,7 @@ export class Goal implements GoalModel {
     name?: string | null
     date?: Date | null
     comment?: string | null
-    isCompetition: boolean | null
+    isCompetition: boolean
     goalCompetition?: number | null
     goalNotCompetition?: string | null
     location?: string | null
