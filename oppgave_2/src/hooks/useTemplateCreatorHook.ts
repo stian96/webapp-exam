@@ -141,6 +141,26 @@ const useTemplateCreatorHook = () => {
     event: ChangeEvent<HTMLSelectElement>,
   ) => {
     setTemplateId(event.target.value)
+
+    populateValuesFromTemplate(event.target.value)
+  }
+
+  const populateValuesFromTemplate = (templateId: string) => {
+    const template = dbTemplates.find(item => item.id === templateId)
+
+    if (template != null) {
+      setSessionName(template.name)
+      setIsNameValid(true)
+      setSessionType(template.type)
+      setSessionIntensity(template.intensityParam)
+      setIsIntensityValid(true)
+      setSessionWatt(template.wattParam)
+      setIsWattValid(true)
+      setSessionSpeed(template.speedParam)
+      setIsSpeedValid(true)
+      setSessionPulse(template.pulseParam)
+      setIsPulseValid(true)
+    }
   }
 
   const handleCheckboxChange = () => {
@@ -152,7 +172,7 @@ const useTemplateCreatorHook = () => {
   }
 
   const handleTemplateCheckboxChange = () => {
-    setIsTemplateCheckboxSelected(!isGoalCheckboxSelected)
+    setIsTemplateCheckboxSelected(!isTemplateCheckboxSelected)
   }
 
   // Reference: ChatGPT V3.5
@@ -397,14 +417,14 @@ const useTemplateCreatorHook = () => {
     )
   }
 
-  const handleSubmitNonTemplate = async (event: FormEvent) => {
+  const handleSubmitNonTemplate = async (event: FormEvent, performerId: string) => {
     event.preventDefault()
 
     const isFormValidBool: boolean = isFormValid(false)
 
     if (isFormValidBool) {
       console.log("Form is valid. Attempting to write to database.")
-      await writeNonTemplateToDatabase()
+      await writeNonTemplateToDatabase(performerId)
     } else {
       console.log("Form is not valid.")
     }
@@ -490,7 +510,7 @@ const useTemplateCreatorHook = () => {
     slugForTemplate = slugForTemplate.toLowerCase().replace(/ /g, '_');
 
     console.log(intervalList)
-    const sessionTemplate = new SessionTemplate("", sessionName, sessionType, tags, questionsList, intervalList, uniquePerformer, slugForTemplate, parseInt(sessionIntensity, 10), parseInt(sessionWatt, 10), parseInt(sessionSpeed, 10), parseInt(sessionPulse, 10))
+    const sessionTemplate = new SessionTemplate("", sessionName, sessionType, tags, questionsList, intervalList, uniquePerformer, slugForTemplate, parseInt(sessionIntensity, 10), parseInt(sessionWatt, 10), parseInt(sessionSpeed, 10), parseInt(sessionPulse, 10), null, null)
 
     try {
       const data = await isSlugExists(slugForTemplate)
@@ -517,10 +537,11 @@ const useTemplateCreatorHook = () => {
     }
   }
 
-  const writeNonTemplateToDatabase = async () => {
+  const writeNonTemplateToDatabase = async (performerIdString: string) => {
     const questionsList: Question[] = []
     const intervalList: Interval[] = []
     let uniquePerformer: string | null = null;
+    let chosenGoalId: string | null = null;
 
     for (const question of questions) {
       const questionTypeEnum = getQuestionTypeEnum(question.type)
@@ -566,11 +587,15 @@ const useTemplateCreatorHook = () => {
       uniquePerformer = performerId
     }
 
+    if (isGoalCheckboxSelected) {
+      chosenGoalId = goalId
+    }
+
     // Creates a slug in the format "name_of_template-uniqueto-123123-12sdf-4124-gfgfd4"
-    let slugForTemplate =  `${sessionName}-${isCheckboxSelected ? `-uniqueto-${performerId}` : "-notunique"}`
+    let slugForTemplate =  `${sessionName}--uniqueto-${performerIdString}`
     slugForTemplate = slugForTemplate.toLowerCase().replace(/ /g, '_');
 
-    const sessionTemplate = new SessionTemplate("", sessionName, sessionType, tags, questionsList, intervalList, uniquePerformer, slugForTemplate, parseInt(sessionIntensity, 10), parseInt(sessionWatt, 10), parseInt(sessionSpeed, 10), parseInt(sessionPulse, 10))
+    const sessionTemplate = new SessionTemplate("", sessionName, sessionType, tags, questionsList, intervalList, performerIdString, slugForTemplate, parseInt(sessionIntensity, 10), parseInt(sessionWatt, 10), parseInt(sessionSpeed, 10), parseInt(sessionPulse, 10), new Date(sessionDate), chosenGoalId)
 
     try {
       const data = await isSlugExists(slugForTemplate)
@@ -687,7 +712,8 @@ const useTemplateCreatorHook = () => {
     getQuestionsApiResponse,
     getGoalsApiResponse,
     getTemplateApiResponse,
-    handleSubmit: handleSubmitTemplate,
+    handleSubmitNonTemplate,
+    handleSubmitTemplate,
     writeToDatabase: writeTemplateToDatabase,
     useEffect
   };

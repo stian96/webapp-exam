@@ -154,6 +154,17 @@ export const POST = async (request: NextRequest) => {
         }
       }
     }
+
+    if (sessionTemplate.goalId != "" && sessionTemplate.date != null && sessionTemplate.uniqueTo != null) {
+      const newSessionActivity = await prisma.sessionActivity.create({
+        data: {
+          date: sessionTemplate.date,
+          sessionId: newSession.id,
+          goalId: sessionTemplate.goalId,
+          performerId: sessionTemplate.uniqueTo
+        }
+      });
+    }
   });
   
     console.log("Written session template to database.")

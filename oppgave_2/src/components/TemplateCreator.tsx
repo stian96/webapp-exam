@@ -79,7 +79,8 @@ const TemplateCreator = ({
     getQuestionsApiResponse,
     getGoalsApiResponse,
     getTemplateApiResponse,
-    handleSubmit,
+    handleSubmitNonTemplate,
+    handleSubmitTemplate,
     writeToDatabase,
     useEffect,
   } = useTemplateCreatorHook()
@@ -103,12 +104,16 @@ const TemplateCreator = ({
   // and existing questions sections near the bottom.
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={(event) =>
+        isTemplateCreator
+          ? handleSubmitTemplate(event)
+          : handleSubmitNonTemplate(event, performerIdString)
+      }
       className="form flex w-full flex-col space-y-4"
     >
       <div
-        className={`${
-          isTemplateCreator ? "hidden" : ""
+        className={`${isTemplateCreator ? "hidden" : ""} ${
+          dbTemplates.length === 0 ? "hidden" : ""
         } flex flex-row items-center space-x-4`}
       >
         <input
@@ -188,12 +193,13 @@ const TemplateCreator = ({
             type="text"
             value={sessionIntensity}
             onChange={handleIntensityTextChange}
+            disabled={isTemplateCheckboxSelected}
             placeholder="Enter a measurement..."
             className={`form__input ${
               isIntensityValid
                 ? "border-green-400 text-green-600"
                 : "border-red-600 text-red-600"
-            }`}
+            } ${isTemplateCheckboxSelected ? "bg-gray-500" : ""}`}
           />
         </div>
 
@@ -205,13 +211,14 @@ const TemplateCreator = ({
             id="sessionWatt"
             type="text"
             value={sessionWatt}
+            disabled={isTemplateCheckboxSelected}
             onChange={handleWattTextChange}
             placeholder="Enter a measurement..."
             className={`form__input ${
               isWattValid
                 ? "border-green-400 text-green-600"
                 : "border-red-600 text-red-600"
-            }`}
+            } ${isTemplateCheckboxSelected ? "bg-gray-500" : ""}`}
           />
         </div>
 
@@ -224,12 +231,13 @@ const TemplateCreator = ({
             type="text"
             value={sessionSpeed}
             onChange={handleSpeedTextChange}
+            disabled={isTemplateCheckboxSelected}
             placeholder="Enter a measurement..."
             className={`form__input ${
               isSpeedValid
                 ? "border-green-400 text-green-600"
                 : "border-red-600 text-red-600"
-            }`}
+            } ${isTemplateCheckboxSelected ? "bg-gray-500" : ""}`}
           />
         </div>
 
@@ -241,13 +249,14 @@ const TemplateCreator = ({
             id="sessionPulse"
             type="text"
             value={sessionPulse}
+            disabled={isTemplateCheckboxSelected}
             onChange={handlePulseTextChange}
             placeholder="Enter a measurement..."
             className={`form__input ${
               isPulseValid
                 ? "border-green-400 text-green-600"
                 : "border-red-600 text-red-600"
-            }`}
+            } ${isTemplateCheckboxSelected ? "bg-gray-500" : ""}`}
           />
         </div>
       </div>
@@ -259,8 +268,11 @@ const TemplateCreator = ({
         <select
           id="sessionType"
           value={sessionType}
+          disabled={isTemplateCheckboxSelected}
           onChange={handleTypeDropdownChange}
-          className="form__select rounded focus:scale-105"
+          className={`form__select rounded focus:scale-105 ${
+            isTemplateCheckboxSelected ? "bg-gray-500" : ""
+          }`}
         >
           <option value="cycling">Cycling</option>
           <option value="triathlon">Triathlon</option>

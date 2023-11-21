@@ -10,6 +10,10 @@ export class SessionTemplate extends Session {
     watt: number
     speed: number
     pulse: number
+    date?: Date | null
+    goalId?: string | null
+    
+
 
     constructor(
         id: string,
@@ -23,7 +27,9 @@ export class SessionTemplate extends Session {
         intensity: number,
         watt: number,
         speed: number,
-        pulse: number) {
+        pulse: number,
+        date: Date | null,
+        goalId: string | null) {
 
         super(id, name, type, tags, questions, intervals)
         this.uniqueTo = uniqueTo,
@@ -32,5 +38,7 @@ export class SessionTemplate extends Session {
         this.watt = watt,
         this.speed = speed,
         this.pulse = pulse
+        this.date = date
+        this.goalId = goalId
     }
 }
