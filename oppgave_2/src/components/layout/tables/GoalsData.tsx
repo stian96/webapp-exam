@@ -7,9 +7,10 @@ import { type GoalsInput } from "@/types/goalsInput"
 type GoalsDataProps = {
     goal: Goal
     performerId: string
+    onGoalDelete: (goalId: string) => void;
 }
 
-const GoalsData = ({ performerId, goal }: GoalsDataProps) => {
+const GoalsData = ({ performerId, goal, onGoalDelete }: GoalsDataProps) => {
     const [editClicked, setEditClicked] = useState(false)
     const [currentGoal, setCurrentGoal] = useState(goal)
 
@@ -39,9 +40,10 @@ const GoalsData = ({ performerId, goal }: GoalsDataProps) => {
           if (response.ok) {
               
               console.log(result.message);
+              onGoalDelete(currentGoal.id)
               
           } else {
-              // Handle error in deletion
+              
               console.error(result.message);
           }
       } catch (error) {

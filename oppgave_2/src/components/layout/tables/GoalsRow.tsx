@@ -1,16 +1,17 @@
 "use client"
 import GoalsData from "./GoalsData"
 import { useState } from "react"
-import { Goal } from "../../../types/classes/goal"
+import { type Goal } from "../../../types/classes/goal"
 
 import "@/style/goalsRow.scss"
 
 type GoalsRowProps = {
     performerId: string
     goalsArray: Goal[]
+    onGoalDelete: (goalId: string) => void;
 }
 
-const GoalsRow = ({ performerId, goalsArray }: GoalsRowProps) => {
+const GoalsRow = ({ performerId, goalsArray, onGoalDelete }: GoalsRowProps) => {
     const [showGoalsData, setShowGoalsData] = useState(false)
 
     const toggleGoalsData = () => {
@@ -35,6 +36,7 @@ const GoalsRow = ({ performerId, goalsArray }: GoalsRowProps) => {
                         key={index}
                         goal={goal}
                         performerId={performerId}
+                        onGoalDelete={onGoalDelete}
                     />
                     ))}
                  </div>

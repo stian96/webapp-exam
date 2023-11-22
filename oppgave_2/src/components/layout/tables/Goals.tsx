@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import "@/style/goals.scss"
 import { Compare, GoalsRow } from "@/components"
 import { fetchGoals } from "../../../lib/api"
-import { Goal } from "../../../types/classes/goal"
+import { type Goal } from "../../../types/classes/goal"
 
 type GoalsProps = {
     performerId: string
@@ -13,12 +13,16 @@ const Goals = ({ performerId }: GoalsProps) => {
 
     useEffect(() => {
         const getGoalsData = async () => {
-            const goalsResponse = await fetchGoals(performerId) as Goal[]
+            const goalsResponse = (await fetchGoals(performerId))!
             console.log("Goals response:", goalsResponse);
             setAllGoals(goalsResponse)
         }
         getGoalsData()
     }, [])
+
+    const handleGoalDelete = (deletedGoalId: string) => {
+      setAllGoals(allGoals.filter(goal => goal.id !== deletedGoalId));
+    };
 
     return(
     <div className="goals w-full">
@@ -32,6 +36,7 @@ const Goals = ({ performerId }: GoalsProps) => {
                     <GoalsRow 
                         performerId={performerId}
                         goalsArray={allGoals}
+                        onGoalDelete={handleGoalDelete}
                     />
                 </div>
             </div>
