@@ -1,0 +1,31 @@
+@import "colors";
+@import "functions";
+
+div .scrollbar {
+
+    // Define the styles for the thumb (the draggable part of the scrollbar)
+    &::-webkit-scrollbar-thumb {
+    background-color: red;
+    border-radius: 5px; // Adjust the border radius as needed
+    }
+
+    // Define the styles for the track (the area the thumb moves along)
+    &::-webkit-scrollbar-track {
+    background-color: blue;
+    }
+
+    // Define the styles for the corner where the vertical and horizontal scrollbars meet
+    &::-webkit-scrollbar-corner {
+    background-color: green;
+    }
+
+    // Set the width and height of the thumb when the scrollbar is in "hover" state
+    &::-webkit-scrollbar-thumb:hover {
+    background-color: yellow;
+    }
+
+    // Set the width and height of the thumb when the scrollbar is in "active" state (being clicked on)
+    &::-webkit-scrollbar-thumb:active {
+    background-color: orange;
+    }
+}

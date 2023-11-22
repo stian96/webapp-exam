@@ -94,10 +94,10 @@
   }
 
   .loading-data {
-    position: fixed;      
-    top: 45%;             
+    position: fixed;
+    top: 45%;
     left: 28%;
-    right: 10%;            
+    right: 10%;
     color: #fff;
     font-size: 2.3rem;
   }

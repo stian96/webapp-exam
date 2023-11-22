@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 /**
  * @swagger
- * /api/sessions/getSessionTemplates}:
+ * /api/sessions/getSessionTemplates:
  *   get:
  *     summary: Retrieves all session templates.
  *     description: Retrieves all session template objects based on a slug value in the API route if it exists in the database.

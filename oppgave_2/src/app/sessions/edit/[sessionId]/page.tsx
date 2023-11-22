@@ -3,7 +3,6 @@
 import { Header } from "@/components"
 import ActivityEditor from "@/components/ActivityEditor"
 
-//TODO CREATE PUT Update for session
 const SessionsEdit = ({ params }: { params: { sessionId: string } }) => {
   return (
     <>
