@@ -10,7 +10,7 @@ const saveAttemptsToDB = async ({taskId, attempts}: AnswerUpdateRequest) => {
         })
 
         const data = await response.json()
-        console.log("Response form 'saveAttempt' endpoint: ", data)
+        console.log("Response from 'saveAttempt' endpoint: ", data)
     } catch (error) {
         console.error("Error saving attempt to DB: ", error)
     }
