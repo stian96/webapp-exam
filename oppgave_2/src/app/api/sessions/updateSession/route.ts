@@ -48,6 +48,8 @@ import { NextResponse, type NextRequest } from "next/server";
 export const PUT = async (request: NextRequest) => {
 
   try {
+    let isTemplate = false;
+
     await prisma.$transaction(async (prisma) => {
       console.log("Deserialising session activity.")
       
@@ -56,9 +58,18 @@ export const PUT = async (request: NextRequest) => {
 
       console.log("Deserialised session activity.")
       
+      const session = await prisma.sessions.findUnique({
+        where: {
+          id: sessionActivity.sessionId
+        }
+      });
+
+      if (session != null && session.isTemplate) {
+        isTemplate = true
+      } else {
       const updatedSession = await prisma.sessions.update({
         where: {
-          id: sessionActivity.sessionId,
+          id: sessionActivity.sessionId
         },
         data: {
           name: sessionActivity.name,
@@ -80,8 +91,14 @@ export const PUT = async (request: NextRequest) => {
 
         },
       });
+    }
   });
-  
+
+    if (isTemplate) {
+      console.log("Cannot update an activity based on a template.")
+      return NextResponse.json({ status: 400, message: "Bad request. Cannot update an activity based on a template." })
+    }
+
     console.log("Updated session in database.")
     return NextResponse.json({ status: 200, message: "Success updating session in database." })
   } catch (error) {

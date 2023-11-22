@@ -258,7 +258,14 @@ const ActivityEditor = ({ activityId }: ActivityEditorProps) => {
         body: JSON.stringify(sessionActivity),
       })
 
-      setSubmitButtonText("Changes Saved!")
+      const responseData = await response.json()
+      const { status } = responseData
+
+      if (status == 400) {
+        setSubmitButtonText("Error - Can't change activity based on templates.")
+      } else {
+        setSubmitButtonText("Changes Saved!")
+      }
     } catch (error) {
       console.error(error)
     }
