@@ -1,9 +1,8 @@
 import { NextRequest,  NextResponse } from "next/server"
 import { PrismaClient } from '@prisma/client';
-import { type } from "os";
 const prisma = new PrismaClient();
 
-type AnswerUpdateRequest = {
+export type AnswerUpdateRequest = {
     taskId: string;
     attempts: number;
   }
