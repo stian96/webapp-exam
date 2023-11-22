@@ -1,0 +1,18 @@
+@import "colors";
+.input-field {
+    padding: 0.5rem; 
+    border-radius: 0.25rem;
+    color: $navy-blue;
+}
+.save-button{
+    position: absolute;
+    bottom: 1rem; 
+    right: 1rem; 
+    background-color: #ef4444; 
+    color: #ffffff; 
+    padding: 0.25rem 1.25rem; 
+    border: 1px solid #b91c1c; 
+    border-radius: 0.25rem; 
+    font-size: 1.125rem;   
+
+}
