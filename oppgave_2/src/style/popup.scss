@@ -18,6 +18,12 @@
         font-size: 1.2rem;
     }
 
+    &--scalable {
+        border: 1px solid $red-text-color;
+        border-radius: 15px;
+        width:100%
+    }
+
 }
 
 .modal {
