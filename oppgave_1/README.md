@@ -8,7 +8,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ### 2. Install dependencies:
 ```bash
-1.  npm install
+    npm install
     # or
     yarn install
     # or
@@ -17,7 +17,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ### 3. Initialize Database or Seed Data
 ```bash
-2.  npm run seed
+    npm run seed
     # or
     yarn seed
     # or
@@ -26,7 +26,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ### 4. Start the Development Server
 ```bash
-3.  npm run dev
+    npm run dev
     # or
     yarn dev
     # or
