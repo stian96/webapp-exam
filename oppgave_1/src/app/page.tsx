@@ -60,6 +60,7 @@ const Home = () => {
       const randomTasks = await fetchRandomTasks(userDefinedCount);
       setTasks(randomTasks);
       setRandomTaskCount(randomTasks.length);
+      initializeAttempts(randomTasks)
       console.log(randomTasks);
     } catch (errorRandomTaskFetch) {
       console.error(`Error fetching random tasks: `, errorRandomTaskFetch);
