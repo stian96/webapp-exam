@@ -1,5 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { type PerformerDto } from '@/types/DTO/importUsers';
+import { SessionEditDto } from '@/types/DTO/sessionEditDto';
+import { SessionActivityDto } from '@/types/sessionActivity';
+import { Goal } from 'lucide-react';
 
 const useActivityEditorHook = () => {
   const [sessionName, setSessionName] = useState<string>("")
@@ -109,6 +112,7 @@ const useActivityEditorHook = () => {
   }
 
   const populateValuesFromActivity = (activity: SessionActivityDto) => {
+
     if (activity.date !== null) {
       setSessionDate(new Date(activity.date).toISOString().split("T")[0])
     }
@@ -122,22 +126,26 @@ const useActivityEditorHook = () => {
         setSessionType(activity.session.type)
       }
       if (activity.session.intensityParam !== null) {
-        setSessionIntensity(activity.session.intensityParam)
+        const intensity = activity.session.intensityParam.toString()
+        setSessionIntensity(intensity)
         setIsIntensityValid(
-          validateStringMeasurement(activity.session.intensityParam),
+          validateStringMeasurement(intensity),
         )
       }
       if (activity.session.wattParam !== null) {
-        setSessionWatt(activity.session.wattParam)
-        setIsWattValid(validateStringMeasurement(activity.session.wattParam))
+        const watt = activity.session.wattParam.toString()
+        setSessionWatt(watt)
+        setIsWattValid(validateStringMeasurement(watt))
       }
       if (activity.session.speedParam !== null) {
-        setSessionSpeed(activity.session.speedParam)
-        setIsSpeedValid(validateStringMeasurement(activity.session.speedParam))
+        const speed = activity.session.speedParam.toString()
+        setSessionSpeed(speed)
+        setIsSpeedValid(validateStringMeasurement(speed))
       }
       if (activity.session.pulseParam !== null) {
-        setSessionPulse(activity.session.pulseParam)
-        setIsPulseValid(validateStringMeasurement(activity.session.pulseParam))
+        const pulse = activity.session.pulseParam.toString()
+        setSessionPulse(pulse)
+        setIsPulseValid(validateStringMeasurement(pulse))
       }
     }
 
@@ -270,7 +278,7 @@ const useActivityEditorHook = () => {
       console.log("Form is not valid.")
     }
 
-    console.log(`Wrote the template '${activityId}' to the database.`)
+    console.log(`Wrote the template to the database.`)
   }
 
   return { 
