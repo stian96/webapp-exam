@@ -102,6 +102,7 @@ export default function Answer({
       <button onClick={send} className="btn-send">Send</button>
       {message && <div>{message}</div>}
 
+      {/* TODO: attemptMade er NaN når man henter tilfeldige oppgaver */}
       {attemptMade && (
         <p>{remainingAttempts} av {totalAttempts} forsøk gjenstår</p>
       )}

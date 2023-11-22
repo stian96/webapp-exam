@@ -36,6 +36,10 @@ const Home = () => {
 
   const { scores, attempts, handleCorrectAnswer,
     handleIncorrectAnswer, resetTasks, initializeAttempts } = useTaskManager(initialScores);
+    
+    console.log("Attempts: ", attempts)
+    console.log("Attempts Type: ", typeof attempts)
+
 
 
   useEffect(() => {

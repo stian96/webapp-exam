@@ -34,9 +34,7 @@ export async function GET(request: NextRequest) {
 }
 
 // TODO: Denne fungerer ikke som tiltenkt for å lagre antall forsøk til db
-
 /*
-
 type AnswerUpdate = {
   taskId: string;
   attempts: number;
@@ -67,11 +65,13 @@ export async function PUT(request: NextRequest) {
   } catch (error) {
     return NextResponse.json({ success: false, error: "Server error" }, { status: 500 });
   }
-}*/
+}
+*/
 
 
 // TODO: Denne skal brukes til å "samle" svarene (om du ikke bruker database)
-/*const answers = new Map<Task["id"], { attempts: number }>()
+/*
+const answers = new Map<Task["id"], { attempts: number }>()
 
 export function PUT(request: NextRequest) {
   const count = request.nextUrl.searchParams.get("count")
