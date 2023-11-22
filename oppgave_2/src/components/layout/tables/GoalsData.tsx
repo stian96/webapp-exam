@@ -1,8 +1,8 @@
 import { useState } from "react"
-import { Goal } from "../../../types/classes/goal"
+import { type Goal } from "../../../types/classes/goal"
 import  GoalsPopup from "../popups/GoalsPopup"
 import "@/style/goalsData.scss"
-import { GoalsInput } from "@/types/goalsInput"
+import { type GoalsInput } from "@/types/goalsInput"
 
 type GoalsDataProps = {
     goal: Goal
@@ -29,6 +29,27 @@ const GoalsData = ({ performerId, goal }: GoalsDataProps) => {
         setCurrentGoal(convertedGoal)
     }
 
+    const handleDeleteGoal = async () => {
+      try {
+          const response = await fetch(`/api/goals/deleteGoal?goalId=${currentGoal.id}`, {
+              method: 'DELETE',
+          });
+  
+          const result = await response.json();
+          if (response.ok) {
+              
+              console.log(result.message);
+              
+          } else {
+              // Handle error in deletion
+              console.error(result.message);
+          }
+      } catch (error) {
+          console.error('Error deleting goal:', error);
+      }
+  };
+  
+
     return (
         <> 
             <GoalsPopup 
@@ -50,7 +71,10 @@ const GoalsData = ({ performerId, goal }: GoalsDataProps) => {
                     >
                             Edit
                     </button>
-                    <button className="data__inner-button">Delete</button>
+                    <button 
+                    className="data__inner-button"
+                    onClick={handleDeleteGoal}
+                     >Delete</button>
                 </div>
             </div>
         </>
