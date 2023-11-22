@@ -36,7 +36,7 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
         </div>
 
         <div className="flex space-x-4">
-          <Link href={`/sessions/edit/${activity.sessionId}`}>
+          <Link href={`/sessions/edit/${activity.id}`}>
             <button className="card__button">Edit Session</button>
           </Link>
           <button
