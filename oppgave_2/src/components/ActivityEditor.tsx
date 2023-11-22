@@ -6,6 +6,7 @@ import "../style/form.scss"
 
 import { Goal } from "@/types/classes/goal"
 import { SessionTemplate } from "@/types/classes/sessionTemplate"
+import { SessionEditDto } from "@/types/DTO/sessionEditDto"
 import { SessionActivityDto } from "@/types/sessionActivity"
 
 type ActivityEditorProps = {
@@ -235,35 +236,29 @@ const ActivityEditor = ({ activityId }: ActivityEditorProps) => {
   }
 
   const writeToDatabase = async () => {
-    const sessionTemplate = new SessionTemplate(
-      "",
+    const sessionActivity = new SessionEditDto(
+      activityResult.sessionId,
+      activityResult.id,
+      new Date(sessionDate),
       sessionName,
-      sessionType,
-      tags,
-      questionsList,
-      intervalList,
-      uniquePerformer,
-      slugForTemplate,
       parseInt(sessionIntensity, 10),
       parseInt(sessionWatt, 10),
       parseInt(sessionSpeed, 10),
       parseInt(sessionPulse, 10),
-      null,
-      null,
+      sessionType,
+      goalId,
     )
 
     try {
-      const response = await fetch("/api/sessions/createSessionTemplate", {
-        method: "post",
+      const response = await fetch("/api/sessions/updateSession", {
+        method: "put",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(sessionTemplate),
+        body: JSON.stringify(sessionActivity),
       })
 
       setSubmitButtonText("Changes Saved!")
-
-      console.log(response)
     } catch (error) {
       console.error(error)
     }

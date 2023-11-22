@@ -38,7 +38,6 @@ export const GET = async (request: NextRequest, { params }: { params: { activity
           }
         });
 
-        console.log(sessionActivities)
         if (sessionActivities == null) {
 
           console.log(`Session activities for '${activityId}' do not exist.`)
