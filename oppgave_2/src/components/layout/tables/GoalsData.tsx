@@ -1,16 +1,17 @@
 import { useState } from "react"
-import { Goal } from "../../../types/classes/goal"
+import { type Goal } from "../../../types/classes/goal"
 import  GoalsEditPopup from "../popups/GoalsEditPopup"
 import "@/style/goalsData.scss"
-import { GoalsInput } from "@/types/goalsInput"
+import { type GoalsInput } from "@/types/goalsInput"
 
 type GoalsDataProps = {
     goal: Goal
     performerId: string,
     updateGoal: (update: Goal) => void
+    onGoalDelete: (goalId: string) => void;
 }
 
-const GoalsData = ({ performerId, goal, updateGoal }: GoalsDataProps) => {
+const GoalsData = ({ performerId, goal, onGoalDelete, updateGoal }: GoalsDataProps) => {
     const [editClicked, setEditClicked] = useState(false)
     const [currentGoal, setCurrentGoal] = useState(goal)
 
@@ -27,6 +28,28 @@ const GoalsData = ({ performerId, goal, updateGoal }: GoalsDataProps) => {
         setCurrentGoal(convertedGoal)
         updateGoal(convertedGoal)
     }
+
+    const handleDeleteGoal = async () => {
+      try {
+          const response = await fetch(`/api/goals/deleteGoal?goalId=${currentGoal.id}`, {
+              method: 'DELETE',
+          });
+  
+          const result = await response.json();
+          if (response.ok) {
+              
+              console.log(result.message);
+              onGoalDelete(currentGoal.id)
+              
+          } else {
+              
+              console.error(result.message);
+          }
+      } catch (error) {
+          console.error('Error deleting goal:', error);
+      }
+  };
+  
 
     return (
         <> 
@@ -51,7 +74,10 @@ const GoalsData = ({ performerId, goal, updateGoal }: GoalsDataProps) => {
                     >
                             Edit
                     </button>
-                    <button className="data__inner-button">Delete</button>
+                    <button 
+                    className="data__inner-button"
+                    onClick={handleDeleteGoal}
+                     >Delete</button>
                 </div>
             </div>
         </>
