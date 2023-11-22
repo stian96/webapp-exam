@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 
 import { Header, Search, Table } from "@/components"
+import ImportButton from "@/components/ImportButton"
 import { fetchPerformers } from "../lib/api"
 import { Performer } from "../types/performer"
 
@@ -33,13 +34,20 @@ const Dashboard = () => {
         </div>
       ) : (
         <div>
-          <Header />
-          <Search setSearchQuery={setSearchQuery} />
-          <Table
-            searchQuery={searchQuery}
-            performers={performers}
-            setPerformers={setPerformers}
-          />
+          <Header title={"Dashboard"} />
+          <div className="min-w-screen-sm mx-auto max-w-screen-md py-8">
+            <Search setSearchQuery={setSearchQuery} />
+            <div className="pt-4">
+              <ImportButton />
+            </div>
+          </div>
+          <div className="min-w-screen-md mx-auto max-w-screen-lg pb-8">
+            <Table
+              searchQuery={searchQuery}
+              performers={performers}
+              setPerformers={setPerformers}
+            />
+          </div>
         </div>
       )}
     </>

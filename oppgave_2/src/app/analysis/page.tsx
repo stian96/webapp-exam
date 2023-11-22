@@ -17,7 +17,7 @@ const AnalysisPage = () => {
 
   return (
     <div>
-      <Header />
+      <Header title={"Analysis"} />
       <div className="min-w-screen-md mx-auto max-w-screen-lg">
         <Analysis activityIds={dummyIds} />
       </div>

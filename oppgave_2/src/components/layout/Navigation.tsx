@@ -39,7 +39,7 @@ const Navigation = () => {
   }, [])
 
   return (
-    <div className="navigation">
+    <div className="navigation ">
       <ul className="navigation__list flex items-center justify-between">
         {navElements.map((element, index) => (
           <li key={index} className="navigation__list-item">
@@ -64,7 +64,7 @@ const Navigation = () => {
 
       {isTaskAlertShown && (
         <div className="popup-overlay fixed inset-0 flex items-center justify-center">
-          <div className="popup-content relative h-screen max-h-80 overflow-y-auto rounded bg-white px-2">
+          <div className="popup-content relative overflow-y-auto rounded bg-white px-2">
             <button
               onClick={toggleIsTaskAlertShown}
               className="absolute right-0 top-0 m-2 flex h-8 w-8 items-center justify-center rounded-full bg-red-500 text-white"

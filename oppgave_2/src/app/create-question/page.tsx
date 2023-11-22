@@ -4,7 +4,7 @@ import QuestionCreator from "@/components/QuestionCreator"
 const CreateQuestionPage = () => {
   return (
     <>
-      <Header />
+      <Header title={"Create Question"} />
       <div className="min-w-screen-md mx-auto max-w-screen-lg">
         <QuestionCreator />
       </div>
