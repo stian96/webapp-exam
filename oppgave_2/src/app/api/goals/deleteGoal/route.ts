@@ -12,10 +12,13 @@ export const DELETE = async (request: NextRequest) => {
   }
 
   try {
-    await prisma.goals.delete({
-      where: {
-        id: goalId
-      }
+    await prisma.$transaction(async (prisma) => {
+      
+      await prisma.sessionActivity.deleteMany({ where: { goalId } });
+      await prisma.performerGoals.deleteMany({ where: { goalId } });
+
+      
+      await prisma.goals.delete({ where: { id: goalId } });
     });
 
     console.log(`Goal deleted successfully.`);
@@ -26,3 +29,4 @@ export const DELETE = async (request: NextRequest) => {
   }
 };
 
+//Reference: https://www.prisma.io/docs/concepts/components/prisma-client/transactions
