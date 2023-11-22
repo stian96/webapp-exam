@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Compare, GoalsRow } from "@/components"
-import { Goal } from "@/types/classes/goal"
-import { GoalsGroupedByYear } from "@/app/api/goals/getGoals/route"
+import { type Goal } from "@/types/classes/goal"
+import { type GoalsGroupedByYear } from "@/app/api/goals/getGoals/route"
 import  GoalsCreatePopup from "../popups/GoalsCreatePopup"
 import { fetchGoals } from "@/lib/api"
 
@@ -24,13 +24,17 @@ const Goals = ({ performerId }: GoalsProps) => {
         getGoalsData()
     }, [])
 
+    const handleGoalDelete = (deletedGoalId: string) => {
+      setAllGoals(allGoals.filter(goal => goal.id !== deletedGoalId));
+    };
+
     const addNewGoals = (newGoal: Goal) => {
 
         // Find year for the new goal so we know what group to put it in.
         let year = ""
         if (newGoal.date) {
             const dateObject = new Date(newGoal.date)
-            year = dateObject.getFullYear().toString() as string
+            year = dateObject.getFullYear().toString() 
         }
 
         // Update the collection of goals by adding a new goal in the correct 'year' key.
@@ -42,7 +46,7 @@ const Goals = ({ performerId }: GoalsProps) => {
         setAllGoals(updatedGoals)
     }
 
-    const handleClick = () => setIsCreateClicked(!isCreateClicked)
+    const handleClick = () => { setIsCreateClicked(!isCreateClicked); }
 
     return(
         <>
@@ -70,7 +74,8 @@ const Goals = ({ performerId }: GoalsProps) => {
                                 goalsArray={goalsArray}
                                 year={year}
                                 addNewGoals={addNewGoals}
-                            />
+                                onGoalDelete={handleGoalDelete}
+                    />
                         ))}
                     </div>
                 </div>
