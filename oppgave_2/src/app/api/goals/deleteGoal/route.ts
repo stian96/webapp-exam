@@ -2,6 +2,29 @@ import { prisma } from "@/lib/prisma"
 import { NextResponse } from "next/server";
 import { type NextRequest } from "next/server";
 
+/**
+ * @swagger
+ * /api/goal/delete:
+ *   delete:
+ *     summary: Delete a goal
+ *     description: Deletes a goal and its associated data (session activities, performer goals) from the database.
+ *     parameters:
+ *       - in: query
+ *         name: goalId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the goal to be deleted.
+ *     responses:
+ *       200:
+ *         description: Goal deleted successfully.
+ *       404:
+ *         description: Missing goalId parameter in the request.
+ *       500:
+ *         description: Internal server error.
+ *         
+ */
+
 
 export const DELETE = async (request: NextRequest) => {
   const { searchParams } = new URL(request.url);
