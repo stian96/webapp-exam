@@ -1,9 +1,14 @@
 import Image from "next/image"
+
 import Navigation from "./Navigation"
 
 import "@/style/header.scss"
 
-const Header = () => {
+type HeaderProps = {
+  title: string
+}
+
+const Header = ({ title }: HeaderProps) => {
   return (
     <div className="container flex items-center justify-between gap-7">
       <div className="container__left flex items-center">
@@ -16,7 +21,7 @@ const Header = () => {
           height={60}
           priority
         />
-        <h1 className="container__title">Dashboard</h1>
+        <h1 className="container__title">{title}</h1>
       </div>
       <Navigation />
     </div>

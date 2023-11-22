@@ -1,2 +1,0 @@
-// Creates objects from query.
-// Imports repo, calls a function in the repo and returns a promise true or false (e.g. if data already exists then return false, else write, if success then return true else false).

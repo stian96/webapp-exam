@@ -65,9 +65,9 @@ const ActivityList = ({ performerId }: ActivityListProps) => {
 
   return (
     <div>
-      <div className="relative left-[-17px]">
+      <div className="py-4">
         <Link href={`/sessions/${performerId}/create/`}>
-          <button className="button">Create New Session</button>
+          <button className="defaultButton">Create New Session</button>
         </Link>
       </div>
 

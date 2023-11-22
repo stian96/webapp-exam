@@ -9,7 +9,7 @@ import { Goal } from '@/types/classes/goal';
 
 const useTemplateCreatorHook = () => {
   const isApiCalled = useRef(false)
-  const [sessionDate, setSessionDate] = useState<string>("");
+  const [sessionDate, setSessionDate] = useState<string>("")
   const [sessionName, setSessionName] = useState<string>("")
   const [sessionIntensity, setSessionIntensity] = useState<string>("")
   const [sessionWatt, setSessionWatt] = useState<string>("")
@@ -541,9 +541,14 @@ const useTemplateCreatorHook = () => {
         body: JSON.stringify(sessionTemplate),
       })
 
-      setSubmitButtonText("Template Saved!")
+      const responseData = await response.json()
+      const { status } = responseData
 
-      console.log(response)
+      if (status == 200) {
+        setSubmitButtonText("Template Saved!")
+      } else {
+        setSubmitButtonText("Error writing to database.")
+      }
     } catch (error) {
       console.error(error)
     }
@@ -607,7 +612,7 @@ const useTemplateCreatorHook = () => {
     let slugForTemplate =  `${sessionName}--uniqueto-${performerIdString}`
     slugForTemplate = slugForTemplate.toLowerCase().replace(/ /g, '_');
 
-    const sessionTemplate = new SessionTemplate("", sessionName, sessionType, tags, questionsList, intervalList, performerIdString, slugForTemplate, parseInt(sessionIntensity, 10), parseInt(sessionWatt, 10), parseInt(sessionSpeed, 10), parseInt(sessionPulse, 10), new Date(sessionDate), chosenGoalId)
+    const sessionTemplate = new SessionTemplate(templateId, sessionName, sessionType, tags, questionsList, intervalList, performerIdString, slugForTemplate, parseInt(sessionIntensity, 10), parseInt(sessionWatt, 10), parseInt(sessionSpeed, 10), parseInt(sessionPulse, 10), new Date(sessionDate), chosenGoalId)
 
     try {
       const data = await isSlugExists(slugForTemplate)
@@ -626,9 +631,14 @@ const useTemplateCreatorHook = () => {
         body: JSON.stringify(sessionTemplate),
       })
 
-      setSubmitButtonText("Template Saved!")
+      const responseData = await response.json()
+      const { status } = responseData
 
-      console.log(response)
+      if (status == 200) {
+        setSubmitButtonText("Template Saved!")
+      } else {
+        setSubmitButtonText("Error writing to database.")
+      }
     } catch (error) {
       console.error(error)
     }

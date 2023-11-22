@@ -93,6 +93,95 @@ export const POST = async (request: NextRequest) => {
         }
     });
 
+    console.log(sessionTemplate)
+    if (sessionTemplate.id != "") {
+      const newSessionNonTemplate = await prisma.sessions.create({
+        data: {
+            name: sessionTemplate.name,
+            type: sessionTemplate.type,
+            isTemplate: false,
+            performerId: sessionTemplate.uniqueTo,
+            intensityParam: sessionTemplate.intensity,
+            wattParam: sessionTemplate.watt,
+            speedParam: sessionTemplate.speed,
+            pulseParam: sessionTemplate.pulse,
+        }
+    });
+
+    for (const tag of sessionTemplate.tags) {
+      if (tag != "") {
+        const newTag = await prisma.sessionTags.create({
+          data: {
+            sessionId: newSessionNonTemplate.id,
+            tag: tag
+          }
+        });
+      }
+    }
+
+    if (sessionTemplate.questions.length > 0) {
+      for (const question of sessionTemplate.questions) {
+        if (typeof question.id === 'string' && question.question == "" && question.id != "") {
+          const newSessionQuestion = await prisma.sessionQuestions.create({
+            data: {
+                sessionId: newSessionNonTemplate.id,
+                questionId: question.id
+            }
+          });
+
+
+        } else if (question.id == "" && question.question != "") {
+          
+          const newQuestion = await prisma.questions.create({
+            data: {
+                question: question.question,
+                type: question.type
+            }
+          });
+
+          const newSessionQuestion = await prisma.sessionQuestions.create({
+            data: {
+                sessionId: newSessionNonTemplate.id,
+                questionId: newQuestion.id
+            }
+          });
+        }
+      }
+    }
+
+    if (sessionTemplate.intervals.length > 0) {
+      for (const interval of sessionTemplate.intervals) {
+        if (!isNaN(interval.duration) && typeof interval.duration === 'number') {
+
+          const newIntervals = await prisma.intervals.create({
+            data: {
+                duration: interval.duration,
+                intensity: interval.intensity
+            }
+          });
+
+          const newIntervalSessions = await prisma.sessionIntervals.create({
+            data: {
+                sessionId: newSessionNonTemplate.id,
+                intervalId: newIntervals.id
+            }
+          });
+        }
+      }
+    }
+
+    if (sessionTemplate.goalId != "" && sessionTemplate.date != null && sessionTemplate.uniqueTo != null) {
+      const newSessionActivity = await prisma.sessionActivity.create({
+        data: {
+          date: sessionTemplate.date,
+          sessionId: newSessionNonTemplate.id,
+          goalId: sessionTemplate.goalId,
+          performerId: sessionTemplate.uniqueTo
+        }
+      });
+
+    } else {
+
     for (const tag of sessionTemplate.tags) {
       if (tag != "") {
         const newTag = await prisma.sessionTags.create({
@@ -165,6 +254,8 @@ export const POST = async (request: NextRequest) => {
         }
       });
     }
+    }
+  }
   });
   
     console.log("Written session template to database.")

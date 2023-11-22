@@ -10,7 +10,7 @@ const ImportButton = () => {
 
   return (
     <button
-      className={`button ${
+      className={`defaultButton ${
         importButtonText === "Imported Users!" ? "--saved" : ""
       }
     ${importButtonText.startsWith("Error") ? "--error" : ""}`}
