@@ -56,6 +56,11 @@ const Home = () => {
     void getTasks();
   }, [selectedType, taskCount, taskManager.initializeAttempts]);
 
+  useEffect(() => {
+    setIsAnswerCorrect(false);
+    setIsAnswerShown(false);
+  }, [currentTaskIndex]);
+
 
   const executeRandomTaskFetch = async () => {
     handleRandomTaskFetch({ taskCount, setTasks, setRandomTaskCount, taskManager })
@@ -96,11 +101,6 @@ const Home = () => {
   const handleShowResults = () => {
     setShowResults(true);
   };
-
-  useEffect(() => {
-    setIsAnswerCorrect(false);
-    setIsAnswerShown(false);
-  }, [currentTaskIndex]);
 
   //denne må ligge her, for at neste knappen skal synes når svaret er rett
   const handleAnswerCorrect = (taskType: Type) => {
