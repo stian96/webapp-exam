@@ -13,14 +13,14 @@ type AnswerProps = {
 
 }
 
-export default function Answer({
+const Answer = ({
   task,
   onCorrectAnswer,
   onIncorrectAnswer,
   remainingAttempts,
   totalAttempts,
   onShowAnswer
-}: AnswerProps) {
+}: AnswerProps) => {
   const [answer, setAnswer] = useState('')
   const [message, setMessage] = useState<string | null>(null)
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false)
@@ -83,9 +83,6 @@ export default function Answer({
     }
   };
 
-
-  //console.log('anser is', showAnswer)
-
   const inputId = `answer-${task.id}`;
   return (
     <div>
@@ -101,8 +98,6 @@ export default function Answer({
 
       <button onClick={send} className="btn-send">Send</button>
       {message && <div>{message}</div>}
-
-      {/* TODO: attemptMade er NaN når man henter tilfeldige oppgaver */}
       {attemptMade && (
         <p>{remainingAttempts} av {totalAttempts} forsøk gjenstår</p>
       )}
@@ -118,3 +113,5 @@ export default function Answer({
     </div>
   )
 }
+
+export default Answer

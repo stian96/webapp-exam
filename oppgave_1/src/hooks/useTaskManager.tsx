@@ -4,6 +4,7 @@ import { saveAttemptsToDB } from '@/features/task/task.repository';
 import { type Attempts, type Stats, type Type, type Task } from "@/types";
 
 const useTaskHandlers = (initialScores: Stats) => {
+    
     const [scores, setScores] = useState<Stats>(initialScores);
     //const [attempts, setAttempts] = useState<Attempts>(initialAttempts);
     const [attempts, setAttempts] = useState<Attempts>({});

@@ -2,11 +2,18 @@ import { type ReactNode } from "react"
 import { type Task } from "@/types"
 import TaskText from "@/components/Text"
 
-export default function Tasks({ tasks, children, currentTaskIndex }:
-  { tasks: Task[], children: ReactNode, currentTaskIndex: number }) {
-  if (tasks.length === 0 || currentTaskIndex < 0 || currentTaskIndex >= tasks.length) {
-    return null;
+type TasksProps = {
+  tasks: Task[]
+  children: ReactNode
+  currentTaskIndex: number
+}
+
+const Tasks = ({ tasks, children, currentTaskIndex }: TasksProps) => {
+
+  if (validateTaskLength(tasks.length, currentTaskIndex)) {
+    return null
   }
+
   const taskTypes = {
     add: "Addisjon",
     divide: "Divisjon",
@@ -29,3 +36,9 @@ export default function Tasks({ tasks, children, currentTaskIndex }:
     </section>
   )
 }
+
+const validateTaskLength = (size: number, currIndex: number): boolean => {
+  return (size === 0 || currIndex < 0 || currIndex >= size)
+} 
+
+export default Tasks
