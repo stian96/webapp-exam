@@ -1,18 +1,23 @@
 "use client"
 
 import Link from "next/link"
-import "@/style/button.scss"
 
-import ReportCard from "../Report/ReportCard"
+import "@/style/card.scss"
+import "@/style/report.scss"
+
+import { Icons } from "@/components/icons"
 
 export default function ReportLits() {
     const reportIds = ["1", "2", "3"]
     return (
         <div>
             {reportIds.map((id) => (
-                <div key={id} className="mb-8">
-                    <ReportCard id={id} />
-                </div>
+                <Link key={id} href={`/reports/${id}`} passHref>
+                    <div className="card card__ReportList">
+                        <Icons.clipboard size={22} />
+                        Report {id}
+                    </div>
+                </Link>
 
             ))}
         </div>
