@@ -9,6 +9,13 @@ import { Icons } from "@/components/icons"
 import useTaskManager from '../hooks//useTaskManager';
 import useResetTask from "@/hooks/useResetTask";
 
+type TaskManagerData = {
+  handleShowAnswer: (taskType: Type) => void
+  resetTask: () => void
+  initializedAttempts: (fetchedTasks: Task[]) => void
+
+}
+
 
 const Home = () => {
   const TOTAL_ATTEMPTS = 3
@@ -38,7 +45,7 @@ const Home = () => {
     handleIncorrectAnswer, handleShowAnswer, resetTasks, initializeAttempts } = useTaskManager(initialScores);
     
 
-  useEffect(() => {
+  useEffect(() => {  
     const getTasks = async () => {
       try {
         const fetchedTasks = await fetchTasks(selectedType, taskCount);
