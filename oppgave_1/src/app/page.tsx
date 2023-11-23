@@ -5,7 +5,7 @@ import ResultsDisplay from "@/components/ResultsDisplay";
 import { type Task, type Attempts, type Stats, type Type } from "@/types"
 import React, { useState, useEffect } from 'react'
 import { fetchTasks, handleRandomTaskFetch } from '../features/task/task.controller'
-import { initialScoreValues } from "../features/task/task.service"
+import { initialScoreValues, handleCountChange } from "../features/task/task.service"
 import { Icons } from "@/components/icons"
 import useTaskManager from '../hooks//useTaskManager';
 import useResetTask from "@/hooks/useResetTask";
@@ -64,18 +64,10 @@ const Home = () => {
     setSelectedType(event.target.value)
   };
 
-  const handleCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value.replace(/\D/g, '');
-    setTaskCount(value ? String(Number(value)) : '');
+  const executeCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleCountChange(event, { setTaskCount, setErrorRandom })
+  }
 
-    const numberValue = value ? Number(value) : 0;
-    if (numberValue >= 1 && numberValue <= 10) {
-      setTaskCount(String(numberValue));
-      setErrorRandom('');
-    } else {
-      setErrorRandom('Skriv inn et antall oppgaver fra 1 til 10, eller velg et tilfeldig antall oppgaver.');
-    }
-  };
 
   const resetTasks = taskManager.resetTasks
   const resetTask = useResetTask({
@@ -126,7 +118,7 @@ const Home = () => {
   return (
     <main>
       <Header />
-      <TaskCount taskCount={taskCount} onTaskCountChange={handleCountChange}></TaskCount>
+      <TaskCount taskCount={taskCount} onTaskCountChange={executeCountChange}></TaskCount>
       {errorRandom && <p className="count-error-msg">{errorRandom}</p>}
       <DropdownTaskFilter selectedType={selectedType} handleTypeChange={handleTypeChange} />
       <button type="button" onClick={executeRandomTaskFetch} className="btn-random">Hent tilfeldige typer oppgaver</button>
