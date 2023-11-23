@@ -18,6 +18,7 @@ const useTaskHandlers = (initialScores: Stats) => {
     }, []);
 
     const handleIncorrectAnswer = useCallback((taskId: string) => {
+      console.log("task id: ", taskId)
         setAttempts(prevAttempts => {
             const newAttempts = Math.max(prevAttempts[taskId] - 1, 0);
             return {
@@ -26,6 +27,16 @@ const useTaskHandlers = (initialScores: Stats) => {
             };
         });
     }, []);
+
+    const handleShowAnswer = useCallback((taskType: Type) => {
+      setScores(prevScores => ({
+          ...prevScores,
+          [taskType]: {
+              ...prevScores[taskType],
+              incorrect: prevScores[taskType].incorrect + 1,
+          },
+      }));
+  }, []);
 
     const resetTasks = () => {
         setScores(initialScores);
@@ -43,7 +54,7 @@ const useTaskHandlers = (initialScores: Stats) => {
     }, []);
 
 
-    return { scores, attempts, handleCorrectAnswer, handleIncorrectAnswer, resetTasks, initializeAttempts };
+    return { scores, attempts, handleCorrectAnswer, handleIncorrectAnswer, handleShowAnswer, resetTasks, initializeAttempts };
 };
 
 

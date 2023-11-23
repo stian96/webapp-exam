@@ -35,10 +35,12 @@ const Home = () => {
 
 
   const { scores, attempts, handleCorrectAnswer,
-    handleIncorrectAnswer, resetTasks, initializeAttempts } = useTaskManager(initialScores);
+    handleIncorrectAnswer, handleShowAnswer, resetTasks, initializeAttempts } = useTaskManager(initialScores);
     
     console.log("Attempts: ", attempts)
     console.log("Attempts Type: ", typeof attempts)
+
+    console.log("Initial scores: " ,initialScores)
 
 
 
@@ -111,6 +113,7 @@ const Home = () => {
 
   const onShowAnswer = (taskType: Type) => {
     setIsAnswerShown(true)
+    handleShowAnswer(taskType)
     handleIncorrectAnswer(taskType)
   };
 

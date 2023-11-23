@@ -12,7 +12,7 @@ export default function ResultsDisplay({ scores }: ResultsDisplayProps) {
 
   const totalScore = calculateTotalScore(scores);
   const weakness = findWeakness(scores);
-
+  console.log(scores)
   console.log(totalScore)
 
   console.log(weakness)
