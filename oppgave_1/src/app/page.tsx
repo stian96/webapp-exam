@@ -2,7 +2,7 @@
 
 import { Answer, Header, Tasks, TaskCount, Progress, DropdownTaskFilter } from "@/components";
 import ResultsDisplay from "@/components/ResultsDisplay";
-import { type Task, type Attempts, type Stats, type Type } from "@/types"
+import { type Task, type Stats, type Type } from "@/types"
 import React, { useState, useEffect } from 'react'
 import { fetchTasks, fetchRandomTasks } from '../features/task/task.controller'
 import { Icons } from "@/components/icons"
@@ -125,7 +125,10 @@ const Home = () => {
 
     // Send taskId to update the attempts in the db.
     const taskId = tasks[currentTaskIndex].id
-    handleCorrectAnswer(taskType, taskId, attempts[taskId], setIsAnswerCorrect);
+
+    // Calculate total attempts used based on total - remaining attempts.
+    const attemptsUsed = 3 - attempts[taskId] + 1
+    handleCorrectAnswer(taskType, taskId, attemptsUsed, setIsAnswerCorrect);
   };
 
 
@@ -160,7 +163,7 @@ const Home = () => {
                 onShowAnswer(tasks[currentTaskIndex].type, currentAttempts)
               }}
               remainingAttempts={attempts[tasks[currentTaskIndex].id]}
-              totalAttempts={3} //TODO add attempts to the db. Right now it is hard coded
+              totalAttempts={3} 
 
             />
             <Progress
