@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { fetchTasks } from "@/features/task/task.controller"
+import { saveAttemptsToDB } from "@/features/task/task.repository"
 import { setupServer } from 'msw/node'
 import { rest } from 'msw'
 
@@ -32,8 +33,7 @@ describe('fetchTasks', () => {
     const tasks = await fetchTasks('someType', '5')
     expect(tasks).toEqual(mockTasks)
   })
-
-  //TODO:Ash kan du se på denne, sluttet å virke etter at du gjorde endringer i error hånteringen
+  //TODO:Make this test pass, or replace it with something else. Failed to pass after an update in error handling.
   it('should throw an error when the response is not ok', async () => {
     api.use(rest.get(API_URL, (reqest, response, context) => {
       return response(context.status(404));
@@ -43,5 +43,35 @@ describe('fetchTasks', () => {
   })
 })
 
+
 beforeAll(() => api.listen())
 afterAll(() => api.close())
+
+
+
+
+//TODO:Make a test for PUT?
+const api2 = setupServer(
+  rest.put("/api/saveAttempt", (req, res, ctx) => {
+    return res(ctx.json({ message: "Successfully updated answer in the DB." }));
+  })
+);
+
+
+
+describe('PUT saveAttempt', () => {
+  const PUT_API_URL = "/api/saveAttempt";
+
+  it('should update an answer successfully', async () => {
+    api2.use(rest.put(PUT_API_URL, (reqest, response, context) => {
+
+      return response(context.json({ message: "Successfully updated answer in the DB." }))
+    }));
+
+    const response = await saveAttemptsToDB({ taskId: 'someTaskId', attempts: 3 });
+    expect(response).toEqual({ message: "Successfully saved attempt in the DB." });
+  });
+});
+
+beforeAll(() => api2.listen())
+afterAll(() => api2.close())
