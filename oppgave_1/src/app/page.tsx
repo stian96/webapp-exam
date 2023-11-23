@@ -37,12 +37,6 @@ const Home = () => {
   const { scores, attempts, handleCorrectAnswer,
     handleIncorrectAnswer, handleShowAnswer, resetTasks, initializeAttempts } = useTaskManager(initialScores);
     
-    console.log("Attempts: ", attempts)
-    console.log("Attempts Type: ", typeof attempts)
-
-    console.log("Initial scores: " ,initialScores)
-
-
 
   useEffect(() => {
     const getTasks = async () => {
@@ -114,7 +108,7 @@ const Home = () => {
   const onShowAnswer = (taskType: Type) => {
     setIsAnswerShown(true)
     handleShowAnswer(taskType)
-    handleIncorrectAnswer(taskType)
+    handleIncorrectAnswer(taskType, attempts.attempts)
   };
 
   const handleShowResults = () => {
@@ -128,7 +122,10 @@ const Home = () => {
 
   //denne må ligge her, for at neste knappen skal synes når svaret er rett
   const handleAnswerCorrect = (taskType: Type) => {
-    handleCorrectAnswer(taskType, setIsAnswerCorrect);
+
+    // Send taskId to update the attempts in the db.
+    const taskId = tasks[currentTaskIndex].id
+    handleCorrectAnswer(taskType, taskId, attempts.attempts, setIsAnswerCorrect);
   };
 
 
@@ -152,7 +149,7 @@ const Home = () => {
               }}
 
               onIncorrectAnswer={() => {
-                handleIncorrectAnswer(tasks[currentTaskIndex].id);
+                handleIncorrectAnswer(tasks[currentTaskIndex].id, attempts.attempts);
 
               }}
               onShowAnswer={() => {

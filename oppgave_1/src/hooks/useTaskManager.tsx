@@ -1,12 +1,16 @@
 
 import { useState, useCallback } from 'react';
+import { saveAttemptsToDB } from '@/features/task/task.repository';
 import { type Attempts, type Stats, type Type, type Task } from "@/types";
 
 const useTaskHandlers = (initialScores: Stats) => {
     const [scores, setScores] = useState<Stats>(initialScores);
     //const [attempts, setAttempts] = useState<Attempts>(initialAttempts);
     const [attempts, setAttempts] = useState<Attempts>({});
-    const handleCorrectAnswer = useCallback((taskType: Type, setIsCorrectAnswer: (isCorrect: boolean) => void) => {
+
+    const updateAttemptsInDB = async (taskId: string, attempts: number) => saveAttemptsToDB({ taskId, attempts })
+
+    const handleCorrectAnswer = useCallback((taskType: Type, taskId: string, currentAttempt: number, setIsCorrectAnswer: (isCorrect: boolean) => void) => {
         setScores(prevScores => ({
             ...prevScores,
             [taskType]: {
@@ -15,9 +19,10 @@ const useTaskHandlers = (initialScores: Stats) => {
             },
         }));
         setIsCorrectAnswer(true);
+        updateAttemptsInDB(taskId, currentAttempt)
     }, []);
 
-    const handleIncorrectAnswer = useCallback((taskId: string) => {
+    const handleIncorrectAnswer = useCallback((taskId: string, currentAttempt: number) => {
       console.log("task id: ", taskId)
         setAttempts(prevAttempts => {
             const newAttempts = Math.max(prevAttempts[taskId] - 1, 0);
@@ -26,6 +31,7 @@ const useTaskHandlers = (initialScores: Stats) => {
                 [taskId]: newAttempts,
             };
         });
+        updateAttemptsInDB(taskId, currentAttempt)
     }, []);
 
     const handleShowAnswer = useCallback((taskType: Type) => {

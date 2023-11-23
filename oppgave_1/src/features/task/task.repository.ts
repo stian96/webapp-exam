@@ -1,7 +1,7 @@
 //import { PrismaClient } from '@prisma/client'
 import { AnswerUpdateRequest } from "@/app/api/saveAttempt/route"
 
-const saveAttemptsToDB = async ({taskId, attempts}: AnswerUpdateRequest) => {
+export const saveAttemptsToDB = async ({taskId, attempts}: AnswerUpdateRequest) => {
     try {
         const response = await fetch("/api/saveAttempt", {
             method: "PUT",
@@ -14,5 +14,4 @@ const saveAttemptsToDB = async ({taskId, attempts}: AnswerUpdateRequest) => {
     } catch (error) {
         console.error("Error saving attempt to DB: ", error)
     }
-    
 }
