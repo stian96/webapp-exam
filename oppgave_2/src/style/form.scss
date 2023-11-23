@@ -135,4 +135,20 @@
     }
 }
 
+.create-performer-form-row{
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  gap: 1rem; 
+  
+}
+
+.create-performer-form-field {
+  flex: 1; 
+}
+.create-performer-form__select {
+  width: 100%;
+  color: black;
+  
+}
  
