@@ -11,7 +11,7 @@ import useResetTask from "@/hooks/useResetTask";
 
 
 const Home = () => {
-
+  const TOTAL_ATTEMPTS = 3
   const [selectedType, setSelectedType] = useState<string>('add')
   const [tasks, setTasks] = useState<Task[]>([])
   const [taskCount, setTaskCount] = useState<string>('5')
@@ -127,7 +127,7 @@ const Home = () => {
     const taskId = tasks[currentTaskIndex].id
 
     // Calculate total attempts used based on total - remaining attempts.
-    const attemptsUsed = 3 - attempts[taskId] + 1
+    const attemptsUsed = (TOTAL_ATTEMPTS - attempts[taskId]) + 1
     handleCorrectAnswer(taskType, taskId, attemptsUsed, setIsAnswerCorrect);
   };
 
