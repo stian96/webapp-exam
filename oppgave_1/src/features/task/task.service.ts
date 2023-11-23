@@ -1,5 +1,6 @@
 //import * as TaskRepository from './task.repository';
-import { Stats } from "@/types"
+import { TaskManagerData } from "@/app/page";
+import { Stats, Type } from "@/types"
 
 export const initialScoreValues: Stats = {
     add: { correct: 0, incorrect: 0 },
@@ -23,5 +24,22 @@ export const handleCountChange = (event: React.ChangeEvent<HTMLInputElement>, ma
       manager.setErrorRandom('');
     } else {
       manager.setErrorRandom('Skriv inn et antall oppgaver fra 1 til 10, eller velg et tilfeldig antall oppgaver.');
+    }
+  };
+
+
+type ShowAnswerType = {
+    setIsAnswerShown: (value: React.SetStateAction<boolean>) => void
+    taskManager: TaskManagerData
+}
+
+export const onShowAnswer = (taskType: Type, currentAttempts: number, manager: ShowAnswerType) => {
+    manager.setIsAnswerShown(true)
+    manager.taskManager.handleShowAnswer(taskType)
+
+    if (currentAttempts > 0) {
+      manager.taskManager.handleIncorrectAnswer(taskType, currentAttempts)
+    } else {
+      console.log(`All attempts is used, currentAttempts: ${currentAttempts}`)
     }
   };

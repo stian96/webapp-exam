@@ -5,7 +5,7 @@ import ResultsDisplay from "@/components/ResultsDisplay";
 import { type Task, type Attempts, type Stats, type Type } from "@/types"
 import React, { useState, useEffect } from 'react'
 import { fetchTasks, handleRandomTaskFetch } from '../features/task/task.controller'
-import { initialScoreValues, handleCountChange } from "../features/task/task.service"
+import { initialScoreValues, handleCountChange, onShowAnswer } from "../features/task/task.service"
 import { Icons } from "@/components/icons"
 import useTaskManager from '../hooks//useTaskManager';
 import useResetTask from "@/hooks/useResetTask";
@@ -22,16 +22,18 @@ export type TaskManagerData = {
 
 
 const Home = () => {
+  
   const TOTAL_ATTEMPTS = 3
   const [selectedType, setSelectedType] = useState<string>('add')
+
   const [tasks, setTasks] = useState<Task[]>([])
   const [taskCount, setTaskCount] = useState<string>('5')
-  const [errorRandom, setErrorRandom] = useState('')
-  const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
   const [randomTaskCount, setRandomTaskCount] = useState<number | null>(null);
   const [lastRandomCount, setLastRandomCount] = useState<number | null>(null);
-
   const [isCorrectAnswer, setIsAnswerCorrect] = useState(false);
+
+  const [errorRandom, setErrorRandom] = useState('')
+  const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
   const [answerShown, setIsAnswerShown] = useState(false);
   const [showResults, setShowResults] = useState(false);
 
@@ -60,14 +62,12 @@ const Home = () => {
   }
 
   const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(`Selected task type changed to: ${event.target.value}`);
     setSelectedType(event.target.value)
   };
 
   const executeCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     handleCountChange(event, { setTaskCount, setErrorRandom })
   }
-
 
   const resetTasks = taskManager.resetTasks
   const resetTask = useResetTask({
@@ -88,16 +88,10 @@ const Home = () => {
     await resetTask(selectedType, taskCount);
   };
 
-  const onShowAnswer = (taskType: Type, currentAttempts: number) => {
-    setIsAnswerShown(true)
-    taskManager.handleShowAnswer(taskType)
+  const executeShowAnswer = (taskType: Type, currentAttempt: number) => {
+    onShowAnswer(taskType, currentAttempt, { setIsAnswerShown, taskManager })
 
-    if (currentAttempts > 0) {
-      taskManager.handleIncorrectAnswer(taskType, currentAttempts)
-    } else {
-      console.log(`All attempts is used, currentAttempts: ${currentAttempts}`)
-    }
-  };
+  }
 
   const handleShowResults = () => {
     setShowResults(true);
@@ -148,7 +142,7 @@ const Home = () => {
               onShowAnswer={() => {
                 const taskId = tasks[currentTaskIndex].id
                 const currentAttempts = taskManager.attempts[taskId]
-                onShowAnswer(tasks[currentTaskIndex].type, currentAttempts)
+                executeShowAnswer(tasks[currentTaskIndex].type, currentAttempts)
               }}
               remainingAttempts={taskManager.attempts[tasks[currentTaskIndex].id]}
               totalAttempts={TOTAL_ATTEMPTS} 
