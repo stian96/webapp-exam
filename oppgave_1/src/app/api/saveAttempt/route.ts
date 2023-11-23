@@ -27,9 +27,9 @@ export const PUT = async (request: NextRequest) => {
             })
         }
         console.log("Current attempt updated in the database.", answer)
-        return new NextResponse("Successfully updated answer in the DB.", { status: 200})
+        return new NextResponse(JSON.stringify({ message: "Successfully updated answer in the DB."}), { status: 200})
 
     } catch (error) {
-        return new NextResponse("Failed to update answer in the DB.", { status: 500})
+        return new NextResponse(JSON.stringify({ message: "Failed to update answer in the DB."}), { status: 500})
     }
 }

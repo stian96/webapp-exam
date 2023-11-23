@@ -16,6 +16,6 @@ export const saveAttemptsToDB = async ({taskId, attempts}: AnswerUpdateRequest) 
         const data = await response.json()
         console.log("Response from 'saveAttempt' endpoint: ", data)
     } catch (error) {
-        console.error("Error saving attempt to DB: ", error)
+        console.log("Error saving attempt to DB: ", error)
     }
 }

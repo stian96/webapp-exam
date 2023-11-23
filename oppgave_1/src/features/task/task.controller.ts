@@ -1,7 +1,6 @@
 //import * as taskService from "./task.service";
-
-
 import { type Task } from "@/types"
+import { type TaskManagerData } from "@/app/page"
 
 const API_URL = 'http://localhost:3000/api/restapi';
 
@@ -9,8 +8,6 @@ export const fetchTasks = async (selectedType: string, taskCount: string): Promi
 
     const count = Number(taskCount);
     if (isNaN(count) || count < 1 || count > 10) {
-        console.error('Invalid task count:', taskCount);
-
         return [];
     }
 
@@ -48,27 +45,31 @@ export const fetchRandomTasks = async (totalCount: number): Promise<Task[]> => {
         tasks.push(...result.data);
     }
     const shuffledTasks = tasks.sort(() => 0.5 - Math.random()).slice(0, totalCount);
-    //SRC: OpenAI.(2023).ChatGPT(GPT-4).[Large language model]. https://chat.openai.com/chat
-
     return shuffledTasks;
 
 };
 
-/*
-export const updateAttempts = async (taskId: string, attempts: number): Promise<void> => {
-    const response = await fetch(`${API_URL}`, {
-        method: "PUT",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ taskId, attempts }),
-    });
-
-    if (!response.ok) {
-        throw new Error(`Failed to update attempts. Status: ${response.status}`);
-    }
-};
-export default {
-    fetchTasks,
-    fetchRandomTasks,
-    updateAttempts
+type RandomTaskFetchType = {
+    taskCount: string
+    setTasks: (value: React.SetStateAction<Task[]>) => void
+    setRandomTaskCount: (value: React.SetStateAction<number | null>) => void
+    taskManager: TaskManagerData
 }
-*/
+
+export const handleRandomTaskFetch = async ( task: RandomTaskFetchType) => {
+    try {
+      const userDefinedCount = Number(task.taskCount);
+      const randomTasks = await fetchRandomTasks(userDefinedCount);
+
+      task.setTasks(randomTasks);
+      task.setRandomTaskCount(randomTasks.length);
+      task.taskManager.initializeAttempts(randomTasks)
+
+      console.log(randomTasks);
+    } catch (errorRandomTaskFetch) {
+      console.error(`Error fetching random tasks: `, errorRandomTaskFetch);
+      task.setRandomTaskCount(0);
+    }
+  };
+
+

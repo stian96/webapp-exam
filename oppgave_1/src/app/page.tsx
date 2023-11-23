@@ -2,18 +2,22 @@
 
 import { Answer, Header, Tasks, TaskCount, Progress, DropdownTaskFilter } from "@/components";
 import ResultsDisplay from "@/components/ResultsDisplay";
-import { type Task, type Stats, type Type } from "@/types"
+import { type Task, type Attempts, type Stats, type Type } from "@/types"
 import React, { useState, useEffect } from 'react'
-import { fetchTasks, fetchRandomTasks } from '../features/task/task.controller'
+import { fetchTasks, handleRandomTaskFetch } from '../features/task/task.controller'
+import { initialScoreValues } from "../features/task/task.service"
 import { Icons } from "@/components/icons"
 import useTaskManager from '../hooks//useTaskManager';
 import useResetTask from "@/hooks/useResetTask";
 
-type TaskManagerData = {
+export type TaskManagerData = {
+  scores: Stats
+  attempts: Attempts
+  handleCorrectAnswer: (taskType: Type, taskId: string, currentAttempt: number, setIsCorrectAnswer: (isCorrect: boolean) => void) => void
+  handleIncorrectAnswer: (taskId: string, currentAttempt: number) => void
   handleShowAnswer: (taskType: Type) => void
-  resetTask: () => void
-  initializedAttempts: (fetchedTasks: Task[]) => void
-
+  resetTasks: () => void
+  initializeAttempts: (fetchedTasks: Task[]) => void
 }
 
 
@@ -31,18 +35,8 @@ const Home = () => {
   const [answerShown, setIsAnswerShown] = useState(false);
   const [showResults, setShowResults] = useState(false);
 
-
-
-  const initialScores: Stats = {
-    add: { correct: 0, incorrect: 0 },
-    subtract: { correct: 0, incorrect: 0 },
-    multiply: { correct: 0, incorrect: 0 },
-    divide: { correct: 0, incorrect: 0 },
-  };
-
-
-  const { scores, attempts, handleCorrectAnswer,
-    handleIncorrectAnswer, handleShowAnswer, resetTasks, initializeAttempts } = useTaskManager(initialScores);
+  const initialScores: Stats = initialScoreValues
+  const taskManager: TaskManagerData = useTaskManager(initialScores);
     
 
   useEffect(() => {  
@@ -50,7 +44,7 @@ const Home = () => {
       try {
         const fetchedTasks = await fetchTasks(selectedType, taskCount);
         setTasks(fetchedTasks);
-        initializeAttempts(fetchedTasks);
+        taskManager.initializeAttempts(fetchedTasks);
 
       } catch (errorFetchingTasks) {
         console.error(`Error fetching tasks: `, errorFetchingTasks);
@@ -58,22 +52,12 @@ const Home = () => {
       }
     };
     void getTasks();
-  }, [selectedType, taskCount, initializeAttempts]);
+  }, [selectedType, taskCount, taskManager.initializeAttempts]);
 
 
-  const handleRandomTaskFetch = async () => {
-    try {
-      const userDefinedCount = Number(taskCount);
-      const randomTasks = await fetchRandomTasks(userDefinedCount);
-      setTasks(randomTasks);
-      setRandomTaskCount(randomTasks.length);
-      initializeAttempts(randomTasks)
-      console.log(randomTasks);
-    } catch (errorRandomTaskFetch) {
-      console.error(`Error fetching random tasks: `, errorRandomTaskFetch);
-      setRandomTaskCount(0);
-    }
-  };
+  const executeRandomTaskFetch = async () => {
+    handleRandomTaskFetch({ taskCount, setTasks, setRandomTaskCount, taskManager })
+  }
 
   const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     console.log(`Selected task type changed to: ${event.target.value}`);
@@ -93,7 +77,7 @@ const Home = () => {
     }
   };
 
-
+  const resetTasks = taskManager.resetTasks
   const resetTask = useResetTask({
     setSelectedType,
     setTasks,
@@ -114,8 +98,8 @@ const Home = () => {
 
   const onShowAnswer = (taskType: Type, currentAttempts: number) => {
     setIsAnswerShown(true)
-    handleShowAnswer(taskType)
-    handleIncorrectAnswer(taskType, currentAttempts)
+    taskManager.handleShowAnswer(taskType)
+    taskManager.handleIncorrectAnswer(taskType, currentAttempts)
   };
 
   const handleShowResults = () => {
@@ -134,8 +118,8 @@ const Home = () => {
     const taskId = tasks[currentTaskIndex].id
 
     // Calculate total attempts used based on total - remaining attempts.
-    const attemptsUsed = (TOTAL_ATTEMPTS - attempts[taskId]) + 1
-    handleCorrectAnswer(taskType, taskId, attemptsUsed, setIsAnswerCorrect);
+    const attemptsUsed = (TOTAL_ATTEMPTS - taskManager.attempts[taskId]) + 1
+    taskManager.handleCorrectAnswer(taskType, taskId, attemptsUsed, setIsAnswerCorrect);
   };
 
 
@@ -145,7 +129,7 @@ const Home = () => {
       <TaskCount taskCount={taskCount} onTaskCountChange={handleCountChange}></TaskCount>
       {errorRandom && <p className="count-error-msg">{errorRandom}</p>}
       <DropdownTaskFilter selectedType={selectedType} handleTypeChange={handleTypeChange} />
-      <button type="button" onClick={handleRandomTaskFetch} className="btn-random">Hent tilfeldige typer oppgaver</button>
+      <button type="button" onClick={executeRandomTaskFetch} className="btn-random">Hent tilfeldige typer oppgaver</button>
       {randomTaskCount !== null && (
         <p>{`Antall oppgaver hentet av tilfeldige typer: ${randomTaskCount}`}</p>
       )}
@@ -160,22 +144,22 @@ const Home = () => {
 
               onIncorrectAnswer={() => {
                 const taskId = tasks[currentTaskIndex].id
-                const currentAttempts = attempts[taskId]
-                handleIncorrectAnswer(taskId, currentAttempts);
+                const currentAttempts = taskManager.attempts[taskId]
+                taskManager.handleIncorrectAnswer(taskId, currentAttempts);
 
               }}
               onShowAnswer={() => {
                 const taskId = tasks[currentTaskIndex].id
-                const currentAttempts = attempts[taskId]
+                const currentAttempts = taskManager.attempts[taskId]
                 onShowAnswer(tasks[currentTaskIndex].type, currentAttempts)
               }}
-              remainingAttempts={attempts[tasks[currentTaskIndex].id]}
-              totalAttempts={3} 
+              remainingAttempts={taskManager.attempts[tasks[currentTaskIndex].id]}
+              totalAttempts={TOTAL_ATTEMPTS} 
 
             />
             <Progress
               tasks={tasks}
-              attempts={attempts}
+              attempts={taskManager.attempts}
               onShowResults={handleShowResults}
               isCorrectAnswer={isCorrectAnswer && currentTaskIndex <= tasks.length - 1}
               isAnswerShown={answerShown}
@@ -187,7 +171,7 @@ const Home = () => {
 
       {showResults && (
         <>
-          <ResultsDisplay scores={scores} />
+          <ResultsDisplay scores={taskManager.scores} />
           <button onClick={handleStartAgain} className="btn-startAgain">
             Start på nytt
             <Icons.refresh size={18} />
