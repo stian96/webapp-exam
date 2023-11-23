@@ -16,3 +16,29 @@
     font-size: 1.125rem;   
 
 }
+
+.card__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    
+}
+
+.card__title {
+    display: inline-block;
+    margin-left: 0.5rem;
+    
+}
+
+.card__ReportList{
+    display: flex;
+    margin-bottom: 1rem;
+    gap: 4px;
+    
+    &:hover {
+        background-color: #324071;
+        transition: background-color 0.3s ease;
+    }
+
+}
