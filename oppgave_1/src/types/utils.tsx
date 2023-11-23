@@ -1,5 +1,6 @@
 import {type Stats} from '@/types'
 
+//SRC: OpenAI.(2023).ChatGPT(GPT-4).[Large language model]. https://chat.openai.com/chat
 export const calculateTotalScore = (scores: Stats) => {
   return Object.values(scores).reduce((total, score) => total + score.correct, 0);
 };
