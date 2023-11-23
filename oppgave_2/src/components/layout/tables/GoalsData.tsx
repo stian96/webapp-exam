@@ -3,6 +3,9 @@ import { type Goal } from "../../../types/classes/goal"
 import  GoalsEditPopup from "../popups/GoalsEditPopup"
 import "@/style/goalsData.scss"
 import { type GoalsInput } from "@/types/goalsInput"
+//import { deleteGoal } from '../../../lib/api';
+
+
 
 type GoalsDataProps = {
     goal: Goal
@@ -28,7 +31,18 @@ const GoalsData = ({ performerId, goal, onGoalDelete, updateGoal }: GoalsDataPro
         setCurrentGoal(convertedGoal)
         updateGoal(convertedGoal)
     }
+    /*
 
+    const handleDeleteGoal = async () => {
+      const { success, message } = await deleteGoal(currentGoal.id);
+
+    if (success) {
+        console.log(message);
+        onGoalDelete(currentGoal.id);
+    } else {
+        console.error(message);
+    }};
+    */
     const handleDeleteGoal = async () => {
       try {
           const response = await fetch(`/api/goals/deleteGoal?goalId=${currentGoal.id}`, {
@@ -49,7 +63,6 @@ const GoalsData = ({ performerId, goal, onGoalDelete, updateGoal }: GoalsDataPro
           console.error('Error deleting goal:', error);
       }
   };
-  
 
     return (
         <> 
