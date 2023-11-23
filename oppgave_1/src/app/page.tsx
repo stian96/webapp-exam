@@ -91,7 +91,12 @@ const Home = () => {
   const onShowAnswer = (taskType: Type, currentAttempts: number) => {
     setIsAnswerShown(true)
     taskManager.handleShowAnswer(taskType)
-    taskManager.handleIncorrectAnswer(taskType, currentAttempts)
+
+    if (currentAttempts > 0) {
+      taskManager.handleIncorrectAnswer(taskType, currentAttempts)
+    } else {
+      console.log(`All attempts is used, currentAttempts: ${currentAttempts}`)
+    }
   };
 
   const handleShowResults = () => {
