@@ -105,10 +105,10 @@ const Home = () => {
     await resetTask(selectedType, taskCount);
   };
 
-  const onShowAnswer = (taskType: Type) => {
+  const onShowAnswer = (taskType: Type, currentAttempts: number) => {
     setIsAnswerShown(true)
     handleShowAnswer(taskType)
-    handleIncorrectAnswer(taskType, attempts.attempts)
+    handleIncorrectAnswer(taskType, currentAttempts)
   };
 
   const handleShowResults = () => {
@@ -125,7 +125,7 @@ const Home = () => {
 
     // Send taskId to update the attempts in the db.
     const taskId = tasks[currentTaskIndex].id
-    handleCorrectAnswer(taskType, taskId, attempts.attempts, setIsAnswerCorrect);
+    handleCorrectAnswer(taskType, taskId, attempts[taskId], setIsAnswerCorrect);
   };
 
 
@@ -149,11 +149,15 @@ const Home = () => {
               }}
 
               onIncorrectAnswer={() => {
-                handleIncorrectAnswer(tasks[currentTaskIndex].id, attempts.attempts);
+                const taskId = tasks[currentTaskIndex].id
+                const currentAttempts = attempts[taskId]
+                handleIncorrectAnswer(taskId, currentAttempts);
 
               }}
               onShowAnswer={() => {
-                onShowAnswer(tasks[currentTaskIndex].type)
+                const taskId = tasks[currentTaskIndex].id
+                const currentAttempts = attempts[taskId]
+                onShowAnswer(tasks[currentTaskIndex].type, currentAttempts)
               }}
               remainingAttempts={attempts[tasks[currentTaskIndex].id]}
               totalAttempts={3} //TODO add attempts to the db. Right now it is hard coded
