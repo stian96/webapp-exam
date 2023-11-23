@@ -102,7 +102,6 @@ const Home = () => {
     setShowResults(true);
   };
 
-  //denne må ligge her, for at neste knappen skal synes når svaret er rett
   const handleAnswerCorrect = (taskType: Type) => {
 
     // Send taskId to update the attempts in the db.
