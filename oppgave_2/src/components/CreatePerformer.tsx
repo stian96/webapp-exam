@@ -96,21 +96,21 @@ const CreatePerformer = () => {
 
   };
   
-  console.log("userId: ", performerId)
+  
 
     return (
       <div className='create-performer'>
         <form onSubmit={handleSubmit}  className="form flex w-full flex-col ">
             <label>
                 User ID:
-                <input type="text" value={performerId} onChange={handleIdChange} className='form__input --default'/>
+                <input type="text" id= "performerId" value={performerId} onChange={handleIdChange} className='form__input --default'/>
             </label>
             <br />
             <div className="create-performer-form-row">
                 <div className="create-performer-form-field">
                     <label>
                         Gender:
-                        <select value={gender} onChange={handleGenderChange} className='create-performer-form__select'>
+                        <select value={gender} id= "genederSelection" onChange={handleGenderChange} className='create-performer-form__select'>
                             <option value="">Select Gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
@@ -121,7 +121,7 @@ const CreatePerformer = () => {
                 <div className="create-performer-form-field">
                     <label>
                         Sport Type:
-                        <select value={sportType} onChange={handleSportTypeChange} className='create-performer-form__select'>
+                        <select value={sportType} id= "sportTypeSelection" onChange={handleSportTypeChange} className='create-performer-form__select'>
                             <option value="">Select Sport Type</option>
                             <option value="running">Running</option>
                             <option value="cycling">Cycling</option>
@@ -138,17 +138,17 @@ const CreatePerformer = () => {
             <br />
             <label>
               Heart Rate:
-              <input type="text" value={heartRate} onChange={handleHeartRateChange} className='form__input --default'/>
+              <input type="text" id="heartRate" value={heartRate} onChange={handleHeartRateChange} className='form__input --default'/>
             </label>
             <br />
             <label>
               Watt:
-              <input type="text" value={watt} onChange={handleWattChange} className='form__input --default'/>
+              <input type="text" id="watt" value={watt} onChange={handleWattChange} className='form__input --default'/>
             </label>
             <br />
             <label>
               Speed:
-              <input type="text" value={speed} onChange={handleSpeedChange} className='form__input --default'/>
+              <input type="text" id= "speed" value={speed} onChange={handleSpeedChange} className='form__input --default'/>
             </label>
             <br />
             <button
