@@ -6,26 +6,37 @@ export const calculateTotalScore = (scores: Stats) => {
 
 
 
-export const findWeakness = (scores: Stats) => {
+export const findWeakness = (scores: Stats): string => {
+  const operationTranslations: Record<string, string> = {
+      add: 'addisjon',
+      subtract: 'subtraksjon',
+      multiply: 'multiplikasjon',
+      divide: 'divisjon'
+  };
+
   const detailedScores = Object.entries(scores).map(([operation, score]) => ({
-    operation,
-    correct: score.correct,
-    incorrect: score.incorrect,
-    totalAttempts: score.correct + score.incorrect,
-    ratio: score.correct / (score.correct + score.incorrect)
+      operation,
+      correct: score.correct,
+      incorrect: score.incorrect,
+      totalAttempts: score.correct + score.incorrect,
+      ratio: score.correct / (score.correct + score.incorrect)
   }));
 
   let maxIncorrect = -1;
   let maxIncorrectOperation = '';
 
   detailedScores.forEach(score => {
-    if (score.incorrect > maxIncorrect) {
-      maxIncorrect = score.incorrect;
-      maxIncorrectOperation = score.operation;
-    }
+      if (score.incorrect > maxIncorrect) {
+          maxIncorrect = score.incorrect;
+          maxIncorrectOperation = score.operation;
+      }
   });
 
- 
-  return maxIncorrect === 0 ? "None" : maxIncorrectOperation;
+  if (maxIncorrect === 0) {
+      return "None";
+  }
+
+  return operationTranslations[maxIncorrectOperation] || maxIncorrectOperation;
 };
+
 
