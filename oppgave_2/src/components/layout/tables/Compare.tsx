@@ -39,7 +39,6 @@ const Compare = ({ performerId }: CompareProps) => {
 
     for (const activity of activities) {
       if (activity.session != null) {
-        console.log(activity.session)
         if (
           activity.session.type != null &&
           !typeList.includes(activity.session.type)
@@ -49,6 +48,26 @@ const Compare = ({ performerId }: CompareProps) => {
       }
     }
     setTypes(typeList)
+  }
+
+  const sortActivitiesByDateAsc = () => {
+    const sortedList = [...activityResults].sort((a, b) => {
+      const dateA = new Date(a.date)
+      const dateB = new Date(b.date)
+      return dateA.getTime() - dateB.getTime()
+    })
+
+    setActivityResults(sortedList)
+  }
+
+  const sortActivitiesByDateDesc = () => {
+    const sortedList = [...activityResults].sort((a, b) => {
+      const dateA = new Date(a.date)
+      const dateB = new Date(b.date)
+      return dateB.getTime() - dateA.getTime()
+    })
+
+    setActivityResults(sortedList)
   }
 
   const removeActivityById = (activityId: string) => {
@@ -108,7 +127,6 @@ const Compare = ({ performerId }: CompareProps) => {
       const isSuccess = data.status
       const message = data.message
 
-      console.log(data)
       if (isSuccess == 200) {
         console.log(`Session with id ${activityId} duplicated.`)
         setActivityResults([])
@@ -179,7 +197,12 @@ const Compare = ({ performerId }: CompareProps) => {
           <td className="compare__body-data">Compare</td>
           <td className="compare__body-data filter-container flex items-center justify-end gap-8">
             <span>Filters</span>
-            <Filters tags={tags} types={types} />
+            <Filters
+              tags={tags}
+              types={types}
+              sortAsc={sortActivitiesByDateAsc}
+              sortDesc={sortActivitiesByDateDesc}
+            />
           </td>
         </tr>
         <tr className="activity-table">

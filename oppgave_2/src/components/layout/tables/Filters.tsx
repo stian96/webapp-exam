@@ -1,17 +1,30 @@
-import { useState } from "react"
+import { ChangeEvent, useState } from "react"
 
 import "@/style/filters.scss"
 
 type FiltersProps = {
   tags: string[]
   types: string[]
+  sortAsc: () => void
+  sortDesc: () => void
 }
 
-const Filters = ({ tags, types }: FiltersProps) => {
+const Filters = ({ tags, types, sortAsc, sortDesc }: FiltersProps) => {
   const [selectedTag, setSelectedTag] = useState("")
   const [selectedType, setSelectedType] = useState("")
   const [selectedReportStatus, setSelectedReportStatus] = useState("")
   const [selectedSortBy, setSelectedSortBy] = useState("")
+
+  const handleSortBy = (event: ChangeEvent<HTMLInputElement>) => {
+    const sortByString = event.target.value
+    setSelectedSortBy(event.target.value)
+
+    if (sortByString == "Date Asc") {
+      sortAsc()
+    } else if (sortByString == "Date Desc") {
+      sortDesc()
+    }
+  }
 
   return (
     <div className="filter">
@@ -69,7 +82,9 @@ const Filters = ({ tags, types }: FiltersProps) => {
         className="filter__dropdown"
         name="Sort By"
         value={selectedSortBy}
-        onChange={(e) => setSelectedSortBy(e.target.value)}
+        onChange={(e) => {
+          handleSortBy(e)
+        }}
       >
         <option value="" disabled>
           Sort By
