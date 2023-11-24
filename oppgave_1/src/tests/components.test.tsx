@@ -16,6 +16,7 @@ import TaskText from "@/components/Text"
 import useProgress from "@/hooks/useProgress"
 import { Task } from "@/types"
 
+import { describe, it, expect, vi } from 'vitest';
 describe("Button Component", () => {
   it("renders a button with children", () => {
     render(<Button classNames="custom-class">Click me</Button>)
@@ -61,18 +62,13 @@ describe("Progress Component", () => {
    
   });
   
-  //TODO: Make this test pass
   it('increments the state when "Neste" is clicked', () => {
-    render(<Progress tasks={tasks} isCorrectAnswer={false} currentTaskIndex={0} setCurrentTaskIndex={function (index: number): void {
-      throw new Error("Function not implemented.")
-    }} />)
-    const nextButton = screen.getByText("Vis neste oppgave")
-
-    fireEvent.click(nextButton)
-
-    const updatedTask = screen.getByText("234")
-    expect(updatedTask).toBeInTheDocument()
-  })
+    const setCurrentTaskIndex = vitest.fn();
+    render(<Progress tasks={tasks} isCorrectAnswer={true} currentTaskIndex={0} setCurrentTaskIndex={setCurrentTaskIndex} />);
+    const nextButton = screen.getByRole('button', { name: /vis neste oppgave/i });
+    fireEvent.click(nextButton);
+    expect(setCurrentTaskIndex).toHaveBeenCalledWith(1);
+  });
   //TODO: Make this test pass
   it('decrements the state when "Forrige" is clicked', () => {
     render(<Progress tasks={tasks} isCorrectAnswer={false} currentTaskIndex={0} setCurrentTaskIndex={function (index: number): void {
