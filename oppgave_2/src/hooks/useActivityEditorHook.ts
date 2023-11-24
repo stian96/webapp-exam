@@ -176,8 +176,6 @@ const useActivityEditorHook = () => {
     const currentYear = new Date().getFullYear().toString();
     const goalsCurrentYear: Goal[] | undefined = goals[currentYear];
 
-    console.log(goalsCurrentYear)
-
     if (goalsCurrentYear) {
       setDbGoals(goalsCurrentYear)
     }

@@ -16,6 +16,13 @@ const Compare = ({ performerId }: CompareProps) => {
     [],
   )
 
+  const removeActivityById = (activityId: string) => {
+    const updatedResults = activityResults.filter(
+      (obj) => obj.id !== activityId,
+    )
+    setActivityResults(updatedResults)
+  }
+
   const getActivities = async (performerId: string) => {
     try {
       const response = await fetch(
@@ -52,6 +59,39 @@ const Compare = ({ performerId }: CompareProps) => {
     setActivityResults((prevState) => [...prevState, ...activityList])
   }
 
+  const deleteActivity = async (activityId: string) => {
+    try {
+      const response = await fetch(
+        `/api/sessions/deleteSessionById/${activityId}`,
+        {
+          method: "delete",
+        },
+      )
+
+      const data = await response.json()
+      const isSuccess = data.status
+      const message = data.message
+
+      if (isSuccess == 200) {
+        console.log(`Session with id ${activityId} deleted.`)
+        removeActivityById(activityId)
+        return { success: true, message: `${activityId} deleted.` }
+      } else {
+        console.log(`Session with id ${activityId} does not exist.`)
+        return {
+          success: false,
+          message: `Session with id ${activityId} does not exist.`,
+        }
+      }
+    } catch (error) {
+      return { success: false, message: error }
+    }
+  }
+
+  const handleDelete = async (activityId: string) => {
+    await deleteActivity(activityId)
+  }
+
   useEffect(() => {
     if (!isApiCalled.current) {
       isApiCalled.current = true
@@ -74,7 +114,11 @@ const Compare = ({ performerId }: CompareProps) => {
         <tr className="activity-table">
           <td className="mb-5">
             {activityResults.map((activity, index) => (
-              <Activity key={index} id={activity.id} />
+              <Activity
+                key={index}
+                id={activity.id}
+                handleDelete={handleDelete}
+              />
             ))}
           </td>
         </tr>

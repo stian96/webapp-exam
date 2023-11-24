@@ -311,9 +311,14 @@ const useTemplateCreatorHook = () => {
       return
     }
 
-    const goals = JSON.parse(result.message) as Goal[]
+    const goals = JSON.parse(result.message) as GoalsByYear
 
-    setDbGoals(goals)
+    const currentYear = new Date().getFullYear().toString();
+    const goalsCurrentYear: Goal[] | undefined = goals[currentYear];
+
+    if (goalsCurrentYear) {
+      setDbGoals(goalsCurrentYear)
+    }
   }
 
   const getTemplateApiResponse = async () => {

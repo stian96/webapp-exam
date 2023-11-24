@@ -10,9 +10,10 @@ import { SessionActivityDto } from "@/types/sessionActivity"
 
 type ActivityProps = {
   id: string
+  handleDelete: (activityId: string) => void
 }
 
-const Activity = ({ id }: ActivityProps) => {
+const Activity = ({ id, handleDelete }: ActivityProps) => {
   const { selectedActivities, toggleActivity } = useContext(ActivityContext)
   const isChecked = selectedActivities.includes(id)
 
@@ -39,9 +40,14 @@ const Activity = ({ id }: ActivityProps) => {
           <Link href={`/sessions/edit/${id}`}>
             <button className="activity__container-button">Edit</button>
           </Link>
-          <Link href={`#`}>
-            <button className="activity__container-button">Delete</button>
-          </Link>
+          <button
+            onClick={() => {
+              handleDelete(id)
+            }}
+            className="activity__container-button"
+          >
+            Delete
+          </button>
           <Link href={`#`}>
             <button className="activity__container-button">
               Create Report

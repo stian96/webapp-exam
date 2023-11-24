@@ -93,7 +93,7 @@ model Sessions {
   name              String?
   type              String?
   isTemplate        Boolean
-  uniqueToPerformer Performers?        @relation(fields: [performerId], references: [id])
+  uniqueToPerformer Performers?        @relation(fields: [performerId], references: [id], onDelete: Cascade)
   performerId       String?
   slug              String?            @unique
   intensityParam    Int?
@@ -109,7 +109,7 @@ model Sessions {
 model SessionActivity {
   id          String     @id @default(uuid())
   date        DateTime
-  session     Sessions   @relation(fields: [sessionId], references: [id])
+  session     Sessions   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   sessionId   String
   goal        Goals?     @relation(fields: [goalId], references: [id])
   goalId      String?
@@ -120,7 +120,7 @@ model SessionActivity {
 
 model Reports {
   id                    String                  @id @default(uuid())
-  sessionActivity       SessionActivity         @relation(fields: [sessionActivityId], references: [id])
+  sessionActivity       SessionActivity         @relation(fields: [sessionActivityId], references: [id], onDelete: Cascade)
   sessionActivityId     String                  @unique
   reportIntervalResults ReportIntervalResults[]
   reportAnswers         ReportAnswers[]
@@ -137,25 +137,25 @@ model PerformerGoals {
 }
 
 model SessionQuestions {
-  session    Sessions  @relation(fields: [sessionId], references: [id])
+  session    Sessions  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   sessionId  String
-  question   Questions @relation(fields: [questionId], references: [id])
+  question   Questions @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId String
 
   @@id([sessionId, questionId])
 }
 
 model SessionIntervals {
-  session    Sessions  @relation(fields: [sessionId], references: [id])
+  session    Sessions  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   sessionId  String
-  interval   Intervals @relation(fields: [intervalId], references: [id])
+  interval   Intervals @relation(fields: [intervalId], references: [id], onDelete: Cascade)
   intervalId String
 
   @@id([sessionId, intervalId])
 }
 
 model SessionTags {
-  session   Sessions @relation(fields: [sessionId], references: [id])
+  session   Sessions @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   sessionId String
   tag       String
 
@@ -163,18 +163,18 @@ model SessionTags {
 }
 
 model ReportIntervalResults {
-  report           Reports         @relation(fields: [reportId], references: [id])
+  report           Reports         @relation(fields: [reportId], references: [id], onDelete: Cascade)
   reportId         String
-  intervalResult   IntervalResults @relation(fields: [intervalResultId], references: [id])
+  intervalResult   IntervalResults @relation(fields: [intervalResultId], references: [id], onDelete: Cascade)
   intervalResultId String
 
   @@id([reportId, intervalResultId])
 }
 
 model ReportAnswers {
-  report   Reports @relation(fields: [reportId], references: [id])
+  report   Reports @relation(fields: [reportId], references: [id], onDelete: Cascade)
   reportId String
-  answer   Answers @relation(fields: [answerId], references: [id])
+  answer   Answers @relation(fields: [answerId], references: [id], onDelete: Cascade)
   answerId String
 
   @@id([reportId, answerId])
