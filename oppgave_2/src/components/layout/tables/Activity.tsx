@@ -10,22 +10,44 @@ import { SessionActivityDto } from "@/types/sessionActivity"
 
 type ActivityProps = {
   id: string
+  type: string
+  hasReport: boolean
   handleDelete: (activityId: string) => void
   handleDuplicate: (activityId: string) => void
 }
 
-const Activity = ({ id, handleDelete, handleDuplicate }: ActivityProps) => {
-  const { selectedActivities, toggleActivity } = useContext(ActivityContext)
+const Activity = ({
+  id,
+  type,
+  hasReport,
+  handleDelete,
+  handleDuplicate,
+}: ActivityProps) => {
+  const { selectedActivities, toggleActivity, selectedType, setType } =
+    useContext(ActivityContext)
   const isChecked = selectedActivities.includes(id)
 
   const handleChange = () => {
     toggleActivity(id)
+    if (!isChecked) {
+      setType(type)
+    } else {
+      setType("null")
+    }
+
+    console.log(type)
   }
 
   return (
     <div className="activity-cont flex items-center justify-between gap-8 px-8">
       <input
-        className="activity-cont__checkbox p-2"
+        className={`activity-cont__checkbox p-2 ${
+          type == selectedType ||
+          selectedType == "null" ||
+          (type == undefined && selectedType == "undefined")
+            ? ""
+            : "pointer-events-none opacity-0"
+        } ${hasReport ? "" : "pointer-events-none opacity-50"}`}
         type="checkbox"
         id={`activityCheckbox-${id}`}
         name="activityCheckbox"

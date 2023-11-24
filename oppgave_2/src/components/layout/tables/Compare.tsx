@@ -151,6 +151,8 @@ const Compare = ({ performerId }: CompareProps) => {
               <Activity
                 key={index}
                 id={activity.id}
+                type={activity.session.type}
+                hasReport={activity.report != null}
                 handleDelete={handleDelete}
                 handleDuplicate={duplicateActivity}
               />
