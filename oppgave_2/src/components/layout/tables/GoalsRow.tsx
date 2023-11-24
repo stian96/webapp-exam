@@ -1,8 +1,8 @@
 "use client"
 import { type Goal } from "@/types/classes/goal"
 import GoalsData from "./GoalsData"
-import { useState } from "react"
-import { type Goal } from "../../../types/classes/goal"
+import { useState, useMemo } from "react"
+
 
 import "@/style/goalsRow.scss"
 
@@ -22,6 +22,13 @@ const GoalsRow = ({ performerId, goalsArray, onGoalDelete, year, addNewGoals }: 
 
     }
 
+    //SRC:React. (n.d.). useMemo. React. Retrieved November 24, 2023, from https://react.dev/reference/react/useMemo
+    const combinedGoals = useMemo(() => {
+      const competitionGoals = goalsArray.filter(goal => goal.isCompetition).slice(0, 3);
+      const nonCompetitionGoals = goalsArray.filter(goal => !goal.isCompetition).slice(0, 3);
+      return [...competitionGoals, ...nonCompetitionGoals];
+  }, [goalsArray]); 
+
     return (
         <div className="test">
             <div className="goals__body-row flex justify-between p-4">
@@ -35,7 +42,7 @@ const GoalsRow = ({ performerId, goalsArray, onGoalDelete, year, addNewGoals }: 
             {showGoalsData && (
             <div className="goals__data-row flex justify-center p-4">
                  <div className="w-full mx-4">
-                    {goalsArray.map((goal, index) => (
+                    {combinedGoals.map((goal, index) => (
                     <GoalsData 
                         key={index}
                         goal={goal}
