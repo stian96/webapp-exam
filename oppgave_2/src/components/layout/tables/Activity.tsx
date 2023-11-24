@@ -11,9 +11,10 @@ import { SessionActivityDto } from "@/types/sessionActivity"
 type ActivityProps = {
   id: string
   handleDelete: (activityId: string) => void
+  handleDuplicate: (activityId: string) => void
 }
 
-const Activity = ({ id, handleDelete }: ActivityProps) => {
+const Activity = ({ id, handleDelete, handleDuplicate }: ActivityProps) => {
   const { selectedActivities, toggleActivity } = useContext(ActivityContext)
   const isChecked = selectedActivities.includes(id)
 
@@ -32,11 +33,16 @@ const Activity = ({ id, handleDelete }: ActivityProps) => {
         checked={isChecked}
       />
       <div className="activity flex w-full justify-between">
-        <span className="activity__id">{`Id: ${id}`}</span>
+        <span className="activity__id overflow-hidden overflow-ellipsis whitespace-nowrap">{`Id: ${id}`}</span>
         <div className="activity__container flex gap-5">
-          <Link href={`#`}>
-            <button className="activity__container-button">Duplicate</button>
-          </Link>
+          <button
+            onClick={() => {
+              handleDuplicate(id)
+            }}
+            className="activity__container-button"
+          >
+            Duplicate
+          </button>
           <Link href={`/sessions/edit/${id}`}>
             <button className="activity__container-button">Edit</button>
           </Link>

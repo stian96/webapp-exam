@@ -58,6 +58,36 @@ const Compare = ({ performerId }: CompareProps) => {
 
     setActivityResults((prevState) => [...prevState, ...activityList])
   }
+  const duplicateActivity = async (activityId: string) => {
+    try {
+      const response = await fetch(
+        `/api/sessions/duplicateSessionById/${activityId}`,
+        {
+          method: "post",
+        },
+      )
+
+      const data = await response.json()
+      const isSuccess = data.status
+      const message = data.message
+
+      console.log(data)
+      if (isSuccess == 200) {
+        console.log(`Session with id ${activityId} duplicated.`)
+        setActivityResults([])
+        await getActivities(performerId)
+        return { success: true, message: `${activityId} duplicated.` }
+      } else {
+        console.log(`Session with id ${activityId} does not exist.`)
+        return {
+          success: false,
+          message: `Session with id ${activityId} does not exist.`,
+        }
+      }
+    } catch (error) {
+      return { success: false, message: error }
+    }
+  }
 
   const deleteActivity = async (activityId: string) => {
     try {
@@ -92,6 +122,10 @@ const Compare = ({ performerId }: CompareProps) => {
     await deleteActivity(activityId)
   }
 
+  const handleDuplicate = async (activityId: string) => {
+    await duplicateActivity(activityId)
+  }
+
   useEffect(() => {
     if (!isApiCalled.current) {
       isApiCalled.current = true
@@ -118,6 +152,7 @@ const Compare = ({ performerId }: CompareProps) => {
                 key={index}
                 id={activity.id}
                 handleDelete={handleDelete}
+                handleDuplicate={duplicateActivity}
               />
             ))}
           </td>

@@ -46,6 +46,12 @@ export const DELETE = async (request: NextRequest, { params }: { params: { activ
         });
       }
 
+      const sessionActivity = await prisma.sessionActivity.delete({
+        where: {
+          id: activityId,
+        }
+      });
+
       const session = await prisma.sessions.delete({
         where: {
           id: sessionActivityToDelete.sessionId,

@@ -52,7 +52,7 @@ model Questions {
 
 model Answers {
   id            String          @id @default(uuid())
-  question      Questions       @relation(fields: [questionId], references: [id])
+  question      Questions       @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId    String
   answerText    String?
   answerNumber  Int?
@@ -70,7 +70,7 @@ model Intervals {
 
 model IntervalResults {
   id                   String                  @id @default(uuid())
-  interval             Intervals               @relation(fields: [intervalId], references: [id])
+  interval             Intervals               @relation(fields: [intervalId], references: [id], onDelete: Cascade)
   intervalId           String
   duration             Int
   intensityMin         Int
@@ -93,7 +93,7 @@ model Sessions {
   name              String?
   type              String?
   isTemplate        Boolean
-  uniqueToPerformer Performers?        @relation(fields: [performerId], references: [id], onDelete: Cascade)
+  uniqueToPerformer Performers?        @relation(fields: [performerId], references: [id], onDelete: SetNull)
   performerId       String?
   slug              String?            @unique
   intensityParam    Int?
@@ -111,9 +111,9 @@ model SessionActivity {
   date        DateTime
   session     Sessions   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   sessionId   String
-  goal        Goals?     @relation(fields: [goalId], references: [id])
+  goal        Goals?     @relation(fields: [goalId], references: [id], onDelete: SetNull)
   goalId      String?
-  performer   Performers @relation(fields: [performerId], references: [id])
+  performer   Performers @relation(fields: [performerId], references: [id], onDelete: Cascade)
   performerId String
   report      Reports?
 }
@@ -127,9 +127,9 @@ model Reports {
 }
 
 model PerformerGoals {
-  performer   Performers @relation(fields: [performerId], references: [id])
+  performer   Performers @relation(fields: [performerId], references: [id], onDelete: Cascade)
   performerId String
-  goal        Goals      @relation(fields: [goalId], references: [id])
+  goal        Goals      @relation(fields: [goalId], references: [id], onDelete: Cascade)
   goalId      String
   year        Int
 
