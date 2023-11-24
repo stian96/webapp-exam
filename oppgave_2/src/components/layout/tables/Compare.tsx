@@ -12,11 +12,18 @@ type CompareProps = {
 
 const Compare = ({ performerId }: CompareProps) => {
   const isApiCalled = useRef(false)
+  const [originalActivityResults, setOriginalActivityResults] = useState<
+    SessionActivityDto[]
+  >([])
   const [activityResults, setActivityResults] = useState<SessionActivityDto[]>(
     [],
   )
   const [tags, setTags] = useState<string[]>([])
   const [types, setTypes] = useState<string[]>([])
+
+  const resetResults = () => {
+    setActivityResults(originalActivityResults)
+  }
 
   const populateTags = (activities: SessionActivityDto[]) => {
     let tagList: string[] = []
@@ -50,6 +57,22 @@ const Compare = ({ performerId }: CompareProps) => {
     setTypes(typeList)
   }
 
+  const filterActivitiesByType = (type: string) => {
+    const filteredList = [...activityResults].filter(
+      (activity) => activity.session.type === type,
+    )
+    setActivityResults(filteredList)
+  }
+
+  const filterActivitiesByTag = (tag: string) => {
+    const filteredList = [...activityResults].filter((activity) =>
+      activity.session.sessionTags.some((tagObj) => tagObj.tag === tag),
+    )
+
+    console.log(filteredList)
+    setActivityResults(filteredList)
+  }
+
   const sortActivitiesByDateAsc = () => {
     const sortedList = [...activityResults].sort((a, b) => {
       const dateA = new Date(a.date)
@@ -74,6 +97,7 @@ const Compare = ({ performerId }: CompareProps) => {
     const updatedResults = activityResults.filter(
       (obj) => obj.id !== activityId,
     )
+    setOriginalActivityResults(updatedResults)
     setActivityResults(updatedResults)
   }
 
@@ -112,6 +136,7 @@ const Compare = ({ performerId }: CompareProps) => {
 
     populateTags(activityList)
     populateTypes(activityList)
+    setOriginalActivityResults((prevState) => [...prevState, ...activityList])
     setActivityResults((prevState) => [...prevState, ...activityList])
   }
   const duplicateActivity = async (activityId: string) => {
@@ -202,6 +227,9 @@ const Compare = ({ performerId }: CompareProps) => {
               types={types}
               sortAsc={sortActivitiesByDateAsc}
               sortDesc={sortActivitiesByDateDesc}
+              filterType={filterActivitiesByType}
+              filterTag={filterActivitiesByTag}
+              resetResults={resetResults}
             />
           </td>
         </tr>

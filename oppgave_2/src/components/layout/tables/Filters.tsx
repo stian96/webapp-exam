@@ -7,9 +7,20 @@ type FiltersProps = {
   types: string[]
   sortAsc: () => void
   sortDesc: () => void
+  filterType: (type: string) => void
+  filterTag: (tag: string) => void
+  resetResults: () => void
 }
 
-const Filters = ({ tags, types, sortAsc, sortDesc }: FiltersProps) => {
+const Filters = ({
+  tags,
+  types,
+  sortAsc,
+  sortDesc,
+  filterType,
+  filterTag,
+  resetResults,
+}: FiltersProps) => {
   const [selectedTag, setSelectedTag] = useState("")
   const [selectedType, setSelectedType] = useState("")
   const [selectedReportStatus, setSelectedReportStatus] = useState("")
@@ -26,18 +37,48 @@ const Filters = ({ tags, types, sortAsc, sortDesc }: FiltersProps) => {
     }
   }
 
+  const handleType = (event: ChangeEvent<HTMLInputElement>) => {
+    const typeString = event.target.value
+    setSelectedType(event.target.value)
+
+    filterType(typeString)
+  }
+
+  const handleTag = (event: ChangeEvent<HTMLInputElement>) => {
+    const tagString = event.target.value
+    setSelectedTag(event.target.value)
+
+    filterTag(tagString)
+  }
+
+  const handleReset = () => {
+    setSelectedTag("")
+    setSelectedReportStatus("")
+    setSelectedSortBy("")
+    setSelectedType("")
+
+    resetResults()
+  }
+
   return (
     <div className="filter">
+      <button
+        onClick={handleReset}
+        className="mr-4 h-8 w-8 items-center justify-center rounded-full bg-red-500 text-white"
+      >
+        X
+      </button>
       <select
         className="filter__dropdown"
         name="Tag"
         value={selectedTag}
-        onChange={(e) => setSelectedTag(e.target.value)}
+        onChange={(e) => {
+          handleTag(e)
+        }}
       >
         <option value="" disabled>
           Tag
         </option>
-        <option value="None">None</option>
         {tags.map((value) => (
           <option key={value} value={value}>
             {value}
@@ -47,14 +88,15 @@ const Filters = ({ tags, types, sortAsc, sortDesc }: FiltersProps) => {
 
       <select
         className="filter__dropdown"
-        name="Tag"
+        name="Type"
         value={selectedType}
-        onChange={(e) => setSelectedType(e.target.value)}
+        onChange={(e) => {
+          handleType(e)
+        }}
       >
         <option value="" disabled>
           Type
         </option>
-        <option value="None">None</option>
         {types.map((value) => (
           <option key={value} value={value}>
             {value}
