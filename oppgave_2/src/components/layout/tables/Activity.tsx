@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 
 import { ActivityContext } from "@/hooks/ActivityContext"
 
@@ -6,20 +6,19 @@ import "@/style/activity.scss"
 
 import Link from "next/link"
 
+import { SessionActivityDto } from "@/types/sessionActivity"
+
 type ActivityProps = {
   id: string
 }
 
 const Activity = ({ id }: ActivityProps) => {
   const { selectedActivities, toggleActivity } = useContext(ActivityContext)
-
-  const buttons = ["Duplicate", "Edit", "Delete", "Create Report"]
+  const isChecked = selectedActivities.includes(id)
 
   const handleChange = () => {
     toggleActivity(id)
   }
-
-  const isChecked = selectedActivities.includes(id)
 
   return (
     <div className="activity-cont flex items-center justify-between gap-8 px-8">
@@ -32,7 +31,7 @@ const Activity = ({ id }: ActivityProps) => {
         checked={isChecked}
       />
       <div className="activity flex w-full justify-between">
-        <span className="activity__id">{`Activity ${id}`}</span>
+        <span className="activity__id">{`Id: ${id}`}</span>
         <div className="activity__container flex gap-5">
           <Link href={`#`}>
             <button className="activity__container-button">Duplicate</button>

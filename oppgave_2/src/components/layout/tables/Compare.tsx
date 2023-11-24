@@ -1,3 +1,6 @@
+import { useEffect, useRef, useState } from "react"
+
+import { SessionActivityDto } from "@/types/sessionActivity"
 import Activity from "./Activity"
 import Filters from "./Filters"
 
@@ -8,8 +11,55 @@ type CompareProps = {
 }
 
 const Compare = ({ performerId }: CompareProps) => {
-  // TODO: Replace dummy data.
-  const activities = ["1", "2", "3"]
+  const isApiCalled = useRef(false)
+  const [activityResults, setActivityResults] = useState<SessionActivityDto[]>(
+    [],
+  )
+
+  const getActivities = async (performerId: string) => {
+    try {
+      const response = await fetch(
+        `/api/sessions/getSessionActivitiesByPerformer/${performerId}`,
+        {
+          method: "get",
+        },
+      )
+
+      const data = await response.json()
+      const isSuccess = data.status
+      const message = data.message
+
+      if (isSuccess == 200) {
+        deserialiseActivityResultsResponse(message)
+
+        console.log(`Results for ${performerId} exists.`)
+        return { success: true, message: `${performerId} exists.` }
+      } else {
+        console.log(`Results for ${performerId} do not exist.`)
+        return {
+          success: false,
+          message: `Results for ${performerId} do not exist.`,
+        }
+      }
+    } catch (error) {
+      return { success: false, message: error }
+    }
+  }
+
+  const deserialiseActivityResultsResponse = (responseMessage: string) => {
+    const activityList: SessionActivityDto[] = JSON.parse(responseMessage)
+
+    setActivityResults((prevState) => [...prevState, ...activityList])
+  }
+
+  useEffect(() => {
+    if (!isApiCalled.current) {
+      isApiCalled.current = true
+      return
+    }
+
+    void getActivities(performerId)
+  }, [])
 
   return (
     <table className="compare">
@@ -23,8 +73,8 @@ const Compare = ({ performerId }: CompareProps) => {
         </tr>
         <tr className="activity-table">
           <td className="mb-5">
-            {activities.map((activity, index) => (
-              <Activity key={index} id={activity} />
+            {activityResults.map((activity, index) => (
+              <Activity key={index} id={activity.id} />
             ))}
           </td>
         </tr>
