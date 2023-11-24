@@ -1,15 +1,20 @@
-import { Performer } from "../types/performer"
-import { Goal } from "../types/classes/goal"
-import { GoalsGroupedByYear } from "@/app/api/goals/getGoals/route"
+import { type Performer } from "../types/performer"
+import { type Goal } from "../types/classes/goal"
+import { type GoalsGroupedByYear } from "@/app/api/goals/getGoals/route"
 
-interface APIResponse {
+type APIResponse = {
     status: number
     message: Performer[]
   }
 
-  interface GoalsResponse {
+  type GoalsResponse = {
     status: number
     message: string
+  }
+
+  type DeleteGoalResponse = {
+    success: boolean;
+    message: string;
   }
 
 // Function used to fetch performers from the database.
@@ -33,7 +38,7 @@ export const fetchPerformers = async (url: string): Promise<Performer[]> => {
   }
 
   // Function used to update a particular performer in the database.
-  export const updatePerformerInDatabase = async (performer: Performer): Promise<Boolean> => {
+  export const updatePerformerInDatabase = async (performer: Performer): Promise<boolean> => {
     const response = await fetch("/api/users/updateUser", {
       method: "PUT",
       headers: {
@@ -98,3 +103,30 @@ export const fetchPerformers = async (url: string): Promise<Performer[]> => {
         return false
     }
 }
+
+/*
+// Function to delete a goal from the database.
+export const deleteGoal = async (goalId: string): Promise<DeleteGoalResponse> => {
+  try {
+    const response = await fetch(`/api/goals/deleteGoal?goalId=${goalId}`, {
+      method: 'DELETE',
+    });
+
+    
+    if (!response.ok) {
+      \
+      throw new Error(`Failed to delete goal. Status: ${response.status}`);
+    }
+
+    
+    const result = await response.json();
+
+    
+    return { success: true, message: result.message || "Goal deleted successfully" };
+  } catch (error) {
+    
+    console.error('Error deleting goal:', error);
+    return { success: false, message: error instanceof Error ? error.message : 'Error deleting goal' };
+  }
+};
+*/
