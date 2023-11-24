@@ -76,10 +76,13 @@ const Activity = ({
           >
             Delete
           </button>
-          <Link href={`#`}>
+          <Link href={`#`} className={`${hasReport ? "hidden" : ""}`}>
             <button className="activity__container-button">
               Create Report
             </button>
+          </Link>
+          <Link href={`#`} className={`${hasReport ? "" : "hidden"}`}>
+            <button className="activity__container-button">Show Report</button>
           </Link>
         </div>
       </div>
