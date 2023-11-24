@@ -3,6 +3,7 @@ import { type PerformerDto } from '@/types/DTO/importUsers';
 import { SessionEditDto } from '@/types/DTO/sessionEditDto';
 import { SessionActivityDto } from '@/types/sessionActivity';
 import { Goal } from 'lucide-react';
+import { GoalsByYear } from '@/types/classes/goal';
 
 const useActivityEditorHook = () => {
   const [sessionName, setSessionName] = useState<string>("")
@@ -165,13 +166,21 @@ const useActivityEditorHook = () => {
     const data = await response.json()
     const result = data as { status: number; message: string }
 
+    console.log(result.message)
     if (result.status == 404) {
       return
     }
 
-    const goals = JSON.parse(result.message) as Goal[]
+    const goals = JSON.parse(result.message) as GoalsByYear
 
-    setDbGoals(goals)
+    const currentYear = new Date().getFullYear().toString();
+    const goalsCurrentYear: Goal[] | undefined = goals[currentYear];
+
+    console.log(goalsCurrentYear)
+
+    if (goalsCurrentYear) {
+      setDbGoals(goalsCurrentYear)
+    }
   }
 
   const getActivity = async (activityId: string) => {

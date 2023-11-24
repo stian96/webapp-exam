@@ -35,3 +35,5 @@ export class Goal implements GoalModel {
         this.priority = priority
     }
 }
+
+export type GoalsByYear = Record<string, Goal[]>;

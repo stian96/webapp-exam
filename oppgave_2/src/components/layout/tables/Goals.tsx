@@ -82,7 +82,7 @@ const Goals = ({ performerId }: GoalsProps) => {
             </div>
           </div>
         </div>
-        <Compare />
+        <Compare performerId={performerId} />
       </div>
     </>
   )

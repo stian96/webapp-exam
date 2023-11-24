@@ -2,7 +2,7 @@ import { useState } from "react"
 
 import { type Task } from "@/types"
 
-export default function useProgress({ tasks }: { tasks: Task[] }) {
+const useProgress = ({ tasks }: { tasks: Task[] }) => {
   const [count, setCount] = useState(0)
   const current = tasks[0]
 
@@ -15,3 +15,5 @@ export default function useProgress({ tasks }: { tasks: Task[] }) {
 
   return { count, current, next, prev }
 }
+
+export default useProgress

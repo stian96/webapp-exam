@@ -9,7 +9,7 @@ import { Icons } from "@/components/icons"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function Progress({
+const Progress = ({
   tasks, attempts, onShowResults, isAnswerShown, isCorrectAnswer, currentTaskIndex, setCurrentTaskIndex
 }: {
   tasks: Task[],
@@ -19,7 +19,7 @@ export default function Progress({
   isCorrectAnswer: boolean,
   currentTaskIndex: number,
   setCurrentTaskIndex: (index: number) => void;
-}) {
+}) => {
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -71,6 +71,8 @@ export default function Progress({
     </footer>
   )
 }
+
+export default Progress
 
 // SRC for toast-implementation:
 // NPM.(2023).React-Toastify. https://www.npmjs.com/package/react-toastify?activeTab=readme
