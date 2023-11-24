@@ -120,6 +120,7 @@ model SessionActivity {
 
 model Reports {
   id                    String                  @id @default(uuid())
+  status                String?
   sessionActivity       SessionActivity         @relation(fields: [sessionActivityId], references: [id], onDelete: Cascade)
   sessionActivityId     String                  @unique
   reportIntervalResults ReportIntervalResults[]

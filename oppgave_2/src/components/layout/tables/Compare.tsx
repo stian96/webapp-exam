@@ -69,8 +69,24 @@ const Compare = ({ performerId }: CompareProps) => {
       activity.session.sessionTags.some((tagObj) => tagObj.tag === tag),
     )
 
-    console.log(filteredList)
     setActivityResults(filteredList)
+  }
+
+  const filterActivitiesByReportStatus = (reportStatus: string) => {
+    console.log(activityResults)
+    if (reportStatus === "No report") {
+      const filteredList = [...activityResults].filter(
+        (activity) => activity.report == null,
+      )
+      setActivityResults(filteredList)
+    } else {
+      const filteredList = [...activityResults].filter((activity) => {
+        return (
+          activity.report !== null && activity.report.status === reportStatus
+        )
+      })
+      setActivityResults(filteredList)
+    }
   }
 
   const sortActivitiesByDateAsc = () => {
@@ -229,6 +245,7 @@ const Compare = ({ performerId }: CompareProps) => {
               sortDesc={sortActivitiesByDateDesc}
               filterType={filterActivitiesByType}
               filterTag={filterActivitiesByTag}
+              filterReport={filterActivitiesByReportStatus}
               resetResults={resetResults}
             />
           </td>

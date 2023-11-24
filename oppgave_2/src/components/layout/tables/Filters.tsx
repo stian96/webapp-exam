@@ -9,6 +9,7 @@ type FiltersProps = {
   sortDesc: () => void
   filterType: (type: string) => void
   filterTag: (tag: string) => void
+  filterReport: (reportStatus: string) => void
   resetResults: () => void
 }
 
@@ -19,6 +20,7 @@ const Filters = ({
   sortDesc,
   filterType,
   filterTag,
+  filterReport,
   resetResults,
 }: FiltersProps) => {
   const [selectedTag, setSelectedTag] = useState("")
@@ -49,6 +51,13 @@ const Filters = ({
     setSelectedTag(event.target.value)
 
     filterTag(tagString)
+  }
+
+  const handleReport = (event: ChangeEvent<HTMLInputElement>) => {
+    const reportString = event.target.value
+    setSelectedReportStatus(event.target.value)
+
+    filterReport(reportString)
   }
 
   const handleReset = () => {
@@ -108,7 +117,9 @@ const Filters = ({
         className="filter__dropdown"
         name="Report Status"
         value={selectedReportStatus}
-        onChange={(e) => setSelectedReportStatus(e.target.value)}
+        onChange={(e) => {
+          handleReport(e)
+        }}
       >
         <option value="" disabled>
           Report Status
