@@ -15,6 +15,41 @@ const Compare = ({ performerId }: CompareProps) => {
   const [activityResults, setActivityResults] = useState<SessionActivityDto[]>(
     [],
   )
+  const [tags, setTags] = useState<string[]>([])
+  const [types, setTypes] = useState<string[]>([])
+
+  const populateTags = (activities: SessionActivityDto[]) => {
+    let tagList: string[] = []
+
+    for (const activity of activities) {
+      if (activity.session != null) {
+        for (const tag of activity.session.sessionTags) {
+          if (!tagList.includes(tag.tag)) {
+            tagList.push(tag.tag)
+          }
+        }
+      }
+    }
+
+    setTags(tagList)
+  }
+
+  const populateTypes = (activities: SessionActivityDto[]) => {
+    let typeList: string[] = []
+
+    for (const activity of activities) {
+      if (activity.session != null) {
+        console.log(activity.session)
+        if (
+          activity.session.type != null &&
+          !typeList.includes(activity.session.type)
+        ) {
+          typeList.push(activity.session.type)
+        }
+      }
+    }
+    setTypes(typeList)
+  }
 
   const removeActivityById = (activityId: string) => {
     const updatedResults = activityResults.filter(
@@ -56,6 +91,8 @@ const Compare = ({ performerId }: CompareProps) => {
   const deserialiseActivityResultsResponse = (responseMessage: string) => {
     const activityList: SessionActivityDto[] = JSON.parse(responseMessage)
 
+    populateTags(activityList)
+    populateTypes(activityList)
     setActivityResults((prevState) => [...prevState, ...activityList])
   }
   const duplicateActivity = async (activityId: string) => {
@@ -142,7 +179,7 @@ const Compare = ({ performerId }: CompareProps) => {
           <td className="compare__body-data">Compare</td>
           <td className="compare__body-data filter-container flex items-center justify-end gap-8">
             <span>Filters</span>
-            <Filters />
+            <Filters tags={tags} types={types} />
           </td>
         </tr>
         <tr className="activity-table">
