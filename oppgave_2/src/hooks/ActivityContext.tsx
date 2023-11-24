@@ -4,8 +4,10 @@ import { createContext, useState } from "react"
 import type { ReactNode } from "react"
 
 type ActivityContextType = {
-  selectedActivities: number[]
-  toggleActivity: (activityId: number) => void
+  selectedActivities: string[]
+  toggleActivity: (activityId: string) => void
+  selectedType: string
+  setType: (type: string) => void
 }
 
 type ActivityProviderProps = {
@@ -14,6 +16,8 @@ type ActivityProviderProps = {
 
 const defaultContext: ActivityContextType = {
   selectedActivities: [],
+  selectedType: "null",
+  setType: () => {},
   toggleActivity: () => {},
 }
 
@@ -22,9 +26,10 @@ export const ActivityContext =
   createContext<ActivityContextType>(defaultContext)
 
 export const ActivityProvider = ({ children }: ActivityProviderProps) => {
-  const [selectedActivities, setSelectedActivities] = useState<number[]>([])
+  const [selectedActivities, setSelectedActivities] = useState<string[]>([])
+  const [selectedType, setSelectedType] = useState<string>("null")
 
-  const toggleActivity = (activityId: number) => {
+  const toggleActivity = (activityId: string) => {
     setSelectedActivities((prev) => {
       const isAlreadySelected = prev.includes(activityId)
       if (isAlreadySelected) {
@@ -35,8 +40,18 @@ export const ActivityProvider = ({ children }: ActivityProviderProps) => {
     })
   }
 
+  const setType = (type?: string) => {
+    if (type == undefined) {
+      setSelectedType("undefined")
+    } else {
+      setSelectedType(type)
+    }
+  }
+
   return (
-    <ActivityContext.Provider value={{ selectedActivities, toggleActivity }}>
+    <ActivityContext.Provider
+      value={{ selectedActivities, toggleActivity, selectedType, setType }}
+    >
       {children}
     </ActivityContext.Provider>
   )

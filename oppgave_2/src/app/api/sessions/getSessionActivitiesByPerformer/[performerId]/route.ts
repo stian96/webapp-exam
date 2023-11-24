@@ -32,7 +32,11 @@ export const GET = async (request: NextRequest, { params }: { params: { performe
             performerId: performerId,
           },
           include: {
-            session: true,
+            session: {
+              include: {
+                sessionTags: true,
+              },
+            },
             goal: true,
             report: true,
           }

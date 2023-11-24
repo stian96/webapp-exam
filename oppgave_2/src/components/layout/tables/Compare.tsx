@@ -12,14 +12,108 @@ type CompareProps = {
 
 const Compare = ({ performerId }: CompareProps) => {
   const isApiCalled = useRef(false)
+  const [originalActivityResults, setOriginalActivityResults] = useState<
+    SessionActivityDto[]
+  >([])
   const [activityResults, setActivityResults] = useState<SessionActivityDto[]>(
     [],
   )
+  const [tags, setTags] = useState<string[]>([])
+  const [types, setTypes] = useState<string[]>([])
+
+  const resetResults = () => {
+    setActivityResults(originalActivityResults)
+  }
+
+  const populateTags = (activities: SessionActivityDto[]) => {
+    let tagList: string[] = []
+
+    for (const activity of activities) {
+      if (activity.session != null) {
+        for (const tag of activity.session.sessionTags) {
+          if (!tagList.includes(tag.tag)) {
+            tagList.push(tag.tag)
+          }
+        }
+      }
+    }
+
+    setTags(tagList)
+  }
+
+  const populateTypes = (activities: SessionActivityDto[]) => {
+    let typeList: string[] = []
+
+    for (const activity of activities) {
+      if (activity.session != null) {
+        if (
+          activity.session.type != null &&
+          !typeList.includes(activity.session.type)
+        ) {
+          typeList.push(activity.session.type)
+        }
+      }
+    }
+    setTypes(typeList)
+  }
+
+  const filterActivitiesByType = (type: string) => {
+    const filteredList = [...activityResults].filter(
+      (activity) => activity.session.type === type,
+    )
+    setActivityResults(filteredList)
+  }
+
+  const filterActivitiesByTag = (tag: string) => {
+    const filteredList = [...activityResults].filter((activity) =>
+      activity.session.sessionTags.some((tagObj) => tagObj.tag === tag),
+    )
+
+    setActivityResults(filteredList)
+  }
+
+  const filterActivitiesByReportStatus = (reportStatus: string) => {
+    console.log(activityResults)
+    if (reportStatus === "No report") {
+      const filteredList = [...activityResults].filter(
+        (activity) => activity.report == null,
+      )
+      setActivityResults(filteredList)
+    } else {
+      const filteredList = [...activityResults].filter((activity) => {
+        return (
+          activity.report !== null && activity.report.status === reportStatus
+        )
+      })
+      setActivityResults(filteredList)
+    }
+  }
+
+  const sortActivitiesByDateAsc = () => {
+    const sortedList = [...activityResults].sort((a, b) => {
+      const dateA = new Date(a.date)
+      const dateB = new Date(b.date)
+      return dateA.getTime() - dateB.getTime()
+    })
+
+    setActivityResults(sortedList)
+  }
+
+  const sortActivitiesByDateDesc = () => {
+    const sortedList = [...activityResults].sort((a, b) => {
+      const dateA = new Date(a.date)
+      const dateB = new Date(b.date)
+      return dateB.getTime() - dateA.getTime()
+    })
+
+    setActivityResults(sortedList)
+  }
 
   const removeActivityById = (activityId: string) => {
     const updatedResults = activityResults.filter(
       (obj) => obj.id !== activityId,
     )
+    setOriginalActivityResults(updatedResults)
     setActivityResults(updatedResults)
   }
 
@@ -56,6 +150,9 @@ const Compare = ({ performerId }: CompareProps) => {
   const deserialiseActivityResultsResponse = (responseMessage: string) => {
     const activityList: SessionActivityDto[] = JSON.parse(responseMessage)
 
+    populateTags(activityList)
+    populateTypes(activityList)
+    setOriginalActivityResults((prevState) => [...prevState, ...activityList])
     setActivityResults((prevState) => [...prevState, ...activityList])
   }
   const duplicateActivity = async (activityId: string) => {
@@ -71,7 +168,6 @@ const Compare = ({ performerId }: CompareProps) => {
       const isSuccess = data.status
       const message = data.message
 
-      console.log(data)
       if (isSuccess == 200) {
         console.log(`Session with id ${activityId} duplicated.`)
         setActivityResults([])
@@ -142,7 +238,16 @@ const Compare = ({ performerId }: CompareProps) => {
           <td className="compare__body-data">Compare</td>
           <td className="compare__body-data filter-container flex items-center justify-end gap-8">
             <span>Filters</span>
-            <Filters />
+            <Filters
+              tags={tags}
+              types={types}
+              sortAsc={sortActivitiesByDateAsc}
+              sortDesc={sortActivitiesByDateDesc}
+              filterType={filterActivitiesByType}
+              filterTag={filterActivitiesByTag}
+              filterReport={filterActivitiesByReportStatus}
+              resetResults={resetResults}
+            />
           </td>
         </tr>
         <tr className="activity-table">
@@ -151,6 +256,8 @@ const Compare = ({ performerId }: CompareProps) => {
               <Activity
                 key={index}
                 id={activity.id}
+                type={activity.session.type}
+                hasReport={activity.report != null}
                 handleDelete={handleDelete}
                 handleDuplicate={duplicateActivity}
               />

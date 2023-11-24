@@ -31,41 +31,45 @@ const Table = ({ searchQuery, performers, setPerformers }: TableProp) => {
   )
 
   return (
-    <table className="mx-auto table w-full max-w-7xl border">
-      <tbody className="table__body">
-        {filteredPerformers.map((performer, index) => (
-          <React.Fragment key={`performer-fragment-${index}`}>
-            <tr>
-              <td className="table__body-data flex justify-between p-4">
-                <div className="userId-container w-52">{performer.userId}</div>
-                <Link
-                  className="table__body-link"
-                  href={`/sessions/${performer.id}`}
-                >
-                  Sessions
-                </Link>
-                <Link className="table__body-link" href="/reports">
-                  Reports
-                </Link>
-                <button
-                  className="table__body-button"
-                  type="button"
-                  onClick={() => handleEditClick(index)}
-                >
-                  {editMode === index ? "Hide" : "Show"}
-                </button>
-              </td>
-            </tr>
-            {editMode === index && (
-              <Performer
-                performer={performer}
-                performers={performers}
-                setPerformers={setPerformers}
-              />
-            )}
-          </React.Fragment>
-        ))}
-      </tbody>
+    <div>
+      <table className="mx-auto table w-full max-w-7xl border">
+        <tbody className="table__body">
+          {filteredPerformers.map((performer, index) => (
+            <React.Fragment key={`performer-fragment-${index}`}>
+              <tr>
+                <td className="table__body-data flex justify-between p-4">
+                  <div className="userId-container w-52">
+                    {performer.userId}
+                  </div>
+                  <Link
+                    className="table__body-link"
+                    href={`/sessions/${performer.id}`}
+                  >
+                    Sessions
+                  </Link>
+                  <Link className="table__body-link" href="/reports">
+                    Reports
+                  </Link>
+                  <button
+                    className="table__body-button"
+                    type="button"
+                    onClick={() => handleEditClick(index)}
+                  >
+                    {editMode === index ? "Hide" : "Show"}
+                  </button>
+                </td>
+              </tr>
+              {editMode === index && (
+                <Performer
+                  performer={performer}
+                  performers={performers}
+                  setPerformers={setPerformers}
+                />
+              )}
+            </React.Fragment>
+          ))}
+        </tbody>
+      </table>
       {selectedActivities.length >= 2 && (
         <Link href="/analysis">
           <button className="table__compare-button fixed bottom-4 right-4 text-white">
@@ -73,7 +77,7 @@ const Table = ({ searchQuery, performers, setPerformers }: TableProp) => {
           </button>
         </Link>
       )}
-    </table>
+    </div>
   )
 }
 
