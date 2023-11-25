@@ -3,8 +3,6 @@ import { type Goal } from "../../../types/classes/goal"
 import  GoalsEditPopup from "../popups/GoalsEditPopup"
 import "@/style/goalsData.scss"
 import { type GoalsInput } from "@/types/goalsInput"
-//import { deleteGoal } from '../../../lib/api';
-
 
 
 type GoalsDataProps = {
