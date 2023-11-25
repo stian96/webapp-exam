@@ -18,10 +18,7 @@ const Goals = ({ performerId }: GoalsProps) => {
 
   useEffect(() => {
     const getGoalsData = async () => {
-      const goalsGroupedByYear = (await fetchGoals(
-        performerId,
-      )) as GoalsGroupedByYear
-      console.log("Goals response:", goalsGroupedByYear)
+      const goalsGroupedByYear = (await fetchGoals(performerId)) as GoalsGroupedByYear
       setAllGoals(goalsGroupedByYear)
     }
     getGoalsData()

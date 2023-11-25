@@ -31,18 +31,7 @@ const GoalsData = ({ performerId, goal, onGoalDelete, updateGoal }: GoalsDataPro
         setCurrentGoal(convertedGoal)
         updateGoal(convertedGoal)
     }
-    /*
 
-    const handleDeleteGoal = async () => {
-      const { success, message } = await deleteGoal(currentGoal.id);
-
-    if (success) {
-        console.log(message);
-        onGoalDelete(currentGoal.id);
-    } else {
-        console.error(message);
-    }};
-    */
     const handleDeleteGoal = async () => {
       try {
           const response = await fetch(`/api/goals/deleteGoal?goalId=${currentGoal.id}`, {
