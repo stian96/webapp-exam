@@ -21,7 +21,7 @@ export const POST = async (request: NextRequest) => {
                 }
             })
 
-            const newPerformerGoal = await prisma.performerGoals.create({
+            await prisma.performerGoals.create({
                 data: {
                     performerId: performerId,
                     goalId: newGoal.id,
