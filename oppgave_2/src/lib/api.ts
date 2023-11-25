@@ -104,4 +104,19 @@ export const fetchPerformers = async (url: string): Promise<Performer[]> => {
     }
 }
 
-
+export const deleteGoalFromDB = async (currentGoal: Goal): Promise<boolean> => {
+  try {
+      const response = await fetch(`/api/goals/deleteGoal?goalId=${currentGoal.id}`, {
+          method: 'DELETE',
+      });
+      if (!response.ok) {
+        return false
+      }
+      const success = await response.json()
+      console.log(`Successfully deleted goal: ${success}`)
+      return true
+  } catch (error) {
+      console.error('Error deleting goal:', error)
+      return false
+  }
+}
