@@ -72,16 +72,20 @@ const Goals = ({ performerId }: GoalsProps) => {
           </div>
           <div className="goals__body-content">
             <div className="mx-auto flex w-11/12 flex-col pb-5">
-              {Object.entries(allGoals).map(([year, goalsArray]) => (
-                <GoalsRow
-                  key={year}
-                  performerId={performerId}
-                  goalsArray={goalsArray}
-                  year={year}
-                  addNewGoals={addNewGoals}
-                  onGoalDelete={filterAfterGoalDelete}
-                />
-              ))}
+              {allGoals === undefined ? (
+                <p>No goals available</p>
+              ) : (
+                Object.entries(allGoals).map(([year, goalsArray]) => (
+                  <GoalsRow
+                    key={year}
+                    performerId={performerId}
+                    goalsArray={goalsArray}
+                    year={year}
+                    addNewGoals={addNewGoals}
+                    onGoalDelete={filterAfterGoalDelete}
+                  />
+                ))
+              )}
             </div>
           </div>
         </div>
