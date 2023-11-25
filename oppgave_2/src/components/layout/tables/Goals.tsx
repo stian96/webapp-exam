@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
 import { type GoalsGroupedByYear } from "@/app/api/goals/getGoals/route"
-import { saveGoalsToDb } from "@/lib/dbOperation"
+import { addNewGoalToDB } from "@/lib/dbOperation"
 import { Compare, GoalsRow } from "@/components"
 import { fetchGoals } from "@/lib/api"
 import { type Goal } from "@/types/classes/goal"
@@ -53,7 +53,7 @@ const Goals = ({ performerId }: GoalsProps) => {
       [year]: [...existingGoalsForYear, newGoal],
     }
     setAllGoals(updatedGoals)
-    // TODO: Implement method to save new goal to DB. 
+    addNewGoalToDB({newGoal, performerId, year})
   }
 
   const handleClick = () => {

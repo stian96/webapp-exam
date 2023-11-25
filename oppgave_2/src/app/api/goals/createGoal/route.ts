@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma"
-import { Goal } from "@/types/classes/goal"
 import { RequestData } from "../updateGoal/route"
 import { NextResponse, type NextRequest } from "next/server"
 

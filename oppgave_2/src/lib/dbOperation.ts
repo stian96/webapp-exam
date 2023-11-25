@@ -1,6 +1,6 @@
 
 import { PriorityEnum } from "../enums/PriorityEnum"
-import { updateExistingGoalInDatabase } from "../lib/api"
+import { updateExistingGoalInDatabase, createNewGoalInDatabase, CreateGoalParams  } from "../lib/api"
 import { Goal } from "@/types/classes/goal"
 
 
@@ -17,9 +17,18 @@ export const saveGoalsToDb = async (goalInput: Goal, performerId: string, goalId
 
     const success = await updateExistingGoalInDatabase(newGoal, parseInt(year), performerId)
     if (success) {
-        console.log("Goal created/updated successfully!")
+        console.log("Goal updated successfully!")
+    } else {
+        console.error("Failed to update goal...")
     }
-    else {
-        console.error("Failed to create/update goal...")
+}
+
+export const addNewGoalToDB = async ({ newGoal, performerId, year }: CreateGoalParams) => {
+    const response = await createNewGoalInDatabase({ newGoal, performerId, year })
+
+    if (response) {
+        console.log("New goal successfully created!")
+    } else {
+        console.log("Feiled to add new goal...")
     }
 }
