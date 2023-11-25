@@ -2,6 +2,68 @@ import { prisma } from "@/lib/prisma"
 import { RequestData } from "../updateGoal/route"
 import { NextResponse, type NextRequest } from "next/server"
 
+/**
+ * @swagger
+ * /api/goals/createGoal:
+ *   post:
+ *     summary: Create a new goal
+ *     description: Creates a new goal in the database based on the provided data.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               goal:
+ *                 type: object
+ *                 required:
+ *                   - name
+ *                   - date
+ *                   - priority
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                   date:
+ *                     type: string
+ *                     format: date-time
+ *                   comment:
+ *                     type: string
+ *                   goalNotCompetition:
+ *                     type: string
+ *                   isCompetition:
+ *                     type: boolean
+ *                   priority:
+ *                     type: integer
+ *               performerId:
+ *                 type: string
+ *                 format: uuid
+ *               year:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Successfully created a new goal
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                 message:
+ *                   type: string
+ *       500:
+ *         description: Failed to create a new goal
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                 message:
+ *                   type: string
+ */
 export const POST = async (request: NextRequest) => {
     try {
         
