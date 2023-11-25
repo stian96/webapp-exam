@@ -104,29 +104,4 @@ export const fetchPerformers = async (url: string): Promise<Performer[]> => {
     }
 }
 
-/*
-// Function to delete a goal from the database.
-export const deleteGoal = async (goalId: string): Promise<DeleteGoalResponse> => {
-  try {
-    const response = await fetch(`/api/goals/deleteGoal?goalId=${goalId}`, {
-      method: 'DELETE',
-    });
 
-    
-    if (!response.ok) {
-      \
-      throw new Error(`Failed to delete goal. Status: ${response.status}`);
-    }
-
-    
-    const result = await response.json();
-
-    
-    return { success: true, message: result.message || "Goal deleted successfully" };
-  } catch (error) {
-    
-    console.error('Error deleting goal:', error);
-    return { success: false, message: error instanceof Error ? error.message : 'Error deleting goal' };
-  }
-};
-*/
