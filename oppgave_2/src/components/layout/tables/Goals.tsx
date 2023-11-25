@@ -24,7 +24,7 @@ const Goals = ({ performerId }: GoalsProps) => {
     getGoalsData()
   }, [])
 
-  const handleGoalDelete = (deletedGoalId: string) => {
+  const filterAfterGoalDelete = (deletedGoalId: string) => {
     const filteredGoals = Object.fromEntries(
       Object.entries(allGoals).map(([year, goalsArray]) => [
           year, 
@@ -79,7 +79,7 @@ const Goals = ({ performerId }: GoalsProps) => {
                   goalsArray={goalsArray}
                   year={year}
                   addNewGoals={addNewGoals}
-                  onGoalDelete={handleGoalDelete}
+                  onGoalDelete={filterAfterGoalDelete}
                 />
               ))}
             </div>
