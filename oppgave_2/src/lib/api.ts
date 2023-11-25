@@ -18,7 +18,7 @@ type APIResponse = {
   }
 
   export type CreateGoalParams = {
-    newGoal: Goal,
+    goal: Goal,
     performerId: string,
     year: string
   }
@@ -84,14 +84,15 @@ export const fetchPerformers = async (url: string): Promise<Performer[]> => {
     }
   }
 
-  export const createNewGoalInDatabase = async ({newGoal, performerId, year}: CreateGoalParams): Promise<boolean> => {
+  export const createNewGoalInDatabase = async ({goal, performerId, year}: CreateGoalParams): Promise<boolean> => {
+    console.log("NewGoal before fetch: ", goal)
     try {
       const response = await fetch("/api/goals/createGoal", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ newGoal, year, performerId })
+        body: JSON.stringify({ goal, year, performerId })
       })
 
       if (!response.ok) {

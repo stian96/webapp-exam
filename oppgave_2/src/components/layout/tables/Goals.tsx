@@ -39,21 +39,22 @@ const Goals = ({ performerId }: GoalsProps) => {
     setAllGoals(filteredGoals)
   }
 
-  const addNewGoals = (newGoal: Goal) => {
+  const addNewGoals = (goal: Goal) => {
     // Find year for the new goal so we know what group to put it in.
     let year = ""
-    if (newGoal.date) {
-      year = newGoal.date.getFullYear().toString()
+    if (goal.date) {
+      year = goal.date.getFullYear().toString()
     }
 
     // Check if it already exists goals for the year, if not, initialise an empty list.
     const existingGoalsForYear = allGoals[year] || []
     const updatedGoals = {
       ...allGoals,
-      [year]: [...existingGoalsForYear, newGoal],
+      [year]: [...existingGoalsForYear, goal],
     }
     setAllGoals(updatedGoals)
-    addNewGoalToDB({newGoal, performerId, year})
+    console.log("NewGoal: ", goal)
+    addNewGoalToDB({goal, performerId, year})
   }
 
   const handleClick = () => {

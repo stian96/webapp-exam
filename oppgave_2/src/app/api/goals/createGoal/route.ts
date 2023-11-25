@@ -6,9 +6,12 @@ export const POST = async (request: NextRequest) => {
     try {
         
         const data = await request.json() as RequestData
-        const { goal, performerId, year } = data
+        console.log("Data object in POST API: ", data)
+        console.log("Name in data object: ", data.goal.name)
         
         const operations = await prisma.$transaction(async (prisma) => {
+            const { goal, performerId, year } = data
+
             const newGoal = await prisma.goals.create({
                 data: {
                     name: goal.name,
@@ -24,7 +27,7 @@ export const POST = async (request: NextRequest) => {
                 data: {
                     performerId: performerId,
                     goalId: newGoal.id,
-                    year: year
+                    year: Number(year)
                 }
             })
 

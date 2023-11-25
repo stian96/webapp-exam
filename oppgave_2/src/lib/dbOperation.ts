@@ -23,12 +23,12 @@ export const saveGoalsToDb = async (goalInput: Goal, performerId: string, goalId
     }
 }
 
-export const addNewGoalToDB = async ({ newGoal, performerId, year }: CreateGoalParams) => {
-    const response = await createNewGoalInDatabase({ newGoal, performerId, year })
+export const addNewGoalToDB = async ({ goal, performerId, year }: CreateGoalParams) => {
+    const response = await createNewGoalInDatabase({ goal, performerId, year })
 
     if (response) {
         console.log("New goal successfully created!")
     } else {
-        console.log("Feiled to add new goal...")
+        console.log("Failed to add new goal...")
     }
 }
