@@ -28,7 +28,13 @@ const Goals = ({ performerId }: GoalsProps) => {
   }, [])
 
   const handleGoalDelete = (deletedGoalId: string) => {
-    setAllGoals(allGoals.filter((goal) => goal.id !== deletedGoalId))
+    const filteredGoals = Object.fromEntries(
+      Object.entries(allGoals).map(([year, goalsArray]) => [
+          year, 
+          goalsArray.filter(goal => goal.id !== deletedGoalId)
+      ])
+    )
+    setAllGoals(filteredGoals)
   }
 
   const addNewGoals = (newGoal: Goal) => {
