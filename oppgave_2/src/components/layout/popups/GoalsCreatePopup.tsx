@@ -33,6 +33,7 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
 
     const handleSave = () => {
         const newGoal = { ...inputData, date: new Date(inputData.date)}
+        console.log("Date: ", inputData.date)
         onSave(newGoal)
     }
 

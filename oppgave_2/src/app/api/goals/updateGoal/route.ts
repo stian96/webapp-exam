@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma"
 import { Goal } from "@/types/classes/goal"
 import { NextResponse, type NextRequest } from "next/server"
 
-type RequestData = {
+export type RequestData = {
     goal: Goal
     performerId: string
     year: number

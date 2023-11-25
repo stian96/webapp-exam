@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 
 import { type GoalsGroupedByYear } from "@/app/api/goals/getGoals/route"
+import { saveGoalsToDb } from "@/lib/dbOperation"
 import { Compare, GoalsRow } from "@/components"
 import { fetchGoals } from "@/lib/api"
 import { type Goal } from "@/types/classes/goal"
@@ -19,7 +20,11 @@ const Goals = ({ performerId }: GoalsProps) => {
   useEffect(() => {
     const getGoalsData = async () => {
       const goalsGroupedByYear = (await fetchGoals(performerId)) as GoalsGroupedByYear
-      setAllGoals(goalsGroupedByYear)
+      if (!goalsGroupedByYear) {
+        setAllGoals({})
+      } else {
+        setAllGoals(goalsGroupedByYear)
+      }
     }
     getGoalsData()
   }, [])
@@ -38,17 +43,17 @@ const Goals = ({ performerId }: GoalsProps) => {
     // Find year for the new goal so we know what group to put it in.
     let year = ""
     if (newGoal.date) {
-      const dateObject = new Date(newGoal.date)
-      year = dateObject.getFullYear().toString()
+      year = newGoal.date.getFullYear().toString()
     }
 
-    // Update the collection of goals by adding a new goal in the correct 'year' key.
-    // If no goals exist for that year, create a new array containing only 'newGoal'.
+    // Check if it already exists goals for the year, if not, initialise an empty list.
+    const existingGoalsForYear = allGoals[year] || []
     const updatedGoals = {
       ...allGoals,
-      [year]: allGoals[year] ? [...allGoals[year], newGoal] : [newGoal],
+      [year]: [...existingGoalsForYear, newGoal],
     }
     setAllGoals(updatedGoals)
+    // TODO: Implement method to save new goal to DB. 
   }
 
   const handleClick = () => {
@@ -72,7 +77,7 @@ const Goals = ({ performerId }: GoalsProps) => {
           </div>
           <div className="goals__body-content">
             <div className="mx-auto flex w-11/12 flex-col pb-5">
-              {allGoals === undefined ? (
+              {Object.keys(allGoals).length === 0 ? (
                 <p>No goals available</p>
               ) : (
                 Object.entries(allGoals).map(([year, goalsArray]) => (
