@@ -1,4 +1,5 @@
 "use client"
+import { useEffect } from "react"
 import PopupCont from "@/components/layout/popups/PopupContent"
 import { PriorityEnum } from "@/enums/PriorityEnum"
 import { Goal } from "@/types/classes/goal"
@@ -28,6 +29,13 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
         comment: "",
     })
 
+    // Needed to reset the values properly when '&times' button is clicked.
+    useEffect(() => {
+        if (!createClicked) {
+            resetDecision()
+        }
+    }, [createClicked])
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputData({...inputData, [event.target.name]: event.target.value})
 
@@ -49,12 +57,28 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
         setHasMadeChoice(true)
     }
 
+    const resetDecision = () => {
+        setHasMadeChoice(false)
+        setIsCompetition(false)
+        setInputData({
+            id: "",
+            name: "",
+            date: "",
+            place: "",
+            goal: "",
+            type: "",
+            priority: PriorityEnum.A,
+            isCompetition: false,
+            comment: ""
+        })
+    }
+
     const competitionFields = ["Name", "Date", "Place", "Goal", "Type", "Priority", "Comment"]
     const trainingGoalFields = ["Name", "Date", "Goal", "Comment"]
 
     return(
         <div className={`overlay ${createClicked ? 'overlay-active': ''}`}>
-            <Popup open={createClicked} closeOnDocumentClick onClick={{ }}>
+            <Popup open={createClicked} closeOnDocumentClick onClick={close}>
                 { !hasMadeChoice && (
                     <div className="modal modal-create">
                         <button className="modal__close float-right" onClick={close}>
