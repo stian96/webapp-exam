@@ -45,11 +45,11 @@ const PopupContent = ({header, inputElements, close, inputData, setInputData, on
           isValid = false
         }
         else if (typeof value === "string" && value.trim() === "") {
-            defineError[key] = `${element} is required!`
+            defineError[key] = `${key} is required!`
             isValid = false
         } 
         else if (value === null || value === undefined) {
-            defineError[key] = `${element} is required!`
+            defineError[key] = `${key} is required!`
             isValid = false
         }
     })

@@ -1,6 +1,6 @@
 export const competitionField = [
     { name: "Name", type: "text" },
-    { name: "Date", type: "date" },
+    { name: "Date", type: "text" },
     { name: "Place", type: "text" },
     { name: "Goal", type: "text" },
     { name: "Type", type: "text" },

@@ -23,28 +23,28 @@ const Input = ({ elements, handleChange, errors }: InputProps) => {
                         {element.type === "select" ? (
                             <select
                                 className="input__value flex-grow mr-2"
-                                name={element.name}
+                                name={element.name.toLocaleLowerCase()}
                                 onChange={handleChange}
                             >
-                                {Object.values(PriorityEnum).map((value) => (
-                                    <option key={value} value={value}>{`Priority: ${value}`}</option>
+                                {Object.keys(PriorityEnum).filter(key => isNaN(Number(key)))
+                                .map(key => (
+                                    <option key={key} value={key}>{key}</option>
                                 ))}
                             </select>
 
-                        ): (
-                            <h1>Hello</h1>
-                        )}
-                        <input 
-                            className="input__value flex-grow mr-2"
-                            type={element.type} 
-                            name={element.name === "Competition" ? "isCompetition" : element.name.toLocaleLowerCase()}
-                            placeholder={
-                                errors[element.name.toLocaleLowerCase()]
-                                    ? errors[element.name.toLocaleLowerCase()]
-                                    : element.name === "Date" ? "yyyy-mm-dd" : `Enter ${element}...` 
-                            }
-                            onChange={handleChange}
+                        ) : (
+                            <input 
+                                className="input__value flex-grow mr-2"
+                                type={element.type} 
+                                name={element.name}
+                                placeholder={
+                                    errors[element.name.toLocaleLowerCase()]
+                                        ? errors[element.name.toLocaleLowerCase()]
+                                        : element.name === "Date" ? "yyyy-mm-dd" : `Enter ${element.name}...` 
+                                }
+                                onChange={handleChange}
                         />
+                        )}
                         {errors[element.name.toLocaleLowerCase()] && (
                             <span className="error-message">
                                 {"*"}
