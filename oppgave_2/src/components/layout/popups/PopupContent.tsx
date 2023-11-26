@@ -10,13 +10,10 @@ type PopupProps = {
   handleSave: () => void
 }
 
-const PopupContent = ({
-  header,
-  inputElements,
-  close,
-  handleChange,
-  handleSave,
-}: PopupProps) => {
+const PopupContent = ({header, inputElements, close, handleChange, handleSave,}: PopupProps) => {
+
+  
+
   return (
     <div className="modal h-full overflow-auto">
       <button className="modal__close float-right" onClick={close}>

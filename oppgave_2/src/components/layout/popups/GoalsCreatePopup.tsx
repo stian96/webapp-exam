@@ -14,6 +14,18 @@ type GoalsCreateProps = {
     onSave: (sendGoal: Goal) => void
 }
 
+type GoalsCreateInput = {
+    id: string
+    name: string
+    date: string
+    place: string
+    goal: string
+    type: string
+    priority: PriorityEnum
+    isCompetition: boolean
+    comment: string
+}
+
 const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) => {
     const [isCompetition, setIsCompetition] = useState(false)
     const [hasMadeChoice, setHasMadeChoice] = useState(false)
@@ -28,6 +40,7 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
         isCompetition: false,
         comment: "",
     })
+    const [isFormValid, setIsFormValid] = useState(false)
 
     // Needed to reset the values properly when '&times' button is clicked.
     useEffect(() => {
@@ -36,9 +49,23 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
         }
     }, [createClicked])
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInputData({...inputData, [event.target.name]: event.target.value})
+    const validateForm = (data: GoalsCreateInput) => {
+        const isValid = Object.values(data).every(value => {
+            if (typeof value === "string") {
+                return value.trim() !== ""
+            } else {
+                return value !== null && value !== undefined
+            }
+        })
+        setIsFormValid(isValid)
+    }
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setInputData(prevData => {
+            const newData = { ...prevData, [event.target.name]: event.target.value }
+            validateForm(newData)
+            return newData
+        })
     }
 
     const handleSave = () => {
