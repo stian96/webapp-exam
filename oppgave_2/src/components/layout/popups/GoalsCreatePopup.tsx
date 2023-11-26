@@ -5,6 +5,8 @@ import { Goal } from "@/types/classes/goal"
 import { useState } from "react"
 import Popup from "reactjs-popup"
 
+import "@/style/popup.scss"
+
 type GoalsCreateProps = {
     createClicked: boolean
     close: () => void
@@ -54,18 +56,11 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
         <div className={`overlay ${createClicked ? 'overlay-active': ''}`}>
             <Popup open={createClicked} closeOnDocumentClick onClick={{ }}>
                 { !hasMadeChoice && (
-                    <div className="modal">
+                    <div className="modal modal-create">
                         <button className="modal__close float-right" onClick={close}>
                             &times;
                         </button>
                         <h1 className="modal__header">{"Is the goal a competition?"}</h1>
-                        <input 
-                            type="text" 
-                            id="year" 
-                            name="year" 
-                            placeholder="Enter the year for the goal" 
-                            onChange={handleChange}
-                        />
                         <div className="modal__content create__content">
                             <button className="create__content-btn" type="button" onClick={handleYes}>Yes</button>
                             <button className="create__content-btn" type="button" onClick={handleNo}>No</button>

@@ -5,7 +5,7 @@
     max-height: 100vh;
     background: $dark-bg-color;
     width: 500px;
-    height: 80vh;
+    height: auto;
     text-align: center;
     border: 1px solid $red-text-color;
     padding-bottom: 1rem;
@@ -27,7 +27,6 @@
 }
 
 .modal {
-
     &__header {
         font-weight: 500;
         font-size: 1.3rem;
