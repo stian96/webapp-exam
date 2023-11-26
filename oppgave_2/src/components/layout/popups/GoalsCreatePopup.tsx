@@ -25,7 +25,7 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
         goal: "",
         type: "",
         priority: PriorityEnum.A,
-        isCompetition: isCompetition,
+        isCompetition: false,
         comment: "",
     })
 
@@ -39,11 +39,13 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
     const handleYes = () => {
         setIsCompetition(true)
         setHasMadeChoice(true)
+        setInputData(prevData => ({ ...prevData, isCompetition: true }));
     }
 
     const handleNo = () => {
         setIsCompetition(false)
         setHasMadeChoice(true)
+        setInputData(prevData => ({ ...prevData, isCompetition: false }));
     }
 
     const resetDecision = () => {

@@ -69,7 +69,6 @@ export const POST = async (request: NextRequest) => {
         
         const data = await request.json() as RequestData
         console.log("Data object in POST API: ", data)
-        console.log("Name in data object: ", data.goal.name)
         
         const operations = await prisma.$transaction(async (prisma) => {
             const { goal, performerId, year } = data

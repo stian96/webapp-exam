@@ -22,13 +22,6 @@ const GoalsRow = ({ performerId, goalsArray, onGoalDelete, year, addNewGoals }: 
 
     }
 
-    //SRC:React. (n.d.). useMemo. React. Retrieved November 24, 2023, from https://react.dev/reference/react/useMemo
-    const combinedGoals = useMemo(() => {
-      const competitionGoals = goalsArray.filter(goal => goal.isCompetition).slice(0, 3);
-      const nonCompetitionGoals = goalsArray.filter(goal => !goal.isCompetition).slice(0, 3);
-      return [...competitionGoals, ...nonCompetitionGoals];
-  }, [goalsArray]); 
-
     return (
         <div className="test">
             <div className="goals__body-row flex justify-between p-4">
@@ -42,7 +35,7 @@ const GoalsRow = ({ performerId, goalsArray, onGoalDelete, year, addNewGoals }: 
             {showGoalsData && (
             <div className="goals__data-row flex justify-center p-4">
                  <div className="w-full mx-4">
-                    {combinedGoals.map((goal, index) => (
+                    {goalsArray.map((goal, index) => (
                     <GoalsData 
                         key={index}
                         goal={goal}

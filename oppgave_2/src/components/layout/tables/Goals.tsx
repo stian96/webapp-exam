@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-
+import { hasReachedCompetitionLimit, hasReachedNonCompetitionLimit } from "@/lib/utils"
 import { type GoalsGroupedByYear } from "@/app/api/goals/getGoals/route"
 import { addNewGoalToDB } from "@/lib/dbOperation"
 import { Compare, GoalsRow } from "@/components"
@@ -44,15 +44,14 @@ const Goals = ({ performerId }: GoalsProps) => {
     let year = date ? date.getFullYear().toString() : ""
 
     const existingGoalsForYear = allGoals[year] || []
+    const competitionGoalCount = existingGoalsForYear.filter(c => c.isCompetition).length;
+    const nonCompetitionGoalCount = existingGoalsForYear.filter(c => !c.isCompetition).length;
 
-    const competitionGoalCount = existingGoalsForYear.filter(g => g.isCompetition).length;
-    const nonCompetitionGoalCount = existingGoalsForYear.filter(g => !g.isCompetition).length;
-
-    // Check if the limit is reached
-    if (goal.isCompetition && competitionGoalCount >= 3) {
+    if (hasReachedCompetitionLimit(goal.isCompetition, competitionGoalCount)) {
         alert(`Maximum of 3 competition goals reached for the year: ${year}`);
         return;
-    } else if (!goal.isCompetition && nonCompetitionGoalCount >= 3) {
+    } 
+    else if (hasReachedNonCompetitionLimit(goal.isCompetition, nonCompetitionGoalCount)) {
         alert(`Maximum of 3 non-competition goals reached for the year: ${year}`);
         return;
     }

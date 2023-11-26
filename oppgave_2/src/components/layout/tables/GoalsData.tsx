@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { type Goal } from "../../../types/classes/goal"
 import  GoalsEditPopup from "../popups/GoalsEditPopup"
 import "@/style/goalsData.scss"
@@ -55,6 +55,7 @@ const GoalsData = ({ performerId, goal, onGoalDelete, updateGoal }: GoalsDataPro
                 <span className="data__goal mx-6">
                     {`${currentGoal.date ? `Date: ${currentGoal.date.toString().split('T')[0]}` : ''}`}
                 </span>
+                <span className="data__competition mx-6">Competition: {currentGoal.isCompetition ? `Yes` : `No`}</span>
                 <div className="data__inner ml-auto">
                     <button 
                         className="data__inner-button mr-5"
