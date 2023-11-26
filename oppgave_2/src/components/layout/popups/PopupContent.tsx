@@ -1,7 +1,6 @@
 "use client"
-import { Dispatch, SetStateAction, useState } from "react"
+import React, { Dispatch, SetStateAction, useState } from "react"
 import Input from "../../data/Input"
-import { PriorityEnum } from "@/enums/PriorityEnum"
 import { validDateFormat } from "@/lib/utils"
 import "@/style/popup.scss"
 import { Goal } from "@/types/classes/goal"
@@ -19,7 +18,10 @@ type GoalsCreateInput = {
 
 type PopupProps = {
   header: string
-  inputElements: string[]
+  inputElements: {
+    name: string
+    type: string
+  }[]
   close: () => void
   inputData: GoalsCreateInput
   setInputData: Dispatch<SetStateAction<GoalsCreateInput>>
@@ -35,7 +37,7 @@ const PopupContent = ({header, inputElements, close, inputData, setInputData, on
     let isValid = true
 
     inputElements.forEach(element => {
-      const key = element.toLocaleLowerCase() as keyof GoalsCreateInput
+      const key = element.name.toLocaleLowerCase() as keyof GoalsCreateInput
       const value = data[key]
 
         if (typeof value === "string" && key === "date" && !validDateFormat(value)) {
@@ -56,7 +58,7 @@ const PopupContent = ({header, inputElements, close, inputData, setInputData, on
     return isValid
   }
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
       setInputData(prevData => ({ ...prevData, [event.target.name]: event.target.value }))
   }
 
@@ -66,7 +68,7 @@ const PopupContent = ({header, inputElements, close, inputData, setInputData, on
           ...inputData,
           date: new Date(inputData.date),
           goalNotCompetition: inputData.isCompetition ? null : inputData.goal,
-          goalCompetition: inputData.isCompetition ? Number(inputData.goal) : null
+          goalCompetition: inputData.isCompetition ? parseInt(inputData.goal) : null
         }
         onSave(goalData)
         close()

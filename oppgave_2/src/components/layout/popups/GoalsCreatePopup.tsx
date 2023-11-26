@@ -1,5 +1,6 @@
 "use client"
 import { useEffect } from "react"
+import { competitionField, trainingGoalField } from "@/types/data/goals"
 import PopupCont from "@/components/layout/popups/PopupContent"
 import { PriorityEnum } from "@/enums/PriorityEnum"
 import { Goal } from "@/types/classes/goal"
@@ -70,8 +71,8 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
         })
     }
 
-    const competitionFields = ["Name", "Date", "Place", "Goal", "Type", "Comment"]
-    const trainingGoalFields = ["Name", "Date", "Goal", "Comment"]
+    const competitionFields = competitionField
+    const trainingGoalFields = trainingGoalField
 
     return(
         <div className={`overlay ${createClicked ? 'overlay-active': ''}`}>
