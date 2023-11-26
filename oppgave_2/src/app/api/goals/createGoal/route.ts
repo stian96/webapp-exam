@@ -80,7 +80,7 @@ export const POST = async (request: NextRequest) => {
                     comment: goal.comment,
                     goalNotCompetition: goal.goalNotCompetition,
                     isCompetition: goal.isCompetition,
-                    priority: goal.priority
+                    priority: goal.priority ? goal.priority : null
                 }
             })
 

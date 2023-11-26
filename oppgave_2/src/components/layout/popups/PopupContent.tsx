@@ -13,7 +13,6 @@ type GoalsCreateInput = {
   place: string
   goal: string
   type: string
-  priority: PriorityEnum
   isCompetition: boolean
   comment: string
 }
