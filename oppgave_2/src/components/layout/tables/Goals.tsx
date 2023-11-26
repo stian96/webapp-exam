@@ -41,6 +41,21 @@ const Goals = ({ performerId }: GoalsProps) => {
 
   const addNewGoals = (goal: Goal) => {
     const date = goal.date as Date
+    let year = date ? date.getFullYear().toString() : ""
+
+    const existingGoalsForYear = allGoals[year] || []
+
+    const competitionGoalCount = existingGoalsForYear.filter(g => g.isCompetition).length;
+    const nonCompetitionGoalCount = existingGoalsForYear.filter(g => !g.isCompetition).length;
+
+    // Check if the limit is reached
+    if (goal.isCompetition && competitionGoalCount >= 3) {
+        alert(`Maximum of 3 competition goals reached for the year: ${year}`);
+        return;
+    } else if (!goal.isCompetition && nonCompetitionGoalCount >= 3) {
+        alert(`Maximum of 3 non-competition goals reached for the year: ${year}`);
+        return;
+    }
  
     let goalForDB = {
       ...goal,
@@ -48,11 +63,7 @@ const Goals = ({ performerId }: GoalsProps) => {
       goalNotCompetition: goal.isCompetition ? undefined : goal.goalNotCompetition,
       goalCompetition: goal.isCompetition ? goal.goalCompetition : undefined
     }
-
-    let year = date ? date.getFullYear().toString() : ""
-
-    // Check if it already exists goals for the year, if not, initialise an empty list.
-    const existingGoalsForYear = allGoals[year] || []
+    
     const updatedGoals = {
       ...allGoals,
       [year]: [...existingGoalsForYear, goalForDB],

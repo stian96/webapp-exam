@@ -26,3 +26,17 @@ export const validDateFormat = (date: string): boolean => {
   return validPattern.test(date)
 }
 
+const MAX_LIMIT = 3
+
+export const maxLimitForNonCompetition = (competition: boolean, competitionCount: number): boolean => {
+  return (competition && competitionCount >= MAX_LIMIT)
+}
+
+
+export const maxLimitForCompetition = (nonCompetition: boolean, nonCompetitionCount: number): boolean => {
+  return (nonCompetition && nonCompetitionCount >= MAX_LIMIT)
+
+}
+
+
+
