@@ -4,6 +4,7 @@ import Input from "../../data/Input"
 import { validDateFormat } from "@/lib/utils"
 import "@/style/popup.scss"
 import { Goal } from "@/types/classes/goal"
+import { PriorityEnum } from "@/enums/PriorityEnum"
 
 type GoalsCreateInput = {
   id: string
@@ -13,6 +14,7 @@ type GoalsCreateInput = {
   goal: string
   type: string
   isCompetition: boolean
+  priority: PriorityEnum
   comment: string
 }
 
@@ -55,11 +57,22 @@ const PopupContent = ({header, inputElements, close, inputData, setInputData, on
     })
     setError(defineError)
     setIsFormValid(isValid)
+    console.log("Validation Data: ", data)
+    console.log("Errors: ", defineError)
     return isValid
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
-      setInputData(prevData => ({ ...prevData, [event.target.name]: event.target.value }))
+    setInputData(prev => {
+      const { name, value } = event.target
+
+      let updatedValue: string | number = value
+      if (name === "priority") {
+        updatedValue = PriorityEnum[value as keyof typeof PriorityEnum]
+      }
+
+      return { ...prev, [name]: updatedValue }
+    })
   }
 
   const handleSave = () => {
@@ -68,7 +81,8 @@ const PopupContent = ({header, inputElements, close, inputData, setInputData, on
           ...inputData,
           date: new Date(inputData.date),
           goalNotCompetition: inputData.isCompetition ? null : inputData.goal,
-          goalCompetition: inputData.isCompetition ? parseInt(inputData.goal) : null
+          goalCompetition: inputData.isCompetition ? parseInt(inputData.goal) : null,
+          location: inputData.place
         }
         onSave(goalData)
         close()

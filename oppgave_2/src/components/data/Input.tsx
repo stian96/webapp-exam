@@ -36,7 +36,7 @@ const Input = ({ elements, handleChange, errors }: InputProps) => {
                             <input 
                                 className="input__value flex-grow mr-2"
                                 type={element.type} 
-                                name={element.name}
+                                name={element.name.toLocaleLowerCase()}
                                 placeholder={
                                     errors[element.name.toLocaleLowerCase()]
                                         ? errors[element.name.toLocaleLowerCase()]

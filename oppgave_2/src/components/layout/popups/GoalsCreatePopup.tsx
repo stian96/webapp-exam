@@ -26,6 +26,7 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
         goal: "",
         type: "",
         isCompetition: false,
+        priority: PriorityEnum.A,
         comment: "",
     })
 
@@ -42,7 +43,7 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
         setInputData(prevData => ({ 
             ...prevData, 
             isCompetition: true,
-            priority: PriorityEnum.A
+            priority: PriorityEnum.A,
         }));
     }
 
@@ -52,7 +53,7 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
         setInputData(prevData => ({ 
             ...prevData, 
             isCompetition: false,
-            priority: null
+            priority: PriorityEnum.A
         }));
     }
 
@@ -67,6 +68,7 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
             goal: "",
             type: "",
             isCompetition: false,
+            priority: PriorityEnum.A,
             comment: ""
         })
     }

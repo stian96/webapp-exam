@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import { RequestData } from "../updateGoal/route"
 import { NextResponse, type NextRequest } from "next/server"
+import { PriorityEnum } from "@/enums/PriorityEnum"
 
 /**
  * @swagger
@@ -81,6 +82,8 @@ export const POST = async (request: NextRequest) => {
                     goalNotCompetition: goal.goalNotCompetition,
                     goalCompetition: goal.goalCompetition,
                     isCompetition: goal.isCompetition,
+                    type: goal.type,
+                    location: goal.location,
                     priority: goal.priority ? goal.priority : null
                 }
             })
