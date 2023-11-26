@@ -5,6 +5,7 @@ import { validDateFormat } from "@/lib/utils"
 import "@/style/popup.scss"
 import { Goal } from "@/types/classes/goal"
 import { PriorityEnum } from "@/enums/PriorityEnum"
+import { Performer } from "@/types/performer"
 
 type GoalsCreateInput = {
   id: string

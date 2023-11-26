@@ -16,18 +16,19 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
     const [localPerformer, setLocalPerformer] = useState(editPerformer);
     const [isPopupOpen, setIsPopupOpen] = useState(false)
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setLocalPerformer({...localPerformer, [event.target.name]: event.target.value})
-    }
-
     const handleLocalSave = () => {
         setEditPerformer(localPerformer)
         handleSave(localPerformer)
     }
 
     const closePopup = () => setIsPopupOpen(false)
-    const inputFields = ["User ID", "Gender", "Sport"]
+    const inputFields = [
+        { name: "User ID", type: "text" },
+        { name: "Gender", type: "text" },
+        { name: "Sport", type: "text" }
+    ]
 
+    // TODO: Fix this tomorrow!
     return(
     <>
         <button className="button float-right" onClick={() => setIsPopupOpen(true)}>
@@ -39,7 +40,8 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
                     header="Edit Performer" 
                     inputElements={inputFields}
                     close={closePopup}
-                    handleChange={handleChange}
+                    inputData={localPerformer}
+                    setInputData={setLocalPerformer}
                     handleSave={handleLocalSave}
                 /> 
             </Popup>
