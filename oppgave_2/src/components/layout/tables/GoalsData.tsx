@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { type Goal } from "../../../types/classes/goal"
 import  GoalsEditPopup from "../popups/GoalsEditPopup"
 import "@/style/goalsData.scss"
@@ -16,7 +16,6 @@ type GoalsDataProps = {
 const GoalsData = ({ performerId, goal, onGoalDelete, updateGoal }: GoalsDataProps) => {
     const [editClicked, setEditClicked] = useState(false)
     const [currentGoal, setCurrentGoal] = useState(goal)
-
 
     const handleClick = () => {
         setEditClicked(!editClicked)

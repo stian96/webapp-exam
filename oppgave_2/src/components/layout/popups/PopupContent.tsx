@@ -63,8 +63,14 @@ const PopupContent = ({header, inputElements, close, inputData, setInputData, on
 
   const handleSave = () => {
       if (validateForm(inputData)) {
-          onSave({ ...inputData, date: new Date(inputData.date) })
-          close()
+        const goalData = {
+          ...inputData,
+          date: new Date(inputData.date),
+          goalNotCompetition: inputData.isCompetition ? null : inputData.goal,
+          goalCompetition: inputData.isCompetition ? Number(inputData.goal) : null
+        }
+        onSave(goalData)
+        close()
       } else {
           console.log("Form values are not valid!")
       }

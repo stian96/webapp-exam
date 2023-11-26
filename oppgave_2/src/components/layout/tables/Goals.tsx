@@ -40,21 +40,25 @@ const Goals = ({ performerId }: GoalsProps) => {
   }
 
   const addNewGoals = (goal: Goal) => {
-    // Find year for the new goal so we know what group to put it in.
-    let year = ""
-    if (goal.date) {
-      year = goal.date.getFullYear().toString()
+    const date = goal.date as Date
+ 
+    let goalForDB = {
+      ...goal,
+      date: date.toISOString(),
+      goalNotCompetition: goal.isCompetition ? undefined : goal.goalNotCompetition,
+      goalCompetition: goal.isCompetition ? goal.goalCompetition : undefined
     }
+
+    let year = date ? date.getFullYear().toString() : ""
 
     // Check if it already exists goals for the year, if not, initialise an empty list.
     const existingGoalsForYear = allGoals[year] || []
     const updatedGoals = {
       ...allGoals,
-      [year]: [...existingGoalsForYear, goal],
+      [year]: [...existingGoalsForYear, goalForDB],
     }
     setAllGoals(updatedGoals)
-    console.log("NewGoal: ", goal)
-    addNewGoalToDB({goal, performerId, year})
+    addNewGoalToDB({goal: goalForDB, performerId, year})
   }
 
   const handleClick = () => {

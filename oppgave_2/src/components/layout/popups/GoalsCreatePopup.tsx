@@ -25,7 +25,7 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
         goal: "",
         type: "",
         priority: PriorityEnum.A,
-        isCompetition: false,
+        isCompetition: isCompetition,
         comment: "",
     })
 
