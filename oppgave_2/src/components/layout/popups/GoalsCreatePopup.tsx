@@ -14,18 +14,6 @@ type GoalsCreateProps = {
     onSave: (sendGoal: Goal) => void
 }
 
-type GoalsCreateInput = {
-    id: string
-    name: string
-    date: string
-    place: string
-    goal: string
-    type: string
-    priority: PriorityEnum
-    isCompetition: boolean
-    comment: string
-}
-
 const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) => {
     const [isCompetition, setIsCompetition] = useState(false)
     const [hasMadeChoice, setHasMadeChoice] = useState(false)
@@ -40,7 +28,6 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
         isCompetition: false,
         comment: "",
     })
-    const [isFormValid, setIsFormValid] = useState(false)
 
     // Needed to reset the values properly when '&times' button is clicked.
     useEffect(() => {
@@ -48,31 +35,6 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
             resetDecision()
         }
     }, [createClicked])
-
-    const validateForm = (data: GoalsCreateInput) => {
-        const isValid = Object.values(data).every(value => {
-            if (typeof value === "string") {
-                return value.trim() !== ""
-            } else {
-                return value !== null && value !== undefined
-            }
-        })
-        setIsFormValid(isValid)
-    }
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInputData(prevData => {
-            const newData = { ...prevData, [event.target.name]: event.target.value }
-            validateForm(newData)
-            return newData
-        })
-    }
-
-    const handleSave = () => {
-        const newGoal = { ...inputData, date: new Date(inputData.date)}
-        console.log("Date: ", inputData.date)
-        onSave(newGoal)
-    }
 
     const handleYes = () => {
         setIsCompetition(true)
@@ -100,7 +62,7 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
         })
     }
 
-    const competitionFields = ["Name", "Date", "Place", "Goal", "Type", "Priority", "Comment"]
+    const competitionFields = ["Name", "Date", "Place", "Goal", "Type", "Comment"]
     const trainingGoalFields = ["Name", "Date", "Goal", "Comment"]
 
     return(
@@ -123,8 +85,9 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
                         header={isCompetition ? "Create Competition Goal" : "Create Training Goal"} 
                         inputElements={isCompetition ? competitionFields : trainingGoalFields} 
                         close={close} 
-                        handleChange={handleChange}
-                        handleSave={handleSave}
+                        inputData={inputData}
+                        setInputData={setInputData}
+                        onSave={onSave}
                     />
                 )}
             </Popup>

@@ -4,19 +4,20 @@ import "@/style/input.scss"
 type InputProps = {
     elements: string[]
     handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    errors: Record<string, string>
 }
 
 // Reusable input component.
-const Input = ({ elements, handleChange,  }: InputProps) => {
+const Input = ({ elements, handleChange, errors }: InputProps) => {
 
-    return(
+    return (
         <div className="input flex flex-col gap-5">
             {elements.map((element, index) => (
                 <React.Fragment key={index}>
                     <div className="input__container flex items-center w-full">
                         <label className="input__label w-1/5 mr-4">{element}:</label>
                         <input 
-                            className="input__value flex-grow" 
+                            className="input__value flex-grow mr-2"
                             type="text" 
                             name={element === "Competition" ? "isCompetition" : element.toLocaleLowerCase()}
                             placeholder={
@@ -25,6 +26,11 @@ const Input = ({ elements, handleChange,  }: InputProps) => {
                             }
                             onChange={handleChange}
                         />
+                        {errors[element.toLocaleLowerCase()] && (
+                            <span className="error-message">
+                                {"*"}
+                            </span>
+                        )}
                     </div>
                 </React.Fragment>
             ))}

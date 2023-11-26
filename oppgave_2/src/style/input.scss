@@ -11,3 +11,10 @@
         background: $dark-bg-color;
     }
 }
+
+.error-message {
+    position: absolute;
+    right: 2rem;
+    color: rgb(230, 77, 77);
+    font-size: 1.1rem;
+}
