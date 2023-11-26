@@ -1,7 +1,7 @@
 @import "colors";
 
 .input {
-    padding: 2rem 6rem;
+    padding: 2rem 3rem;
 
     &__label {
         font-weight: 500;
@@ -9,6 +9,5 @@
 
     &__value {
         background: $dark-bg-color;
-
     }
 }

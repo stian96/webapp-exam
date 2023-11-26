@@ -1,5 +1,5 @@
 import React from "react"
-import "../../style/input.scss"
+import "@/style/input.scss"
 
 type InputProps = {
     elements: string[]
@@ -10,20 +10,22 @@ type InputProps = {
 const Input = ({ elements, handleChange,  }: InputProps) => {
 
     return(
-        <div className="input flex flex-col gap-3">
+        <div className="input flex flex-col gap-5">
             {elements.map((element, index) => (
                 <React.Fragment key={index}>
-                    <label className="input__label">{element}</label>
-                    <input 
-                        className="input__value" 
-                        type="text" 
-                        name={element === "Competition" ? "isCompetition" : element.toLocaleLowerCase()}
-                        placeholder={
-                            element === "Date" ? "yyyy-mm-dd" : `Enter ${element}...` &&
-                            element === "Competition" ? "yes/no" : `Enter ${element}`
-                        }
-                        onChange={handleChange}
-                    />
+                    <div className="input__container flex items-center w-full">
+                        <label className="input__label w-1/5 mr-4">{element}:</label>
+                        <input 
+                            className="input__value flex-grow" 
+                            type="text" 
+                            name={element === "Competition" ? "isCompetition" : element.toLocaleLowerCase()}
+                            placeholder={
+                                element === "Date" ? "yyyy-mm-dd" : `Enter ${element}...` &&
+                                element === "Competition" ? "yes/no" : `Enter ${element}`
+                            }
+                            onChange={handleChange}
+                        />
+                    </div>
                 </React.Fragment>
             ))}
         </div>
