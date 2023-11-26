@@ -21,8 +21,9 @@ const Input = ({ elements, handleChange, errors }: InputProps) => {
                             type="text" 
                             name={element === "Competition" ? "isCompetition" : element.toLocaleLowerCase()}
                             placeholder={
-                                element === "Date" ? "yyyy-mm-dd" : `Enter ${element}...` &&
-                                element === "Competition" ? "yes/no" : `Enter ${element}`
+                                errors[element.toLocaleLowerCase()]
+                                    ? errors[element.toLocaleLowerCase()]
+                                    : element === "Date" ? "yyyy-mm-dd" : `Enter ${element}...` 
                             }
                             onChange={handleChange}
                         />

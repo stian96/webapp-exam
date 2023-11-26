@@ -2,6 +2,7 @@
 import { Dispatch, SetStateAction, useState } from "react"
 import Input from "../../data/Input"
 import { PriorityEnum } from "@/enums/PriorityEnum"
+import { validDateFormat } from "@/lib/utils"
 import "@/style/popup.scss"
 import { Goal } from "@/types/classes/goal"
 
@@ -38,7 +39,11 @@ const PopupContent = ({header, inputElements, close, inputData, setInputData, on
       const key = element.toLocaleLowerCase() as keyof GoalsCreateInput
       const value = data[key]
 
-        if (typeof value === "string" && value.trim() === "") {
+        if (typeof value === "string" && key === "date" && !validDateFormat(value)) {
+          defineError[key] = "Invalid date format, expected yyyy-mm-dd"
+          isValid = false
+        }
+        else if (typeof value === "string" && value.trim() === "") {
             defineError[key] = `${element} is required!`
             isValid = false
         } 
