@@ -82,7 +82,7 @@ const Goals = ({ performerId }: GoalsProps) => {
         close={handleClick}
         onSave={addNewGoals}
       />
-      <div className="goals w-full">
+      <div className="goals mx-5">
         <div className="goals__body">
           <div className="goals__body-header flex justify-between">
             <span className="goals__body-header-data">Goals</span>
@@ -91,7 +91,7 @@ const Goals = ({ performerId }: GoalsProps) => {
             </button>
           </div>
           <div className="goals__body-content">
-            <div className="mx-auto flex w-11/12 flex-col pb-5">
+            <div className="mx-4 flex w-auto flex-col py-2">
               {Object.keys(allGoals).length === 0 ? (
                 <p>No goals available</p>
               ) : (

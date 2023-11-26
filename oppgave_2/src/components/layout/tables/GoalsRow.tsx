@@ -1,7 +1,7 @@
 "use client"
 import { type Goal } from "@/types/classes/goal"
 import GoalsData from "./GoalsData"
-import { useState, useMemo } from "react"
+import { useState } from "react"
 
 
 import "@/style/goalsRow.scss"
@@ -34,7 +34,7 @@ const GoalsRow = ({ performerId, goalsArray, onGoalDelete, year, addNewGoals }: 
             </div>
             {showGoalsData && (
             <div className="goals__data-row flex justify-center p-4">
-                 <div className="w-full mx-4">
+                 <div className="w-full mx-2 mb-2">
                     {goalsArray.map((goal, index) => (
                     <GoalsData 
                         key={index}

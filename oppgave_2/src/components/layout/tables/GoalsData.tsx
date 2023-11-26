@@ -50,23 +50,27 @@ const GoalsData = ({ performerId, goal, onGoalDelete, updateGoal }: GoalsDataPro
                 initialGoalData={currentGoal}
             />
             <div className="data flex items-center justify-between p-4">
-                <span className="data__goal mr-6">{`${ currentGoal.name ? `${currentGoal.name}` : ''}`}</span>
-                <span className="data__id mx-6">{`${currentGoal.priority ? `Priority: ${currentGoal.priority}` : ''} `}</span>
-                <span className="data__goal mx-6">
+                <span className="data__competition mr-5">
+                    Competition: {currentGoal.isCompetition ? `Yes` : `No`}
+                </span>
+                <span className="data__goal mx-5">
+                    Name: {`${ currentGoal.name ? `${currentGoal.name}` : ''}`}
+                </span>
+                <span className="data__goal mx-5">
                     {`${currentGoal.date ? `Date: ${currentGoal.date.toString().split('T')[0]}` : ''}`}
                 </span>
-                <span className="data__competition mx-6">Competition: {currentGoal.isCompetition ? `Yes` : `No`}</span>
+                { currentGoal.isCompetition && (
+                    <span className="data__priority mx-5">
+                        {currentGoal.priority ? `Priority: ${currentGoal.priority}` : ''}
+                    </span>
+                )}
                 <div className="data__inner ml-auto">
-                    <button 
-                        className="data__inner-button mr-5"
-                        onClick={handleClick}
-                    >
-                            Edit
+                    <button className="data__inner-button mr-2" onClick={handleClick}>
+                        Edit
                     </button>
-                    <button 
-                        className="data__inner-button"
-                        onClick={handleGoalDelete}
-                     >Delete</button>
+                    <button className="data__inner-button"onClick={handleGoalDelete}>
+                        Delete
+                     </button>
                 </div>
             </div>
         </>
