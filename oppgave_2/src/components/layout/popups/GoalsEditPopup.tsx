@@ -1,5 +1,5 @@
 import { useState } from "react"
-import PopupEdit from "@/components/layout/popups/PopupEdit"
+import PopupGoalEdit from "@/components/layout/popups/PopupGoalEdit"
 import { Goal } from "@/types/classes/goal"
 import { saveGoalsToDb } from "@/lib/dbOperation"
 import Popup from "reactjs-popup"
@@ -39,7 +39,7 @@ const GoalsEditPopup = ( props :GoalsPopupProps) => {
     return (
         <div className={`overlay ${props.editClicked ? 'overlay-active': ''}`}>
             <Popup open={props.editClicked} closeOnDocumentClick onClick={close}>
-                <PopupEdit 
+                <PopupGoalEdit 
                     header={"Edit Goal"} 
                     inputElements={inputFields} 
                     close={close} 
