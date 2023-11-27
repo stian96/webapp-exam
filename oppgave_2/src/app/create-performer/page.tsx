@@ -4,7 +4,7 @@ import CreatePerformer from "@/components/CreatePerformer"
 const CreatePerformerPage = () => {
   return (
     <>
-      <Header />
+      <Header title="" />
       <div className="min-w-screen-md mx-auto max-w-screen-lg">
         <CreatePerformer/>
       </div>

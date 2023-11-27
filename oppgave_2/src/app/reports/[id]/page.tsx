@@ -1,6 +1,6 @@
 "use client"
 
-import ReportCard from "@/components/Report/ReportCard";
+import ReportCard from "@/components/report/ReportCard";
 import "@/style/card.scss"
 import { Header } from "@/components"
 
