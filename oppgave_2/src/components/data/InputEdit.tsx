@@ -18,8 +18,7 @@ const InputEdit = ({ elements, handleChange,  }: InputEditProps) => {
                         type="text" 
                         name={element === "Competition" ? "isCompetition" : element.toLocaleLowerCase()}
                         placeholder={
-                            element === "Date" ? "yyyy-mm-dd" : `Enter ${element}...` &&
-                            element === "Competition" ? "yes/no" : `Enter ${element}`
+                            element === "Date" ? "yyyy-mm-dd" : `Enter ${element}...`
                         }
                         onChange={handleChange}
                     />

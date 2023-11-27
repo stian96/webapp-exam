@@ -15,6 +15,7 @@ type EditPopupProps = {
 const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupProps) => {
     const [localPerformer, setLocalPerformer] = useState(editPerformer);
     const [isPopupOpen, setIsPopupOpen] = useState(false)
+    const [error, setError] = useState<Record<string, string>>({})
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLocalPerformer({...localPerformer, [event.target.name]: event.target.value})
@@ -27,6 +28,27 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
 
     const closePopup = () => setIsPopupOpen(false)
     const inputFields = ["User ID", "Gender", "Sport"]
+
+    const validatePerformerData = (performerData: Performer) => {
+        let defineError: Record<string, string> = {}
+        let isValid = true
+
+        inputFields.forEach(element => {
+          const key = element.toLocaleLowerCase()  as keyof Performer
+          const value = performerData[key]
+
+            if (typeof value === "string" && value.trim() === "") {
+                defineError[key] = `${key} is required!`
+                isValid = false
+            } 
+            else if (value === null || value === undefined) {
+                defineError[key] = `${key} is required!`
+                isValid = false
+            }
+    
+        })
+        return isValid
+    }
     
     return(
     <>
