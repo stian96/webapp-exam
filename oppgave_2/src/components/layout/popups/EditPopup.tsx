@@ -90,6 +90,7 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
                             <button 
                                 className="create__content-btn" 
                                 type="button" 
+                                // TODO: Fix this logic!
                                 onClick={() => closePopup()}
                             >Performance
                             </button>
