@@ -2,6 +2,61 @@ import { prisma } from "@/lib/prisma"
 import { type Performer } from "@/types/performer";
 import { NextResponse, type NextRequest } from "next/server";
 
+/**
+ * @swagger
+ * /api/users/updateUser:
+ *   put:
+ *     summary: Updates an existing user.
+ *     description: Updates a user's details in the database if the user exists and any of the provided fields are different from the existing ones.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 description: Unique identifier of the user
+ *               userId:
+ *                 type: string
+ *                 description: Identifier for the user
+ *               gender:
+ *                 type: string
+ *                 description: Gender of the user
+ *               sport:
+ *                 type: string
+ *                 description: Sport type of the user
+ *               heartRate:
+ *                 type: integer
+ *                 description: Heart rate of the user
+ *               watt:
+ *                 type: integer
+ *                 description: Watt performance of the user
+ *               speed:
+ *                 type: integer
+ *                 description: Speed of the user
+ *     responses:
+ *       200:
+ *         description: Success updating user in database.
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: 200
+ *               message: User updated successfully.
+ *               data: 
+ *                 id: 00e372d4-bb66-4d17-b540-94cbca521ca8
+ *                 userId: acer-ater-quos
+ *                 gender: male
+ *                 sport: triathlon
+ *                 heartRate: 176
+ *                 watt: 368
+ *                 speed: 19
+ *       404:
+ *         description: User not found.
+ *       500:
+ *         description: Internal server error.
+ */
 export const PUT = async (request: NextRequest) => {
     try {       
         const data = await request.json()
