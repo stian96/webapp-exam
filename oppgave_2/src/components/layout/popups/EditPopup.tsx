@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Popup from "reactjs-popup"
 import PopupEdit from "./PopupEdit"
 import { Performer } from "@/types/performer"
@@ -22,31 +22,41 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
     }
 
     const handleLocalSave = () => {
-        setEditPerformer(localPerformer)
-        handleSave(localPerformer)
+        if (validatePerformerData(localPerformer)) {
+            setEditPerformer(localPerformer)
+            handleSave(localPerformer)
+            closePopup()
+        } else {
+            console.log("Performer data from form is not valid!")
+        }
     }
 
     const closePopup = () => setIsPopupOpen(false)
     const inputFields = ["User ID", "Gender", "Sport"]
 
     const validatePerformerData = (performerData: Performer) => {
-        let defineError: Record<string, string> = {}
+        let defineErrors: Record<string, string> = {}
         let isValid = true
 
         inputFields.forEach(element => {
-          const key = element.toLocaleLowerCase()  as keyof Performer
+          const field = element.toLocaleLowerCase()
+          const key = field === "user id" ? "userId" as keyof Performer : field as keyof Performer
+          console.log("KEY: ", key)
           const value = performerData[key]
+          console.log("VALUE: ", value)
 
             if (typeof value === "string" && value.trim() === "") {
-                defineError[key] = `${key} is required!`
+                defineErrors[key] = `${element} is required!`
                 isValid = false
             } 
             else if (value === null || value === undefined) {
-                defineError[key] = `${key} is required!`
+                defineErrors[key] = `${element} is required!`
                 isValid = false
             }
     
         })
+        console.log("Define Errors: ", defineErrors)
+        setError(defineErrors)
         return isValid
     }
     
@@ -60,9 +70,11 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
                 <PopupEdit 
                     header="Edit Performer" 
                     inputElements={inputFields}
-                    close={closePopup}
                     handleChange={handleChange}
                     handleSave={handleLocalSave}
+                    close={closePopup}
+                    errors={error}
+                    currentPerformer={localPerformer}
                 /> 
             </Popup>
         </div>

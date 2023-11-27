@@ -1,20 +1,25 @@
 import InputEdit from "../../data/InputEdit"
 import "@/style/popup.scss"
+import { Performer } from "@/types/performer"
 
 type PopupProps = {
   header: string
   inputElements: string[]
-  close: () => void
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   handleSave: () => void
+  close: () => void
+  errors: Record<string, string>
+  currentPerformer: Performer
 }
 
 const PopupEdit = ({
   header,
   inputElements,
-  close,
   handleChange,
   handleSave,
+  close,
+  errors,
+  currentPerformer
 }: PopupProps) => {
     
   return (
@@ -24,15 +29,17 @@ const PopupEdit = ({
       </button>
       <h1 className="modal__header">{header}</h1>
       <div className="modal__content">
-        <InputEdit elements={inputElements} handleChange={handleChange} />
+        <InputEdit 
+          elements={inputElements} 
+          handleChange={handleChange} 
+          errors={errors}
+          performer={currentPerformer}
+        />
       </div>
       <div className="modal__actions">
         <button
           className="modal__actions-button"
-          onClick={() => {
-            close()
-            handleSave()
-          }}
+          onClick={handleSave}
         >
           Save
         </button>
