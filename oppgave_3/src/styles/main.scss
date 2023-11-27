@@ -1,5 +1,9 @@
 @import './globals.scss';
 
+// This sass file is large and could be deconstructed into different files that could then 
+// allow separate react components to use different styling if required. Code maintenance 
+// would also be easier if this approach would be taken. Sass variables could still be 
+// located in this main file, along with default appearances for specific elements.
 :root {
   --box-bg: #dadada;
   --dark-yellow: #d4ac3f;

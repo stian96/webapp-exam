@@ -1,3 +1,9 @@
+// The types would be well suited to be spread out in separate files. Even though this would 
+// require more imports, it would be much more obvious exactly where each type could be found 
+// in the project structure. Additionally, functions that specifically target single types 
+// such as a function used to generate a slug based on concatenating other strings in the 
+// type would be suitably located in the same file.
+
 type Meta = {
   createdAt?: Date
   updatedAt?: Date

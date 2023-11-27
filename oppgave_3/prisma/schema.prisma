@@ -7,6 +7,10 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+// I would add some onCascade commands to the foreign keys (poll in Question, and question
+// in Vote). 'onCascade: Delete' would be suitable here so that data redundancy is simplified.
+// Any tuple that is dependent on another tuple (Foreign Key) would be deleted in the event 
+// of the primary key being deleted.
 model Poll {
   id          String     @id @default(cuid())
   slug        String     @unique
