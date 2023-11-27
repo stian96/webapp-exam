@@ -1,34 +1,32 @@
 import { useState } from "react"
 import { type Goal } from "../../../types/classes/goal"
-import  GoalsEditPopup from "../popups/GoalsEditPopup"
+import  GoalsEditPopup, { GoalsCreateInput } from "../popups/GoalsEditPopup"
 import "@/style/goalsData.scss"
-import { type GoalsInput } from "@/types/goalsInput"
 import { deleteGoalFromDB } from "@/lib/api"
 
 
 type GoalsDataProps = {
     goal: Goal
     performerId: string,
-    updateGoal: (update: Goal) => void
-    onGoalDelete: (goalId: string) => void;
+    onGoalDelete: (goalId: string) => void
+    updateData: (updateValue: Goal) => void
 }
 
-const GoalsData = ({ performerId, goal, onGoalDelete, updateGoal }: GoalsDataProps) => {
+const GoalsData = ({ performerId, goal, onGoalDelete, updateData }: GoalsDataProps) => {
     const [editClicked, setEditClicked] = useState(false)
     const [currentGoal, setCurrentGoal] = useState(goal)
-
 
     const handleClick = () => {
         setEditClicked(!editClicked)
     }
 
-    const handleGoalUpdate = (updatedGoal: GoalsInput) => {
+    const handleGoalUpdate = (updatedGoal: GoalsCreateInput) => {
         const convertedGoal = { 
             ...updatedGoal, 
             date: updatedGoal.date
         }
         setCurrentGoal(convertedGoal)
-        updateGoal(convertedGoal)
+        updateData(convertedGoal)
     }
 
     const handleGoalDelete = async () => {
@@ -51,22 +49,27 @@ const GoalsData = ({ performerId, goal, onGoalDelete, updateGoal }: GoalsDataPro
                 initialGoalData={currentGoal}
             />
             <div className="data flex items-center justify-between p-4">
-                <span className="data__goal mr-6">{`${ currentGoal.name ? `${currentGoal.name}` : ''}`}</span>
-                <span className="data__id mx-6">{`${currentGoal.priority ? `Priority: ${currentGoal.priority}` : ''} `}</span>
-                <span className="data__goal mx-6">
+                <span className="data__competition mr-5">
+                    Competition: {currentGoal.isCompetition ? `Yes` : `No`}
+                </span>
+                <span className="data__goal mx-5">
+                    Name: {`${ currentGoal.name ? `${currentGoal.name}` : ''}`}
+                </span>
+                <span className="data__goal mx-5">
                     {`${currentGoal.date ? `Date: ${currentGoal.date.toString().split('T')[0]}` : ''}`}
                 </span>
+                { currentGoal.isCompetition && (
+                    <span className="data__priority mx-5">
+                        {currentGoal.priority ? `Priority: ${currentGoal.priority}` : ''}
+                    </span>
+                )}
                 <div className="data__inner ml-auto">
-                    <button 
-                        className="data__inner-button mr-5"
-                        onClick={handleClick}
-                    >
-                            Edit
+                    <button className="data__inner-button mr-2" onClick={handleClick}>
+                        Edit
                     </button>
-                    <button 
-                        className="data__inner-button"
-                        onClick={handleGoalDelete}
-                     >Delete</button>
+                    <button className="data__inner-button"onClick={handleGoalDelete}>
+                        Delete
+                     </button>
                 </div>
             </div>
         </>

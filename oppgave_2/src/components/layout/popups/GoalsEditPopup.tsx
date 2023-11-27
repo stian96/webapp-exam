@@ -1,46 +1,65 @@
 import { useState } from "react"
-import PopupCont from "@/components/layout/popups/PopupContent"
-import { Goal } from "@/types/classes/goal"
+import { competitionField, trainingGoalField } from "@/types/data/goals"
+import PopupContent from "@/components/layout/popups/PopupContent"
 import { saveGoalsToDb } from "@/lib/dbOperation"
+import { PriorityEnum } from "@/enums/PriorityEnum"
+import { Goal } from "@/types/classes/goal"
 import Popup from "reactjs-popup"
 
 import "@/style/popup.scss"
-import { GoalsInput } from "@/types/goalsInput"
 
 type GoalsPopupProps = {
     goalId: string,
     performerId: string
     editClicked: boolean
     setEditClicked: (value: boolean) => void 
-    onGoalUpdate: (updatedGoal: GoalsInput) => void
+    onGoalUpdate: (updatedGoal: GoalsCreateInput) => void
     initialGoalData: Goal
 }
 
-const GoalsEditPopup = ( props :GoalsPopupProps) => {
-    const [goalInput, setGoalInput] = useState({ ...props.initialGoalData, year: ""})
+export type GoalsCreateInput = {
+    id: string
+    name: string
+    date: string
+    place: string
+    goal: string
+    type: string
+    isCompetition: boolean
+    priority: PriorityEnum
+    comment: string
+  }
+  
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setGoalInput({...goalInput, [event.target.name]: event.target.value});
-    };
+const GoalsEditPopup = ( props :GoalsPopupProps) => {
+    const [goalInput, setGoalInput] = useState({ ...props.initialGoalData} as GoalsCreateInput ) 
+    const competitionFields = competitionField
+    const trainingGoalFields = trainingGoalField
 
     const handleSave = async () => {
-        saveGoalsToDb(goalInput, props.performerId, props.goalId, goalInput.year)
-        props.onGoalUpdate(goalInput)
+        const year = new Date(goalInput.date).getFullYear().toString()
+        const updatedGoal = { 
+            ...goalInput, 
+            goal: goalInput.goal,
+            type: goalInput.type,
+            location: goalInput.place,
+            date: goalInput.date
+        }
+        saveGoalsToDb(updatedGoal, props.performerId, props.goalId, year, goalInput.goal)
+        setGoalInput(updatedGoal)
+        props.onGoalUpdate(updatedGoal)
         props.setEditClicked(false)
     }
 
-    const close = () => props.setEditClicked(!props.editClicked)
-
-    const inputFields: string[] = ["Name", "Date", "Year", "Goal", "Competition", "Comment"]
     return (
         <div className={`overlay ${props.editClicked ? 'overlay-active': ''}`}>
-            <Popup open={props.editClicked} closeOnDocumentClick onClick={close}>
-                <PopupCont 
-                    header={"Edit Goal"} 
-                    inputElements={inputFields} 
-                    close={close} 
-                    handleChange={handleChange}
-                    handleSave={handleSave}
+            <Popup open={props.editClicked} closeOnDocumentClick={false}>
+                <PopupContent 
+                    header={goalInput.isCompetition ? "Create Competition Goal" : "Create Training Goal"} 
+                    inputElements={goalInput.isCompetition ? competitionFields : trainingGoalFields} 
+                    close={() => props.setEditClicked(false)}
+                    inputData={goalInput}
+                    setInputData={setGoalInput}
+                    onSave={handleSave}
                 />
             </Popup>
         </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
-
+import { hasReachedCompetitionLimit, hasReachedNonCompetitionLimit } from "@/lib/utils"
 import { type GoalsGroupedByYear } from "@/app/api/goals/getGoals/route"
+import { addNewGoalToDB } from "@/lib/dbOperation"
 import { Compare, GoalsRow } from "@/components"
 import { fetchGoals } from "@/lib/api"
 import { type Goal } from "@/types/classes/goal"
@@ -19,7 +20,11 @@ const Goals = ({ performerId }: GoalsProps) => {
   useEffect(() => {
     const getGoalsData = async () => {
       const goalsGroupedByYear = (await fetchGoals(performerId)) as GoalsGroupedByYear
-      setAllGoals(goalsGroupedByYear)
+      if (!goalsGroupedByYear) {
+        setAllGoals({})
+      } else {
+        setAllGoals(goalsGroupedByYear)
+      }
     }
     getGoalsData()
   }, [])
@@ -34,21 +39,53 @@ const Goals = ({ performerId }: GoalsProps) => {
     setAllGoals(filteredGoals)
   }
 
-  const addNewGoals = (newGoal: Goal) => {
-    // Find year for the new goal so we know what group to put it in.
-    let year = ""
-    if (newGoal.date) {
-      const dateObject = new Date(newGoal.date)
-      year = dateObject.getFullYear().toString()
-    }
+  const addNewGoals = (goal: Goal) => {
+    const date = goal.date as Date
+    let year = date ? date.getFullYear().toString() : ""
 
-    // Update the collection of goals by adding a new goal in the correct 'year' key.
-    // If no goals exist for that year, create a new array containing only 'newGoal'.
+    const existingGoalsForYear = allGoals[year] || []
+    const competitionGoalCount = existingGoalsForYear.filter(c => c.isCompetition).length;
+    const nonCompetitionGoalCount = existingGoalsForYear.filter(c => !c.isCompetition).length;
+
+    if (hasReachedCompetitionLimit(goal.isCompetition, competitionGoalCount)) {
+        alert(`Maximum of 3 competition goals reached for the year: ${year}`);
+        return;
+    } 
+    else if (hasReachedNonCompetitionLimit(goal.isCompetition, nonCompetitionGoalCount)) {
+        alert(`Maximum of 3 non-competition goals reached for the year: ${year}`);
+        return;
+    }
+ 
+    let goalForDB = {
+      ...goal,
+      date: date.toISOString(),
+      goalNotCompetition: goal.isCompetition ? undefined : goal.goalNotCompetition,
+      goalCompetition: goal.isCompetition ? goal.goalCompetition : undefined
+    }
+    
     const updatedGoals = {
       ...allGoals,
-      [year]: allGoals[year] ? [...allGoals[year], newGoal] : [newGoal],
+      [year]: [...existingGoalsForYear, goalForDB],
     }
     setAllGoals(updatedGoals)
+    addNewGoalToDB({goal: goalForDB, performerId, year})
+  }
+
+  const updateExistingGoals = (updatedGoal: Goal) => {
+    const date = updatedGoal.date
+    if (date) {
+      const dateObj = new Date(date)
+      const year = dateObj.getFullYear().toString()
+
+      const updatedGoalsForYear = allGoals[year].map(goal => (
+        goal.id === updatedGoal.id ? updatedGoal : goal
+      ))
+
+      setAllGoals({ ...allGoals, [year]: updatedGoalsForYear })
+    }
+    else {
+      console.log(`Could not update goal list. Date is invalid: ${date}`)
+    }
   }
 
   const handleClick = () => {
@@ -62,7 +99,7 @@ const Goals = ({ performerId }: GoalsProps) => {
         close={handleClick}
         onSave={addNewGoals}
       />
-      <div className="goals w-full">
+      <div className="goals mx-5">
         <div className="goals__body">
           <div className="goals__body-header flex justify-between">
             <span className="goals__body-header-data">Goals</span>
@@ -71,8 +108,8 @@ const Goals = ({ performerId }: GoalsProps) => {
             </button>
           </div>
           <div className="goals__body-content">
-            <div className="mx-auto flex w-11/12 flex-col pb-5">
-              {allGoals === undefined ? (
+            <div className="mx-4 flex w-auto flex-col py-2">
+              {Object.keys(allGoals).length === 0 ? (
                 <p>No goals available</p>
               ) : (
                 Object.entries(allGoals).map(([year, goalsArray]) => (
@@ -81,8 +118,8 @@ const Goals = ({ performerId }: GoalsProps) => {
                     performerId={performerId}
                     goalsArray={goalsArray}
                     year={year}
-                    addNewGoals={addNewGoals}
                     onGoalDelete={filterAfterGoalDelete}
+                    updateGoal={updateExistingGoals}
                   />
                 ))
               )}

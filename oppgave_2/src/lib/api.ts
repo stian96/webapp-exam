@@ -17,6 +17,12 @@ type APIResponse = {
     message: string;
   }
 
+  export type CreateGoalParams = {
+    goal: Goal,
+    performerId: string,
+    year: string
+  }
+
 // Function used to fetch performers from the database.
 export const fetchPerformers = async (url: string): Promise<Performer[]> => {
     const response = await fetch(url)
@@ -47,6 +53,12 @@ export const fetchPerformers = async (url: string): Promise<Performer[]> => {
       body: JSON.stringify(performer)
     })
 
+    if (!response.ok) {
+      const message = await response.json() as { message: string }
+      console.log(`Error in updating performer, error message: ${message}`)
+      return false
+    }
+
     const data = await response.json()
     if (response.status === 200) {
       console.log("Success: ", data)
@@ -75,6 +87,32 @@ export const fetchPerformers = async (url: string): Promise<Performer[]> => {
     } catch(error) {
         console.error("Failed to fetch goals: ", error)
         return {}
+    }
+  }
+
+  export const createNewGoalInDatabase = async ({goal, performerId, year}: CreateGoalParams): Promise<boolean> => {
+    console.log("NewGoal before fetch: ", goal)
+    try {
+      const response = await fetch("/api/goals/createGoal", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ goal, year, performerId })
+      })
+
+      if (!response.ok) {
+        const error = await response.json() as { message: string }
+        console.log(`Failed to add new goal to databasen, error message: ${error.message}`)
+        return false
+      }
+
+      const success = await response.json()
+      console.log(`Success: New goal added to database: ${success}`)
+      return true
+    } catch (error) {
+        console.log(`Failed to fetch information from 'createGoal' API: ${error}`)
+        return false
     }
   }
 

@@ -2,12 +2,118 @@ import { prisma } from "@/lib/prisma"
 import { Goal } from "@/types/classes/goal"
 import { NextResponse, type NextRequest } from "next/server"
 
-type RequestData = {
+export type RequestData = {
     goal: Goal
     performerId: string
     year: number
 }
 
+/**
+ * @swagger
+ * /api/goals/updateGoal:
+ *   put:
+ *     summary: Update an existing goal
+ *     description: Updates an existing goal in the database based on the provided data.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               goal:
+ *                 type: object
+ *                 required:
+ *                   - id
+ *                   - name
+ *                   - date
+ *                   - priority
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                     format: uuid
+ *                   name:
+ *                     type: string
+ *                   date:
+ *                     type: string
+ *                     format: date-time
+ *                   comment:
+ *                     type: string
+ *                   goalCompetition:
+ *                     type: string
+ *                   goalNotCompetition:
+ *                     type: string
+ *                   isCompetition:
+ *                     type: boolean
+ *                   priority:
+ *                     type: integer
+ *               performerId:
+ *                 type: string
+ *                 format: uuid
+ *     responses:
+ *       200:
+ *         description: Successfully updated the goal
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Goal'
+ *       400:
+ *         description: Goal not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *       500:
+ *         description: Failed to update the goal
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *
+ * components:
+ *   schemas:
+ *     Goal:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *         name:
+ *           type: string
+ *         date:
+ *           type: string
+ *           format: date-time
+ *         comment:
+ *           type: string
+ *         goalCompetition:
+ *           type: string
+ *         goalNotCompetition:
+ *           type: string
+ *         isCompetition:
+ *           type: boolean
+ *         priority:
+ *           type: integer
+ */
 export const PUT = async (request: NextRequest) => {
     try {
         
@@ -46,7 +152,6 @@ export const PUT = async (request: NextRequest) => {
                 }) 
             }
             
-            const competition = goal.isCompetition.toString()
             const updatedGoal = await prisma.goals.update({
                 where: { id: goal.id },
                 data: {
@@ -55,7 +160,9 @@ export const PUT = async (request: NextRequest) => {
                     comment: goal.comment,
                     goalCompetition: goal.goalCompetition,
                     goalNotCompetition: goal.goalNotCompetition,
-                    isCompetition: competition === "yes" ? true : false,
+                    isCompetition: goal.isCompetition,
+                    location: goal.location,
+                    type: goal.type,
                     priority: goal.priority
                 }
             })

@@ -1,6 +1,6 @@
 "use client"
 import { Header } from "@/components"
-import ReportList from "@/components/Report/ReportList"
+import ReportList from "@/components/report/ReportList"
 
 const Reports = ({ params }: { params: { id: string } }) => {
 

@@ -4,7 +4,7 @@ import { PriorityEnum } from "@/enums/PriorityEnum"
 export class Goal implements GoalModel {
     id: string
     name?: string | null
-    date?: Date | null
+    date?: Date | null | string
     comment?: string | null
     isCompetition: boolean
     goalCompetition?: number | null

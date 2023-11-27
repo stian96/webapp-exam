@@ -20,3 +20,23 @@ export const getBaseUrl = () => {
   if (process.env.APP_URL) return `https://${process.env.APP_URL}`
   return `http://localhost:${process.env.PORT ?? 3000}`
 }
+
+export const validDateFormat = (date: string): boolean => {
+  const validPattern = /^\d{4}-\d{2}-\d{2}$/
+  return validPattern.test(date)
+}
+
+const MAX_LIMIT = 3
+
+export const hasReachedCompetitionLimit = (isCompetition: boolean, competitionCount: number): boolean => {
+  return (isCompetition && competitionCount >= MAX_LIMIT)
+}
+
+
+export const hasReachedNonCompetitionLimit = (isCompetition: boolean, nonCompetitionCount: number): boolean => {
+  return (!isCompetition && nonCompetitionCount >= MAX_LIMIT)
+
+}
+
+
+
