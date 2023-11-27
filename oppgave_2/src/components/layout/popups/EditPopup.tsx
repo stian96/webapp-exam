@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import Popup from "reactjs-popup"
-import PopupContent from "./PopupContent"
+import PopupEdit from "./PopupEdit"
 import { Performer } from "@/types/performer"
 import "@/style/popup.scss"
 
@@ -16,19 +16,18 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
     const [localPerformer, setLocalPerformer] = useState(editPerformer);
     const [isPopupOpen, setIsPopupOpen] = useState(false)
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setLocalPerformer({...localPerformer, [event.target.name]: event.target.value})
+    }
+
     const handleLocalSave = () => {
         setEditPerformer(localPerformer)
         handleSave(localPerformer)
     }
 
     const closePopup = () => setIsPopupOpen(false)
-    const inputFields = [
-        { name: "User ID", type: "text" },
-        { name: "Gender", type: "text" },
-        { name: "Sport", type: "text" }
-    ]
-
-    // TODO: Fix this tomorrow!
+    const inputFields = ["User ID", "Gender", "Sport"]
+    
     return(
     <>
         <button className="button float-right" onClick={() => setIsPopupOpen(true)}>
@@ -36,12 +35,11 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
         </button>
         <div className={`overlay ${isPopupOpen ? 'overlay-active' : ''}`}>
             <Popup open={isPopupOpen} closeOnDocumentClick onClick={closePopup}>
-                <PopupContent 
+                <PopupEdit 
                     header="Edit Performer" 
                     inputElements={inputFields}
                     close={closePopup}
-                    inputData={localPerformer}
-                    setInputData={setLocalPerformer}
+                    handleChange={handleChange}
                     handleSave={handleLocalSave}
                 /> 
             </Popup>
