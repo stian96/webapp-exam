@@ -78,7 +78,7 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
 
     return(
         <div className={`overlay ${createClicked ? 'overlay-active': ''}`}>
-            <Popup open={createClicked} closeOnDocumentClick onClick={close}>
+            <Popup open={createClicked} closeOnDocumentClick={false}>
                 { !hasMadeChoice && (
                     <div className="modal modal-create">
                         <button className="modal__close float-right" onClick={close}>

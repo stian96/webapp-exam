@@ -66,7 +66,7 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
             Edit
         </button>
         <div className={`overlay ${isPopupOpen ? 'overlay-active' : ''}`}>
-            <Popup open={isPopupOpen} closeOnDocumentClick onClick={closePopup}>
+            <Popup open={isPopupOpen} closeOnDocumentClick={false}>
                 <PopupEdit 
                     header="Edit Performer" 
                     inputElements={inputFields}
