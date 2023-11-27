@@ -46,6 +46,7 @@ export const POST = async (request: NextRequest) => {
 
     console.log("Deserialised user.")
 
+    console.log("performerId: ", performer.userId)
 
     const requiredFields = ['userId', 'gender', 'sport', 'heartRate', 'watt', 'speed'];
     const validationError = validateFields(performer, requiredFields);
