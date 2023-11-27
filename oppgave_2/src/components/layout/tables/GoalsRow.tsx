@@ -9,7 +9,7 @@ import { GoalsCreateInput } from "../popups/GoalsEditPopup"
 
 type GoalsRowProps = {
     performerId: string
-    goalsArray: GoalsCreateInput[]
+    goalsArray: Goal[]
     onGoalDelete: (goalId: string) => void;
     year: string
     addNewGoals: (newGoal: Goal) => void

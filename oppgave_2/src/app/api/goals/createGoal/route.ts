@@ -79,11 +79,11 @@ export const POST = async (request: NextRequest) => {
                     name: goal.name,
                     date: goal.date,
                     comment: goal.comment,
-                    goalNotCompetition: goal.isCompetition ? null : goal.goal,
-                    goalCompetition: goal.isCompetition ? parseInt(goal.goal) : null,
+                    goalNotCompetition: goal.goalNotCompetition,
+                    goalCompetition: goal.goalCompetition,
                     isCompetition: goal.isCompetition,
                     type: goal.type,
-                    location: goal.place,
+                    location: goal.location,
                     priority: goal.priority ? goal.priority : null
                 }
             })

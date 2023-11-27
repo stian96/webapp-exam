@@ -1,4 +1,3 @@
-import { GoalsCreateInput } from "@/components/layout/popups/GoalsEditPopup"
 import { prisma } from "@/lib/prisma"
 import { Goal } from "@/types/classes/goal"
 import { NextResponse, type NextRequest } from "next/server"

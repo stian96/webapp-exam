@@ -2,11 +2,11 @@ import { useState } from "react"
 import { competitionField, trainingGoalField } from "@/types/data/goals"
 import PopupContent from "@/components/layout/popups/PopupContent"
 import { saveGoalsToDb } from "@/lib/dbOperation"
+import { PriorityEnum } from "@/enums/PriorityEnum"
+import { Goal } from "@/types/classes/goal"
 import Popup from "reactjs-popup"
 
 import "@/style/popup.scss"
-import { GoalsInput } from "@/types/goalsInput"
-import { PriorityEnum } from "@/enums/PriorityEnum"
 
 type GoalsPopupProps = {
     goalId: string,
@@ -14,7 +14,7 @@ type GoalsPopupProps = {
     editClicked: boolean
     setEditClicked: (value: boolean) => void 
     onGoalUpdate: (updatedGoal: GoalsCreateInput) => void
-    initialGoalData: GoalsCreateInput
+    initialGoalData: Goal
 }
 
 export type GoalsCreateInput = {
@@ -31,7 +31,7 @@ export type GoalsCreateInput = {
   
 
 const GoalsEditPopup = ( props :GoalsPopupProps) => {
-    const [goalInput, setGoalInput] = useState({ ...props.initialGoalData})
+    const [goalInput, setGoalInput] = useState({ ...props.initialGoalData} as GoalsCreateInput ) 
     const competitionFields = competitionField
     const trainingGoalFields = trainingGoalField
 

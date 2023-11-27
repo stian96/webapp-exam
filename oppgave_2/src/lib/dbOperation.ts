@@ -1,8 +1,5 @@
-
-import { PriorityEnum } from "../enums/PriorityEnum"
 import { updateExistingGoalInDatabase, createNewGoalInDatabase, CreateGoalParams  } from "../lib/api"
 import { Goal } from "@/types/classes/goal"
-import { GoalsCreateInput } from "@/components/layout/popups/GoalsEditPopup"
 
 
 export const saveGoalsToDb = async (goalInput: Goal, performerId: string, goalId: string, year: string, goal: string) => {
@@ -17,7 +14,7 @@ export const saveGoalsToDb = async (goalInput: Goal, performerId: string, goalId
         isCompetition: goalInput.isCompetition,
         location: goalInput.location,
         type: goalInput.type,
-        priority: PriorityEnum.A
+        priority: goalInput.priority
     }
 
     const success = await updateExistingGoalInDatabase(newGoal, parseInt(year), performerId)

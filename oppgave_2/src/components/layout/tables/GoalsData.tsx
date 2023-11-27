@@ -6,7 +6,7 @@ import { deleteGoalFromDB } from "@/lib/api"
 
 
 type GoalsDataProps = {
-    goal: GoalsCreateInput
+    goal: Goal
     performerId: string,
     onGoalDelete: (goalId: string) => void;
 }
