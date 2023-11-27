@@ -27,6 +27,9 @@ export default function PollCreate() {
     }
   }
 
+  // <Label> elements wrapping around <Input> elements is bad practice. If the label is
+  // always empty then it shouldn't exist in the first place. If the label is to be used
+  // then it should be on its own (e.g. <label htmlFor="id">Text</label><input id="id" ...>).
   return (
     <PageWrapper
       isLoading={isLoading}

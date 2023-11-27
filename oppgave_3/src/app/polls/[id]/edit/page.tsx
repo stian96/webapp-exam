@@ -36,6 +36,8 @@ export default function PollQuestionEdit(props) {
     data?.questions
   )
 
+  // The handler function here should be defined outside of the useEffect function. This would
+  // make it reusable, but also testable.
   useEffect(() => {
     const handler = async () => {
       if (id) {

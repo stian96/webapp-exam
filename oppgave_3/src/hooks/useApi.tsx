@@ -48,6 +48,8 @@ export default function useApi<T>({
     }
   }, [])
 
+  // This code will work, but ideally should be wrapped with an async function to avoid
+  // any unexpected behaviours.
   useEffect(() => {
     if (renderOnMount && cbRef.current) {
       run(cbRef.current, null)
