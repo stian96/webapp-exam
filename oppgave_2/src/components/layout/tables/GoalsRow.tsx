@@ -5,16 +5,17 @@ import { useState } from "react"
 
 
 import "@/style/goalsRow.scss"
+import { GoalsCreateInput } from "../popups/GoalsEditPopup"
 
 type GoalsRowProps = {
     performerId: string
-    goalsArray: Goal[]
+    goalsArray: GoalsCreateInput[]
     onGoalDelete: (goalId: string) => void;
     year: string
     addNewGoals: (newGoal: Goal) => void
 }
 
-const GoalsRow = ({ performerId, goalsArray, onGoalDelete, year, addNewGoals }: GoalsRowProps) => {
+const GoalsRow = ({ performerId, goalsArray, onGoalDelete, year }: GoalsRowProps) => {
     const [showGoalsData, setShowGoalsData] = useState(false)
 
     const toggleGoalsData = () => {
@@ -41,7 +42,6 @@ const GoalsRow = ({ performerId, goalsArray, onGoalDelete, year, addNewGoals }: 
                         goal={goal}
                         performerId={performerId}
                         onGoalDelete={onGoalDelete}
-                        updateGoal={addNewGoals}
                     />
                     ))}
                  </div>

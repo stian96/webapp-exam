@@ -1,3 +1,4 @@
+import { GoalsCreateInput } from "@/components/layout/popups/GoalsEditPopup"
 import { prisma } from "@/lib/prisma"
 import { Goal } from "@/types/classes/goal"
 import { NextResponse, type NextRequest } from "next/server"
@@ -152,7 +153,6 @@ export const PUT = async (request: NextRequest) => {
                 }) 
             }
             
-            const competition = goal.isCompetition.toString()
             const updatedGoal = await prisma.goals.update({
                 where: { id: goal.id },
                 data: {
@@ -161,7 +161,9 @@ export const PUT = async (request: NextRequest) => {
                     comment: goal.comment,
                     goalCompetition: goal.goalCompetition,
                     goalNotCompetition: goal.goalNotCompetition,
-                    isCompetition: competition === "yes" ? true : false,
+                    isCompetition: goal.isCompetition,
+                    location: goal.location,
+                    type: goal.type,
                     priority: goal.priority
                 }
             })

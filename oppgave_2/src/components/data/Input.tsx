@@ -11,7 +11,6 @@ type InputProps = {
     errors: Record<string, string>
 }
 
-// Reusable input component.
 const Input = ({ elements, handleChange, errors }: InputProps) => {
 
     return (

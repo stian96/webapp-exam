@@ -5,7 +5,6 @@ import { validDateFormat } from "@/lib/utils"
 import "@/style/popup.scss"
 import { Goal } from "@/types/classes/goal"
 import { PriorityEnum } from "@/enums/PriorityEnum"
-import { Performer } from "@/types/performer"
 
 type GoalsCreateInput = {
   id: string
@@ -58,8 +57,6 @@ const PopupContent = ({header, inputElements, close, inputData, setInputData, on
     })
     setError(defineError)
     setIsFormValid(isValid)
-    console.log("Validation Data: ", data)
-    console.log("Errors: ", defineError)
     return isValid
   }
 
@@ -82,7 +79,7 @@ const PopupContent = ({header, inputElements, close, inputData, setInputData, on
           ...inputData,
           date: new Date(inputData.date),
           goalNotCompetition: inputData.isCompetition ? null : inputData.goal,
-          goalCompetition: inputData.isCompetition ? parseInt(inputData.goal) : null,
+          goalCompetition: inputData.isCompetition ? Number(inputData.goal) : null,
           location: inputData.place
         }
         onSave(goalData)

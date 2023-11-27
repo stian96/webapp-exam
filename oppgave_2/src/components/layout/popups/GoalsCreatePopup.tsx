@@ -1,7 +1,7 @@
 "use client"
 import { useEffect } from "react"
 import { competitionField, trainingGoalField } from "@/types/data/goals"
-import PopupCont from "@/components/layout/popups/PopupContent"
+import PopupContent from "@/components/layout/popups/PopupContent"
 import { PriorityEnum } from "@/enums/PriorityEnum"
 import { Goal } from "@/types/classes/goal"
 import { useState } from "react"
@@ -92,7 +92,7 @@ const GoalsCreatePopup = ({ createClicked, close, onSave }: GoalsCreateProps) =>
                     </div>
                 )}
                 { hasMadeChoice && (
-                     <PopupCont 
+                     <PopupContent 
                         header={isCompetition ? "Create Competition Goal" : "Create Training Goal"} 
                         inputElements={isCompetition ? competitionFields : trainingGoalFields} 
                         close={close} 

@@ -1,19 +1,17 @@
 import { useState } from "react"
 import { type Goal } from "../../../types/classes/goal"
-import  GoalsEditPopup from "../popups/GoalsEditPopup"
+import  GoalsEditPopup, { GoalsCreateInput } from "../popups/GoalsEditPopup"
 import "@/style/goalsData.scss"
-import { type GoalsInput } from "@/types/goalsInput"
 import { deleteGoalFromDB } from "@/lib/api"
 
 
 type GoalsDataProps = {
-    goal: Goal
+    goal: GoalsCreateInput
     performerId: string,
-    updateGoal: (update: Goal) => void
     onGoalDelete: (goalId: string) => void;
 }
 
-const GoalsData = ({ performerId, goal, onGoalDelete, updateGoal }: GoalsDataProps) => {
+const GoalsData = ({ performerId, goal, onGoalDelete }: GoalsDataProps) => {
     const [editClicked, setEditClicked] = useState(false)
     const [currentGoal, setCurrentGoal] = useState(goal)
 
@@ -21,13 +19,12 @@ const GoalsData = ({ performerId, goal, onGoalDelete, updateGoal }: GoalsDataPro
         setEditClicked(!editClicked)
     }
 
-    const handleGoalUpdate = (updatedGoal: GoalsInput) => {
+    const handleGoalUpdate = (updatedGoal: GoalsCreateInput) => {
         const convertedGoal = { 
             ...updatedGoal, 
             date: updatedGoal.date
         }
         setCurrentGoal(convertedGoal)
-        updateGoal(convertedGoal)
     }
 
     const handleGoalDelete = async () => {
