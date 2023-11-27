@@ -18,17 +18,20 @@ const Goals = ({ performerId }: GoalsProps) => {
 
   useEffect(() => {
     const getGoalsData = async () => {
-      const goalsGroupedByYear = (await fetchGoals(
-        performerId,
-      )) as GoalsGroupedByYear
-      console.log("Goals response:", goalsGroupedByYear)
+      const goalsGroupedByYear = (await fetchGoals(performerId)) as GoalsGroupedByYear
       setAllGoals(goalsGroupedByYear)
     }
     getGoalsData()
   }, [])
 
-  const handleGoalDelete = (deletedGoalId: string) => {
-    setAllGoals(allGoals.filter((goal) => goal.id !== deletedGoalId))
+  const filterAfterGoalDelete = (deletedGoalId: string) => {
+    const filteredGoals = Object.fromEntries(
+      Object.entries(allGoals).map(([year, goalsArray]) => [
+          year, 
+          goalsArray.filter(goal => goal.id !== deletedGoalId)
+      ])
+    )
+    setAllGoals(filteredGoals)
   }
 
   const addNewGoals = (newGoal: Goal) => {
@@ -69,16 +72,20 @@ const Goals = ({ performerId }: GoalsProps) => {
           </div>
           <div className="goals__body-content">
             <div className="mx-auto flex w-11/12 flex-col pb-5">
-              {Object.entries(allGoals).map(([year, goalsArray]) => (
-                <GoalsRow
-                  key={year}
-                  performerId={performerId}
-                  goalsArray={goalsArray}
-                  year={year}
-                  addNewGoals={addNewGoals}
-                  onGoalDelete={handleGoalDelete}
-                />
-              ))}
+              {allGoals === undefined ? (
+                <p>No goals available</p>
+              ) : (
+                Object.entries(allGoals).map(([year, goalsArray]) => (
+                  <GoalsRow
+                    key={year}
+                    performerId={performerId}
+                    goalsArray={goalsArray}
+                    year={year}
+                    addNewGoals={addNewGoals}
+                    onGoalDelete={filterAfterGoalDelete}
+                  />
+                ))
+              )}
             </div>
           </div>
         </div>

@@ -3,8 +3,7 @@ import { type Goal } from "../../../types/classes/goal"
 import  GoalsEditPopup from "../popups/GoalsEditPopup"
 import "@/style/goalsData.scss"
 import { type GoalsInput } from "@/types/goalsInput"
-//import { deleteGoal } from '../../../lib/api';
-
+import { deleteGoalFromDB } from "@/lib/api"
 
 
 type GoalsDataProps = {
@@ -31,38 +30,15 @@ const GoalsData = ({ performerId, goal, onGoalDelete, updateGoal }: GoalsDataPro
         setCurrentGoal(convertedGoal)
         updateGoal(convertedGoal)
     }
-    /*
 
-    const handleDeleteGoal = async () => {
-      const { success, message } = await deleteGoal(currentGoal.id);
-
-    if (success) {
-        console.log(message);
-        onGoalDelete(currentGoal.id);
-    } else {
-        console.error(message);
-    }};
-    */
-    const handleDeleteGoal = async () => {
-      try {
-          const response = await fetch(`/api/goals/deleteGoal?goalId=${currentGoal.id}`, {
-              method: 'DELETE',
-          });
-  
-          const result = await response.json();
-          if (response.ok) {
-              
-              console.log(result.message);
-              onGoalDelete(currentGoal.id)
-              
-          } else {
-              
-              console.error(result.message);
-          }
-      } catch (error) {
-          console.error('Error deleting goal:', error);
-      }
-  };
+    const handleGoalDelete = async () => {
+        const result = await deleteGoalFromDB(goal)
+        if (result) {
+            onGoalDelete(goal.id)
+        } else {
+            console.log(`Failed to delete goal with ID: ${goal.id}`)
+        }
+  }
 
     return (
         <> 
@@ -88,8 +64,8 @@ const GoalsData = ({ performerId, goal, onGoalDelete, updateGoal }: GoalsDataPro
                             Edit
                     </button>
                     <button 
-                    className="data__inner-button"
-                    onClick={handleDeleteGoal}
+                        className="data__inner-button"
+                        onClick={handleGoalDelete}
                      >Delete</button>
                 </div>
             </div>
