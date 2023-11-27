@@ -1,5 +1,5 @@
 import { useState } from "react"
-import PopupCont from "@/components/layout/popups/PopupContent"
+import PopupEdit from "@/components/layout/popups/PopupEdit"
 import { Goal } from "@/types/classes/goal"
 import { saveGoalsToDb } from "@/lib/dbOperation"
 import Popup from "reactjs-popup"
@@ -25,17 +25,21 @@ const GoalsEditPopup = ( props :GoalsPopupProps) => {
 
     const handleSave = async () => {
         saveGoalsToDb(goalInput, props.performerId, props.goalId, goalInput.year)
-        props.onGoalUpdate(goalInput)
+        const updatedGoal = { 
+            ...goalInput, 
+            date: goalInput.date ? new Date(goalInput.date) : null
+        }
+        props.onGoalUpdate(updatedGoal)
         props.setEditClicked(false)
     }
 
     const close = () => props.setEditClicked(!props.editClicked)
 
-    const inputFields: string[] = ["Name", "Date", "Year", "Goal", "Competition", "Comment"]
+    const inputFields: string[] = ["Name", "Date", "Goal", "Comment"]
     return (
         <div className={`overlay ${props.editClicked ? 'overlay-active': ''}`}>
             <Popup open={props.editClicked} closeOnDocumentClick onClick={close}>
-                <PopupCont 
+                <PopupEdit 
                     header={"Edit Goal"} 
                     inputElements={inputFields} 
                     close={close} 
