@@ -81,17 +81,3 @@ const GoalsData = ({ performerId, goal, onGoalDelete, updateData }: GoalsDataPro
 }
 
 export default GoalsData
-
-/*
-<span className="data__goal mx-5">
-                    Name: {`${ currentGoal.name ? `${currentGoal.name}` : ''}`}
-                </span>
-                <span className="data__goal mx-5">
-                    {`${currentGoal.date ? `Date: ${currentGoal.date.toString().split('T')[0]}` : ''}`}
-                </span>
-                { currentGoal.isCompetition && (
-                    <span className="data__priority mx-5">
-                        {currentGoal.priority ? `Priority: ${currentGoal.priority}` : ''}
-                    </span>
-                )}
-*/
