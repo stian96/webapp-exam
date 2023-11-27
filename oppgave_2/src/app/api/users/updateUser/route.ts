@@ -18,7 +18,7 @@ export const PUT = async (request: NextRequest) => {
             }
 
             // Update existing user.
-            return await prisma.performers.update({
+            const updated = await prisma.performers.update({
                 where: { id: performer.id },
                     data: {
                     userId: performer.userId,
@@ -29,6 +29,7 @@ export const PUT = async (request: NextRequest) => {
                     speed: performer.speed
                 }
             })
+            return updated
         })
 
         console.log("Updated user in database.", updatedPerformer)

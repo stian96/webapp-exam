@@ -53,6 +53,12 @@ export const fetchPerformers = async (url: string): Promise<Performer[]> => {
       body: JSON.stringify(performer)
     })
 
+    if (!response.ok) {
+      const message = await response.json() as { message: string }
+      console.log(`Error in updating performer, error message: ${message}`)
+      return false
+    }
+
     const data = await response.json()
     if (response.status === 200) {
       console.log("Success: ", data)
