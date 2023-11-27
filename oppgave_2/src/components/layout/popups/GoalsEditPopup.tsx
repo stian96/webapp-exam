@@ -54,7 +54,7 @@ const GoalsEditPopup = ( props :GoalsPopupProps) => {
         <div className={`overlay ${props.editClicked ? 'overlay-active': ''}`}>
             <Popup open={props.editClicked} closeOnDocumentClick={false}>
                 <PopupContent 
-                    header={goalInput.isCompetition ? "Create Competition Goal" : "Create Training Goal"} 
+                    header={goalInput.isCompetition ? "Edit Competition Goal" : "Edit Training Goal"} 
                     inputElements={goalInput.isCompetition ? competitionFields : trainingGoalFields} 
                     close={() => props.setEditClicked(false)}
                     inputData={goalInput}

@@ -11,26 +11,26 @@ export type PerformerProps = {
 }
 
 const Performer = ({ performer, performers, setPerformers }: PerformerProps) => {
-    const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useState(false)
 
     const updatePerformer = async (updatedPerformer: Performer) => {
-        const success = await updatePerformerInDatabase(updatedPerformer);
+        const success = await updatePerformerInDatabase(updatedPerformer)
         if (success) {
-            const updatedPerformers = performers.map(p => p.id === updatedPerformer.id ? updatedPerformer : p);
-            setPerformers(updatedPerformers);
+            const updatedPerformers = performers.map(p => p.id === updatedPerformer.id ? updatedPerformer : p)
+            setPerformers(updatedPerformers)
         } else {
-            console.error(`Failed to update performer with ID: ${updatedPerformer.userId}`);
+            console.error(`Failed to update performer with ID: ${updatedPerformer.userId}`)
         }
     }
 
     const handleEditClick = () => {
-        setIsEditing(true); 
-    };
+        setIsEditing(true)
+    }
 
     const handleSave = async (updated: Performer) => {
-        await updatePerformer(updated);
-        setIsEditing(false);
-    };    
+        await updatePerformer(updated)
+        setIsEditing(false)
+    }
 
     return (
         <tr>
@@ -41,9 +41,18 @@ const Performer = ({ performer, performers, setPerformers }: PerformerProps) => 
                     handleSave={handleSave}
                 />
                 <div className="performer w-full">
-                    <p className="performer__name">ID: {performer.userId}</p>
-                    <p className="performer__gender">Gender: {performer.gender}</p>
-                    <p className="performer__sport">Sport: {performer.sport}</p>
+                    <div className="performer__outer">
+                        <div className="performer__outer__inner">
+                            <p className="performer__outer__inner-name">ID: {performer.userId}</p>
+                            <p className="performer__outer__inner-gender">Gender: {performer.gender}</p>
+                            <p className="performer__outer__inner-sport">Sport: {performer.sport}</p>
+                        </div>
+                        <div className="performer__outer__inner">
+                            <p className="performer__outer__inner-pulse">Pulse: {performer.heartRate}</p>
+                            <p className="performer__outer__inner-speed">Speed: {performer.speed}</p>
+                            <p className="performer__outer__inner-watt">Watt: {performer.watt}</p>
+                        </div>
+                    </div>
                     {!isEditing && (
                         <button onClick={handleEditClick}>Edit</button>
                     )}

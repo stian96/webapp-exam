@@ -18,7 +18,6 @@ const GoalsRow = ({ performerId, goalsArray, year, onGoalDelete, updateGoal }: G
 
     const toggleGoalsData = () => {
         setShowGoalsData(!showGoalsData)
-
     }
 
     return (

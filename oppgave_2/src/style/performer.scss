@@ -6,9 +6,26 @@
     box-shadow: 0px 0px 2px 0.5px $red-text-color;
     height: auto;
 
-    &__name, &__gender, &__sport {
-        padding: 1rem;
-        color: #fff;
+    &__outer {
+        display: flex;
+        gap: 3rem;
+        padding-left: 0.5rem;
+        padding-top: 0.5rem;
+
+
+        &__inner {
+
+            &-name, &-gender, &-sport {
+                padding: 1rem;
+                color: #fff;
+            }
+    
+            &-pulse, &-speed, &-watt {
+                color: #fff;
+                padding: 1rem;
+            }
+        }
+       
     }
 }
 

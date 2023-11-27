@@ -38,8 +38,6 @@ export const GET = async (request: NextRequest) => {
       console.log(`No goals exist.`)
       return NextResponse.json({ status: 404, message: `No goals exist.` })
     }
-  
-    console.log(`${differentYearsWithGoals} years of goals exists.`)
     return NextResponse.json({ status: 200, message: JSON.stringify(goalsGroupedByYear) })
     } 
     catch (error) {
