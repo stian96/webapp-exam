@@ -45,6 +45,7 @@ const GoalsEditPopup = ( props :GoalsPopupProps) => {
             date: goalInput.date
         }
         saveGoalsToDb(updatedGoal, props.performerId, props.goalId, year, goalInput.goal)
+        setGoalInput(updatedGoal)
         props.onGoalUpdate(updatedGoal)
         props.setEditClicked(false)
     }

@@ -3,19 +3,17 @@ import { type Goal } from "@/types/classes/goal"
 import GoalsData from "./GoalsData"
 import { useState } from "react"
 
-
 import "@/style/goalsRow.scss"
-import { GoalsCreateInput } from "../popups/GoalsEditPopup"
 
 type GoalsRowProps = {
     performerId: string
     goalsArray: Goal[]
-    onGoalDelete: (goalId: string) => void;
     year: string
-    addNewGoals: (newGoal: Goal) => void
+    onGoalDelete: (goalId: string) => void
+    updateGoal: (updated: Goal) => void
 }
 
-const GoalsRow = ({ performerId, goalsArray, onGoalDelete, year }: GoalsRowProps) => {
+const GoalsRow = ({ performerId, goalsArray, year, onGoalDelete, updateGoal }: GoalsRowProps) => {
     const [showGoalsData, setShowGoalsData] = useState(false)
 
     const toggleGoalsData = () => {
@@ -42,6 +40,7 @@ const GoalsRow = ({ performerId, goalsArray, onGoalDelete, year }: GoalsRowProps
                         goal={goal}
                         performerId={performerId}
                         onGoalDelete={onGoalDelete}
+                        updateData={updateGoal}
                     />
                     ))}
                  </div>

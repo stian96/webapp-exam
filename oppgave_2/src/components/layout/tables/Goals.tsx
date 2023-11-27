@@ -71,6 +71,23 @@ const Goals = ({ performerId }: GoalsProps) => {
     addNewGoalToDB({goal: goalForDB, performerId, year})
   }
 
+  const updateExistingGoals = (updatedGoal: Goal) => {
+    const date = updatedGoal.date
+    if (date) {
+      const dateObj = new Date(date)
+      const year = dateObj.getFullYear().toString()
+
+      const updatedGoalsForYear = allGoals[year].map(goal => (
+        goal.id === updatedGoal.id ? updatedGoal : goal
+      ))
+
+      setAllGoals({ ...allGoals, [year]: updatedGoalsForYear })
+    }
+    else {
+      console.log(`Could not update goal list. Date is invalid: ${date}`)
+    }
+  }
+
   const handleClick = () => {
     setIsCreateClicked(!isCreateClicked)
   }
@@ -101,8 +118,8 @@ const Goals = ({ performerId }: GoalsProps) => {
                     performerId={performerId}
                     goalsArray={goalsArray}
                     year={year}
-                    addNewGoals={addNewGoals}
                     onGoalDelete={filterAfterGoalDelete}
+                    updateGoal={updateExistingGoals}
                   />
                 ))
               )}

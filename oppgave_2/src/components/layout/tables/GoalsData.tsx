@@ -8,10 +8,11 @@ import { deleteGoalFromDB } from "@/lib/api"
 type GoalsDataProps = {
     goal: Goal
     performerId: string,
-    onGoalDelete: (goalId: string) => void;
+    onGoalDelete: (goalId: string) => void
+    updateData: (updateValue: Goal) => void
 }
 
-const GoalsData = ({ performerId, goal, onGoalDelete }: GoalsDataProps) => {
+const GoalsData = ({ performerId, goal, onGoalDelete, updateData }: GoalsDataProps) => {
     const [editClicked, setEditClicked] = useState(false)
     const [currentGoal, setCurrentGoal] = useState(goal)
 
@@ -25,6 +26,7 @@ const GoalsData = ({ performerId, goal, onGoalDelete }: GoalsDataProps) => {
             date: updatedGoal.date
         }
         setCurrentGoal(convertedGoal)
+        updateData(convertedGoal)
     }
 
     const handleGoalDelete = async () => {
