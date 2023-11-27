@@ -45,7 +45,29 @@ export const POST = async (request: NextRequest) => {
     const performer: Performer = data as Performer;
 
     console.log("Deserialised user.")
-    
+
+
+    const requiredFields = ['userId', 'gender', 'sport', 'heartRate', 'watt', 'speed'];
+    const validationError = validateFields(performer, requiredFields);
+
+    if (validationError) {
+      return new Response(JSON.stringify({ message: validationError }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    const existingUser = await prisma.performers.findUnique({
+      where: { userId: performer.userId }
+    });
+
+    if (existingUser) {
+      return new Response(JSON.stringify({ message: "User ID already exists." }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
     const newPerformer = await prisma.performers.create({
       data: {
           id: performer.id,
@@ -65,3 +87,25 @@ export const POST = async (request: NextRequest) => {
     return NextResponse.json({ status: 500, message: "Failed writing user to database." })
   }
 }
+
+const validateFields = (performer, fields) => {
+  for (const field of fields) {
+    const fieldValue = performer[field];
+
+    // Check if the field is a string and empty
+    if (typeof fieldValue === 'string' && !fieldValue.trim()) {
+      return `Field '${field}' is required.`;
+    }
+    
+    // Check if the field is a number but not a valid number (e.g., NaN)
+    if (typeof fieldValue === 'number' && isNaN(fieldValue)) {
+      return `Field '${field}' must be a valid number.`;
+    }
+
+    
+    if (fieldValue === null || fieldValue === undefined) {
+      return `Field '${field}' is required.`;
+    }
+  }
+  return null;
+};
