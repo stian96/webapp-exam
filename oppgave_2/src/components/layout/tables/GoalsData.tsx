@@ -64,6 +64,9 @@ const GoalsData = ({ performerId, goal, onGoalDelete, updateData }: GoalsDataPro
                     </span>
                 )}
                 <div className="data__inner ml-auto">
+                    <button className="data__inner-button">
+                        Show
+                    </button>
                     <button className="data__inner-button mr-2" onClick={handleClick}>
                         Edit
                     </button>
