@@ -10,19 +10,24 @@ type DetailProps = {
 
 
 const GoalsDetailModal = ({ header, onClose, goalData }: DetailProps) => {
-
-    const firstRow = [
+    const competitionRows = [
         { label: "Name", value: goalData.name },
         { label: "Date", value: goalData.date?.toString().split('T')[0] },
-        { label: "Place", value: goalData.location }
-    ]
-
-    const secondRow = [
+        { label: "Place", value: goalData.location },
         { label: "Type", value: goalData.type },
         { label: "Priority", value: goalData.priority },
         { label: "Goal", value: goalData.goalCompetition },
         { label: "Comment", value: goalData.comment }
-    ]
+    ];
+
+    const nonCompetitionRows = [
+        { label: "Name", value: goalData.name },
+        { label: "Date", value: goalData.date?.toString().split('T')[0] },
+        { label: "Goal", value: goalData.goalNotCompetition },
+        { label: "Comment", value: goalData.comment }
+    ];
+
+    const rowsToShow = goalData.isCompetition ? competitionRows : nonCompetitionRows
 
     return (
         <div className="modal h-full overflow-auto">
@@ -31,8 +36,7 @@ const GoalsDetailModal = ({ header, onClose, goalData }: DetailProps) => {
             </button>
             <h1 className="modal__header">{header}</h1>
             <div className="modal__content competition-info">
-                <CompetitionInfo data={firstRow}/>
-                <CompetitionInfo data={secondRow} />
+                <CompetitionInfo data={rowsToShow}/>
             </div>
             <div className="modal__actions">
                 <button className="modal__actions-button" onClick={onClose}>

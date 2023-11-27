@@ -57,13 +57,15 @@ const GoalsData = ({ performerId, goal, onGoalDelete, updateData }: GoalsDataPro
                 <span className="data__competition mr-5">
                     Competition: {currentGoal.isCompetition ? `Yes` : `No`}
                 </span>
-                <Popup open={modalOpen} closeOnDocumentClick={false}>
-                    <GoalsDetailModal 
-                        header={"Competition Information"}
-                        onClose={closeModal}
-                        goalData={currentGoal}
-                    />
-                </Popup>
+                <div className={`overlay ${modalOpen ? 'overlay-active': ''}`}>
+                    <Popup open={modalOpen} closeOnDocumentClick={false}>
+                        <GoalsDetailModal 
+                            header={"Competition Information"}
+                            onClose={closeModal}
+                            goalData={currentGoal}
+                        />
+                    </Popup>
+                </div>
                 <div className="data__inner ml-auto">
                     <button className="data__inner-button mr-2" onClick={() => setModalOpen(true)}>
                         Show
