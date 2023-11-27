@@ -1,8 +1,11 @@
 import { useState } from "react"
-import { type Goal } from "../../../types/classes/goal"
 import  GoalsEditPopup, { GoalsCreateInput } from "../popups/GoalsEditPopup"
-import "@/style/goalsData.scss"
+import GoalsDetailModal from "../popups/GoalsDetailsModal"
+import { type Goal } from "@/types/classes/goal"
 import { deleteGoalFromDB } from "@/lib/api"
+import Popup from "reactjs-popup"
+
+import "@/style/goalsData.scss"
 
 
 type GoalsDataProps = {
@@ -15,6 +18,7 @@ type GoalsDataProps = {
 const GoalsData = ({ performerId, goal, onGoalDelete, updateData }: GoalsDataProps) => {
     const [editClicked, setEditClicked] = useState(false)
     const [currentGoal, setCurrentGoal] = useState(goal)
+    const [modalOpen, setModalOpen] = useState(false)
 
     const handleClick = () => {
         setEditClicked(!editClicked)
@@ -36,8 +40,9 @@ const GoalsData = ({ performerId, goal, onGoalDelete, updateData }: GoalsDataPro
         } else {
             console.log(`Failed to delete goal with ID: ${goal.id}`)
         }
-  }
+    }
 
+    const closeModal = () => setModalOpen(false)
     return (
         <> 
             <GoalsEditPopup 
@@ -52,19 +57,15 @@ const GoalsData = ({ performerId, goal, onGoalDelete, updateData }: GoalsDataPro
                 <span className="data__competition mr-5">
                     Competition: {currentGoal.isCompetition ? `Yes` : `No`}
                 </span>
-                <span className="data__goal mx-5">
-                    Name: {`${ currentGoal.name ? `${currentGoal.name}` : ''}`}
-                </span>
-                <span className="data__goal mx-5">
-                    {`${currentGoal.date ? `Date: ${currentGoal.date.toString().split('T')[0]}` : ''}`}
-                </span>
-                { currentGoal.isCompetition && (
-                    <span className="data__priority mx-5">
-                        {currentGoal.priority ? `Priority: ${currentGoal.priority}` : ''}
-                    </span>
-                )}
+                <Popup open={modalOpen} closeOnDocumentClick={false}>
+                    <GoalsDetailModal 
+                        header={"Competition Information"}
+                        onClose={closeModal}
+                        goalData={currentGoal}
+                    />
+                </Popup>
                 <div className="data__inner ml-auto">
-                    <button className="data__inner-button">
+                    <button className="data__inner-button mr-2" onClick={() => setModalOpen(true)}>
                         Show
                     </button>
                     <button className="data__inner-button mr-2" onClick={handleClick}>
@@ -80,3 +81,17 @@ const GoalsData = ({ performerId, goal, onGoalDelete, updateData }: GoalsDataPro
 }
 
 export default GoalsData
+
+/*
+<span className="data__goal mx-5">
+                    Name: {`${ currentGoal.name ? `${currentGoal.name}` : ''}`}
+                </span>
+                <span className="data__goal mx-5">
+                    {`${currentGoal.date ? `Date: ${currentGoal.date.toString().split('T')[0]}` : ''}`}
+                </span>
+                { currentGoal.isCompetition && (
+                    <span className="data__priority mx-5">
+                        {currentGoal.priority ? `Priority: ${currentGoal.priority}` : ''}
+                    </span>
+                )}
+*/

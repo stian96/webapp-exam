@@ -3,17 +3,16 @@ import "@/style/popup.scss"
 
 type DetailProps = {
     header: string
-    isOpen: boolean
     onClose: () => void
     goalData: Goal
 }
 
 
-const GoalsDetailModal = ({ header, isOpen, onClose, goalData }: DetailProps) => {
+const GoalsDetailModal = ({ header, onClose, goalData }: DetailProps) => {
 
     return (
         <div className="modal h-full overflow-auto">
-            <button className="modal__close float-right" onClick={close}>
+            <button className="modal__close float-right" onClick={onClose}>
                 &times;
             </button>
             <h1 className="modal__header">{header}</h1>
@@ -21,7 +20,9 @@ const GoalsDetailModal = ({ header, isOpen, onClose, goalData }: DetailProps) =>
               
             </div>
             <div className="modal__actions">
-                {/* Close button here */}
+                <button className="modal__actions-button" onClick={onClose}>
+                    Close
+                </button>
             </div>
         </div>
     )
