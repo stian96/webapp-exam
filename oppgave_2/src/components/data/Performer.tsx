@@ -41,7 +41,7 @@ const Performer = ({ performer, performers, setPerformers }: PerformerProps) => 
                     handleSave={handleSave}
                 />
                 <div className="performer w-full">
-                    <div className="performer__outer">
+                    <div className="performer__outer mb-4">
                         <div className="performer__outer__inner">
                             <p className="performer__outer__inner-name">ID: {performer.userId}</p>
                             <p className="performer__outer__inner-gender">Gender: {performer.gender}</p>
@@ -53,9 +53,6 @@ const Performer = ({ performer, performers, setPerformers }: PerformerProps) => 
                             <p className="performer__outer__inner-watt">Watt: {performer.watt}</p>
                         </div>
                     </div>
-                    {!isEditing && (
-                        <button onClick={handleEditClick}>Edit</button>
-                    )}
                     <Goals performerId={performer.id} />
                 </div>
             </td>
