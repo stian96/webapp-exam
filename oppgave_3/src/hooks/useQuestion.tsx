@@ -29,6 +29,14 @@ export default function useQuestion(initialState?: Question[]) {
     }
   }
 
+  // There's no validation for the import forms, thus anything (also nothing - space or tab)
+  // can be entered as a question or alternative. This allows the user to enter anything
+  // they want which both results in dirty data, as well as rendering hidden elements of
+  // the backend susceptible to cyber attacks (XSRF, injections, etc.). This could be remedied
+  // by first checking (client side) whether the forms are valid through regex expressions, before
+  // then sending a request to the server side API (which then additionally verifies data is
+  // of correct format). Feedback could appear as a change in text colour, or input border colour,
+  // as well as text elements informing the user of the missing/incorrect data in the form.
   const handleQuestion = (questionIndex: number, data: QuestionCreateInput) => {
     if (questionIndex >= 0) {
       const updatedQuestions = insert(questions, questionIndex, data)

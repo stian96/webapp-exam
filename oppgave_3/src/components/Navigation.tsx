@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+// There isn't a valid page in 'src/app/votes'. Therefore the link to the Votes page in
+// this navbar will result in a 404 page not found error.
 export default function Navigation() {
   return (
     <header className="navigation">
