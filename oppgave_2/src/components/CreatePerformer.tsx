@@ -23,10 +23,7 @@ const CreatePerformer = () => {
       watt: '',
       speed: ''
     });
-    
-
-
-
+  
     
     const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => {
       setPerformerId(e.target.value);
@@ -201,19 +198,19 @@ const CreatePerformer = () => {
             <br />
             <label>
               Heart Rate:
-              <input type="text" id="heartRate" value={heartRate} onChange={handleHeartRateChange} className='form__input --default'/>
+              <input type="number" id="heartRate" value={heartRate} onChange={handleHeartRateChange} className='form__input --default'/>
               {errors.heartRate && <span className="create-performer-error-message">{errors.heartRate}</span>}
             </label>
             <br />
             <label>
               Watt:
-              <input type="text" id="watt" value={watt} onChange={handleWattChange} className='form__input --default'/>
+              <input type="number" id="watt" value={watt} onChange={handleWattChange} className='form__input --default'/>
               {errors.watt && <span className="create-performer-error-message">{errors.watt}</span>}
             </label>
             <br />
             <label>
               Speed:
-              <input type="text" id= "speed" value={speed} onChange={handleSpeedChange} className='form__input --default'/>
+              <input type="number" id= "speed" value={speed} onChange={handleSpeedChange} className='form__input --default'/>
               {errors.speed && <span className="create-performer-error-message">{errors.speed}</span>}
             </label>
             <br />
