@@ -12,7 +12,7 @@ type IntensityProps = {
 }
 
 const IntensityPopup = ({ header, isOpen, onClose }: IntensityProps) => {
-    const [selectedZone, setSelectedZone] = useState<IntensityZone | "all">(IntensityZone.Zone1)
+    const [selectedZone, setSelectedZone] = useState<IntensityZone | "all">("all")
     const [nextClicked, setNextClicked] = useState(false)
     const [selectedOptions, setSelectedOptions] = useState({
         heartRate: false,
@@ -39,31 +39,41 @@ const IntensityPopup = ({ header, isOpen, onClose }: IntensityProps) => {
                     <button className="modal__close float-right" onClick={onClose}>
                         &times;
                     </button>
-                    <h1 className="modal__header">{header}</h1>
                     { !nextClicked && (
-                        <div className="modal__content py-8 flex justify-center">
-                            <CheckBox id="heartRate" value="Pulse" onChange={handleChange} checked={selectedOptions.heartRate} />
-                            <CheckBox id="speed" value="Speed" onChange={handleChange} checked={selectedOptions.speed} />
-                            <CheckBox id="watt" value="Watt" onChange={handleChange} checked={selectedOptions.watt} />
-                        </div>
+                        <>
+                            <h1 className="modal__header">{header}</h1>
+                            <div className="modal__content py-8 flex justify-center">
+                                <CheckBox id="heartRate" value="Pulse" onChange={handleChange} checked={selectedOptions.heartRate} />
+                                <CheckBox id="speed" value="Speed" onChange={handleChange} checked={selectedOptions.speed} />
+                                <CheckBox id="watt" value="Watt" onChange={handleChange} checked={selectedOptions.watt} />
+                            </div>
+                            <div className="modal__actions">
+                                <button className="modal__actions-button" onClick={handleClick}>
+                                    Next
+                                </button>
+                            </div>
+                        </>
                     )} 
                     { nextClicked && (
-                        <div className="modal__content py-8 flex justify-center">
-                            <select value={selectedZone} onChange={handleSelectChange}>
-                                <option value="all">All Zones</option>
-                                <option value={IntensityZone.Zone1}>Zone 1</option>
-                                <option value={IntensityZone.Zone2}>Zone 2</option>
-                                <option value={IntensityZone.Zone3}>Zone 3</option>
-                                <option value={IntensityZone.Zone4}>Zone 4</option>
-                                <option value={IntensityZone.Zone5}>Zone 5</option>
-                            </select>
-                        </div>
+                        <>
+                            <h1 className="modal__header">{"Choose intensity zone for the calculation"}</h1>
+                            <div className="modal__content py-8 flex justify-center">
+                                <select className="unique" value={selectedZone} onChange={handleSelectChange}>
+                                    <option value="all">All Zones</option>
+                                    <option value={IntensityZone.Zone1}>Zone 1</option>
+                                    <option value={IntensityZone.Zone2}>Zone 2</option>
+                                    <option value={IntensityZone.Zone3}>Zone 3</option>
+                                    <option value={IntensityZone.Zone4}>Zone 4</option>
+                                    <option value={IntensityZone.Zone5}>Zone 5</option>
+                                </select>
+                            </div>
+                            <div className="modal__actions">
+                                <button className="modal__actions-button calculate-btn" onClick={handleClick}>
+                                    Calculate
+                                </button>
+                            </div>
+                        </>
                     )}
-                    <div className="modal__actions">
-                        <button className="modal__actions-button" onClick={handleClick}>
-                            Next
-                        </button>
-                    </div>
                 </div>
             </Popup>
         </div>
