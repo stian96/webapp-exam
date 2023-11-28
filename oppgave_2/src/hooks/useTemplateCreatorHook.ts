@@ -624,7 +624,7 @@ const useTemplateCreatorHook = () => {
       const isSuccess = data.success
 
       if (isSuccess) {
-        setSubmitButtonText("Error - Template Name Already Exists ")
+        setSubmitButtonText("Error - Template Name Already Exists")
         return
       }
 
