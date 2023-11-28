@@ -46,7 +46,14 @@ const IntensityPopup = ({ header, isOpen, onClose, currentPerformer }: Intensity
         setSelectedZone(value)
     }
 
-    const handleClick = () => setNextClicked(!nextClicked)
+    const handleClick = () => {
+        const notSelected = Object.values(selectedOptions).every(item => item === false)
+        if (notSelected) {
+            alert("Please pick an option before you press next!")
+        } else {
+            setNextClicked(!nextClicked)
+        }
+    }
 
     const calculateZones = () => {
         let newResults = {
