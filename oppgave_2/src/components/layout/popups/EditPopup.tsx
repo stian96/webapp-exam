@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { mapFieldToKey } from "@/lib/utils"
 import Popup from "reactjs-popup"
 import PopupEdit from "./PopupEdit"
 import { Performer } from "@/types/performer"
@@ -42,8 +43,6 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
         }
     }
 
-    const closePopup = () => setIsPopupOpen(false)
-
     const validatePerformerData = (fields: string[], performerData: Performer) => {
         let defineErrors: Record<string, string> = {}
         let isValid = true
@@ -67,7 +66,8 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
         setError(defineErrors)
         return isValid
     }
-    
+
+    const closePopup = () => setIsPopupOpen(false)
     return(
     <>
         <button className="button float-right" onClick={() => setIsPopupOpen(true)}>
