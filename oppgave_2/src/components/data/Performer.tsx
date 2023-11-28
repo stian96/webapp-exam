@@ -3,6 +3,7 @@ import { Goals, EditPopup } from "@/components"
 import { Performer } from "@/types/performer"
 import { updatePerformerInDatabase } from "@/lib/api"
 import "@/style/performer.scss"
+import IntensityPopup from "../layout/popups/IntensityPopup"
 
 export type PerformerProps = {
     performer: Performer
@@ -32,10 +33,10 @@ const Performer = ({ performer, performers, setPerformers }: PerformerProps) => 
                     editPerformer={performer} 
                     setEditPerformer={updatePerformer}
                 />
-                <button className="button intensity-btn float-right">
+                <button className="button intensity-btn float-right" onClick={handlePopup}>
                     Calculate Intensity
                 </button>
-                {}
+                { showPopup && <IntensityPopup />}
                 <div className="performer w-full">
                     <div className="performer__outer mb-4">
                         <div className="performer__outer__inner">
