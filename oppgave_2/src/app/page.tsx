@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Link from "next/link"
 
 import { Header, Search, Table } from "@/components"
 import ImportButton from "@/components/ImportButton"
@@ -37,8 +38,14 @@ const Dashboard = () => {
           <Header title={"Dashboard"} />
           <div className="min-w-screen-sm mx-auto max-w-screen-md py-8">
             <Search setSearchQuery={setSearchQuery} />
-            <div className="pt-4">
+            <div className="flex items-center space-x-4 pt-4">
               <ImportButton />
+              <Link
+                className="defaultButton flex justify-center"
+                href="/api-doc"
+              >
+                API Documentation
+              </Link>
             </div>
           </div>
           <div className="min-w-screen-md mx-auto max-w-screen-lg pb-8">
