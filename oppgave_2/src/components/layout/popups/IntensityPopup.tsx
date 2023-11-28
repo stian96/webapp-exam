@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import CheckBox from "../CheckBox"
 import Popup from "reactjs-popup"
 import "@/style/popup.scss"
-import { IntensityZone, Performer } from "@/types/performer"
+import { IntensityZone, Performer, calculateIntensityZones } from "@/types/performer"
 import DropDown from "../DropDown"
 
 type IntensityProps = {
@@ -13,6 +13,13 @@ type IntensityProps = {
     currentPerformer: Performer
 }
 
+type CalculationResults = {
+    heartRate: number | number[];
+    speed: number | number[];
+    watt: number | number[];
+};
+
+
 const IntensityPopup = ({ header, isOpen, onClose, currentPerformer }: IntensityProps) => {
     const [selectedZone, setSelectedZone] = useState<IntensityZone | "all">("all")
     const [nextClicked, setNextClicked] = useState(false)
@@ -20,6 +27,11 @@ const IntensityPopup = ({ header, isOpen, onClose, currentPerformer }: Intensity
         heartRate: false,
         speed: false,
         watt: false
+    })
+    const [results, setResults] = useState<CalculationResults>({
+        heartRate: [],
+        speed: [],
+        watt: []
     })
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +45,27 @@ const IntensityPopup = ({ header, isOpen, onClose, currentPerformer }: Intensity
     }
 
     const handleClick = () => setNextClicked(!nextClicked)
+
+    const calculateZones = () => {
+        let newResults = {
+            heartRate: selectedOptions.heartRate ? calculateZoneValues(currentPerformer.heartRate) : [],
+            speed: selectedOptions.speed ? calculateZoneValues(currentPerformer.speed) : [],
+            watt: selectedOptions.watt ? calculateZoneValues(currentPerformer.watt) : []
+        };
+    
+        setResults(newResults);
+        console.log("Result: ", newResults);
+    }
+
+    const calculateZoneValues = (threshold: number): number[] => {
+        if (selectedZone === "all") {
+            const zones = Object.values(IntensityZone).filter(val => typeof val === "number") as IntensityZone[];
+            return zones.map(zoneVal => calculateIntensityZones(threshold, zoneVal))
+        } 
+        else {
+            return [calculateIntensityZones(threshold, selectedZone)]
+        }
+    }
 
     return (
         <div className={`overlay ${isOpen ? 'overlay-active' : ''}`}>
@@ -63,7 +96,7 @@ const IntensityPopup = ({ header, isOpen, onClose, currentPerformer }: Intensity
                                 <DropDown selectedZone={selectedZone} handleSelectChange={handleSelectChange}/>
                             </div>
                             <div className="modal__actions">
-                                <button className="modal__actions-button calculate-btn" onClick={handleClick}>
+                                <button className="modal__actions-button calculate-btn" onClick={calculateZones}>
                                     Calculate
                                 </button>
                             </div>
