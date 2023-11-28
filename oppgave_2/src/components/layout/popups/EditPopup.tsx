@@ -10,10 +10,9 @@ import "@/style/popup.scss"
 type EditPopupProps = {
     editPerformer: Performer,
     setEditPerformer: (performer: Performer) => void 
-    handleSave: (updatedPerformer: Performer) => void
 }
 
-const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupProps) => {
+const EditPopup = ({ editPerformer, setEditPerformer }: EditPopupProps) => {
     const [localPerformer, setLocalPerformer] = useState(editPerformer);
     const [isPopupOpen, setIsPopupOpen] = useState(false)
     const [hasMadeChoice, setHasMadeChoice] = useState(false)
@@ -36,7 +35,6 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
     const handleLocalSave = (fields: string[]) => {
         if (validatePerformerData(fields, localPerformer)) {
             setEditPerformer(localPerformer)
-            handleSave(localPerformer)
             closePopup()
         } else {
             console.log("Performer data from form is not valid!")

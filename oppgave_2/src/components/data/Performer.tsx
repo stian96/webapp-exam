@@ -11,7 +11,6 @@ export type PerformerProps = {
 }
 
 const Performer = ({ performer, performers, setPerformers }: PerformerProps) => {
-    const [isEditing, setIsEditing] = useState(false)
 
     const updatePerformer = async (updatedPerformer: Performer) => {
         const success = await updatePerformerInDatabase(updatedPerformer)
@@ -23,22 +22,12 @@ const Performer = ({ performer, performers, setPerformers }: PerformerProps) => 
         }
     }
 
-    const handleEditClick = () => {
-        setIsEditing(true)
-    }
-
-    const handleSave = async (updated: Performer) => {
-        await updatePerformer(updated)
-        setIsEditing(false)
-    }
-
     return (
         <tr>
             <td>
                 <EditPopup 
                     editPerformer={performer} 
-                    setEditPerformer={(updated) => updatePerformer(updated)}
-                    handleSave={handleSave}
+                    setEditPerformer={updatePerformer}
                 />
                 <div className="performer w-full">
                     <div className="performer__outer mb-4">
