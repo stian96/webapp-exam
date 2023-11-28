@@ -121,7 +121,7 @@ const IntensityPopup = ({ header, isOpen, onClose, currentPerformer }: Intensity
                         </div>
                         <div className="modal__actions">
                             <button className="modal__actions-button calculate-btn" onClick={() => setShowResults(false)}>
-                                Close
+                                Back
                             </button>
                         </div>
                     </>
