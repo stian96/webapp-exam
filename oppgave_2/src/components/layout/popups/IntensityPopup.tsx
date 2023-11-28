@@ -2,11 +2,12 @@ import Popup from "reactjs-popup"
 import "@/style/popup.scss"
 
 type IntensityProps = {
+    header: string
     isOpen: boolean
     onClose: () => void
 }
 
-const IntensityPopup = ({ isOpen, onClose }: IntensityProps) => {
+const IntensityPopup = ({ header, isOpen, onClose }: IntensityProps) => {
 
     return (
         <div className={`overlay ${isOpen ? 'overlay-active' : ''}`}>
@@ -15,13 +16,18 @@ const IntensityPopup = ({ isOpen, onClose }: IntensityProps) => {
                     <button className="modal__close float-right" onClick={onClose}>
                         &times;
                     </button>
-                    <h1 className="modal__header">{"Intensity Popup"}</h1>
+                    <h1 className="modal__header">{header}</h1>
                     <div className="modal__content">
-                        <h1>Intensity Popup</h1>
+                        <input type="checkbox" id="heartRate" name="heartRate" value="undfined" />
+                        <label htmlFor="heartRate">Pulse</label>
+                        <input type="checkbox" id="speed" name="speed" value="undfined" />
+                        <label htmlFor="speed">Speed</label>
+                        <input type="checkbox" id="watt" name="watt" value="undfined" />
+                        <label htmlFor="watt">Watt</label>
                     </div>
                     <div className="modal__actions">
                         <button className="modal__actions-button">
-                            Save
+                            Next
                         </button>
                     </div>
                 </div>

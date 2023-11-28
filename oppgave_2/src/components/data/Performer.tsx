@@ -36,7 +36,7 @@ const Performer = ({ performer, performers, setPerformers }: PerformerProps) => 
                 <button className="button intensity-btn float-right" onClick={handlePopup}>
                     Calculate Intensity
                 </button>
-                { showPopup && <IntensityPopup />}
+                { showPopup && <IntensityPopup header={"What fields do you want to calculate for?"} isOpen={showPopup} onClose={handlePopup}/> }
                 <div className="performer w-full">
                     <div className="performer__outer mb-4">
                         <div className="performer__outer__inner">
