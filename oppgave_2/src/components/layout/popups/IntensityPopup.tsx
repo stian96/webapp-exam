@@ -3,16 +3,17 @@ import React, { useState } from "react"
 import CheckBox from "../CheckBox"
 import Popup from "reactjs-popup"
 import "@/style/popup.scss"
-import { IntensityZone } from "@/types/performer"
+import { IntensityZone, Performer } from "@/types/performer"
 import DropDown from "../DropDown"
 
 type IntensityProps = {
     header: string
     isOpen: boolean
     onClose: () => void
+    currentPerformer: Performer
 }
 
-const IntensityPopup = ({ header, isOpen, onClose }: IntensityProps) => {
+const IntensityPopup = ({ header, isOpen, onClose, currentPerformer }: IntensityProps) => {
     const [selectedZone, setSelectedZone] = useState<IntensityZone | "all">("all")
     const [nextClicked, setNextClicked] = useState(false)
     const [selectedOptions, setSelectedOptions] = useState({
