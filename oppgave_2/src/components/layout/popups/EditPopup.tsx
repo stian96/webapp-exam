@@ -16,9 +16,11 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
     const [localPerformer, setLocalPerformer] = useState(editPerformer);
     const [isPopupOpen, setIsPopupOpen] = useState(false)
     const [hasMadeChoice, setHasMadeChoice] = useState(false)
+    const [editModeType, setEditModeType] = useState(false)
     const [error, setError] = useState<Record<string, string>>({})
 
-    const inputFields = ["User ID", "Gender", "Sport"]
+    const performerFields = ["User ID", "Gender", "Sport"]
+    const performanceFields = ["Heart Rate", "Speed", "Watt"]
 
     useEffect(() => {
         if (!isPopupOpen) {
@@ -99,15 +101,15 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
                  </div>
                 )}
                 { hasMadeChoice && (
-                    <PopupEdit 
-                        header="Edit Performer" 
-                        inputElements={inputFields}
-                        handleChange={handleChange}
-                        handleSave={handleLocalSave}
-                        close={closePopup}
-                        errors={error}
-                        currentPerformer={localPerformer}
-                    /> 
+                <PopupEdit 
+                    header={editModeType ? "Edit Performer" : "Edit Performance"} 
+                    inputElements={editModeType ? performerFields : performanceFields}
+                    handleChange={handleChange}
+                    handleSave={handleLocalSave}
+                    close={closePopup}
+                    errors={error}
+                    currentPerformer={localPerformer}
+                /> 
                 )}
             </Popup>
         </div>
