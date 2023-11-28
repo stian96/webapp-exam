@@ -15,16 +15,17 @@ model ExampleTable {
 }
 
 model Performers {
-  id                     String            @id @default(uuid())
-  userId                 String            @unique
-  gender                 String
-  sport                  String
-  heartRate              Int
-  watt                   Int
-  speed                  Int
-  uniqueSessionTemplates Sessions[]
-  sessionActivities      SessionActivity[]
-  performerGoals         PerformerGoals[]
+  id                        String                       @id @default(uuid())
+  userId                    String                       @unique
+  gender                    String
+  sport                     String
+  heartRate                 Int
+  watt                      Int
+  speed                     Int
+  uniqueSessionTemplates    Sessions[]
+  sessionActivities         SessionActivity[]
+  performerGoals            PerformerGoals[]
+  performerParameterHistory PerformersParameterHistory[]
 }
 
 model Goals {
@@ -180,4 +181,15 @@ model ReportAnswers {
   answerId String
 
   @@id([reportId, answerId])
+}
+
+model PerformersParameterHistory {
+  performer   Performers @relation(fields: [performerId], references: [id], onDelete: Cascade)
+  performerId String
+  date        DateTime   @default(now())
+  heartRate   Int
+  watt        Int
+  speed       Int
+
+  @@id([performerId, date])
 }

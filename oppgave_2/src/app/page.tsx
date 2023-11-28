@@ -13,6 +13,34 @@ const Dashboard = () => {
   const [performers, setPerformers] = useState<Performer[]>([])
   const [fetching, setFetching] = useState(false)
 
+  const archive = async (performerId: string) => {
+    try {
+      const response = await fetch(
+        `/api/users/archiveParameters/${performerId}`,
+        {
+          method: "post",
+        },
+      )
+
+      const data = await response.json()
+      const isSuccess = data.status
+      const message = data.message
+
+      if (isSuccess == 201) {
+        console.log(`Performer parameters with id ${performerId} archived.`)
+        return { success: true, message: `${performerId} archived.` }
+      } else {
+        console.log(`Performer with id ${performerId} does not exist.`)
+        return {
+          success: false,
+          message: `Performer with id ${performerId} does not exist.`,
+        }
+      }
+    } catch (error) {
+      return { success: false, message: error }
+    }
+  }
+
   useEffect(() => {
     const fetch = async () => {
       setFetching(true)
@@ -46,6 +74,11 @@ const Dashboard = () => {
               >
                 API Documentation
               </Link>
+              <button
+                onClick={() => archive("00e70ee0-289b-4fb0-80cc-c2d66d2b6749")}
+              >
+                Click
+              </button>
             </div>
           </div>
           <div className="min-w-screen-md mx-auto max-w-screen-lg pb-8">
