@@ -1,3 +1,4 @@
+import "@/style/checkbox.scss"
 
 type CheckBoxProps = {
     id: string
@@ -7,9 +8,9 @@ type CheckBoxProps = {
 const CheckBox = ({ id, value }: CheckBoxProps) => {
 
     return (
-        <div className="checkbox-container">
-            <input type="checkbox" id={id} name={id} value={value} />
-            <label htmlFor={id}>{value}</label>
+        <div className="checkbox-container flex items-center gap-3">
+            <input className="checkbox-container__input" type="checkbox" id={id} name={id} value={value} />
+            <label className="checkbox-container__label" htmlFor={id}>{value}</label>
         </div>
     )
 }

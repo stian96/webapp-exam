@@ -1,3 +1,5 @@
+"use client"
+import { useState } from "react" 
 import CheckBox from "../CheckBox"
 import Popup from "reactjs-popup"
 import "@/style/popup.scss"
@@ -9,6 +11,11 @@ type IntensityProps = {
 }
 
 const IntensityPopup = ({ header, isOpen, onClose }: IntensityProps) => {
+    const [selectedOptions, setSelectedOptions] = useState({
+        heartRate: false,
+        speed: false,
+        watt: false
+    })
 
     return (
         <div className={`overlay ${isOpen ? 'overlay-active' : ''}`}>
@@ -18,7 +25,7 @@ const IntensityPopup = ({ header, isOpen, onClose }: IntensityProps) => {
                         &times;
                     </button>
                     <h1 className="modal__header">{header}</h1>
-                    <div className="modal__content">
+                    <div className="modal__content py-8 flex justify-center">
                         <CheckBox id="heartRate" value="Pulse" />
                         <CheckBox id="speed" value="Speed" />
                         <CheckBox id="watt" value="Watt" />
