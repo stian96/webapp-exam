@@ -6,7 +6,7 @@ type PopupProps = {
   header: string
   inputElements: string[]
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  handleSave: () => void
+  handleSave: (fields: string[]) => void
   close: () => void
   errors: Record<string, string>
   currentPerformer: Performer
@@ -39,7 +39,7 @@ const PopupEdit = ({
       <div className="modal__actions">
         <button
           className="modal__actions-button"
-          onClick={handleSave}
+          onClick={() => handleSave(inputElements)}
         >
           Save
         </button>

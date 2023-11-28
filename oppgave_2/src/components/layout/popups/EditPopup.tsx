@@ -18,6 +18,8 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
     const [hasMadeChoice, setHasMadeChoice] = useState(false)
     const [error, setError] = useState<Record<string, string>>({})
 
+    const inputFields = ["User ID", "Gender", "Sport"]
+
     useEffect(() => {
         if (!isPopupOpen) {
             setHasMadeChoice(false)
@@ -28,8 +30,8 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
         setLocalPerformer({...localPerformer, [event.target.name]: event.target.value})
     }
 
-    const handleLocalSave = () => {
-        if (validatePerformerData(localPerformer)) {
+    const handleLocalSave = (fields: string[]) => {
+        if (validatePerformerData(fields, localPerformer)) {
             setEditPerformer(localPerformer)
             handleSave(localPerformer)
             closePopup()
@@ -39,13 +41,12 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
     }
 
     const closePopup = () => setIsPopupOpen(false)
-    const inputFields = ["User ID", "Gender", "Sport"]
 
-    const validatePerformerData = (performerData: Performer) => {
+    const validatePerformerData = (fields: string[], performerData: Performer) => {
         let defineErrors: Record<string, string> = {}
         let isValid = true
 
-        inputFields.forEach(element => {
+        fields.forEach(element => {
           const field = element.toLocaleLowerCase()
           const key = field === "user id" ? "userId" as keyof Performer : field as keyof Performer
           console.log("KEY: ", key)
