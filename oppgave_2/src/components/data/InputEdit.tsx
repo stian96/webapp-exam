@@ -1,6 +1,6 @@
 import { Performer } from "@/types/performer"
 import React from "react"
-import "../../style/input.scss"
+import "@/style/input.scss"
 
 type InputEditProps = {
     elements: string[]
