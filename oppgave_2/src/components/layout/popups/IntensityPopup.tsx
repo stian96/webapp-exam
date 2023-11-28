@@ -13,7 +13,7 @@ type IntensityProps = {
     currentPerformer: Performer
 }
 
-type CalculationResults = {
+export type CalculationResults = {
     heartRate: number | number[];
     speed: number | number[];
     watt: number | number[];
@@ -54,7 +54,6 @@ const IntensityPopup = ({ header, isOpen, onClose, currentPerformer }: Intensity
         };
     
         setResults(newResults);
-        console.log("Result: ", newResults);
     }
 
     const calculateZoneValues = (threshold: number): number[] => {
