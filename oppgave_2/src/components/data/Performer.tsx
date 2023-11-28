@@ -11,6 +11,7 @@ export type PerformerProps = {
 }
 
 const Performer = ({ performer, performers, setPerformers }: PerformerProps) => {
+    const [showPopup, setShowPoup] = useState(false)
 
     const updatePerformer = async (updatedPerformer: Performer) => {
         const success = await updatePerformerInDatabase(updatedPerformer)
@@ -22,6 +23,8 @@ const Performer = ({ performer, performers, setPerformers }: PerformerProps) => 
         }
     }
 
+    const handlePopup = () => setShowPoup(!showPopup)
+
     return (
         <tr>
             <td>
@@ -32,6 +35,7 @@ const Performer = ({ performer, performers, setPerformers }: PerformerProps) => 
                 <button className="button intensity-btn float-right">
                     Calculate Intensity
                 </button>
+                {}
                 <div className="performer w-full">
                     <div className="performer__outer mb-4">
                         <div className="performer__outer__inner">
