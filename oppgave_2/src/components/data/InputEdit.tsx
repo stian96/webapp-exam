@@ -1,4 +1,3 @@
-import { Goal } from "@/types/classes/goal"
 import { Performer } from "@/types/performer"
 import React from "react"
 import "../../style/input.scss"
