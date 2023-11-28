@@ -29,6 +29,9 @@ const Performer = ({ performer, performers, setPerformers }: PerformerProps) => 
                     editPerformer={performer} 
                     setEditPerformer={updatePerformer}
                 />
+                <button className="button intensity-btn float-right">
+                    Calculate Intensity
+                </button>
                 <div className="performer w-full">
                     <div className="performer__outer mb-4">
                         <div className="performer__outer__inner">

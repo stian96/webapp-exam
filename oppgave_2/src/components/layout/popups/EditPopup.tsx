@@ -71,9 +71,6 @@ const EditPopup = ({ editPerformer, setEditPerformer }: EditPopupProps) => {
         <button className="button float-right" onClick={() => setIsPopupOpen(true)}>
             Edit
         </button>
-        <button className="button intensity-btn float-right">
-            Calculate Intensity
-        </button>
         <div className={`overlay ${isPopupOpen ? 'overlay-active' : ''}`}>
             <Popup open={isPopupOpen} closeOnDocumentClick={false}>
                 { !hasMadeChoice && (
