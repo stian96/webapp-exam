@@ -197,13 +197,13 @@ const useActivityEditorHook = () => {
       if (isSuccess == 200) {
         deserialiseActivityResultResponse(message)
 
-        console.log(`Results for ${performerId} exists.`)
-        return { success: true, message: `${performerId} exists.` }
+        console.log(`Results for ${activityId} exists.`)
+        return { success: true, message: `${activityId} exists.` }
       } else {
-        console.log(`Results for ${performerId} do not exist.`)
+        console.log(`Results for ${activityId} do not exist.`)
         return {
           success: false,
-          message: `Results for ${performerId} do not exist.`,
+          message: `Results for ${activityId} do not exist.`,
         }
       }
     } catch (error) {
