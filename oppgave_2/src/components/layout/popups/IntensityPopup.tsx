@@ -113,7 +113,11 @@ const IntensityPopup = ({ header, isOpen, onClose, currentPerformer }: Intensity
                         <>
                         <h1 className="modal__header">{"Result after calculation"}</h1>
                         <div className="modal__content py-8 flex justify-center">
-                            <IntensityResult results={results} selectedOptions={selectedOptions} />
+                            <IntensityResult 
+                                results={results} 
+                                selectedOptions={selectedOptions} 
+                                selectedZone={selectedZone}
+                            />
                         </div>
                         <div className="modal__actions">
                             <button className="modal__actions-button calculate-btn" onClick={() => setShowResults(false)}>
