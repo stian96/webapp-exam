@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react" 
+import React, { useState } from "react" 
 import CheckBox from "../CheckBox"
 import Popup from "reactjs-popup"
 import "@/style/popup.scss"
@@ -25,6 +25,11 @@ const IntensityPopup = ({ header, isOpen, onClose }: IntensityProps) => {
         setSelectedOptions({ ...selectedOptions, [name.id]: name.checked })
     }
 
+    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = event.target.value as unknown as IntensityZone
+        setSelectedZone(value)
+    }
+
     const handleClick = () => setNextClicked(!nextClicked)
 
     return (
@@ -44,7 +49,7 @@ const IntensityPopup = ({ header, isOpen, onClose }: IntensityProps) => {
                     )} 
                     { nextClicked && (
                         <div className="modal__content py-8 flex justify-center">
-                            <select value={selectedZone} onChange={e => setSelectedZone(e.target.value as IntensityZone)}>
+                            <select value={selectedZone} onChange={handleSelectChange}>
                                 <option value="all">All Zones</option>
                                 <option value={IntensityZone.Zone1}>Zone 1</option>
                                 <option value={IntensityZone.Zone2}>Zone 2</option>
