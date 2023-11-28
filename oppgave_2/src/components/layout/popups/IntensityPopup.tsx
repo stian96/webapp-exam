@@ -1,9 +1,10 @@
 "use client"
 import React, { useState } from "react" 
+import { IntensityZone, Performer, calculateIntensityZones } from "@/types/performer"
+import IntensityResult from "@/components/data/IntensityResult"
 import CheckBox from "../CheckBox"
 import Popup from "reactjs-popup"
 import "@/style/popup.scss"
-import { IntensityZone, Performer, calculateIntensityZones } from "@/types/performer"
 import DropDown from "../DropDown"
 
 type IntensityProps = {
@@ -23,6 +24,7 @@ export type CalculationResults = {
 const IntensityPopup = ({ header, isOpen, onClose, currentPerformer }: IntensityProps) => {
     const [selectedZone, setSelectedZone] = useState<IntensityZone | "all">("all")
     const [nextClicked, setNextClicked] = useState(false)
+    const [showResults, setShowResults] = useState(false)
     const [selectedOptions, setSelectedOptions] = useState({
         heartRate: false,
         speed: false,
@@ -66,6 +68,12 @@ const IntensityPopup = ({ header, isOpen, onClose, currentPerformer }: Intensity
         }
     }
 
+    const handleCalculateClick = () => {
+        calculateZones()
+        setNextClicked(false)
+        setShowResults(true)
+    }
+
     return (
         <div className={`overlay ${isOpen ? 'overlay-active' : ''}`}>
             <Popup open={isOpen} closeOnDocumentClick={false}>
@@ -73,7 +81,7 @@ const IntensityPopup = ({ header, isOpen, onClose, currentPerformer }: Intensity
                     <button className="modal__close float-right" onClick={onClose}>
                         &times;
                     </button>
-                    { !nextClicked && (
+                    { !nextClicked && !showResults && (
                         <>
                             <h1 className="modal__header">{header}</h1>
                             <div className="modal__content py-8 flex justify-center">
@@ -95,11 +103,24 @@ const IntensityPopup = ({ header, isOpen, onClose, currentPerformer }: Intensity
                                 <DropDown selectedZone={selectedZone} handleSelectChange={handleSelectChange}/>
                             </div>
                             <div className="modal__actions">
-                                <button className="modal__actions-button calculate-btn" onClick={calculateZones}>
+                                <button className="modal__actions-button calculate-btn" onClick={handleCalculateClick}>
                                     Calculate
                                 </button>
                             </div>
                         </>
+                    )}
+                    { showResults && (
+                        <>
+                        <h1 className="modal__header">{"Result after calculation"}</h1>
+                        <div className="modal__content py-8 flex justify-center">
+                            <IntensityResult results={results} selectedOptions={selectedOptions} />
+                        </div>
+                        <div className="modal__actions">
+                            <button className="modal__actions-button calculate-btn" onClick={() => setShowResults(false)}>
+                                Close
+                            </button>
+                        </div>
+                    </>
                     )}
                 </div>
             </Popup>

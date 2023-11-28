@@ -29,7 +29,7 @@ const IntensityResult = ({ results, selectedOptions }: IntensityResultProps) => 
             )}
             {selectedOptions.speed && speedList.length > 0 && (
                 <>
-                    <h1>Result of Pulse Zones</h1>
+                    <h1>Result of Speed Zones</h1>
                     { speedList.map((item, index) => (
                         <span key={`speed-zone-${index}`} >
                             Zone {index + 1}: {item.toFixed(2)}
@@ -39,7 +39,7 @@ const IntensityResult = ({ results, selectedOptions }: IntensityResultProps) => 
             )}
             {selectedOptions.watt && wattList.length > 0 && (
                 <>
-                    <h1>Result of Pulse Zones</h1>
+                    <h1>Result of Watt Zones</h1>
                     { wattList.map((item, index) => (
                         <span key={`watt-zone-${index}`} >
                             Zone {index + 1}: {item.toFixed(2)}
