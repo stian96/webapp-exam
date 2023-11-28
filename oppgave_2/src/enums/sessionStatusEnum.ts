@@ -1,6 +1,6 @@
 export enum SessionStatusEnum {
-    NO,
-    LOW,
-    NORMAL,
-    HIGH
+    NO = "No",
+    LOW = "Low",
+    NORMAL = "Normal",
+    HIGH = "High"
 }
