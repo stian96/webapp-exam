@@ -5,6 +5,7 @@ import { Icons } from "@/components/icons"
 import React, { useState } from 'react';
 import AnswerQuestion from "./AnswerQuestion";
 import Comment from "./Comment";
+import { SessionStatusEnum } from "@/enums/sessionStatusEnum";
 
 type ReportCardProps = {
     id: string;
@@ -25,10 +26,25 @@ type Measurements = {
 };
 
 const ReportCard = ({ id }: ReportCardProps) => {
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState<string>('');
 
     const handleChangeStatus = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setStatus(event.target.value);
+    }
+
+    const getStatusString = (statusEnumValue: SessionStatusEnum): string => {
+      switch (statusEnumValue) {
+        case SessionStatusEnum.NO:
+          return 'Session not completed';
+        case SessionStatusEnum.LOW:
+          return 'Session completed, but with poor quality';
+        case SessionStatusEnum.NORMAL:
+          return 'Session completed as expected';
+        case SessionStatusEnum.HIGH:
+          return 'Break-through session';
+        default:
+          return 'Unknown';
+      }
     }
 
     const [measurements, setMeasurements] = useState<Measurements>({
@@ -56,7 +72,7 @@ const ReportCard = ({ id }: ReportCardProps) => {
     };
 
 
-
+      console.log("handled enum", status)
 
     return (
         <div className="card relative">
@@ -70,10 +86,15 @@ const ReportCard = ({ id }: ReportCardProps) => {
                 <label htmlFor={`status-select-${id}`} className="font-semibold block mb-2">Select report status: </label>
                 <select id={`status-select-${id}`} name={`status-${id}`} value={status} onChange={handleChangeStatus} className="rounded text-black">
                     <option value="">-- Please choose a status...--</option>
-                    <option value="no">Session not completed</option>
-                    <option value="low">Session completed, but with poor quality</option>
-                    <option value="normal">Session completed as expected</option>
-                    <option value="high">Break-through session</option>
+                    {Object.values(SessionStatusEnum).map((enumValue) => {
+                    
+                        const statusString = getStatusString(enumValue as SessionStatusEnum);
+                        return (
+                            <option key={enumValue} value={enumValue}>
+                                {statusString}
+                            </option>
+                        );
+                    })}
                 </select>
             </div>
             {/*SRC: https://react.dev/reference/react-dom/components/select*/}
