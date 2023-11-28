@@ -34,16 +34,10 @@ const InputEdit = ({ elements, errors, handleChange, performer  }: InputEditProp
                             type="text" 
                             name={key}
                             value={`${performer[key as keyof Performer]}`}
-                            placeholder={
-                                errors[key] ? errors[key] : `Enter ${key}...`
-                            }
+                            placeholder={ errors[key] ? errors[key] : `Enter ${key}...` }
                             onChange={handleChange}
                         />
-                        {errors[key] && (
-                                <span className="error-message">
-                                    {"*"}
-                                </span>
-                            )}
+                        {errors[key] && (<span className="error-message">{"*"}</span>)}
                     </div>
                 </React.Fragment>
             ))}
