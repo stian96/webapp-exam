@@ -17,6 +17,11 @@ const IntensityPopup = ({ header, isOpen, onClose }: IntensityProps) => {
         watt: false
     })
 
+    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const name = event.target
+        setSelectedOptions({ ...selectedOptions, [name.id]: name.checked })
+    }
+
     return (
         <div className={`overlay ${isOpen ? 'overlay-active' : ''}`}>
             <Popup open={isOpen} closeOnDocumentClick={false}>
