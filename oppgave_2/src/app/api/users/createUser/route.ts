@@ -31,7 +31,7 @@ import { NextResponse, type NextRequest } from "next/server";
  *                speed:
  *                  type: number
  *     responses:
- *       200:
+ *       201:
  *         description: Successfully written to database.
  *       500:
  *         description: Internal server error when writing to database.
@@ -82,7 +82,7 @@ export const POST = async (request: NextRequest) => {
   });
   
     console.log("Written user to database.")
-    return NextResponse.json({ status: 200, message: "Success writing user to database." })
+    return NextResponse.json({ status: 201, message: "Success writing user to database." })
   } catch (error) {
     console.log(error)
     return NextResponse.json({ status: 500, message: "Failed writing user to database." })

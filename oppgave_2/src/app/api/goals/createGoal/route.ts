@@ -42,7 +42,7 @@ import { PriorityEnum } from "@/enums/PriorityEnum"
  *               year:
  *                 type: string
  *     responses:
- *       200:
+ *       201:
  *         description: Successfully created a new goal
  *         content:
  *           application/json:
@@ -100,7 +100,7 @@ export const POST = async (request: NextRequest) => {
         })
 
         console.log(`Created new goal in the database: ${operations}`)
-        return NextResponse.json({ status: 200, message: `Successfully created new goal: ${operations}`})
+        return NextResponse.json({ status: 201, message: `Successfully created new goal: ${operations}`})
 
     } catch (error) {
         if (error instanceof Error) {

@@ -8,12 +8,12 @@ import { NextRequest, NextResponse } from "next/server";
  *     summary: Duplicates a session activity.
  *     description: Duplicates a session activity based on its id value in the API route if it exists in the database, including duplicating the session, questions, intervals, and tags.
  *     responses:
- *       200:
+ *       201:
  *         description: Successfully duplicated session activity.
  *         content:
  *           application/json:
  *             example:
- *               status: 200
+ *               status: 201
  *               message: {"id":"26df3d01-fef6-4a23-b0f3-c765212946cb","date":"2023-11-19T05:59:41.789Z","sessionId":"c30e8e17-c5ff-4215-ad63-f6ea11b5d9ed","goalId":"bd1ee7a4-7af3-4573-979a-6d5e402ce69d","performerId":"b1e1f9c4-9da3-499e-848c-b427f5606e14","session":{"id":"c30e8e17-c5ff-4215-ad63-f6ea11b5d9ed","name":null,"type":null,"isTemplate":false,"performerId":null,"slug":null,"intensityParam":null,"wattParam":null,"speedParam":null,"pulseParam":null},"goal":{"id":"bd1ee7a4-7af3-4573-979a-6d5e402ce69d","name":null,"date":null,"comments":null,"isCompetition":false,"goalCompetition":null,"goalNotCompetition":null,"location":null,"type":null,"priority":null},"report":null}
 
  *       404:
@@ -154,9 +154,9 @@ export const POST = async (request: NextRequest, { params }: { params: { activit
         }
 
         console.log(`Session activity for '${activityId}' duplicated.`)
-        return NextResponse.json({ status: 200, message: JSON.stringify(duplicatedSessionActivity) })
+        return NextResponse.json({ status: 201, message: JSON.stringify(duplicatedSessionActivity) })
       });
-      return NextResponse.json({ status: 200, message: JSON.stringify(sessionActivityToReturn) })
+      return NextResponse.json({ status: 201, message: JSON.stringify(sessionActivityToReturn) })
     } catch (error) {
     console.log(error)
     return NextResponse.json({ status: 500, message: `Internal server error..` })

@@ -549,7 +549,7 @@ const useTemplateCreatorHook = () => {
       const responseData = await response.json()
       const { status } = responseData
 
-      if (status == 200) {
+      if (status == 201) {
         setSubmitButtonText("Template Saved!")
       } else {
         setSubmitButtonText("Error writing to database.")
@@ -639,7 +639,7 @@ const useTemplateCreatorHook = () => {
       const responseData = await response.json()
       const { status } = responseData
 
-      if (status == 200) {
+      if (status == 201) {
         setSubmitButtonText("Template Saved!")
       } else {
         setSubmitButtonText("Error writing to database.")

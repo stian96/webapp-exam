@@ -114,9 +114,14 @@ const QuestionCreator = () => {
         body: JSON.stringify(question),
       })
 
-      setSubmitButtonText("Question Saved!")
+      const responseData = await response.json()
+      const { status } = responseData
 
-      console.log(response)
+      if (status == 201) {
+        setSubmitButtonText("Question Saved!")
+      } else {
+        setSubmitButtonText("Error saving to database.")
+      }
     } catch (error) {
       console.error(error)
     }

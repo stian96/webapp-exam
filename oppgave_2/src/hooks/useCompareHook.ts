@@ -160,7 +160,7 @@ const useCompareHook = () => {
       const isSuccess = data.status
       const message = data.message
 
-      if (isSuccess == 200) {
+      if (isSuccess == 201) {
         console.log(`Session with id ${activityId} duplicated.`)
         setActivityResults([])
         await getActivities(performerId)
