@@ -1,3 +1,4 @@
+import CheckBox from "../CheckBox"
 import Popup from "reactjs-popup"
 import "@/style/popup.scss"
 
@@ -18,12 +19,9 @@ const IntensityPopup = ({ header, isOpen, onClose }: IntensityProps) => {
                     </button>
                     <h1 className="modal__header">{header}</h1>
                     <div className="modal__content">
-                        <input type="checkbox" id="heartRate" name="heartRate" value="undfined" />
-                        <label htmlFor="heartRate">Pulse</label>
-                        <input type="checkbox" id="speed" name="speed" value="undfined" />
-                        <label htmlFor="speed">Speed</label>
-                        <input type="checkbox" id="watt" name="watt" value="undfined" />
-                        <label htmlFor="watt">Watt</label>
+                        <CheckBox id="heartRate" value="Pulse" />
+                        <CheckBox id="speed" value="Speed" />
+                        <CheckBox id="watt" value="Watt" />
                     </div>
                     <div className="modal__actions">
                         <button className="modal__actions-button">
