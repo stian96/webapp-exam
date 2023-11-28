@@ -49,11 +49,9 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
         let isValid = true
 
         fields.forEach(element => {
-          const field = element.toLocaleLowerCase()
-          const key = field === "user id" ? "userId" as keyof Performer : field as keyof Performer
-          console.log("KEY: ", key)
+
+          const key = mapFieldToKey(element)
           const value = performerData[key]
-          console.log("VALUE: ", value)
 
             if (typeof value === "string" && value.trim() === "") {
                 defineErrors[key] = `${element} is required!`
@@ -87,29 +85,34 @@ const EditPopup = ({ editPerformer, setEditPerformer, handleSave }: EditPopupPro
                             <button 
                                 className="create__content-btn" 
                                 type="button"
-                                onClick={() => setHasMadeChoice(true)}
+                                onClick={() => {
+                                    setHasMadeChoice(true)
+                                    setEditModeType(true)
+                                }}
                             >Performer
                             </button>
                             <button 
                                 className="create__content-btn" 
                                 type="button" 
-                                // TODO: Fix this logic!
-                                onClick={() => closePopup()}
+                                onClick={() => {
+                                    setHasMadeChoice(true)
+                                    setEditModeType(false)
+                                }}
                             >Performance
                             </button>
                     </div>
                  </div>
                 )}
                 { hasMadeChoice && (
-                <PopupEdit 
-                    header={editModeType ? "Edit Performer" : "Edit Performance"} 
-                    inputElements={editModeType ? performerFields : performanceFields}
-                    handleChange={handleChange}
-                    handleSave={handleLocalSave}
-                    close={closePopup}
-                    errors={error}
-                    currentPerformer={localPerformer}
-                /> 
+                    <PopupEdit 
+                        header={editModeType ? "Edit Performer" : "Edit Performance"} 
+                        inputElements={editModeType ? performerFields : performanceFields}
+                        handleChange={handleChange}
+                        handleSave={handleLocalSave}
+                        close={closePopup}
+                        errors={error}
+                        currentPerformer={localPerformer}
+                    /> 
                 )}
             </Popup>
         </div>
