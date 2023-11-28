@@ -4,6 +4,7 @@ import CheckBox from "../CheckBox"
 import Popup from "reactjs-popup"
 import "@/style/popup.scss"
 import { IntensityZone } from "@/types/performer"
+import DropDown from "../DropDown"
 
 type IntensityProps = {
     header: string
@@ -58,14 +59,7 @@ const IntensityPopup = ({ header, isOpen, onClose }: IntensityProps) => {
                         <>
                             <h1 className="modal__header">{"Choose intensity zone for the calculation"}</h1>
                             <div className="modal__content py-8 flex justify-center">
-                                <select className="unique" value={selectedZone} onChange={handleSelectChange}>
-                                    <option value="all">All Zones</option>
-                                    <option value={IntensityZone.Zone1}>Zone 1</option>
-                                    <option value={IntensityZone.Zone2}>Zone 2</option>
-                                    <option value={IntensityZone.Zone3}>Zone 3</option>
-                                    <option value={IntensityZone.Zone4}>Zone 4</option>
-                                    <option value={IntensityZone.Zone5}>Zone 5</option>
-                                </select>
+                                <DropDown selectedZone={selectedZone} handleSelectChange={handleSelectChange}/>
                             </div>
                             <div className="modal__actions">
                                 <button className="modal__actions-button calculate-btn" onClick={handleClick}>
