@@ -8,7 +8,9 @@ import ActivityList from "@/components/ActivityList"
 const Sessions = ({ params }: { params: { performerId: string } }) => {
   return (
     <>
-      <Header title={"Sessions"} />
+      <Link href="/">
+        <Header title={"Sessions"} />
+      </Link>
       <div className="min-w-screen-md mx-auto max-w-screen-lg">
         <ActivityList performerId={params.performerId} />
       </div>
