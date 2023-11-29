@@ -1,3 +1,4 @@
+import { Performer } from "@/types/performer"
 import type { ClassValue } from "clsx"
 import { clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
@@ -36,6 +37,17 @@ export const hasReachedCompetitionLimit = (isCompetition: boolean, competitionCo
 export const hasReachedNonCompetitionLimit = (isCompetition: boolean, nonCompetitionCount: number): boolean => {
   return (!isCompetition && nonCompetitionCount >= MAX_LIMIT)
 
+}
+
+export const mapFieldToKey = (field: string): keyof Performer => {
+  switch (field.toLowerCase()) {
+      case "user id":
+          return "userId";
+      case "heart rate":
+          return "heartRate";
+      default:
+          return field.toLocaleLowerCase() as keyof Performer;
+  }
 }
 
 

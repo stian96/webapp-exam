@@ -1,5 +1,10 @@
 @import "colors";
 
+@keyframes highlight {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
+}
+
 .container {
     background: $dark-bg-color;
     max-width: 100%;
@@ -8,8 +13,19 @@
 
     &__title {
         padding-left: 0.4rem;
-        color: $red-text-color;
         font-weight: 600;
         font-size: 1.2rem;
+
+        background: linear-gradient(to right, 
+            rgb(252, 147, 147) 0%, 
+            $red-text-color 20%,
+            $red-text-color 55%, 
+            $red-text-color 75%, 
+            rgb(252, 147, 147) 100%,);
+        background-size: 200% auto;
+        background-clip: text;
+        color: transparent;
+
+        animation: highlight 2s ease-in-out 1; 
     }
 }

@@ -26,3 +26,4 @@ export const calculateIntensityZones = (threshold: number, zone: IntensityZone):
 }
 
 
+

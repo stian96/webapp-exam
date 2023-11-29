@@ -85,9 +85,9 @@ export const PUT = async (request: NextRequest) => {
                     userId: performer.userId,
                     gender: performer.gender,
                     sport: performer.sport,
-                    heartRate: performer.heartRate,
-                    watt: performer.watt,
-                    speed: performer.speed
+                    heartRate: Number(performer.heartRate),
+                    watt: Number(performer.watt),
+                    speed: Number(performer.speed)
                 }
             })
             return updated

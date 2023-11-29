@@ -3,6 +3,7 @@ import { Goals, EditPopup } from "@/components"
 import { Performer } from "@/types/performer"
 import { updatePerformerInDatabase } from "@/lib/api"
 import "@/style/performer.scss"
+import IntensityPopup from "../layout/popups/IntensityPopup"
 
 export type PerformerProps = {
     performer: Performer
@@ -11,7 +12,7 @@ export type PerformerProps = {
 }
 
 const Performer = ({ performer, performers, setPerformers }: PerformerProps) => {
-    const [isEditing, setIsEditing] = useState(false)
+    const [showPopup, setShowPoup] = useState(false)
 
     const updatePerformer = async (updatedPerformer: Performer) => {
         const success = await updatePerformerInDatabase(updatedPerformer)
@@ -23,23 +24,26 @@ const Performer = ({ performer, performers, setPerformers }: PerformerProps) => 
         }
     }
 
-    const handleEditClick = () => {
-        setIsEditing(true)
-    }
-
-    const handleSave = async (updated: Performer) => {
-        await updatePerformer(updated)
-        setIsEditing(false)
-    }
+    const handlePopup = () => setShowPoup(!showPopup)
 
     return (
         <tr>
             <td>
                 <EditPopup 
                     editPerformer={performer} 
-                    setEditPerformer={(updated) => updatePerformer(updated)}
-                    handleSave={handleSave}
+                    setEditPerformer={updatePerformer}
                 />
+                <button className="button intensity-btn float-right" onClick={handlePopup}>
+                    Calculate Intensity
+                </button>
+                { showPopup && 
+                    <IntensityPopup
+                        header={"What fields do you want to calculate for?"} 
+                        isOpen={showPopup} 
+                        onClose={handlePopup}
+                        currentPerformer={performer}
+                    /> 
+                }
                 <div className="performer w-full">
                     <div className="performer__outer mb-4">
                         <div className="performer__outer__inner">
