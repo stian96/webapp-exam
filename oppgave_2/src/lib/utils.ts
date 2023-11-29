@@ -1,6 +1,7 @@
 import { Performer } from "@/types/performer"
 import type { ClassValue } from "clsx"
 import { clsx } from "clsx"
+import { Dispatch, SetStateAction } from "react"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {

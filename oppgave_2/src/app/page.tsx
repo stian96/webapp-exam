@@ -36,7 +36,7 @@ const Dashboard = () => {
       ) : (
         <div>
           <Header title={"Dashboard"} />
-          <div className="min-w-screen-sm mx-auto max-w-screen-md py-8">
+          <div className="min-w-screen-sm mx-auto max-w-screen-md pb-8 pt-24">
             <Search setSearchQuery={setSearchQuery} />
             <div className="flex items-center space-x-4 pt-4">
               <ImportButton />

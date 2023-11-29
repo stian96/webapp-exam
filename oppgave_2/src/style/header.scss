@@ -2,14 +2,18 @@
 
 @keyframes highlight {
     0% { background-position: 200% center; }
+    50% { background-position: 100% center; }
     100% { background-position: -200% center; }
 }
 
 .container {
+    position: fixed;
+    top: 0;
     background: $dark-bg-color;
     max-width: 100%;
     padding: 0.3rem;
     box-shadow: 0px 0px 2px 0px $red-text-color;
+    transition: transform 0.3s ease-in-out;
 
     &__title {
         padding-left: 0.4rem;
@@ -22,10 +26,15 @@
             $red-text-color 55%, 
             $red-text-color 75%, 
             rgb(252, 147, 147) 100%,);
+
         background-size: 200% auto;
         background-clip: text;
         color: transparent;
 
         animation: highlight 2s ease-in-out 1; 
     }
+}
+
+.container.hide {
+    transform: translateY(-100%);
 }
