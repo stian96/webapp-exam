@@ -1,5 +1,6 @@
 @import "colors";
 
+// Inspiration for gradient button is taken from here: https://gradientbuttons.colorion.co/?utm_content=cmp-true 
 @mixin button-style-red($width, $radius) {
     background-image: $red-gradient;
     background-size: 200% auto;
