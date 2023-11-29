@@ -35,7 +35,9 @@ const Dashboard = () => {
         </div>
       ) : (
         <div>
-          <Header title={"Dashboard"} />
+          <Link href="/">
+            <Header title={"Dashboard"} />
+          </Link>
           <div className="min-w-screen-sm mx-auto max-w-screen-md pb-8 pt-24">
             <Search setSearchQuery={setSearchQuery} />
             <div className="flex items-center space-x-4 pt-4">
