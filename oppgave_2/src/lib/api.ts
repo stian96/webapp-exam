@@ -158,3 +158,36 @@ export const deleteGoalFromDB = async (currentGoal: Goal): Promise<boolean> => {
       return false
   }
 }
+
+type ArchiveType = {
+  status: number
+  message: Performer
+}
+
+// Copy of Sams earlier written code.
+export const archive = async (performerId: string) => {
+  try {
+    const response = await fetch(
+      `/api/users/archiveParameters/${performerId}`,
+      {
+        method: "post",
+      },
+    )
+
+    const data = await response.json() as ArchiveType
+    const isSuccess = data.status
+
+    if (isSuccess == 201) {
+      console.log(`Performer parameters with id ${performerId} archived.`)
+      return { success: true, message: `${performerId} archived.` }
+    } else {
+      console.log(`Performer with id ${performerId} does not exist.`)
+      return {
+        success: false,
+        message: `Performer with id ${performerId} does not exist.`,
+      }
+    }
+  } catch (error) {
+    return { success: false, message: error }
+  }
+}

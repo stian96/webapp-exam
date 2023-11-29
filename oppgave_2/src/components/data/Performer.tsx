@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Goals, EditPopup } from "@/components"
 import { Performer } from "@/types/performer"
-import { updatePerformerInDatabase } from "@/lib/api"
+import { updatePerformerInDatabase, archive } from "@/lib/api"
 import "@/style/performer.scss"
 import IntensityPopup from "../layout/popups/IntensityPopup"
 
@@ -16,10 +16,11 @@ const Performer = ({ performer, performers, setPerformers }: PerformerProps) => 
 
     const updatePerformer = async (updatedPerformer: Performer) => {
         const success = await updatePerformerInDatabase(updatedPerformer)
+        await archive(updatedPerformer.id)
         if (success) {
             const updatedPerformers = performers.map(p => p.id === updatedPerformer.id ? updatedPerformer : p)
             setPerformers(updatedPerformers)
-        } else {
+        } else  {
             console.error(`Failed to update performer with ID: ${updatedPerformer.userId}`)
         }
     }
