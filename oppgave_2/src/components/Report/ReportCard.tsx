@@ -2,10 +2,11 @@
 import "@/style/card.scss"
 import "@/style/report.scss"
 import { Icons } from "@/components/icons"
-import React, { useState } from 'react';
-import AnswerQuestion from "./AnswerQuestion";
+import React, { useState, useEffect } from 'react';
+import AnswerQuestion from "@/components/Report/AnswerQuestion";
 import Comment from "./Comment";
 import { SessionStatusEnum } from "@/enums/sessionStatusEnum";
+import { type Question } from "@/types/question";
 
 type ReportCardProps = {
     id: string;
@@ -28,9 +29,24 @@ type Measurements = {
 const ReportCard = ({ id }: ReportCardProps) => {
     const [status, setStatus] = useState<string>('');
 
+    const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
+    const [sessionId, setSessionId] = useState<string>('');
+
+
+
     const handleChangeStatus = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setStatus(event.target.value);
     }
+
+    const [answers, setAnswers] = useState<Record<string, string | number | boolean>>({});
+
+    
+    const handleAnswerChange = (questionId: string, answerValue: string | number | boolean) => {
+        setAnswers(prev => ({
+            ...prev,
+            [questionId]: answerValue
+        }));
+    };
 
     const getStatusString = (statusEnumValue: SessionStatusEnum): string => {
       switch (statusEnumValue) {
@@ -46,6 +62,72 @@ const ReportCard = ({ id }: ReportCardProps) => {
           return 'Unknown';
       }
     }
+
+
+    useEffect(() => {
+      const fetchSessionActivity = async () => {
+        try {
+          const response = await fetch(`/api/sessions/getSessionById/${id}`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const data = await response.json();
+    
+          console.log("data from fetchSessionActivity", data);
+          if (data.status === 200) {
+            // Directly use the data if it's already in JSON format
+            const activityData = JSON.parse(data.message);
+    
+            console.log("activityData", activityData);
+            console.log("Extracted sessionId:", activityData.sessionId);
+            setSessionId(activityData.sessionId);
+          } else {
+            // Handle non-200 responses
+          }
+        } catch (error) {
+          console.error("Error fetching session activity:", error);
+          // Handle error
+        }
+      };
+    
+      if (id) {
+        fetchSessionActivity().catch(error => {
+          console.error("Error in fetchSessionActivity:", error);
+        });
+      }
+    }, [id]);
+    
+    useEffect(() => {
+      
+      if (sessionId) {
+        const fetchSessionQuestions = async () => {
+          try {
+            console.log("Current sessionId in useEffect:", sessionId);
+    
+            const response = await fetch(`/api/questions/getSessionQuestion?sessionId=${sessionId}`);
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const responseData = await response.json();
+            const questions = JSON.parse(responseData.message);
+    
+            console.log("api", questions);
+            console.log("length", questions.length)
+    
+            setSessionQuestions(questions as Question[]);
+
+           
+          } catch (error) {
+            console.error("Failed to fetch questions:", error);
+          }
+        };
+    
+        fetchSessionQuestions().catch(error => {
+          console.error("Error in fetchSessionQuestions:", error);
+        });
+      }
+    }, [sessionId]);
+    
 
     const [measurements, setMeasurements] = useState<Measurements>({
         Intensity: { Min: '', Max: '', Avg: '' },
@@ -72,7 +154,6 @@ const ReportCard = ({ id }: ReportCardProps) => {
     };
 
 
-      console.log("handled enum", status)
 
     return (
         <div className="card relative">
@@ -137,7 +218,13 @@ const ReportCard = ({ id }: ReportCardProps) => {
                 )}
             </div>
 
-            <AnswerQuestion reportId={id} />
+            {sessionQuestions.length > 0 && sessionId && (
+              <AnswerQuestion 
+                  reportId={id} 
+                  onAnswerChange={handleAnswerChange}
+                  questions={sessionQuestions}
+              />
+)}
             <Comment reportId={id} />
             <button className="save-button" onClick={() => {
                 //handleSave()
