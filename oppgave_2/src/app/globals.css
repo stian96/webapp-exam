@@ -90,10 +90,16 @@
     
   }
 
+  html {
+    background: linear-gradient(to bottom, #0d274d, #061327);
+    margin: 0;
+    padding: 0;
+  }
+
   body {
     @apply bg-background text-foreground;
-    background: linear-gradient(to bottom, #0d274d, #061327);
     min-height: 100vh;
+    background: transparent;
   }
 
   .loading-data {
