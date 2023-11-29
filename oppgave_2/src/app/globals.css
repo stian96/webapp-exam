@@ -92,7 +92,8 @@
 
   body {
     @apply bg-background text-foreground;
-    background: #07182f;
+    background: linear-gradient(to bottom, #0d274d, #061327);
+    min-height: 100vh;
   }
 
   .loading-data {
