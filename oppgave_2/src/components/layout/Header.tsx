@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from "react"
+import useScrollDirection from "../../hooks/useScrollDirection"
 import Image from "next/image"
 import Navigation from "./Navigation"
 
@@ -10,24 +10,7 @@ type HeaderProps = {
 }
 
 const Header = ({ title }: HeaderProps) => {
-  const [isScrolling, setIsScrolling] = useState(true)
-  let lastScrollPos = 0
-
-  useEffect(() => {
-    const event = "scroll"
-    const handleScroll = () => {
-      const currentPos = window.scrollY
-
-      if (currentPos > lastScrollPos) 
-        setIsScrolling(false)
-      else 
-        setIsScrolling(true)
-      
-      lastScrollPos = currentPos <= 0 ? 0 : currentPos
-    }
-    window.addEventListener(event, handleScroll)
-    return () => window.removeEventListener(event, handleScroll)
-  }, [])
+  const isScrolling = useScrollDirection()
 
   return (
     <div className={`container flex items-center justify-between gap-7 ${!isScrolling ? 'hide' : ''}`}>
