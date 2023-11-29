@@ -10,6 +10,15 @@ import useApi from '@/hooks/useApi'
 import useQuestion from '@/hooks/useQuestion'
 import { type Poll, type Question } from '@/types'
 
+/* 
+  Since the project uses TS, you should always define the type for
+  props in a component.
+
+  Beyond this, the page appears to be a good candidate for testing,
+  given its complexity. Critical functions (such as data retrieval
+  and user interactions) should certainly have been tested well.
+*/
+
 export default function PollQuestionEdit(props) {
   const router = useRouter()
   const id = props.params.id as string

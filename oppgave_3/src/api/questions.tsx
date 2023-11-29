@@ -6,6 +6,10 @@ import {
   type QuestionUpdateInput,
 } from '@/types'
 
+// Many og the same considerations that where mentioned in "src/api/polls.tsx"
+// apply here as well. Other things that could improve this code includes: 
+// error handling for the API calls (e.g. network, input and server - errors).
+
 const QUESTION_URL = `${BASE_URL}/questions`
 
 export const getQuestions = (options?: {}) => {
@@ -29,6 +33,9 @@ export const createQuestion = (data: QuestionCreateInput, options?: {}) => {
     body: JSON.stringify(data),
   })
 }
+
+// This function should be called updateQuestion to maintain a 
+// consistent naming convention.
 
 export const updatePoll = (
   id: string,
