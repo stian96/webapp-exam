@@ -12,6 +12,7 @@
     vertical-align: middle;
     white-space: normal;
     padding: 12px;
+    z-index: -1;
 
     &__title {
         color: $red-text-color;

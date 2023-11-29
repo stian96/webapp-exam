@@ -59,7 +59,7 @@ const ReportCard = ({ id }: ReportCardProps) => {
 
 
     return (
-        <div className="card relative">
+        <div className="card relative my-24">
 
             <div className="card__header">
                 <Icons.clipboard size={22} />
