@@ -15,7 +15,7 @@ const useScrollDirection = () => {
             else
                 setIsScrolling(true)
 
-            lastPos = currentPos <= 0 ? 0: currentPos
+            lastPos = currentPos
         }
         window.addEventListener(event, handleScroll)
         return () => window.removeEventListener(event, handleScroll)
