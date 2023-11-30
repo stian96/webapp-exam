@@ -16,6 +16,14 @@ const addDefaultQuestion = (id: string) => ({
   options: [{ option: '' }, { option: '' }, { option: '' }, { option: '' }],
 })
 
+/*
+  This component could be separated into smaller more reusable components.
+  For example, we could created a 'QuestionComponent' and a 'OptionsComponent'.
+  This would make the main component 'PollQuestionEdit' more clean and easier
+  to understand and maintain. For more details on the separation, have a look
+  at the return statement.
+*/
+
 export default function PollQuestionEdit(props) {
   const router = useRouter()
   const id = props.params.id as string
@@ -95,6 +103,7 @@ export default function PollQuestionEdit(props) {
       {question && question.options ? (
         <form onSubmit={onSubmit}>
           <section className="poll-questions">
+            {/* This could be separated to a own 'QuestionComponent' */}
             <label
               htmlFor={`question-${question.id ?? '1'}`}
               className="question"
@@ -108,7 +117,9 @@ export default function PollQuestionEdit(props) {
                 onChange={handleQuestion}
               />
             </label>
+            {/* -------------------------------------------------- */}
             <section className="options">
+              {/* And this could be separated to a own 'Options' component */}
               {question.options.map((option, optionIndex) => (
                 <label
                   key={`option-${optionIndex}`}
@@ -129,6 +140,7 @@ export default function PollQuestionEdit(props) {
                   />
                 </label>
               ))}
+              {/* -------------------------------------------------- */}
             </section>
           </section>
           <Button
