@@ -83,6 +83,9 @@ Upon selection by checking off the checkbox, a red button labeled "compare activ
 The button:
 https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/CompareBtn.png
 
+documentation/oppgave_2/CompareBtn.png
+
+
 By clicking this you will be navigated to the Analysis page.
 This page shows the different measurements metrics and give the user the option to filter the shown data.
 
