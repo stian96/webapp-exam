@@ -81,12 +81,12 @@ two or more performers needs to be selected.
 
 Upon selection by checking off the checkbox, a red button labeled "compare activities" will be shown in the right corner off the screen.
 The button:
+
 ![Compare Button](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/CompareBtn.png)
-
-
 
 By clicking this you will be navigated to the Analysis page.
 This page shows the different measurements metrics and give the user the option to filter the shown data.
+
 
 ## Flowchart illustrating the Coach's perspective in the webapp.
 ![Flowchart of Coach's perspective](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Flowchart_Coach.png)

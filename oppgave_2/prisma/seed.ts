@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 async function main() {
   const performer1 = await prisma.performers.create({
     data: {
-      userId: 'unique-idtest1',
+      userId: 'unique-idte2st1',
       gender: 'Male',
       sport: 'Swimming',
       heartRate: 85,
@@ -15,7 +15,7 @@ async function main() {
   });
   const performer2 = await prisma.performers.create({
     data: {
-      userId: 'unique-idtest2',
+      userId: 'unique-idt3est2',
       gender: 'Female',
       sport: 'Cycling',
       heartRate: 65,
