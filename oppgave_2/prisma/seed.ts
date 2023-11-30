@@ -3,28 +3,44 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  // Create Performers
-  const performer1 = await prisma.performers.create({
-    data: {
+  let performer1 = await prisma.performers.findUnique({
+    where: {
       userId: 'Sven3',
-      gender: 'Male',
-      sport: 'swimming',
-      heartRate: 85,
-      watt: 190,
-      speed: 25,
     },
   });
 
-  const performer2 = await prisma.performers.create({
-    data: {
+  if (!performer1) {
+    performer1 = await prisma.performers.create({
+      data: {
+        userId: 'Sven3',
+        gender: 'Male',
+        sport: 'swimming',
+        heartRate: 85,
+        watt: 190,
+        speed: 25,
+      },
+    });
+  }
+
+  let performer2 = await prisma.performers.findUnique({
+    where: {
       userId: 'Liv4',
-      gender: 'Female',
-      sport: 'cycling',
-      heartRate: 65,
-      watt: 220,
-      speed: 35,
     },
   });
+
+  if (!performer2) {
+    performer2 = await prisma.performers.create({
+      data: {
+        userId: 'Liv4',
+        gender: 'Female',
+        sport: 'cycling',
+        heartRate: 65,
+        watt: 220,
+        speed: 35,
+      },
+    });
+  }
+
 
   // Create a generic session template (not specifically linked to a performer)
   await prisma.sessions.create({
@@ -50,25 +66,32 @@ async function main() {
       data: {
         intervalId: interval.id,
         duration: interval.duration,
-        intensityMin: 5,
-        intensityMax: 9,
-        intensityAvg: 7,
-        pulseMin: 60,
-        pulseMax: 160,
-        pulseAvg: 110,
-        speedMin: 2,
-        speedMax: 5,
-        speedAvg: 3.5,
-        wattMin: 100,
-        wattMax: 400,
-        wattAvg: 250,
+        intensityMin: getRandomInt(5, 8),
+        intensityMax: getRandomInt(8, 10),
+        intensityAvg: getRandomInt(6, 9),
+        pulseMin: getRandomInt(60, 80),
+        pulseMax: getRandomInt(140, 170),
+        pulseAvg: getRandomInt(90, 120),
+        speedMin: getRandomFloat(2, 4),
+        speedMax: getRandomFloat(4, 6),
+        speedAvg: getRandomFloat(3, 5),
+        wattMin: getRandomInt(100, 300),
+        wattMax: getRandomInt(300, 500),
+        wattAvg: getRandomInt(200, 400),
       },
     });
 
     return { intervalId: interval.id, intervalResultId: intervalResult.id };
   }
 
-  // Iterate over the session types and create sessions, activities, tags, and questions for each performer
+  function getRandomInt(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function getRandomFloat(min: number, max: number) {
+    return Math.random() * (max - min) + min;
+  }
+
   for (const type of sessionTypes) {
     for (const performer of [performer1, performer2]) {
       const session = await prisma.sessions.create({
