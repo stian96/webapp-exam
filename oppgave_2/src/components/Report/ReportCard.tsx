@@ -2,61 +2,189 @@
 import "@/style/card.scss"
 import "@/style/report.scss"
 import { Icons } from "@/components/icons"
-import React, { useState } from 'react';
-import AnswerQuestion from "./AnswerQuestion";
+import React, { useState, useEffect } from 'react';
+import AnswerQuestion from "@/components/Report/AnswerQuestion";
 import Comment from "./Comment";
+import ReportIntervals from "@/components/Report/ReportIntervals";
+import { SessionStatusEnum } from "@/enums/sessionStatusEnum";
+import { type Question } from "@/types/question";
+import { type IntervalResult, type ReportIntervalResult } from "@/types/performance/intervalResult";
+import { type Interval } from "@/types/performance/interval";
+import { error } from "console";
+import { type Answer } from "@/types/answer";
+import { QuestionTypeEnum } from "@/enums/questionTypeEnum";
 
 type ReportCardProps = {
     id: string;
 };
 
-type Measurement = {
-    Min: string;
-    Max: string;
-    Avg: string;
-};
-
-type Measurements = {
-    Intensity: Measurement;
-    Pulse: Measurement;
-    Speed: Measurement;
-    Watt: Measurement;
-    Time: string;
-};
-
 const ReportCard = ({ id }: ReportCardProps) => {
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState<string>('');
+
+    const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
+    const [sessionId, setSessionId] = useState<string>('');
+
+    const [intervals, setIntervals] = useState<IntervalResult[]>([]);
+    const [intervalData, setIntervalData] = useState<ReportIntervalResult[]>([]);
+
+    const handleIntervalDataChange = (newData: ReportIntervalResult[]) => {
+      setIntervalData(newData);
+    };
+  
 
     const handleChangeStatus = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setStatus(event.target.value);
+      setStatus(event.target.value);
+  }
+
+  const [answers, setAnswers] = useState<Answer[]>([]);
+  useEffect(() => {
+    const initialAnswers = sessionQuestions.map(item => ({
+        id: '',
+        questionId: item.question.id, 
+        answerText: null,
+        answerNumber: null,
+        answerEmoji: null
+    }));
+
+    setAnswers(initialAnswers);
+}, [sessionQuestions]);
+
+  
+
+  console.log("Session Questionzzzzzz:", sessionQuestions);
+
+    
+  const handleAnswerChange = (questionId: string, answerValue: string | number, questionType: string ) => {
+    setAnswers(prevAnswers => {
+        return prevAnswers.map(answer => {
+            if (answer.questionId === questionId) {
+                return {
+                    ...answer,
+                    answerText: typeof answerValue === 'string' ? answerValue : answer.answerText,
+                    answerNumber: typeof answerValue === 'number' ? answerValue : answer.answerNumber,
+                    answerEmoji: typeof answerValue === 'string' && answerValue.includes("emoji") ? answerValue : answer.answerEmoji // Assuming emoji values are strings that contain "emoji"
+                };
+            }
+            return answer;
+        });
+    });
+};
+
+
+    const getStatusString = (statusEnumValue: SessionStatusEnum): string => {
+      switch (statusEnumValue) {
+        case SessionStatusEnum.NO:
+          return 'Session not completed';
+        case SessionStatusEnum.LOW:
+          return 'Session completed, but with poor quality';
+        case SessionStatusEnum.NORMAL:
+          return 'Session completed as expected';
+        case SessionStatusEnum.HIGH:
+          return 'Break-through session';
+        default:
+          return 'Unknown';
+      }
     }
 
-    const [measurements, setMeasurements] = useState<Measurements>({
-        Intensity: { Min: '', Max: '', Avg: '' },
-        Pulse: { Min: '', Max: '', Avg: '' },
-        Speed: { Min: '', Max: '', Avg: '' },
-        Watt: { Min: '', Max: '', Avg: '' },
-        Time: ''
-    });
-    const handleChangeMeasurements = (
-        event: React.ChangeEvent<HTMLInputElement>,
-        category: keyof Measurements,
-        type?: keyof Measurement
-    ) => {
-        const value = event.target.value;
 
-        setMeasurements((prev) => {
-            if (category === 'Time') {
-                return { ...prev, [category]: value };
-            }
-
-            const updatedCategory = type ? { ...prev[category], [type]: value } : prev[category];
-            return { ...prev, [category]: updatedCategory };
+    useEffect(() => {
+      const fetchSessionActivity = async () => {
+        try {
+          const response = await fetch(`/api/sessions/getSessionById/${id}`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const data = await response.json();
+    
+          console.log("data from fetchSessionActivity", data);
+          if (data.status === 200) {
+            
+            const activityData = JSON.parse(data.message);
+    
+            console.log("activityData", activityData);
+            console.log("Extracted sessionId:", activityData.sessionId);
+            setSessionId(activityData.sessionId);
+          } else {
+            // Handle non-200 responses
+          }
+        } catch (error) {
+          console.error("Error fetching session activity:", error);
+          // Handle error
+        }
+      };
+    
+      if (id) {
+        fetchSessionActivity().catch(error => {
+          console.error("Error in fetchSessionActivity:", error);
         });
-    };
+      }
+    }, [id]);
+    
+    useEffect(() => {
+      
+      if (sessionId) {
+        const fetchSessionQuestions = async () => {
+          try {
+            console.log("Current sessionId in useEffect:", sessionId);
+    
+            const response = await fetch(`/api/questions/getSessionQuestion?sessionId=${sessionId}`);
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const responseData = await response.json();
+            const questions = JSON.parse(responseData.message);
+    
+            console.log("api", questions);
+            console.log("length", questions.length)
+    
+            setSessionQuestions(questions as Question[]);
 
+           
+          } catch (error) {
+            console.error("Failed to fetch questions:", error);
+          }
+        };
+    
+        fetchSessionQuestions().catch(error => {
+          console.error("Error in fetchSessionQuestions:", error);
+        });
+      }
+    }, [sessionId]);
+    
+    useEffect(() =>{
 
+      if(sessionId){
+      const fetchIntervals = async () => {
 
+        try{
+          console.log(" current sessionId in useEffect for intervals:", sessionId)
+
+          const response = await fetch(`/api/sessions/getSessionIntervals?sessionId=${sessionId}`)
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const responseData = await response.json();
+          const intervals = JSON.parse(responseData.message);
+
+          console.log("fetch intervas intervals:", intervals)
+          console.log("intervals lenght", intervals.length)
+
+          setIntervals(intervals as IntervalResult[])
+          
+
+        }catch ( error){
+          console.log("failed to fetch intervals", error)
+        }
+      }
+
+      fetchIntervals().catch(error => {
+        console.error("Error in fetchIntervals:", error)
+      })
+
+    }}, [sessionId])
+
+    console.log("answer in parent:", answers)
 
     return (
         <div className="card relative my-24">
@@ -70,53 +198,32 @@ const ReportCard = ({ id }: ReportCardProps) => {
                 <label htmlFor={`status-select-${id}`} className="font-semibold block mb-2">Select report status: </label>
                 <select id={`status-select-${id}`} name={`status-${id}`} value={status} onChange={handleChangeStatus} className="rounded text-black">
                     <option value="">-- Please choose a status...--</option>
-                    <option value="no">Session not completed</option>
-                    <option value="low">Session completed, but with poor quality</option>
-                    <option value="normal">Session completed as expected</option>
-                    <option value="high">Break-through session</option>
+                    {Object.values(SessionStatusEnum).map((enumValue) => {
+                    
+                        const statusString = getStatusString(enumValue as SessionStatusEnum);
+                        return (
+                            <option key={enumValue} value={enumValue}>
+                                {statusString}
+                            </option>
+                        );
+                    })}
                 </select>
             </div>
             {/*SRC: https://react.dev/reference/react-dom/components/select*/}
 
+           {intervals.length > 0 && sessionId && (
+            <ReportIntervals 
+              
+              onIntervalChange={handleIntervalDataChange}
+              intervals={intervals}/>)}
 
-            <div className="grid grid-cols-1 gap-4 mb-4">
-                {Object.entries(measurements).map(([category, values]) =>
-                    category !== 'Time' ? (
-                        <div key={category}>
-                            <h3 className="font-semibold text-center">{category}</h3>
-                            <div className="flex flex-row justify-center gap-2">
-                                {Object.entries(values).map(([type, value]) => (
-                                    <div key={type} className="flex flex-col">
-                                        <label htmlFor={`${category}-${type}-${id}`} className="text-sm">{type}:</label>
-                                        <input
-                                            id={`${category}-${type}-${id}`}
-                                            name={`${category}-${type}-${id}`}
-                                            type="text"
-                                            value={value}
-                                            onChange={(e) => { handleChangeMeasurements(e, category as keyof Measurements, type as keyof Measurement); }}
-                                            className="input-field"
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    ) : (
-                        <div key="time" className="text-center">
-                            <label htmlFor={`time-${id}`} className="text-sm">Time:</label>
-                            <input
-                                id={`time-${id}`}
-                                name={`time-${id}`}
-                                type="text"
-                                value={measurements.Time}
-                                onChange={(e) => { handleChangeMeasurements(e, 'Time'); }}
-                                className="input-field"
-                            />
-                        </div>
-                    )
-                )}
-            </div>
-
-            <AnswerQuestion reportId={id} />
+            {sessionQuestions.length > 0 && sessionId && (
+              <AnswerQuestion 
+                  reportId={id} 
+                  onAnswerChange={handleAnswerChange}
+                  questions={sessionQuestions}
+              />
+)}
             <Comment reportId={id} />
             <button className="save-button" onClick={() => {
                 //handleSave()

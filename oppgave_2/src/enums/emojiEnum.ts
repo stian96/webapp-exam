@@ -1,5 +1,5 @@
 export enum EmojiEnum {
-    POOR,
-    NORMAL,
-    BETTER
+    POOR = "Poor",
+    NORMAL = "Normal",
+    BETTER = "Better"
 }

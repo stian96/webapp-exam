@@ -1,6 +1,6 @@
-import { Session } from "./classes/session"
-import { Goal } from "./classes/goal"
-import { Report } from "./report" 
+import { type Session } from "./classes/session"
+import { type Goal } from "./classes/goal"
+import { type Report } from "./report" 
 
 export type SessionActivity = {
     id: string,
@@ -37,7 +37,11 @@ export type SessionDto = {
   }
   
   export type ReportDto = {
-    //TODO Fix this.
+    id: string;
+    status: string | null;
+    sessionActivityId: string;
+    comments: string | null;
+
   }
   
   export type SessionActivityDto = {

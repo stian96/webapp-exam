@@ -7,8 +7,12 @@ import "@/style/report.scss"
 
 import { Icons } from "@/components/icons"
 
-export default function ReportLits() {
-    const reportIds = ["1", "2", "3"]
+export default function ReportLists() {
+
+  //Added this id for now to see how the component is rendering
+    const reportIds = ["76170371-59fa-47ba-b42c-97736c888891", "2", "3"]
+
+    console.log("reportid ", reportIds)
     return (
         <div className="mt-24">
             {reportIds.map((id) => (

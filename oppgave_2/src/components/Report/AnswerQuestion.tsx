@@ -1,101 +1,134 @@
+"use client"
 
 import "@/style/report.scss";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { type Question, getQuestionTypeEnum } from "@/types/question";
+import { QuestionTypeEnum } from "@/enums/questionTypeEnum";
+import { EmojiEnum } from "@/enums/emojiEnum";
+import { type Answer } from "@/types/answer";
 
-type AnswrProps = {
+type AnswerProps = {
     reportId: string;
+    onAnswerChange: (questionId: string, answerValue: string | number, questionType: string ) => void;
+    questions: Question[]
+
 };
 
-const AnswerQuestion = ({ reportId }: AnswrProps) => {
-    const [sessionQuestions, setSessionQuestions] = useState({
-        sessionDemand: '',
-        sleepQuality: '',
-        restStatus: '',
-        muscleSoreness: '',
-        environmentImpact: '',
-        stressLevel: '',
-        workoutSentiment: ''
-    });
+const AnswerQuestion = ({ reportId, onAnswerChange, questions }: AnswerProps) => {
+  
+  console.log("Questions received in AnswerQuestion:", questions);
 
-    const handleSessionQuestionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setSessionQuestions(prev => ({ ...prev, [name]: value }));
-    };
+  const [answers, setAnswers] = useState<Answer[]>([]);
+
+  useEffect(() => {
+      const initialAnswers = questions.map(question => ({
+          questionId: question.id ?? '',
+          answerText: null,
+          answerNumber: null,
+          answerEmoji: null
+      }));
+  
+      setAnswers(initialAnswers);
+      console.log("initital answers", initialAnswers)
+  }, [questions]);
+  
+  const handleAnswerChange = (questionId: string, value: string | number, questionType: string) => {
+    onAnswerChange(questionId, value, questionType);
+};
 
 
-    return (
 
-        <div className="flex flex-col max-w-md mx-auto">
-            <h3 className="font-semibold text-center">Session Questions</h3>
-            <div className="flex flex-col mb-4 w-full">
-                <label htmlFor={`Q1-${reportId}`} className="mb-1">How demanding was the session?</label>
-                <input
-                    id={`Q1-${reportId}`}
-                    name={`Q1-${reportId}`}
-                    type="text"
-                    value={sessionQuestions.sessionDemand}
-                    onChange={handleSessionQuestionChange}
-                    className="input-field"
-                />
+    const emojiMapping = {
+      [EmojiEnum.POOR]: "Poor",   
+      [EmojiEnum.NORMAL]: "Normal", 
+      [EmojiEnum.BETTER]: "Better"  
+  };
+  
 
-                <label htmlFor={`Q2-${reportId}`} className="mb-1">How was the quality and duration of sleep before today's session?</label>
-                <input
-                    id={`Q2-${reportId}`}
-                    name={`Q2-${reportId}`}
-                    type="text"
-                    value={sessionQuestions.sleepQuality}
-                    onChange={handleSessionQuestionChange}
-                    className="input-field"
-                />
 
-                <label htmlFor={`Q3-${reportId}`} className="mb-1">How well recovered were you before the session?</label>
+    
+  const renderInputField = (question: Question) => {
+    console.log("Rendering input for question:", question);
+    const inputId = `question-${question.id}-${reportId}`;
+    const currentAnswer = answers.find(a => a.questionId === question.id);
+
+    switch (question.type) {
+        case QuestionTypeEnum.TEXT:
+            return (
                 <input
-                    id={`Q3-${reportId}`}
-                    name={`Q3-${reportId}`}
+                    id={inputId}
                     type="text"
-                    value={sessionQuestions.restStatus}
-                    onChange={handleSessionQuestionChange}
+                    value={currentAnswer?.answerText ?? ''}
+                    onChange={(e) => {handleAnswerChange(question.id ?? '', e.target.value, QuestionTypeEnum.TEXT)}}
                     className="input-field"
                 />
-                <label htmlFor={`Q4-${reportId}`} className="mb-1">Degree of muscle soreness?</label>
-                <input
-                    id={`Q4-${reportId}`}
-                    name={`Q4-${reportId}`}
-                    type="text"
-                    value={sessionQuestions.muscleSoreness}
-                    onChange={handleSessionQuestionChange}
-                    className="input-field"
-                />
-                <label htmlFor={`Q5-${reportId}`} className="mb-1">How did the surroundings/terrain affect the execution of the session?</label>
-                <input
-                    id={`Q5-${reportId}`}
-                    name={`Q5-${reportId}`}
-                    type="text"
-                    value={sessionQuestions.environmentImpact}
-                    onChange={handleSessionQuestionChange}
-                    className="input-field"
-                />
-                <label htmlFor={`Q6-${reportId}`} className="mb-1">How was the stress level before today's session?</label>
-                <input
-                    id={`Q6-${reportId}`}
-                    name={`Q6-${reportId}`}
-                    type="text"
-                    value={sessionQuestions.stressLevel}
-                    onChange={handleSessionQuestionChange}
-                    className="input-field"
-                />
-                <label htmlFor={`Q7-${reportId}`} className="mb-1">How did the training feel?</label>
-                <input
-                    id={`Q7-${reportId}`}
-                    name={`Q7-${reportId}`}
-                    type="text"
-                    value={sessionQuestions.workoutSentiment}
-                    onChange={handleSessionQuestionChange}
-                    className="input-field"
-                />
-            </div>
-        </div>
-    )
+            );
+
+        case QuestionTypeEnum.RADIO_EMOJI:
+            return (
+                <div>
+                    {Object.entries(emojiMapping).map(([key, text]) => (
+                        <label key={key}>
+                            <input
+                                type="radio"
+                                name={inputId}
+                                value={key}
+                                checked={currentAnswer?.answerEmoji === key}
+                                onChange={() => {handleAnswerChange(question.id ?? '', key, QuestionTypeEnum.RADIO_EMOJI)}}
+                            />
+                            {text}
+                        </label>
+                    ))}
+                </div>
+            );
+
+        case QuestionTypeEnum.RADIO_NUMBER: {
+            const numberOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+            return (
+                <div>
+                    {numberOptions.map((num) => (
+                        <label key={num}>
+                            <input
+                                type="radio"
+                                name={inputId}
+                                value={num}
+                                checked={currentAnswer?.answerNumber === num}
+                                onChange={() => {handleAnswerChange(question.id ?? '', num, QuestionTypeEnum.RADIO_NUMBER)}}
+                            />
+                            {num}
+                        </label>
+                    ))}
+                </div>
+            )}
+
+        default:
+            return <div>Unsupported question type</div>;
+    }
+};
+
+     
+
+
+return (
+  <div className="flex flex-col max-w-md mx-auto">
+  <h3 className="font-semibold text-center">Session Questions</h3>
+  <div className="flex flex-col mb-4 w-full">
+      {questions.map((item) =>{
+        const question = item.question
+          return question.id ? (
+              <div key={question.id}>
+                  <label htmlFor={`question-${question.id}-${reportId}`} className="mb-1">
+                      {question.question}
+                  </label>
+                  {renderInputField(question)}
+              </div>
+          ) : null
+          })}
+  </div>
+</div>
+);
+
+               
 };
 
 export default AnswerQuestion;

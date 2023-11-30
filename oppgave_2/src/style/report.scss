@@ -42,3 +42,41 @@
     }
 
 }
+
+.report-input-field {
+  width: 60px; 
+  margin: 4px; 
+  padding: 4px; 
+  border-radius: 4px; 
+  
+}
+
+.interval-container {
+  margin-bottom: 1rem;
+}
+
+.measurements-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.measurements-header, .measurements-row {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.header-cell, .measurements-label {
+  flex: 0 0 auto; 
+  width: 6em; 
+  text-align: left;
+  padding-right: 1em; 
+}
+
+input[type="number"] {
+  flex: 0 0 auto; 
+  width: 4em; 
+  margin-right: 1em; 
+  color: black;
+}
+

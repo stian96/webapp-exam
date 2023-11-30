@@ -12,7 +12,7 @@ const Comment = ({ reportId }: CommentProps) => {
 
     return (
         <div className="flex flex-col max-w-lg mx-auto">
-            <label htmlFor={`session-comment-${reportId}`} className="font-semibold block mb-2">Session omment:</label>
+            <label htmlFor={`session-comment-${reportId}`} className="font-semibold block mb-2">Session Comment:</label>
             <textarea
                 id={`session-comment-${reportId}`}
                 name={`sessionComment-${reportId}`}
