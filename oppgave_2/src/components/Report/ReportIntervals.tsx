@@ -7,24 +7,6 @@ import React, { useState, useEffect } from 'react';
 import { type Interval} from '@/types/performance/interval'
 import { type ReportIntervalResult } from '@/types/performance/intervalResult';
 
-/*
-type Measurement = {
-  Min: string;
-  Max: string;
-  Avg: string;
-};
-
-type Measurements = {
-  Intensity: Measurement;
-  Pulse: Measurement;
-  Speed: Measurement;
-  Watt: Measurement;
-  Time: string;
-};
-
-type MeasurementsReport = Measurements[];
-*/
-
 type ReportIntervalProps = {
   sessionId: string,
   intervals: Interval[],
@@ -73,22 +55,6 @@ const ReportIntervals = ({ sessionId, intervals, onIntervalChange}: ReportInterv
       onIntervalChange(intervalReports);
   }, [intervalReports, onIntervalChange]);
 
-
-  const inputFields = [
-    { label: 'Duration', key: 'duration' },
-    { label: 'Intensity Min', key: 'intensityMin' },
-    { label: 'Intensity Max', key: 'intensityMax' },
-    { label: 'Intensity Avg', key: 'intensityAvg' },
-    { label: 'Pulse Min', key: 'pulseMin' },
-    { label: 'Pulse Max', key: 'pulseMax' },
-    { label: 'Pulse Avg', key: 'pulseAvg' },
-    { label: 'Speed Min', key: 'speedMin' },
-    { label: 'Speed Max', key: 'speedMax' },
-    { label: 'Speed Avg', key: 'speedAvg' },
-    { label: 'Watt Min', key: 'wattMin' },
-    { label: 'Watt Max', key: 'wattMax' },
-    { label: 'Watt Avg', key: 'wattAvg' },
-  ];
 
   const measurementTypes = ['Intensity', 'Pulse', 'Speed', 'Watt'];
 
