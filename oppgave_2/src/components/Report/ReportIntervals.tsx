@@ -5,22 +5,22 @@
 import "@/style/report.scss"
 import React, { useState, useEffect } from 'react';
 import { type Interval} from '@/types/performance/interval'
-import { type ReportIntervalResult } from '@/types/performance/intervalResult';
+import { type IntervalResult, type ReportIntervalResult } from '@/types/performance/intervalResult';
 
 type ReportIntervalProps = {
-  sessionId: string,
-  intervals: Interval[],
+  
+  intervals: IntervalResult[],
   onIntervalChange: (intervalResult : ReportIntervalResult[]) => void;
 
 }
 
-const ReportIntervals = ({ sessionId, intervals, onIntervalChange}: ReportIntervalProps) => {
+const ReportIntervals = ({  intervals, onIntervalChange}: ReportIntervalProps) => {
   console.log("Rendering ReportIntervals")
   console.log("intervals received", intervals)
 
   const [intervalReports, setIntervalReports] = useState<ReportIntervalResult[]>(
     intervals.map(interval =>  ({
-      intervalId: interval.id ?? '',
+      intervalId: interval.interval.id ?? '',
       duration: 0,
       intensityMin: 0,
       intensityMax: 0,
