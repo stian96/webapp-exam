@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-
+/*
 async function main() {
   const performer1 = await prisma.performers.create({
     data: {
@@ -171,4 +171,4 @@ main()
     console.error(e)
     await prisma.$disconnect()
     process.exit(1)
-  })
+  })*/
