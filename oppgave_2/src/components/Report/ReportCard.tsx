@@ -11,6 +11,8 @@ import { type Question } from "@/types/question";
 import { type IntervalResult, type ReportIntervalResult } from "@/types/performance/intervalResult";
 import { type Interval } from "@/types/performance/interval";
 import { error } from "console";
+import { type Answer } from "@/types/answer";
+import { QuestionTypeEnum } from "@/enums/questionTypeEnum";
 
 type ReportCardProps = {
     id: string;
@@ -30,22 +32,44 @@ const ReportCard = ({ id }: ReportCardProps) => {
     };
   
 
-
-
-
     const handleChangeStatus = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setStatus(event.target.value);
-    }
+      setStatus(event.target.value);
+  }
 
-    const [answers, setAnswers] = useState<Record<string, string | number | boolean>>({});
+  const [answers, setAnswers] = useState<Answer[]>([]);
+  useEffect(() => {
+    const initialAnswers = sessionQuestions.map(item => ({
+        id: '',
+        questionId: item.question.id, 
+        answerText: null,
+        answerNumber: null,
+        answerEmoji: null
+    }));
+
+    setAnswers(initialAnswers);
+}, [sessionQuestions]);
+
+  
+
+  console.log("Session Questionzzzzzz:", sessionQuestions);
 
     
-    const handleAnswerChange = (questionId: string, answerValue: string | number | boolean) => {
-        setAnswers(prev => ({
-            ...prev,
-            [questionId]: answerValue
-        }));
-    };
+  const handleAnswerChange = (questionId: string, answerValue: string | number, questionType: string ) => {
+    setAnswers(prevAnswers => {
+        return prevAnswers.map(answer => {
+            if (answer.questionId === questionId) {
+                return {
+                    ...answer,
+                    answerText: typeof answerValue === 'string' ? answerValue : answer.answerText,
+                    answerNumber: typeof answerValue === 'number' ? answerValue : answer.answerNumber,
+                    answerEmoji: typeof answerValue === 'string' && answerValue.includes("emoji") ? answerValue : answer.answerEmoji // Assuming emoji values are strings that contain "emoji"
+                };
+            }
+            return answer;
+        });
+    });
+};
+
 
     const getStatusString = (statusEnumValue: SessionStatusEnum): string => {
       switch (statusEnumValue) {
