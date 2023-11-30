@@ -5,25 +5,15 @@ import { Icons } from "@/components/icons"
 import React, { useState, useEffect } from 'react';
 import AnswerQuestion from "@/components/Report/AnswerQuestion";
 import Comment from "./Comment";
+import ReportIntervals from "@/components/Report/ReportIntervals";
 import { SessionStatusEnum } from "@/enums/sessionStatusEnum";
 import { type Question } from "@/types/question";
+import { type ReportIntervalResult } from "@/types/performance/intervalResult";
+import { type Interval } from "@/types/performance/interval";
+import { error } from "console";
 
 type ReportCardProps = {
     id: string;
-};
-
-type Measurement = {
-    Min: string;
-    Max: string;
-    Avg: string;
-};
-
-type Measurements = {
-    Intensity: Measurement;
-    Pulse: Measurement;
-    Speed: Measurement;
-    Watt: Measurement;
-    Time: string;
 };
 
 const ReportCard = ({ id }: ReportCardProps) => {
@@ -31,6 +21,15 @@ const ReportCard = ({ id }: ReportCardProps) => {
 
     const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
     const [sessionId, setSessionId] = useState<string>('');
+
+    const [intervals, setIntervals] = useState<Interval[]>([]);
+    const [intervalData, setIntervalData] = useState<ReportIntervalResult[]>([]);
+
+    const handleIntervalDataChange = (newData: ReportIntervalResult[]) => {
+      setIntervalData(newData);
+    };
+  
+
 
 
 
@@ -75,7 +74,7 @@ const ReportCard = ({ id }: ReportCardProps) => {
     
           console.log("data from fetchSessionActivity", data);
           if (data.status === 200) {
-            // Directly use the data if it's already in JSON format
+            
             const activityData = JSON.parse(data.message);
     
             console.log("activityData", activityData);
@@ -128,32 +127,40 @@ const ReportCard = ({ id }: ReportCardProps) => {
       }
     }, [sessionId]);
     
+    useEffect(() =>{
 
-    const [measurements, setMeasurements] = useState<Measurements>({
-        Intensity: { Min: '', Max: '', Avg: '' },
-        Pulse: { Min: '', Max: '', Avg: '' },
-        Speed: { Min: '', Max: '', Avg: '' },
-        Watt: { Min: '', Max: '', Avg: '' },
-        Time: ''
-    });
-    const handleChangeMeasurements = (
-        event: React.ChangeEvent<HTMLInputElement>,
-        category: keyof Measurements,
-        type?: keyof Measurement
-    ) => {
-        const value = event.target.value;
+      if(sessionId){
+      const fetchIntervals = async () => {
 
-        setMeasurements((prev) => {
-            if (category === 'Time') {
-                return { ...prev, [category]: value };
-            }
+        try{
+          console.log(" current sessionId in useEffect for intervals:", sessionId)
 
-            const updatedCategory = type ? { ...prev[category], [type]: value } : prev[category];
-            return { ...prev, [category]: updatedCategory };
-        });
-    };
+          const response = await fetch(`/api/sessions/getSessionIntervals?sessionId=${sessionId}`)
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
 
+          const responseData = await response.json();
+          const intervals = JSON.parse(responseData.message);
 
+          console.log("fetch intervas intervals:", intervals)
+          console.log("intervals lenght", intervals.length)
+
+          setIntervals(intervals as Interval[])
+          
+
+        }catch ( error){
+          console.log("failed to fetch intervals", error)
+        }
+      }
+
+      fetchIntervals().catch(error => {
+        console.error("Error in fetchIntervals:", error)
+      })
+
+    }}, [sessionId])
+
+    console.log("answer in parent:", answers)
 
     return (
         <div className="card relative">
@@ -180,43 +187,11 @@ const ReportCard = ({ id }: ReportCardProps) => {
             </div>
             {/*SRC: https://react.dev/reference/react-dom/components/select*/}
 
-
-            <div className="grid grid-cols-1 gap-4 mb-4">
-                {Object.entries(measurements).map(([category, values]) =>
-                    category !== 'Time' ? (
-                        <div key={category}>
-                            <h3 className="font-semibold text-center">{category}</h3>
-                            <div className="flex flex-row justify-center gap-2">
-                                {Object.entries(values).map(([type, value]) => (
-                                    <div key={type} className="flex flex-col">
-                                        <label htmlFor={`${category}-${type}-${id}`} className="text-sm">{type}:</label>
-                                        <input
-                                            id={`${category}-${type}-${id}`}
-                                            name={`${category}-${type}-${id}`}
-                                            type="text"
-                                            value={value}
-                                            onChange={(e) => { handleChangeMeasurements(e, category as keyof Measurements, type as keyof Measurement); }}
-                                            className="input-field"
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    ) : (
-                        <div key="time" className="text-center">
-                            <label htmlFor={`time-${id}`} className="text-sm">Time:</label>
-                            <input
-                                id={`time-${id}`}
-                                name={`time-${id}`}
-                                type="text"
-                                value={measurements.Time}
-                                onChange={(e) => { handleChangeMeasurements(e, 'Time'); }}
-                                className="input-field"
-                            />
-                        </div>
-                    )
-                )}
-            </div>
+           {intervals.length > 0 && sessionId && (
+            <ReportIntervals 
+              sessionId= {id}
+              onIntervalChange={handleIntervalDataChange}
+              intervals={intervals}/>)}
 
             {sessionQuestions.length > 0 && sessionId && (
               <AnswerQuestion 
