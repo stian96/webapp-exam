@@ -24,7 +24,7 @@
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Documentation for Templates and Questions
-### <u>How to create a template:</u>
+### <ins>How to create a template:</ins> 
 The dashboard's navbar includes a site for creating templates, as illustrated and highlighted in the screenshot below:
 
 ![Create user template](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/CreateTemplate1.png)
@@ -38,7 +38,7 @@ The user can also choose to set tags, duration, and intensity for an interval, s
 ![UserTemplate](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/CreateTemplate2.png)
 
 
-### <u>How to reuse a template:</u>
+### <ins>How to reuse a template:</ins> 
 When a user visits a performer's session page, they can create a session by clicking a the button “Create New Session”, as seen below. 
 
 ![Reuse User-Template](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/UseTp1.png)
@@ -55,7 +55,7 @@ If the user chooses to select an existing template, then some inputs will be aut
 
 
 ## Documentation for Filtering data
-### <u>Filtering session data by activity type/tag and report status:</u>
+### <ins>Filtering session data by activity type/tag and report status:</ins> 
 
 ![Filter data img 1](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Filter1.png)
 
@@ -69,7 +69,7 @@ Clicking the 'X' button will reset the view to the original full list of activit
 When two or more activities are chosen, a floating action button emerges, guiding the user to an analysis page with the selected activities through React navigation.
 
 
-### <u>Filtering specific measurement metrics:</u>
+### <ins>Filtering specific measurement metrics:</ins> 
 To be able to filter specific measurement metrics for the analysis page, 
 two or more performers needs to be selected. 
 #### User 1:
