@@ -1,34 +1,90 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
-
-First, run the development server:
-
+### 1. Install pnpm:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+    npm install -g pnpm
+```
+### 2. Initialize Database or Seed Data
+```bash
+    npm run seed
+    # or
+    yarn seed
+    # or
+    pnpm run seed
+```
+
+### 3. Start the Development Server
+```bash
+    npm run dev
+    # or
+    yarn dev
+    # or
+    pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Documentation for Templates and Questions
+### <u>How to create a template:</u>
+The dashboard's navbar includes a site for creating templates, as illustrated and highlighted in the screenshot below:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/CreateTemplate1.png
 
-## Learn More
+It navigates the user to the site for creating a template and gives the opportunity to name the template for reuse, set performance metrics (such as Intensity, Watts, Speed, Pulse), and from a dropdown-menu choose the type of activity. 
 
-To learn more about Next.js, take a look at the following resources:
+The user can also either choose to set the template to a unique performer or chose not to.  If not, the user is able to reuse the template for any performer. 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The user can also choose to set tags, duration, and intensity for an interval, set question and the type of question, as well as set an existing question. The existing questions are accessible through the database and presented to the user in a dropdown menu.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/CreateTemplate2.png
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### <u>How to reuse a template:</u>
+When a user visits a performer's session page, they can create a session by clicking a the button “Create New Session”, as seen below. 
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/UseTp1.png
+
+This action directs them to a 'Create Session' page, where a session template is displayed. 
+
+The user can either start from scratch or choose to create a session based on an existing template previously made by the user in the “Create template- site”. This can be done by selecting the checkbox labeled “Based on template”.  
+
+Upon activation, a dropdown menu will become available, providing access to the existing templates.
+
+https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/UseTp2.png
+
+If the user chooses to select an existing template, then some inputs will be autocompleted and disabled. Whenever a new session is created, the session's activity details are automatically saved in the database.
+
+
+## Documentation for Filtering data
+### <u>Filtering session data by activity type/tag and report status:</u>
+
+https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Filter1.png
+
+Click the red Show-button to be able to filter session data for one performer.
+
+https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Filter2.png
+
+Upon initial rendering, the system fetches all session activities from the database associated with a particular performer. It then stores all unique tags and types as state variables in lists. Selecting an option from a dropdown menu filters the displayed list according to the specified criteria.
+
+Clicking the 'X' button will reset the view to the original full list of activities. Checkboxes are active only for sessions with an existing report. Selecting one will automatically disable any unrelated checkboxes, for example, those not corresponding to the same activity type like 'cycling' or 'swimming'.
+When two or more activities are chosen, a floating action button emerges, guiding the user to an analysis page with the selected activities through React navigation.
+
+
+### <u>Filtering specific measurement metrics:</u>
+To be able to filter specific measurement metrics for the analysis page, 
+two or more performers needs to be selected. 
+#### User 1:
+https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Usr1.png
+
+#### User 2:
+https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Usr2.png
+
+
+Upon selection by checking off the checkbox, a red button labeled "compare activities" will be shown in the right corner off the screen.
+The button:
+https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/CompareBtn.png
+
+By clicking this you will be navigated to the Analysis page.
+This page shows the different measurements metrics and give the user the option to filter the shown data.
+
+## Flowchart illustrating the Coach's perspective in the webapp.
+https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Flowchart_Coach.png
