@@ -27,7 +27,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ### <u>How to create a template:</u>
 The dashboard's navbar includes a site for creating templates, as illustrated and highlighted in the screenshot below:
 
-https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/CreateTemplate1.png
+![Create user template](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/CreateTemplate1.png)
 
 It navigates the user to the site for creating a template and gives the opportunity to name the template for reuse, set performance metrics (such as Intensity, Watts, Speed, Pulse), and from a dropdown-menu choose the type of activity. 
 
@@ -35,13 +35,13 @@ The user can also either choose to set the template to a unique performer or cho
 
 The user can also choose to set tags, duration, and intensity for an interval, set question and the type of question, as well as set an existing question. The existing questions are accessible through the database and presented to the user in a dropdown menu.
 
-https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/CreateTemplate2.png
+![UserTemplate](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/CreateTemplate2.png)
 
 
 ### <u>How to reuse a template:</u>
 When a user visits a performer's session page, they can create a session by clicking a the button “Create New Session”, as seen below. 
 
-https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/UseTp1.png
+![Reuse User-Template](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/UseTp1.png)
 
 This action directs them to a 'Create Session' page, where a session template is displayed. 
 
@@ -49,7 +49,7 @@ The user can either start from scratch or choose to create a session based on an
 
 Upon activation, a dropdown menu will become available, providing access to the existing templates.
 
-https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/UseTp2.png
+![UserTemplate Img 2](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/UseTp2.png)
 
 If the user chooses to select an existing template, then some inputs will be autocompleted and disabled. Whenever a new session is created, the session's activity details are automatically saved in the database.
 
@@ -57,11 +57,11 @@ If the user chooses to select an existing template, then some inputs will be aut
 ## Documentation for Filtering data
 ### <u>Filtering session data by activity type/tag and report status:</u>
 
-https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Filter1.png
+![Filter data img 1](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Filter1.png)
 
 Click the red Show-button to be able to filter session data for one performer.
 
-https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Filter2.png
+![Filter data img 2](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Filter2.png)
 
 Upon initial rendering, the system fetches all session activities from the database associated with a particular performer. It then stores all unique tags and types as state variables in lists. Selecting an option from a dropdown menu filters the displayed list according to the specified criteria.
 
@@ -73,21 +73,20 @@ When two or more activities are chosen, a floating action button emerges, guidin
 To be able to filter specific measurement metrics for the analysis page, 
 two or more performers needs to be selected. 
 #### User 1:
-https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Usr1.png
+![Selected User 1](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Usr1.png)
 
 #### User 2:
-https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Usr2.png
+![Selected User 2](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Usr2.png)
 
 
 Upon selection by checking off the checkbox, a red button labeled "compare activities" will be shown in the right corner off the screen.
 The button:
-https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/CompareBtn.png
+![Compare Button](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/CompareBtn.png)
 
-documentation/oppgave_2/CompareBtn.png
 
 
 By clicking this you will be navigated to the Analysis page.
 This page shows the different measurements metrics and give the user the option to filter the shown data.
 
 ## Flowchart illustrating the Coach's perspective in the webapp.
-https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Flowchart_Coach.png
+![Flowchart of Coach's perspective](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Flowchart_Coach.png)
