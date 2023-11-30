@@ -8,7 +8,7 @@ import Comment from "./Comment";
 import ReportIntervals from "@/components/Report/ReportIntervals";
 import { SessionStatusEnum } from "@/enums/sessionStatusEnum";
 import { type Question } from "@/types/question";
-import { type ReportIntervalResult } from "@/types/performance/intervalResult";
+import { type IntervalResult, type ReportIntervalResult } from "@/types/performance/intervalResult";
 import { type Interval } from "@/types/performance/interval";
 import { error } from "console";
 
@@ -22,7 +22,7 @@ const ReportCard = ({ id }: ReportCardProps) => {
     const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
     const [sessionId, setSessionId] = useState<string>('');
 
-    const [intervals, setIntervals] = useState<Interval[]>([]);
+    const [intervals, setIntervals] = useState<IntervalResult[]>([]);
     const [intervalData, setIntervalData] = useState<ReportIntervalResult[]>([]);
 
     const handleIntervalDataChange = (newData: ReportIntervalResult[]) => {
@@ -146,7 +146,7 @@ const ReportCard = ({ id }: ReportCardProps) => {
           console.log("fetch intervas intervals:", intervals)
           console.log("intervals lenght", intervals.length)
 
-          setIntervals(intervals as Interval[])
+          setIntervals(intervals as IntervalResult[])
           
 
         }catch ( error){
@@ -189,7 +189,7 @@ const ReportCard = ({ id }: ReportCardProps) => {
 
            {intervals.length > 0 && sessionId && (
             <ReportIntervals 
-              sessionId= {id}
+              
               onIntervalChange={handleIntervalDataChange}
               intervals={intervals}/>)}
 
