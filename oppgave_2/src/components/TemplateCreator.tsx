@@ -95,7 +95,7 @@ const TemplateCreator = ({
 
     if (!isTemplateCreator) {
       void getGoalsApiResponse(performerIdString)
-      void getTemplateApiResponse()
+      void getTemplateApiResponse(performerIdString)
     }
   }, [])
 
