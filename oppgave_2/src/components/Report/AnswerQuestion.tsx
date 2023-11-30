@@ -15,23 +15,7 @@ type AnswerProps = {
 
 const AnswerQuestion = ({ reportId, onAnswerChange, questions }: AnswerProps) => {
   const [answers, setAnswers] = useState<Record<string, string | number | boolean >>({});
-
-  console.log("AnswerQuestion component is rendering.");
   console.log("Questions received in AnswerQuestion:", questions);
-
-
-  /*
-    const [sessionQuestions, setSessionQuestions] = useState({
-        sessionDemand: '',
-        sleepQuality: '',
-        restStatus: '',
-        muscleSoreness: '',
-        environmentImpact: '',
-        stressLevel: '',
-        workoutSentiment: ''
-    });
-
-    */
 
     useEffect(() => {
 
@@ -53,6 +37,7 @@ const AnswerQuestion = ({ reportId, onAnswerChange, questions }: AnswerProps) =>
         if (questionId) { 
             setAnswers(prev => ({ ...prev, [questionId]: value }));
             onAnswerChange(questionId, value);
+            console.log("answer is:", value)
         }
     };
 
