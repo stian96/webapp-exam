@@ -321,7 +321,7 @@ const useTemplateCreatorHook = () => {
     }
   }
 
-  const getTemplateApiResponse = async () => {
+  const getTemplateApiResponse = async (performerIdString: string) => {
 
     const response = await fetch(`/api/sessions/getSessionTemplates`, {
       method: "get",
@@ -336,7 +336,9 @@ const useTemplateCreatorHook = () => {
 
     const templates = JSON.parse(result.message) as SessionTemplate[]
 
-    setDbTemplates(templates)
+    const filteredTemplates = templates.filter(template => template.performerId === null || template.performerId === performerIdString)
+
+    setDbTemplates(filteredTemplates)
   }
 
   const isFormValid = (isTemplate: boolean): boolean => {
