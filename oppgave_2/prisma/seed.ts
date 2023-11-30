@@ -6,7 +6,7 @@ async function main() {
   // Create Performers
   const performer1 = await prisma.performers.create({
     data: {
-      userId: 'Lars1',
+      userId: 'Sven3',
       gender: 'Male',
       sport: 'swimming',
       heartRate: 85,
@@ -17,7 +17,7 @@ async function main() {
 
   const performer2 = await prisma.performers.create({
     data: {
-      userId: 'Mona2',
+      userId: 'Liv4',
       gender: 'Female',
       sport: 'cycling',
       heartRate: 65,
@@ -26,10 +26,19 @@ async function main() {
     },
   });
 
+  // Create a generic session template (not specifically linked to a performer)
+  await prisma.sessions.create({
+    data: {
+      name: 'Generic Session Template',
+      type: 'Generic',
+      isTemplate: true,
+    },
+  });
+
   const sessionTypes = ['cycling', 'swimming', 'running', 'triathlon'];
 
   // Define a function to create intervals and interval results
-  async function createIntervalsAndResults(sessionId: string) {
+  async function createIntervalsAndResults() {
     const interval = await prisma.intervals.create({
       data: {
         duration: 45,
@@ -37,7 +46,7 @@ async function main() {
       },
     });
 
-    await prisma.intervalResults.create({
+    const intervalResult = await prisma.intervalResults.create({
       data: {
         intervalId: interval.id,
         duration: interval.duration,
@@ -56,9 +65,10 @@ async function main() {
       },
     });
 
-    return interval.id;
+    return { intervalId: interval.id, intervalResultId: intervalResult.id };
   }
 
+  // Iterate over the session types and create sessions, activities, tags, and questions for each performer
   for (const type of sessionTypes) {
     for (const performer of [performer1, performer2]) {
       const session = await prisma.sessions.create({
@@ -78,16 +88,17 @@ async function main() {
         },
       });
 
+      // Create tags and questions for each session
       await prisma.sessionTags.create({
         data: {
           sessionId: session.id,
-          tag: type.toLowerCase(),
+          tag: type,
         },
       });
 
       const question = await prisma.questions.create({
         data: {
-          question: 'How demanding was the session',
+          question: 'How demanding was the session?',
           type: 'text',
         },
       });
@@ -99,7 +110,9 @@ async function main() {
         },
       });
 
-      const intervalId = await createIntervalsAndResults(session.id);
+      // Create intervals and results, then link them to the session
+      const { intervalId, intervalResultId } = await createIntervalsAndResults();
+
       await prisma.sessionIntervals.create({
         data: {
           sessionId: session.id,
@@ -107,10 +120,9 @@ async function main() {
         },
       });
 
-
-      // Create 3 Reports for each performer, skipping the last session
+      // Create reports for each session activity, excluding the last session type
       if (type !== 'triathlon') {
-        await prisma.reports.create({
+        const report = await prisma.reports.create({
           data: {
             status: 'Completed',
             comments: `${type} session completed successfully`,
@@ -118,16 +130,14 @@ async function main() {
           },
         });
 
-
+        // Link the report to the interval results
+        await prisma.reportIntervalResults.create({
+          data: {
+            reportId: report.id,
+            intervalResultId: intervalResultId,
+          },
+        });
       }
-
-      await prisma.reportIntervalResults.create({
-        data: {
-          reportId: Report.id,
-          intervalResultId: intervalResultId, // Replace this with the actual interval result ID
-        },
-      });
-
     }
   }
 
