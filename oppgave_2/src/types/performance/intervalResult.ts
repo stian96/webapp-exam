@@ -23,7 +23,7 @@ export type IntervalResultAnalysis = {
 }
 
 export type ReportIntervalResult ={
-  id?: string,
+  id: string,
   intervalId: string,            
   duration: number,
   intensityMin: number,

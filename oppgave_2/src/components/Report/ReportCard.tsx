@@ -23,12 +23,18 @@ const ReportCard = ({ id }: ReportCardProps) => {
 
     const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
     const [sessionId, setSessionId] = useState<string>('');
+    const [comment, setComment] = useState('');
 
     const [intervals, setIntervals] = useState<IntervalResult[]>([]);
     const [intervalData, setIntervalData] = useState<ReportIntervalResult[]>([]);
+    
+
 
     const handleIntervalDataChange = (newData: ReportIntervalResult[]) => {
       setIntervalData(newData);
+    };
+    const handleCommentChange = (newComment: string) => {
+      setComment(newComment);
     };
   
 
@@ -98,7 +104,7 @@ const ReportCard = ({ id }: ReportCardProps) => {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
           const data = await response.json();
-    
+           
           console.log("data from fetchSessionActivity", data);
           if (data.status === 200) {
             
@@ -107,6 +113,9 @@ const ReportCard = ({ id }: ReportCardProps) => {
             console.log("activityData", activityData);
             console.log("Extracted sessionId:", activityData.sessionId);
             setSessionId(activityData.sessionId);
+         
+
+            console.log("activity data", activityData )
           } else {
             // Handle non-200 responses
           }
@@ -122,7 +131,7 @@ const ReportCard = ({ id }: ReportCardProps) => {
         });
       }
     }, [id]);
-    
+    console.log("")
     useEffect(() => {
       
       if (sessionId) {
@@ -186,8 +195,42 @@ const ReportCard = ({ id }: ReportCardProps) => {
       })
 
     }}, [sessionId])
+    
+    const handleSave = async () => {
+      console.log("calling save")
+      const reportData = {
+        status: status, 
+        comments: comment,
+        sessionActivityId: id, 
+        answers: answers,
+        intervalResults: intervalData 
+      };
+    
+      try {
+        const response = await fetch('/api/reports/createReport', { 
+          method: "post",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(reportData),
+        });
+    
+        const result = await response.json();
+        if (response.ok) {
+          console.log('Report saved successfully:', result);
+          // Further actions on success (like showing a success message)
+        } else {
+          throw new Error(result.message || 'Failed to save report');
+        }
+      } catch (error) {
+        console.error('Error in saving report:', error);
+        // Further actions on error (like showing an error message)
+      }
+    };
+    
 
     console.log("answer in parent:", answers)
+    console.log("comment", comment)
 
     return (
         <div className="card relative">
@@ -227,10 +270,9 @@ const ReportCard = ({ id }: ReportCardProps) => {
                   questions={sessionQuestions}
               />
 )}
-            <Comment reportId={id} />
-            <button className="save-button" onClick={() => {
-                //handleSave()
-            }}>Save
+            <Comment reportId={id} comment={comment} onCommentChange={handleCommentChange} />
+            <button className="save-button" onClick={  handleSave
+            }>Save
             </button>
         </div>
     )
