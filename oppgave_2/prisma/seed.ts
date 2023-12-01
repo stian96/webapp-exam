@@ -3,6 +3,63 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
+
+  await prisma.performers.deleteMany({
+    where: {
+      OR: [
+        { userId: 'Sven3' },
+        { userId: 'Liv4' }
+      ]
+    }
+  });
+
+  const relatedSessionIds = await prisma.sessions.findMany({
+    where: {
+      performerId: {
+        in: ['Sven3', 'Liv4']
+      }
+    },
+    select: { id: true }
+  }).then(sessions => sessions.map(session => session.id));
+  //SRC: OpenAI.(2023).ChatGPT(GPT-4).[Large language model]. https://chat.openai.com/chat
+
+
+
+  await prisma.sessionActivity.deleteMany({
+    where: {
+      sessionId: {
+        in: relatedSessionIds
+      }
+    }
+  });
+
+  await prisma.sessionIntervals.deleteMany({
+    where: {
+      sessionId: {
+        in: relatedSessionIds
+      }
+    }
+  });
+
+  const relatedSessionActivityIds = await prisma.sessionActivity.findMany({
+    where: {
+      sessionId: {
+        in: relatedSessionIds
+      }
+    },
+    select: { id: true }
+  }).then(activities => activities.map(activity => activity.id));
+  //SRC: OpenAI.(2023).ChatGPT(GPT-4).[Large language model]. https://chat.openai.com/chat
+
+
+  await prisma.reports.deleteMany({
+    where: {
+      sessionActivityId: {
+        in: relatedSessionActivityIds
+      }
+    }
+  });
+
   let performer1 = await prisma.performers.findUnique({
     where: {
       userId: 'Sven3',
@@ -27,6 +84,8 @@ async function main() {
       userId: 'Liv4',
     },
   });
+  //SRC: PRISMA.(2023).Prisma Client API reference. 
+  //https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#findunique
 
   if (!performer2) {
     performer2 = await prisma.performers.create({
@@ -42,7 +101,6 @@ async function main() {
   }
 
 
-  // Create a generic session template (not specifically linked to a performer)
   await prisma.sessions.create({
     data: {
       name: 'Generic Session Template',
@@ -53,7 +111,6 @@ async function main() {
 
   const sessionTypes = ['cycling', 'swimming', 'running', 'triathlon'];
 
-  // Define a function to create intervals and interval results
   async function createIntervalsAndResults() {
     const interval = await prisma.intervals.create({
       data: {
@@ -111,7 +168,6 @@ async function main() {
         },
       });
 
-      // Create tags and questions for each session
       await prisma.sessionTags.create({
         data: {
           sessionId: session.id,
@@ -133,7 +189,6 @@ async function main() {
         },
       });
 
-      // Create intervals and results, then link them to the session
       const { intervalId, intervalResultId } = await createIntervalsAndResults();
 
       await prisma.sessionIntervals.create({
@@ -143,7 +198,6 @@ async function main() {
         },
       });
 
-      // Create reports for each session activity, excluding the last session type
       if (type !== 'triathlon') {
         const report = await prisma.reports.create({
           data: {
@@ -153,7 +207,6 @@ async function main() {
           },
         });
 
-        // Link the report to the interval results
         await prisma.reportIntervalResults.create({
           data: {
             reportId: report.id,
@@ -167,6 +220,10 @@ async function main() {
   console.log("Seed data created successfully");
 }
 
+//SRC: PRISMA.(2023). CRUD. https://www.prisma.io/docs/concepts/components/prisma-client/crud
+//SRC: PRISMA.(2023).Prisma Client. https://www.prisma.io/docs/concepts/components/prisma-client
+
+
 main()
   .then(async () => {
     await prisma.$disconnect();
@@ -176,3 +233,5 @@ main()
     await prisma.$disconnect();
     process.exit(1);
   });
+
+//SRC: PRISMA.(2023).Seeding your database. https://www.prisma.io/docs/guides/migrate/seed-database

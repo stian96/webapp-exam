@@ -33,10 +33,10 @@ const Progress = ({
     console.log(event);
     if (currentTaskIndex === 0) {
       toast.error('Du er på den første oppgaven og kan ikke gå tilbake.')
-      //setErrorMessage('Du er på den første oppgaven og kan ikke gå tilbake.');
+
     } else {
       setCurrentTaskIndex(currentTaskIndex - 1);
-      setErrorMessage(null); // Clear the error message when it's valid to go back
+      setErrorMessage(null);
     }
   }
 
@@ -45,7 +45,7 @@ const Progress = ({
   return (
     <footer className="footer-container border-t-slate-300">
 
-      {/*{errorMessage && <p className="error-message">{errorMessage}</p>}*/}
+
       <ToastContainer position="bottom-center" autoClose={6500} />
 
       <button onClick={prev} className="btn-prev">

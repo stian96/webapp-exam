@@ -71,13 +71,16 @@ When two or more activities are chosen, a floating action button emerges, guidin
 
 ### <ins>Filtering specific measurement metrics:</ins> 
 To be able to filter specific measurement metrics for the analysis page, 
-two or more performers needs to be selected. 
-#### User 1:
-![Selected User 1](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Usr1.png)
+two or more performers needs to be selected, e.g Sven3 and Liv4. 
 
-#### User 2:
-![Selected User 2](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Usr2.png)
+#### Select users:
+![Selected User 1](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/SL.png)
 
+### Checking off the checkboxes
+Next step require the user to check off a box in the compare table to each users.
+![checkbox](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/FilterSL.png)
+
+![checking off ](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/checkSL.png)
 
 Upon selection by checking off the checkbox, a red button labeled "compare activities" will be shown in the right corner off the screen.
 The button:
@@ -86,7 +89,6 @@ The button:
 
 By clicking this you will be navigated to the Analysis page.
 This page shows the different measurements metrics and give the user the option to filter the shown data.
-
 
 ## Flowchart illustrating the Coach's perspective in the webapp.
 ![Flowchart of Coach's perspective](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Flowchart_Coach.png)

@@ -4,9 +4,9 @@ import { saveAttemptsToDB } from '@/features/task/task.repository';
 import { type Attempts, type Stats, type Type, type Task } from "@/types";
 
 const useTaskHandlers = (initialScores: Stats) => {
-    
+
     const [scores, setScores] = useState<Stats>(initialScores);
-    //const [attempts, setAttempts] = useState<Attempts>(initialAttempts);
+
     const [attempts, setAttempts] = useState<Attempts>({});
 
     const updateAttemptsInDB = async (taskId: string, attempts: number) => saveAttemptsToDB({ taskId, attempts })
@@ -24,7 +24,7 @@ const useTaskHandlers = (initialScores: Stats) => {
     }, []);
 
     const handleIncorrectAnswer = useCallback((taskId: string, currentAttempt: number) => {
-      console.log("task id: ", taskId)
+        console.log("task id: ", taskId)
         setAttempts(prevAttempts => {
             const newAttempts = Math.max(prevAttempts[taskId] - 1, 0);
             return {
@@ -36,14 +36,14 @@ const useTaskHandlers = (initialScores: Stats) => {
     }, []);
 
     const handleShowAnswer = useCallback((taskType: Type) => {
-      setScores(prevScores => ({
-          ...prevScores,
-          [taskType]: {
-              ...prevScores[taskType],
-              incorrect: prevScores[taskType].incorrect + 1,
-          },
-      }));
-  }, []);
+        setScores(prevScores => ({
+            ...prevScores,
+            [taskType]: {
+                ...prevScores[taskType],
+                incorrect: prevScores[taskType].incorrect + 1,
+            },
+        }));
+    }, []);
 
     const resetTasks = () => {
         setScores(initialScores);
