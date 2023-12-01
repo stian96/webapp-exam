@@ -37,9 +37,10 @@ const ReportCard = ({ id }: ReportCardProps) => {
   }
 
   const [answers, setAnswers] = useState<Answer[]>([]);
+
+  
   useEffect(() => {
     const initialAnswers = sessionQuestions.map(item => ({
-        id: '',
         questionId: item.question.id, 
         answerText: null,
         answerNumber: null,
@@ -58,17 +59,19 @@ const ReportCard = ({ id }: ReportCardProps) => {
     setAnswers(prevAnswers => {
         return prevAnswers.map(answer => {
             if (answer.questionId === questionId) {
-                return {
+                const updatedAnswer = {
                     ...answer,
-                    answerText: typeof answerValue === 'string' ? answerValue : answer.answerText,
-                    answerNumber: typeof answerValue === 'number' ? answerValue : answer.answerNumber,
-                    answerEmoji: typeof answerValue === 'string' && answerValue.includes("emoji") ? answerValue : answer.answerEmoji // Assuming emoji values are strings that contain "emoji"
+                    answerText: questionType === QuestionTypeEnum.TEXT ? answerValue : answer.answerText,
+                    answerNumber: questionType === QuestionTypeEnum.RADIO_NUMBER ? answerValue : answer.answerNumber,
+                    answerEmoji: questionType === QuestionTypeEnum.RADIO_EMOJI ? answerValue : answer.answerEmoji
                 };
+                return updatedAnswer;
             }
             return answer;
         });
     });
 };
+
 
 
     const getStatusString = (statusEnumValue: SessionStatusEnum): string => {
