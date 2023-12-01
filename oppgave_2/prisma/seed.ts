@@ -103,8 +103,8 @@ async function main() {
 
   await prisma.sessions.create({
     data: {
-      name: 'Generic Session Template',
-      type: 'Generic',
+      name: 'cycling Session Template',
+      type: 'cycling',
       isTemplate: true,
     },
   });
