@@ -57,13 +57,11 @@ If the user chooses to select an existing template, then some inputs will be aut
 ## Documentation for Filtering data
 ### <ins>Filtering session data by activity type/tag and report status:</ins> 
 
+Click the red Show-button to be able to filter session data for one performer.
 ![Filter data img 1](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Filter1.png)
 
-Click the red Show-button to be able to filter session data for one performer.
-
-![Filter data img 2](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Filter2.png)
-
 Upon initial rendering, the system fetches all session activities from the database associated with a particular performer. It then stores all unique tags and types as state variables in lists. Selecting an option from a dropdown menu filters the displayed list according to the specified criteria.
+![Filter data img 2](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Filter2.png)
 
 Clicking the 'X' button will reset the view to the original full list of activities. Checkboxes are active only for sessions with an existing report. Selecting one will automatically disable any unrelated checkboxes, for example, those not corresponding to the same activity type like 'cycling' or 'swimming'.
 When two or more activities are chosen, a floating action button emerges, guiding the user to an analysis page with the selected activities through React navigation.
