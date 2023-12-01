@@ -21,7 +21,6 @@ const defaultContext: ActivityContextType = {
   toggleActivity: () => {},
 }
 
-// This context was created to avoid 4 levels of props drilling.
 export const ActivityContext =
   createContext<ActivityContextType>(defaultContext)
 
