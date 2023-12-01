@@ -58,7 +58,7 @@ const AnswerQuestion = ({ reportId, onAnswerChange, questions }: AnswerProps) =>
                 <input
                     id={inputId}
                     type="text"
-                    value={currentAnswer?.answerText ?? ''}
+                    value={ answers.find((a) => a.questionId === question.id)?.answerText}
                     onChange={(e) => {handleAnswerChange(question.id ?? '', e.target.value, QuestionTypeEnum.TEXT)}}
                     className="input-field"
                 />
@@ -72,7 +72,7 @@ const AnswerQuestion = ({ reportId, onAnswerChange, questions }: AnswerProps) =>
                             <input
                                 type="radio"
                                 name={inputId}
-                                value={key}
+                                value={text}
                                 checked={currentAnswer?.answerEmoji === key}
                                 onChange={() => {handleAnswerChange(question.id ?? '', key, QuestionTypeEnum.RADIO_EMOJI)}}
                             />
@@ -112,19 +112,19 @@ const AnswerQuestion = ({ reportId, onAnswerChange, questions }: AnswerProps) =>
 return (
   <div className="flex flex-col max-w-md mx-auto">
   <h3 className="font-semibold text-center">Session Questions</h3>
-  <div className="flex flex-col mb-4 w-full">
-      {questions.map((item) =>{
-        const question = item.question
+      <form className="flex flex-col mb-4 w-full">
+        {questions.map((item) => {
+          const question = item.question;
           return question.id ? (
-              <div key={question.id}>
-                  <label htmlFor={`question-${question.id}-${reportId}`} className="mb-1">
-                      {question.question}
-                  </label>
-                  {renderInputField(question)}
-              </div>
-          ) : null
-          })}
-  </div>
+            <div key={question.id}>
+              <label  className="mb-1">
+                {question.question}
+              </label>
+              {renderInputField(question)}
+            </div>
+          ) : null;
+        })}
+      </form>
 </div>
 );
 

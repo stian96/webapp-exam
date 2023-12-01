@@ -1,15 +1,18 @@
 
 import React, { useState } from 'react';
 type CommentProps = {
-    reportId: string;
+    reportId: string,
+    comment: string,
+    onCommentChange: (newComment: string) => void
 };
-const Comment = ({ reportId }: CommentProps) => {
-    const [comment, setComment] = useState('');
+const Comment = ({ reportId, comment, onCommentChange }: CommentProps) => {
+    
 
     const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setComment(event.target.value);
+      onCommentChange(event.target.value);
     };
-
+     
+    
     return (
         <div className="flex flex-col max-w-lg mx-auto">
             <label htmlFor={`session-comment-${reportId}`} className="font-semibold block mb-2">Session Comment:</label>
