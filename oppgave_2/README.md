@@ -89,7 +89,7 @@ By clicking this you will be navigated to the Analysis page.
 ![Analysis Page](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/analysis.png)
 
 This page shows the different measurements metrics and give the user the option to filter the shown data by clicking the "X".
-![Filtter Analysis Page](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/FilterA.png)
+![Filtter Analysis Page](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/filterA.png)
 
 ## Flowchart illustrating the Coach's perspective in the webapp.
 ![Flowchart of Coach's perspective](https://github.com/stian96/webapp-exam/blob/dev_Lorena/documentation/oppgave_2/Flowchart_Coach.png)
