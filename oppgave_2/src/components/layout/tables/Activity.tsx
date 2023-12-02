@@ -164,20 +164,12 @@ const Activity = ({
             Delete
           </button>
           <Link
-            href={`#`}
+            href={`reports/${id}`}
             className={`activity__container-button flex items-center justify-center ${
               hasReport ? "hidden" : ""
             }`}
           >
             Create Report
-          </Link>
-          <Link
-            href={`#`}
-            className={`activity__container-button flex items-center justify-center ${
-              hasReport ? "" : "hidden"
-            }`}
-          >
-            Show Report
           </Link>
           <button
             className={`activity__container-button flex items-center justify-center ${
@@ -185,7 +177,7 @@ const Activity = ({
             }`}
             onClick={() => getActivity(id)}
           >
-            CSV
+            Download CSV
           </button>
         </div>
       </div>
