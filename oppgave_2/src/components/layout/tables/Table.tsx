@@ -25,9 +25,7 @@ const Table = ({ searchQuery, performers, setPerformers }: TableProp) => {
 
   const search = searchQuery.toLocaleLowerCase()
   const filteredPerformers = performers.filter(
-    (performer) =>
-      (performer.id !== undefined && performer.id.includes(search)) ||
-      (performer.userId !== undefined && performer.userId.includes(search)),
+    (performer) => performer.id !== undefined && performer.id.includes(search),
   )
 
   return (

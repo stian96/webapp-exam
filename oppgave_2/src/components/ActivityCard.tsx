@@ -196,6 +196,20 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
       {activity.report && (
         <div className={`${isReportVisible ? "visible" : "hidden"}`}>
           <h3 className="card__title">Report Details</h3>
+          <p
+            className={`${
+              activity.report.comments == null ? "hidden" : "visible"
+            }`}
+          >
+            Comments: {activity.report.comments}
+          </p>
+          <p
+            className={`${
+              activity.report.status == null ? "hidden" : "visible"
+            }`}
+          >
+            Status: {activity.report.status}
+          </p>
         </div>
       )}
     </div>
