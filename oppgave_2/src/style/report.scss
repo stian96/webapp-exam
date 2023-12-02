@@ -5,15 +5,23 @@
     color: $navy-blue;
 }
 .save-button{
-    position: absolute;
-    bottom: 1rem; 
-    right: 1rem; 
+    
+    display: block;
+    margin: 1rem auto;
     background-color: #ef4444; 
     color: #ffffff; 
     padding: 0.25rem 1.25rem; 
     border: 1px solid #b91c1c; 
     border-radius: 0.25rem; 
     font-size: 1.125rem;   
+
+    &.--saved {
+      background-image: $green-gradient;
+  }
+
+  &.--error {
+      background-image: $dark-red-gradient;
+  }
 
 }
 
@@ -43,27 +51,26 @@
 
 }
 
-.report-input-field {
-  width: 60px; 
-  margin: 4px; 
-  padding: 4px; 
-  border-radius: 4px; 
-  
-}
 
 .interval-container {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  
+  
 }
 
 .measurements-table {
   display: flex;
   flex-direction: column;
+  padding-top: 2rem;
+  
 }
 
 .measurements-header, .measurements-row {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
+  margin-bottom: 1rem;
+
 }
 
 .header-cell, .measurements-label {
@@ -73,10 +80,36 @@
   padding-right: 1em; 
 }
 
-input[type="number"] {
+input {
   flex: 0 0 auto; 
   width: 4em; 
   margin-right: 1em; 
   color: black;
 }
 
+
+
+.radio {
+  &__input {
+    margin-left: 15px; 
+    accent-color: black;
+  }
+
+  &__group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px; 
+  }
+
+  &__label {
+    flex-grow: 1;
+    text-align: left;
+  }
+}
+.answer {
+  &__input {
+    width: 100%;
+  }
+  
+}
