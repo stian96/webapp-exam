@@ -20,6 +20,7 @@ const ReportIntervals = ({  intervals, onIntervalChange}: ReportIntervalProps) =
 
   const [intervalReports, setIntervalReports] = useState<ReportIntervalResult[]>(
     intervals.map(interval =>  ({
+      id:'',
       intervalId: interval.interval.id ?? '',
       duration: 0,
       intensityMin: 0,
@@ -60,50 +61,57 @@ const ReportIntervals = ({  intervals, onIntervalChange}: ReportIntervalProps) =
 
  console.log("properties in intervals:", intervalReports)
 
-
+//SRC:https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset
   return (
-    <div>
-    {intervalReports.map((report, intervalIndex) => (
-      <div key={`interval-${intervalIndex}`} className="interval-container">
-        <h3>Interval {intervalIndex + 1}</h3>
-        <div className="measurements-table">
-          <div className="measurements-header">
-            <div className="header-cell"></div>
-            <div className="header-cell">Min</div>
-            <div className="header-cell">Max</div>
-            <div className="header-cell">Avg</div>
-          </div>
-          {measurementTypes.map((type) => (
-            <div key={type} className="measurements-row">
-              <div className="measurements-label">{type}:</div>
-              <input
-                type="number"
-                value={report[`${type.toLowerCase()}Min`]}
-                onChange={(e) => {handleChangeMeasurements(intervalIndex, `${type.toLowerCase()}Min`, parseInt(e.target.value))}}
-              />
-              <input
-                type="number"
-                value={report[`${type.toLowerCase()}Max`]}
-                onChange={(e) => {handleChangeMeasurements(intervalIndex, `${type.toLowerCase()}Max`, parseInt(e.target.value))}}
-              />
-              <input
-                type="number"
-                value={report[`${type.toLowerCase()}Avg`]}
-                onChange={(e) => {handleChangeMeasurements(intervalIndex, `${type.toLowerCase()}Avg`, parseInt(e.target.value))}}
-              />
+    <form className="form flex w-full flex-col items-center space-y-5" >
+      {intervalReports.map((report, intervalIndex) => (
+        <fieldset key={`interval-${intervalIndex}`} className="interval-container">
+          <h3 >Interval {intervalIndex + 1}</h3>
+          <table className="measurements-table">
+            <div className="measurements-header">
+              <div className="header-cell"></div>
+              <div className="header-cell">Min</div>
+              <div className="header-cell">Max</div>
+              <div className="header-cell">Avg</div>
             </div>
-          ))}
-        </div>
-        <div className="measurements-row">
-          <div className="measurements-label"> Time:</div>
-          <input 
-            type="number"
-            value={report.duration}
-            onChange={(e) => {handleChangeMeasurements(intervalIndex, 'duration', parseInt(e.target.value))}}/>
-        </div>
-      </div>
-    ))}
-  </div>
+            {measurementTypes.map((type) => (
+              <label key={type} className="measurements-row">
+                <label htmlFor={`interval-${intervalIndex}-${type.toLowerCase()}Min`} className="measurements-label">{type}:</label>
+                <input
+                  id={`interval-${intervalIndex}-${type.toLowerCase()}Min`}
+                  type="number"
+                  value={report[`${type.toLowerCase()}Min`]}
+                  onChange={(e) => { handleChangeMeasurements(intervalIndex, `${type.toLowerCase()}Min`, parseInt(e.target.value)); }}
+                />
+
+                <input
+
+                  id={`interval-${intervalIndex}-${type.toLowerCase()}Max`}
+                  type="number"
+                  value={report[`${type.toLowerCase()}Max`]}
+                  onChange={(e) => { handleChangeMeasurements(intervalIndex, `${type.toLowerCase()}Max`, parseInt(e.target.value)); }}
+                />
+                <input
+                  id={`interval-${intervalIndex}-${type.toLowerCase()}Avg`}
+                  type="number"
+                  value={report[`${type.toLowerCase()}Avg`]}
+                  onChange={(e) => { handleChangeMeasurements(intervalIndex, `${type.toLowerCase()}Avg`, parseInt(e.target.value)); }}
+                />
+              </label>
+            ))}
+          </table>
+          <div className="measurements-row">
+            <div className="measurements-label"> Time:</div>
+            <input
+              id={`interval-${intervalIndex}-duration`}
+              type="number"
+              value={report.duration}
+              onChange={(e) => { handleChangeMeasurements(intervalIndex, 'duration', parseInt(e.target.value)); }}
+            />
+          </div>
+        </fieldset>
+      ))}
+    </form>
 
   
   )
