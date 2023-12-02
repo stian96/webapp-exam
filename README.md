@@ -72,6 +72,6 @@ fullstack system to monitor and manage training sessions for athletes.
 - **Extended Dashboard and Evaluation**: Advanced functions in the dashboard for deeper analysis and comparison of training data.
 
 ## Demo Video
-Click on the image below to see a small demo video of assignment 2 which shows a quick review of the various pages.
+Click on the image below to see a quick demo video of assignment 2:
 [![demo_img](https://github.com/stian96/webapp-exam/assets/92892505/1f01225f-6b16-44c6-baa2-3a51ad0a938b)](https://vimeo.com/890618935?share=copy)
 
