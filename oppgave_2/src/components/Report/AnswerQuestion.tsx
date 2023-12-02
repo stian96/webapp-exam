@@ -2,7 +2,7 @@
 
 import "@/style/report.scss";
 import React, { useState, useEffect } from 'react';
-import { type Question, getQuestionTypeEnum } from "@/types/question";
+import { type Question} from "@/types/question";
 import { QuestionTypeEnum } from "@/enums/questionTypeEnum";
 import { EmojiEnum } from "@/enums/emojiEnum";
 import { type Answer } from "@/types/answer";
@@ -44,7 +44,8 @@ const AnswerQuestion = ({ reportId, onAnswerChange, questions }: AnswerProps) =>
       [EmojiEnum.BETTER]: "Better"  
   };
   
-
+ //SRC: https://www.freecodecamp.org/news/build-dynamic-forms-in-react/ 
+ // also used chatGPT to clean up things that were't completely optimal
 
     
   const renderInputField = (question: Question) => {

@@ -14,6 +14,8 @@ import { error } from "console";
 import { type Answer } from "@/types/answer";
 import { QuestionTypeEnum } from "@/enums/questionTypeEnum";
 
+
+//SRC: ChatGPT was used to fix up a few issues in this component
 type ReportCardProps = {
     id: string;
 };
@@ -27,7 +29,9 @@ const ReportCard = ({ id }: ReportCardProps) => {
 
     const [intervals, setIntervals] = useState<IntervalResult[]>([]);
     const [intervalData, setIntervalData] = useState<ReportIntervalResult[]>([]);
-    
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
+    const [submitButtonText, setSubmitButtonText] = useState('Save Report');
+
 
 
     const handleIntervalDataChange = (newData: ReportIntervalResult[]) => {
@@ -131,6 +135,7 @@ const ReportCard = ({ id }: ReportCardProps) => {
         });
       }
     }, [id]);
+
     console.log("")
     useEffect(() => {
       
@@ -179,9 +184,6 @@ const ReportCard = ({ id }: ReportCardProps) => {
           const responseData = await response.json();
           const intervals = JSON.parse(responseData.message);
 
-          console.log("fetch intervas intervals:", intervals)
-          console.log("intervals lenght", intervals.length)
-
           setIntervals(intervals as IntervalResult[])
           
 
@@ -198,6 +200,14 @@ const ReportCard = ({ id }: ReportCardProps) => {
     
     const handleSave = async () => {
       console.log("calling save")
+      if (!areAllIntervalFieldsFilled()) {
+        setShowErrorMessage(true);
+        return;
+    }
+
+    setShowErrorMessage(false);
+    
+
       const reportData = {
         status: status, 
         comments: comment,
@@ -217,17 +227,40 @@ const ReportCard = ({ id }: ReportCardProps) => {
     
         const result = await response.json();
         if (response.ok) {
-          console.log('Report saved successfully:', result);
-          // Further actions on success (like showing a success message)
+         setSubmitButtonText("Report Saved!")
         } else {
           throw new Error(result.message || 'Failed to save report');
         }
       } catch (error) {
         console.error('Error in saving report:', error);
-        // Further actions on error (like showing an error message)
+        setSubmitButtonText(`Error: ${error.message}`);
       }
     };
     
+
+    const areAllIntervalFieldsFilled = () => {
+      for (const report of intervalData) {
+         
+          const fieldsToValidate = [
+              'duration', 
+              'intensityMin', 'intensityMax', 'intensityAvg', 
+              'pulseMin', 'pulseMax', 'pulseAvg', 
+              'speedMin', 'speedMax', 'speedAvg', 
+              'wattMin', 'wattMax', 'wattAvg'
+          ];
+  
+          for (const field of fieldsToValidate) {
+              const value = report[field];
+  
+              
+              if (value === null || value === undefined || isNaN(value)) {
+                  return false; 
+              }
+          }
+      }
+      return true; 
+  };
+  
 
     console.log("answer in parent:", answers)
     console.log("comment", comment)
@@ -256,7 +289,7 @@ const ReportCard = ({ id }: ReportCardProps) => {
                 </select>
             </div>
             {/*SRC: https://react.dev/reference/react-dom/components/select*/}
-
+        
            {intervals.length > 0 && sessionId && (
             <ReportIntervals 
               
@@ -271,9 +304,20 @@ const ReportCard = ({ id }: ReportCardProps) => {
               />
 )}
             <Comment reportId={id} comment={comment} onCommentChange={handleCommentChange} />
-            <button className="save-button" onClick={  handleSave
-            }>Save
+
+            {showErrorMessage && (
+              <div className="text-red-400">
+                  Please fill all fields in each interval before saving.
+              </div>)}
+           <div >  
+            <button  
+            onClick={handleSave}className={`save-button ${
+                  submitButtonText === "Report Saved!" ? "--saved" : ""
+                } ${submitButtonText.startsWith("Error") ? "--error" : ""}`}>
+                {submitButtonText}
             </button>
+
+            </div> 
         </div>
     )
 

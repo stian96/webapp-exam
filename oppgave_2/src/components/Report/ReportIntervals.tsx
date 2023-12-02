@@ -67,7 +67,7 @@ const ReportIntervals = ({  intervals, onIntervalChange}: ReportIntervalProps) =
       {intervalReports.map((report, intervalIndex) => (
         <fieldset key={`interval-${intervalIndex}`} className="interval-container">
           <h3 className="text-center">Interval {intervalIndex + 1}</h3>
-          <table className="measurements-table">
+          <div className="measurements-table">
             <div className="measurements-header">
               <div className="header-cell"></div>
               <div className="header-cell">Min</div>
@@ -81,7 +81,8 @@ const ReportIntervals = ({  intervals, onIntervalChange}: ReportIntervalProps) =
                   id={`interval-${intervalIndex}-${type.toLowerCase()}Min`}
                   type="number"
                   value={report[`${type.toLowerCase()}Min`]}
-                  onChange={(e) => { handleChangeMeasurements(intervalIndex, `${type.toLowerCase()}Min`, parseInt(e.target.value)); }}
+                  onChange={(e) => { handleChangeMeasurements(intervalIndex, `${type.toLowerCase()}Min`, e.target.value); }}
+                  required
                 />
 
                 <input
@@ -89,24 +90,27 @@ const ReportIntervals = ({  intervals, onIntervalChange}: ReportIntervalProps) =
                   id={`interval-${intervalIndex}-${type.toLowerCase()}Max`}
                   type="number"
                   value={report[`${type.toLowerCase()}Max`]}
-                  onChange={(e) => { handleChangeMeasurements(intervalIndex, `${type.toLowerCase()}Max`, parseInt(e.target.value)); }}
+                  onChange={(e) => { handleChangeMeasurements(intervalIndex, `${type.toLowerCase()}Max`, e.target.value); }}
+                  required
                 />
                 <input
                   id={`interval-${intervalIndex}-${type.toLowerCase()}Avg`}
                   type="number"
                   value={report[`${type.toLowerCase()}Avg`]}
-                  onChange={(e) => { handleChangeMeasurements(intervalIndex, `${type.toLowerCase()}Avg`, parseInt(e.target.value)); }}
+                  onChange={(e) => { handleChangeMeasurements(intervalIndex, `${type.toLowerCase()}Avg`, e.target.value); }}
+                  required
                 />
               </label>
             ))}
-          </table>
+          </div>
           <div className="measurements-row">
             <div className="measurements-label"> Time:</div>
             <input
-              id={`interval-${intervalIndex}-duration`}
+              id={`interval-${intervalIndex}.duration`}
               type="number"
               value={report.duration}
-              onChange={(e) => { handleChangeMeasurements(intervalIndex, 'duration', parseInt(e.target.value)); }}
+              onChange={(e) => { handleChangeMeasurements(intervalIndex, 'duration', e.target.value); }}
+              required
             />
           </div>
         </fieldset>
