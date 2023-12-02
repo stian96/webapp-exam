@@ -66,7 +66,7 @@ const ReportIntervals = ({  intervals, onIntervalChange}: ReportIntervalProps) =
     <form className="form flex w-full flex-col items-center space-y-5" >
       {intervalReports.map((report, intervalIndex) => (
         <fieldset key={`interval-${intervalIndex}`} className="interval-container">
-          <h3 >Interval {intervalIndex + 1}</h3>
+          <h3 className="text-center">Interval {intervalIndex + 1}</h3>
           <table className="measurements-table">
             <div className="measurements-header">
               <div className="header-cell"></div>
