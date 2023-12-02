@@ -1,22 +1,19 @@
 "use client"
-
-import ReportCard from "@/components/Report/ReportCard";
-import "@/style/card.scss"
 import { Header } from "@/components"
+import ReportList from "@/components/Report/ReportList"
 
-const ReportDetail = ({ params }) => {
-    const { id } = params;
+const Reports = ({ params }: { params: { id: string } }) => {
 
     return (
         <>
-            <Header title={"Report"} />
+            <Header title={"All Reports"} />
             <div className="min-w-screen-md mx-auto max-w-screen-lg mt-4">
-                <ReportCard id={id as string} />
+                <ReportList />
             </div>
-
         </>
 
-    );
+
+    )
 }
 
-export default ReportDetail;
+export default Reports

@@ -79,7 +79,7 @@ const Navigation = () => {
                 >
                   <p>Id: {activity.id}</p>
                   <p>Date: {new Date(activity.date).toLocaleString()}</p>
-                  <Link href={`reports/${activity.id}`} className="pt-2">
+                  <Link href={`reports/${activity.id}/create`} className="pt-2">
                     <button className="defaultButton">Create Report</button>
                   </Link>
                 </div>

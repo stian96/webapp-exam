@@ -164,7 +164,7 @@ const Activity = ({
             Delete
           </button>
           <Link
-            href={`reports/${id}`}
+            href={`reports/${id}/create`}
             className={`activity__container-button flex items-center justify-center ${
               hasReport ? "hidden" : ""
             }`}
