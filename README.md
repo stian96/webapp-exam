@@ -22,6 +22,7 @@ we focused primarily on developing and implementing core functionalities. While 
 constraints, there are several aspects we would improve with more time for assignment 2:
 - Unit tests.
 - Code refactoring.
+- Adapted for mobiles.
 - Refinement of the User Interfaces.
 
 ## Team Members
