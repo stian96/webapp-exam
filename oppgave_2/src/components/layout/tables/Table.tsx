@@ -45,7 +45,10 @@ const Table = ({ searchQuery, performers, setPerformers }: TableProp) => {
                   >
                     Sessions
                   </Link>
-                  <Link className="table__body-link" href="/reports">
+                  <Link
+                    className="table__body-link"
+                    href={`/reports/${performer.id}`}
+                  >
                     Reports
                   </Link>
                   <button
