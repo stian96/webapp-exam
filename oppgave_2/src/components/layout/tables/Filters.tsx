@@ -125,10 +125,10 @@ const Filters = ({
           Report Status
         </option>
         <option value="No report">No report</option>
-        <option value="NO">No</option>
-        <option value="LOW">Low</option>
-        <option value="NORMAL">Normal</option>
-        <option value="HIGH">High</option>
+        <option value="No">No</option>
+        <option value="Low">Low</option>
+        <option value="Normal">Normal</option>
+        <option value="High">High</option>
       </select>
 
       <select

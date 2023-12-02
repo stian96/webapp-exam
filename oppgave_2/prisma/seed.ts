@@ -219,7 +219,7 @@ async function main() {
       if (type !== 'triathlon') {
         const report = await prisma.reports.create({
           data: {
-            status: 'Completed',
+            status: 'High',
             comments: `${type} session completed successfully`,
             sessionActivityId: sessionActivity.id,
           },

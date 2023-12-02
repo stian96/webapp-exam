@@ -40,44 +40,42 @@ const Compare = ({ performerId }: CompareProps) => {
     void getActivities(performerId)
   }, [])
 
-  if (activityResults.length > 0) {
-    return (
-      <table className="compare">
-        <tbody className="compare__body">
-          <tr className="compare__body-row flex items-center justify-between">
-            <td className="compare__body-data">Compare</td>
-            <td className="compare__body-data filter-container flex items-center justify-end gap-8">
-              <span>Filters</span>
-              <Filters
-                tags={tags}
-                types={types}
-                sortAsc={sortActivitiesByDateAsc}
-                sortDesc={sortActivitiesByDateDesc}
-                filterType={filterActivitiesByType}
-                filterTag={filterActivitiesByTag}
-                filterReport={filterActivitiesByReportStatus}
-                resetResults={resetResults}
+  return (
+    <table className="compare">
+      <tbody className="compare__body">
+        <tr className="compare__body-row flex items-center justify-between">
+          <td className="compare__body-data">Compare</td>
+          <td className="compare__body-data filter-container flex items-center justify-end gap-8">
+            <span>Filters</span>
+            <Filters
+              tags={tags}
+              types={types}
+              sortAsc={sortActivitiesByDateAsc}
+              sortDesc={sortActivitiesByDateDesc}
+              filterType={filterActivitiesByType}
+              filterTag={filterActivitiesByTag}
+              filterReport={filterActivitiesByReportStatus}
+              resetResults={resetResults}
+            />
+          </td>
+        </tr>
+        <tr className="activity-table">
+          <td className="mb-5">
+            {activityResults.map((activity, index) => (
+              <Activity
+                key={index}
+                id={activity.id}
+                type={activity.session.type}
+                hasReport={activity.report != null}
+                handleDelete={handleDelete}
+                handleDuplicate={duplicateActivity}
               />
-            </td>
-          </tr>
-          <tr className="activity-table">
-            <td className="mb-5">
-              {activityResults.map((activity, index) => (
-                <Activity
-                  key={index}
-                  id={activity.id}
-                  type={activity.session.type}
-                  hasReport={activity.report != null}
-                  handleDelete={handleDelete}
-                  handleDuplicate={duplicateActivity}
-                />
-              ))}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    )
-  }
+            ))}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  )
 }
 
 export default Compare
