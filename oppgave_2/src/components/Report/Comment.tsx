@@ -15,13 +15,13 @@ const Comment = ({ reportId, comment, onCommentChange }: CommentProps) => {
     
     return (
         <div className="flex flex-col max-w-lg mx-auto">
-            <label htmlFor={`session-comment-${reportId}`} className="font-semibold block mb-2">Session Comment:</label>
+            <label htmlFor={`session-comment-${reportId}`} className="font-semibold block mb-4">Session Comment:</label>
             <textarea
                 id={`session-comment-${reportId}`}
                 name={`sessionComment-${reportId}`}
                 value={comment}
                 onChange={handleCommentChange}
-                className="rounded p-2 border w-full"
+                className="rounded p-2 border w-full text-black"
                 rows={4}
                 placeholder="Please add a comment for the session..."
             />
