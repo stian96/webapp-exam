@@ -60,21 +60,22 @@ const AnswerQuestion = ({ reportId, onAnswerChange, questions }: AnswerProps) =>
                     type="text"
                     value={ answers.find((a) => a.questionId === question.id)?.answerText}
                     onChange={(e) => {handleAnswerChange(question.id ?? '', e.target.value, QuestionTypeEnum.TEXT)}}
-                    className="input-field"
+                    className="answer__input"
                 />
             );
 
         case QuestionTypeEnum.RADIO_EMOJI:
             return (
-                <div>
+                <div className="radio__group">
                     {Object.entries(emojiMapping).map(([key, text]) => (
-                        <label key={key}>
+                        <label key={key} className="radio__label">
                             <input
                                 type="radio"
                                 name={inputId}
                                 value={text}
                                 checked={currentAnswer?.answerEmoji === key}
                                 onChange={() => {handleAnswerChange(question.id ?? '', key, QuestionTypeEnum.RADIO_EMOJI)}}
+                                className="radio__input"
                             />
                             {text}
                         </label>
@@ -85,15 +86,16 @@ const AnswerQuestion = ({ reportId, onAnswerChange, questions }: AnswerProps) =>
         case QuestionTypeEnum.RADIO_NUMBER: {
             const numberOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
             return (
-                <div>
+                <div className="radio__group">
                     {numberOptions.map((num) => (
-                        <label key={num}>
+                        <label key={num} className="radio__label">
                             <input
                                 type="radio"
                                 name={inputId}
                                 value={num}
                                 checked={currentAnswer?.answerNumber === num}
                                 onChange={() => {handleAnswerChange(question.id ?? '', num, QuestionTypeEnum.RADIO_NUMBER)}}
+                                className="radio__input"
                             />
                             {num}
                         </label>
@@ -111,15 +113,15 @@ const AnswerQuestion = ({ reportId, onAnswerChange, questions }: AnswerProps) =>
 
 return (
   <div className="flex flex-col max-w-md mx-auto">
-  <h3 className="font-semibold text-center">Session Questions</h3>
+  <h3 className="font-semibold text-center mb-6">Session Questions</h3>
       <form className="flex flex-col mb-4 w-full">
         {questions.map((item) => {
           const question = item.question;
           return question.id ? (
-            <div key={question.id}>
-              <label  className="mb-1">
+            <div key={question.id} className="mb-8" >
+              <div className="mb-4">
                 {question.question}
-              </label>
+              </div>
               {renderInputField(question)}
             </div>
           ) : null;
