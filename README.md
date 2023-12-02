@@ -29,7 +29,7 @@ An overview of the team members that have contributed to this exam/project:
 
 - Stian - Project Manager ([GitHub](https://github.com/stian96))
 - Sam - Collaborator ([Github](https://github.com/sammish93))
-- Ash - Collaborator ([Github](https://github.com/a5h71)
+- Ash - Collaborator ([Github](https://github.com/a5h71))
 - Lorena - Collaborator ([Github](https://github.com/LorenaHolmeide))
 
 ## Installation and Setup
