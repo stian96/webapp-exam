@@ -111,6 +111,7 @@ async function main() {
   });
 
   const sessionTypes = ['cycling', 'cycling', 'swimming', 'running', 'triathlon'];
+  const sessionTags = ['cardio', 'cooldown', 'strength'];
 
   async function createIntervalsAndResults() {
     const interval = await prisma.intervals.create({
@@ -169,12 +170,14 @@ async function main() {
         },
       });
 
-      await prisma.sessionTags.create({
-        data: {
-          sessionId: session.id,
-          tag: type,
-        },
-      });
+      for (const tag of sessionTags) {
+        await prisma.sessionTags.create({
+          data: {
+            sessionId: session.id,
+            tag: tag,
+          },
+        });
+      }
 
       const question = await prisma.questions.create({
         data: {
@@ -183,10 +186,24 @@ async function main() {
         },
       });
 
+      const questionTwo = await prisma.questions.create({
+        data: {
+          question: 'How satisfied are you with your performance?',
+          type: 'radio:range',
+        },
+      });
+
       await prisma.sessionQuestions.create({
         data: {
           sessionId: session.id,
           questionId: question.id,
+        },
+      });
+
+      await prisma.sessionQuestions.create({
+        data: {
+          sessionId: session.id,
+          questionId: questionTwo.id,
         },
       });
 
