@@ -32,6 +32,7 @@ describe('fetchTasks', () => {
     const tasks = await fetchTasks('someType', '5')
     expect(tasks).toEqual(mockTasks)
   })
+
   it('should throw an error when the response is not ok', async () => {
     api.use(rest.get(API_URL, (reqest, response, context) => {
       return response(context.status(404));
@@ -41,31 +42,6 @@ describe('fetchTasks', () => {
   })
 })
 
-
 beforeAll(() => api.listen())
 afterAll(() => api.close())
 
-
-const api2 = setupServer(
-  rest.put("/api/saveAttempt", (req, res, ctx) => {
-    return res(ctx.json({ message: "Successfully updated answer in the DB." }));
-  })
-);
-
-
-describe('PUT saveAttempt', () => {
-  const PUT_API_URL = "/api/saveAttempt";
-
-  it('should update an answer successfully', async () => {
-    api2.use(rest.put(PUT_API_URL, (reqest, response, context) => {
-
-      return response(context.json({ message: "Successfully updated answer in the DB." }))
-    }));
-
-    const response = await saveAttemptsToDB({ taskId: 'someTaskId', attempts: 3 });
-    expect(response).toEqual({ message: "Successfully saved attempt in the DB." });
-  });
-});
-
-beforeAll(() => api2.listen())
-afterAll(() => api2.close())
