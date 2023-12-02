@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 
 async function main() {
 
+
   await prisma.performers.deleteMany({
     where: {
       OR: [
@@ -109,7 +110,7 @@ async function main() {
     },
   });
 
-  const sessionTypes = ['cycling', 'swimming', 'running', 'triathlon'];
+  const sessionTypes = ['cycling', 'cycling', 'swimming', 'running', 'triathlon'];
 
   async function createIntervalsAndResults() {
     const interval = await prisma.intervals.create({
