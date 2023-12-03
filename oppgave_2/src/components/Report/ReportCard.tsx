@@ -275,78 +275,82 @@ const ReportCard = ({ id }: ReportCardProps) => {
   console.log("answer in parent:", answers)
   console.log("comment", comment)
 
-  return (
-    <div className="card my-24">
-      <div className="card__header">
-        <Icons.clipboard size={22} />
-        <p className="card__title">Report {id}</p>
-      </div>
-
-      <div className="mb-4 text-center">
-        <label
-          htmlFor={`status-select-${id}`}
-          className="mb-2 block font-semibold"
-        >
-          Select report status:{" "}
-        </label>
-        <select
-          id={`status-select-${id}`}
-          name={`status-${id}`}
-          value={status}
-          onChange={handleChangeStatus}
-          className="rounded text-black"
-        >
-          <option value="" disabled>
-            -- Please choose a status...--
-          </option>
-          {Object.values(SessionStatusEnum).map((enumValue) => {
-            const statusString = getStatusString(enumValue as SessionStatusEnum)
-            return (
-              <option key={enumValue} value={enumValue}>
-                {statusString}
-              </option>
-            )
-          })}
-        </select>
-      </div>
-      {/*SRC: https://react.dev/reference/react-dom/components/select*/}
-
-      {intervals.length > 0 && sessionId && (
-        <ReportIntervals
-          onIntervalChange={handleIntervalDataChange}
-          intervals={intervals}
-        />
-      )}
-
-      {sessionQuestions.length > 0 && sessionId && (
-        <AnswerQuestion
-          reportId={id}
-          onAnswerChange={handleAnswerChange}
-          questions={sessionQuestions}
-        />
-      )}
-      <Comment
-        reportId={id}
-        comment={comment}
-        onCommentChange={handleCommentChange}
-      />
-
-      {showErrorMessage && (
-        <div className="text-red-400">
-          Please fill all fields in each interval before saving.
+  if (sessionId != "") {
+    return (
+      <div className="card my-24">
+        <div className="card__header">
+          <Icons.clipboard size={22} />
+          <p className="card__title">Report {id}</p>
         </div>
-      )}
-      <div>
-        <button
-          onClick={handleSave}
-          className={`defaultButton mt-4 ${
-            submitButtonText === "Report Saved!" ? "--saved" : ""
-          } ${submitButtonText.startsWith("Error") ? "--error" : ""}`}
-        >
-          {submitButtonText}
-        </button>
+
+        <div className="mb-4 text-center">
+          <label
+            htmlFor={`status-select-${id}`}
+            className="mb-2 block font-semibold"
+          >
+            Select report status:{" "}
+          </label>
+          <select
+            id={`status-select-${id}`}
+            name={`status-${id}`}
+            value={status}
+            onChange={handleChangeStatus}
+            className="rounded text-black"
+          >
+            <option value="" disabled>
+              -- Please choose a status...--
+            </option>
+            {Object.values(SessionStatusEnum).map((enumValue) => {
+              const statusString = getStatusString(
+                enumValue as SessionStatusEnum,
+              )
+              return (
+                <option key={enumValue} value={enumValue}>
+                  {statusString}
+                </option>
+              )
+            })}
+          </select>
+        </div>
+        {/*SRC: https://react.dev/reference/react-dom/components/select*/}
+
+        {intervals.length > 0 && sessionId && (
+          <ReportIntervals
+            onIntervalChange={handleIntervalDataChange}
+            intervals={intervals}
+          />
+        )}
+
+        {sessionQuestions.length > 0 && sessionId && (
+          <AnswerQuestion
+            reportId={id}
+            onAnswerChange={handleAnswerChange}
+            questions={sessionQuestions}
+          />
+        )}
+        <Comment
+          reportId={id}
+          comment={comment}
+          onCommentChange={handleCommentChange}
+        />
+
+        {showErrorMessage && (
+          <div className="text-red-400">
+            Please fill all fields in each interval before saving.
+          </div>
+        )}
+        <div>
+          <button
+            onClick={handleSave}
+            className={`defaultButton mt-4 ${
+              submitButtonText === "Report Saved!" ? "--saved" : ""
+            } ${submitButtonText.startsWith("Error") ? "--error" : ""}`}
+          >
+            {submitButtonText}
+          </button>
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 export default ReportCard
