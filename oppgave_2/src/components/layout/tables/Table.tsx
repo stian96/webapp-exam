@@ -23,9 +23,11 @@ const Table = ({ searchQuery, performers, setPerformers }: TableProp) => {
     setEditMode(editMode === index ? null : index)
   }
 
-  const search = searchQuery.toLocaleLowerCase()
+  const search = searchQuery
   const filteredPerformers = performers.filter(
-    (performer) => performer.id !== undefined && performer.id.includes(search),
+    (performer) =>
+      (performer.id !== undefined && performer.id.includes(search)) ||
+      (performer.userId !== undefined && performer.userId.includes(search)),
   )
 
   return (
