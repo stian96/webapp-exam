@@ -2,6 +2,105 @@ import { type Report } from '@/types/report';
 import { prisma } from "@/lib/prisma";
 import { NextResponse, type NextRequest } from "next/server";
 
+/**
+ * @swagger
+* /api/reports/createReport:
+*   post:
+*     summary: Submit a new report
+*     description: Submits a new report to the database, including associated answers and interval results.
+*     requestBody:
+*       required: true
+*       content:
+*         application/json:
+*           schema:
+*             type: object
+*             properties:
+*               report:
+*                 type: object
+*                 required:
+*                   - status
+*                   - sessionActivityId
+*                 properties:
+*                   status:
+*                     type: string
+*                   comments:
+*                     type: string
+*                   sessionActivityId:
+*                     type: string
+*                     format: uuid
+*                   answers:
+*                     type: array
+*                     items:
+*                       type: object
+*                       properties:
+*                         questionId:
+*                           type: string
+*                           format: uuid
+*                         answerText:
+*                           type: string
+*                         answerNumber:
+*                           type: integer
+*                         answerEmoji:
+*                           type: string
+*                   intervalResults:
+*                     type: array
+*                     items:
+*                       type: object
+*                       properties:
+*                         intervalId:
+*                           type: string
+*                           format: uuid
+*                         duration:
+*                           type: integer
+*                         intensityMin:
+*                           type: integer
+*                         intensityMax:
+*                           type: integer
+*                         intensityAvg:
+*                           type: integer
+*                         pulseMin:
+*                           type: integer
+*                         pulseMax:
+*                           type: integer
+*                         pulseAvg:
+*                           type: integer
+*                         speedMin:
+*                           type: integer
+*                         speedMax:
+*                           type: integer
+*                         speedAvg:
+*                           type: integer
+*                         wattMin:
+*                           type: integer
+*                         wattMax:
+*                           type: integer
+*                         wattAvg:
+*                           type: integer
+*     responses:
+*       201:
+*         description: Successfully saved the report
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 status:
+*                   type: integer
+*                 message:
+*                   type: string
+*       500:
+*         description: Failed to save the report
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 status:
+*                   type: integer
+*                 message:
+*                   type: string
+
+ */
 
 export const POST = async (request: NextRequest) => {
   try {

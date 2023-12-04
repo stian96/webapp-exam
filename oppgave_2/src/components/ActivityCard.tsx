@@ -59,6 +59,13 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
           >
             {`${isReportVisible ? "Hide Report" : "Show Report"}`}
           </button>
+          <Link
+            className={`card__button ${activity.report ? "hidden" : "visible"}`}
+            onClick={handleToggleReportVisibility}
+            href={`../reports/${activity.id}/create`}
+          >
+            Create Report
+          </Link>
         </div>
       </div>
       <p className={`${activity.id ? "visible" : "hidden"}`}>
@@ -189,6 +196,20 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
       {activity.report && (
         <div className={`${isReportVisible ? "visible" : "hidden"}`}>
           <h3 className="card__title">Report Details</h3>
+          <p
+            className={`${
+              activity.report.comments == null ? "hidden" : "visible"
+            }`}
+          >
+            Comments: {activity.report.comments}
+          </p>
+          <p
+            className={`${
+              activity.report.status == null ? "hidden" : "visible"
+            }`}
+          >
+            Status: {activity.report.status}
+          </p>
         </div>
       )}
     </div>

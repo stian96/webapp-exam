@@ -99,7 +99,7 @@ const TemplateCreator = ({
     }
   }, [])
 
-  // Reference: ChatGPT V3.5. I can't comment directly into the following but the subforms but
+  // Reference: ChatGPT V3.5.
   // I used it to create starting points for me to use to implement the tags, intervals, questions,
   // and existing questions sections near the bottom.
   return (
@@ -319,6 +319,7 @@ const TemplateCreator = ({
         </select>
       </div>
 
+      {/*Code is based on response from ChatGPT V3.5 and adjusted for this specific use case*/}
       <div className="subform">
         <span>Tags:</span>
         {tags.map((tag, index) => (
@@ -360,6 +361,7 @@ const TemplateCreator = ({
         ))}
       </div>
 
+      {/*Code is based on response from ChatGPT V3.5 and adjusted for this specific use case*/}
       <div className="subform">
         <span>Intervals:</span>
         {intervals.map((interval, index) => (
@@ -413,6 +415,7 @@ const TemplateCreator = ({
         ))}
       </div>
 
+      {/*Code is based on response from ChatGPT V3.5 and adjusted for this specific use case*/}
       <div className="subform">
         <span>Questions:</span>
         {questions.map((question, index) => (
@@ -468,6 +471,7 @@ const TemplateCreator = ({
         ))}
       </div>
 
+      {/*Code is based on response from ChatGPT V3.5 and adjusted for this specific use case*/}
       <div className="subform">
         <span>Existing Questions:</span>
         {existingQuestions.map((existingQuestion, index) => (

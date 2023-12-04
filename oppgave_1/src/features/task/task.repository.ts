@@ -11,11 +11,20 @@ export const saveAttemptsToDB = async ({taskId, attempts}: AnswerUpdateRequest) 
         })
 
         if (!response.ok) {
-            throw new Error(`Error, server responded with status: ${response.status}`)
+            return { error: true, message: `Error, server responded with status: ${response.status}` }
         }
         const data = await response.json()
         console.log("Response from 'saveAttempt' endpoint: ", data)
+
+        return data
     } catch (error) {
-        console.log("Error saving attempt to DB: ", error)
+        if (error instanceof Error) {
+            console.log("Error saving attempt to DB: ", error)
+            return { error: true, message: "Error in saveAttemptsToDB: " + error.message }
+        }
+        else {
+            console.log("Unknown error occured when saving attempt to DB: ", error)
+            return { error: true, message: "Unknown error in saving attempt to DB."}
+        }
     }
 }

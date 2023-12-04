@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { type PerformerDto } from '@/types/DTO/importUsers';
 
 const useImportUsersHook = () => {
-  const isApiCalled = useRef(false)
   const [responseCode, setResponseCode] = useState(0);
   const [responseBody, setResponseBody] = useState('');
   const [importButtonText, setImportButtonText] =
@@ -17,6 +16,7 @@ const useImportUsersHook = () => {
     const result = data as { status: number; message: string };
     setResponseCode(result.status);
     setResponseBody(result.message);
+    await writeToDatabase(result.message)
   };
 
   const isUserExists = async (userId: string) => {
@@ -40,9 +40,9 @@ const useImportUsersHook = () => {
     }
   }
 
-  const writeToDatabase = async () => {
+  const writeToDatabase = async (response: string) => {
     const performers: PerformerDto[] = JSON.parse(
-      responseBody
+      response
     ) as PerformerDto[]
 
     for (const performer of performers) {
@@ -70,19 +70,8 @@ const useImportUsersHook = () => {
   }
 
   const importAllUsers = async () => {
-    console.log(`responseBody is "${responseBody}"`)
-    await writeToDatabase()
+    await getApiResponse()
   };
-
-  useEffect(() => {
-    if (!isApiCalled.current) {
-      isApiCalled.current = true
-      return
-    }
-
-    void getApiResponse();
-  }, []);
-
 
   return { responseCode, responseBody, importButtonText, getApiResponse, importAllUsers };
 };

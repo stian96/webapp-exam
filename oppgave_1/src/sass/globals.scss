@@ -1,22 +1,4 @@
 
-/*@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';*/
-
-/*Skriv kommandoen: npm run css:build (denne kompilerer sass til css) 
-Skriv kommandoen: npm run css:watch (kompilerer også sass til css, men gjør det automatisk når du lagrer main.scss fila)*/
-/*
-build: nice to use if you are only going to change one small thing.
-watch: nice to use if you need to change several things.
-*/
-
-
-
-
-
-
-//.container{justify-content: center;}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -198,7 +180,7 @@ watch: nice to use if you need to change several things.
    
     
     main {
-       // margin-top: -5%; 
+        
         background-color: $main-color;
         border-radius: 4%;
         padding: 1rem;

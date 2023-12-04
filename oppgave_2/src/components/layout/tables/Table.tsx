@@ -23,7 +23,7 @@ const Table = ({ searchQuery, performers, setPerformers }: TableProp) => {
     setEditMode(editMode === index ? null : index)
   }
 
-  const search = searchQuery.toLocaleLowerCase()
+  const search = searchQuery
   const filteredPerformers = performers.filter(
     (performer) =>
       (performer.id !== undefined && performer.id.includes(search)) ||
@@ -47,7 +47,10 @@ const Table = ({ searchQuery, performers, setPerformers }: TableProp) => {
                   >
                     Sessions
                   </Link>
-                  <Link className="table__body-link" href="/reports">
+                  <Link
+                    className="table__body-link"
+                    href={`/reports/${performer.id}`}
+                  >
                     Reports
                   </Link>
                   <button
