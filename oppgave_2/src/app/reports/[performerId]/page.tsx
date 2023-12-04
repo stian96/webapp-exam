@@ -6,7 +6,7 @@ import ReportList from "@/components/ReportList"
 const Sessions = ({ params }: { params: { performerId: string } }) => {
   return (
     <>
-      <Header title={"Sessions"} />
+      <Header title={"Reports"} />
       <div className="min-w-screen-md mx-auto max-w-screen-lg">
         <ReportList performerId={params.performerId} />
       </div>

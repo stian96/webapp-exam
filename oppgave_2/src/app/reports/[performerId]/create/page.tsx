@@ -11,7 +11,7 @@ const ReportDetail = ({ params }) => {
 
   return (
     <>
-      <Header title={"Report"} />
+      <Header title={"Create Report"} />
       <div className="min-w-screen-md mx-auto mt-4 max-w-screen-lg">
         <ReportCard id={performerId as string} />
       </div>
